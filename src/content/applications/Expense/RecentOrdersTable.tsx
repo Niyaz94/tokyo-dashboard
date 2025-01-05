@@ -9,24 +9,11 @@ import {
   Select,MenuItem,Typography,useTheme,CardHeader
                                         } from '@mui/material';
 import Label                              from 'src/components/Label';
-import { CryptoOrderStatus } from 'src/models/crypto_order';
+import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
-import BulkActions                        from './BulkActions';
 
-export interface CryptoOrder {
-  id: string;
-  status: CryptoOrderStatus;
-  orderDetails: string;
-  orderDate: number;
-  orderID: string;
-  sourceName: string;
-  sourceDesc: string;
-  amountCrypto: number;
-  amount: number;
-  cryptoCurrency: string;
-  currency: string;
-}
+import BulkActions                        from './BulkActions';
 
 // Typescript types
 interface RecentOrdersTableProps {
@@ -36,7 +23,6 @@ interface RecentOrdersTableProps {
 interface Filters {
   status?: CryptoOrderStatus; // it is an interface that accept three string values
 }
-
 
 
 // Return the label element for [Status] column
@@ -146,9 +132,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell padding="checkbox">
                 <Checkbox color="primary" checked={selectedAllCryptoOrders} indeterminate={selectedSomeCryptoOrders} onChange={handleSelectAllCryptoOrders}/>
               </TableCell>
-              <TableCell>Order Details</TableCell>
-              <TableCell>Order ID</TableCell>
-              <TableCell>Source</TableCell>
+              <TableCell>Notes</TableCell>
+              <TableCell>Currency</TableCell>
+              <TableCell>Date</TableCell>
               <TableCell align="right">Amount</TableCell>
               <TableCell align="right">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -170,32 +156,34 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.orderDetails}
+                      {cryptoOrder.currency_name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
+                      {cryptoOrder.currency_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.orderID}
+                      {cryptoOrder.expense_type}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.sourceName}
+                      {cryptoOrder.date}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceDesc}
+                      {cryptoOrder.date}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
+                      {cryptoOrder.amount}
+                      {/* {cryptoOrder.cryptoCurrency} */}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(cryptoOrder.amount).format(`${cryptoOrder.currency}0,0.00`)}
+                    <Typography variant="body2" color="text.secondary" >
+                      {cryptoOrder.note[0]
+                      // .format(`${cryptoOrder.currency_name}0,0.00`)
+                      }
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

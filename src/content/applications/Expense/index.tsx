@@ -1,10 +1,11 @@
-import { Helmet } from 'react-helmet-async';
-import PageHeader from './PageHeader';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Grid, Container } from '@mui/material';
-import Footer from 'src/components/Footer';
+import { Helmet }           from 'react-helmet-async';
+import { Grid, Container }  from '@mui/material';
 
-import RecentOrders from './RecentOrders';
+import PageTitleWrapper     from 'src/components/PageTitleWrapper';
+import Footer               from 'src/components/Footer';
+
+import PageHeader           from './PageHeader';
+import RecentOrders         from './RecentOrders';
 
 function ApplicationsTransactions() {
   return (

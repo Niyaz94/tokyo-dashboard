@@ -1,8 +1,22 @@
 import { Card } from '@mui/material';
-import { CryptoOrder } from 'src/models/crypto_order';
+import { CryptoOrderStatus } from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
+
+export interface CryptoOrder {
+  id: string;
+  status: CryptoOrderStatus;
+  orderDetails: string;
+  orderDate: number;
+  orderID: string;
+  sourceName: string;
+  sourceDesc: string;
+  amountCrypto: number;
+  amount: number;
+  cryptoCurrency: string;
+  currency: string;
+}
 function RecentOrders() {
   const cryptoOrders: CryptoOrder[] = [
     {

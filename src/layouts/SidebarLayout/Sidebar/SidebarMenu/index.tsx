@@ -232,38 +232,23 @@ function SidebarMenu() {
             </List>
           </SubMenuWrapper>
         </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Management
-            </ListSubheader>
-          }
-        >
+        <List component="div" subheader={<ListSubheader component="div" disableSticky>Management</ListSubheader>}>
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/management/transactions"
-                  startIcon={<TableChartTwoToneIcon />}
-                >
+                <Button disableRipple component={RouterLink} onClick={closeSidebar} to="/management/transactions" startIcon={<TableChartTwoToneIcon />}>
                   Transactions List
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button disableRipple component={RouterLink} onClick={closeSidebar} to="/management/expense" startIcon={<TableChartTwoToneIcon />}>
+                  Expense List
                 </Button>
               </ListItem>
             </List>
           </SubMenuWrapper>
         </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Accounts
-            </ListSubheader>
-          }
-        >
+        <List component="div" subheader={<ListSubheader component="div" disableSticky>Accounts</ListSubheader>}>
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
