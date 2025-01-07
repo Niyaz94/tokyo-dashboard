@@ -1,12 +1,10 @@
 import { FC, ChangeEvent, useState }      from 'react';
-import { format }                         from 'date-fns';
-import numeral                            from 'numeral';
 import PropTypes                          from 'prop-types';
 import {
   Tooltip,Divider,Box,FormControl,InputLabel,Card,
   Checkbox,IconButton,Table,TableBody,TableCell,
   TableHead,TablePagination,TableRow,TableContainer,
-  Select,MenuItem,Typography,useTheme,CardHeader
+  Select,MenuItem,Typography,useTheme,CardHeader,Button 
                                         } from '@mui/material';
 import Label                              from 'src/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
@@ -14,6 +12,8 @@ import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
 
 import BulkActions                        from './BulkActions';
+
+import { useCollapseContext } from '../../../contexts/CollapseToggle';
 
 // Typescript types
 interface RecentOrdersTableProps {
@@ -58,6 +58,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const selectedBulkActions = selectedCryptoOrders.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
+
+  const { open, toggleOpen } = useCollapseContext();
 
   // It uses for controlling filter selection in the left top cornor of the table
   const [filters, setFilters] = useState<Filters>({status: null});
@@ -109,8 +111,23 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       {selectedBulkActions && (<Box flex={1} p={2}><BulkActions /></Box>)}
       {/* When user does not select any rows this panel will open (default one) */}
       {!selectedBulkActions && (
-        <CardHeader title="Recent Orders" action={
-            <Box width={150}>
+        <CardHeader 
+          title={
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Typography variant="h6">Recent Orders</Typography>
+            </Box>
+          }
+          action={
+            <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Button variant="contained" color="primary" onClick={toggleOpen} sx={{
+                fontSize: '1.2rem',
+                padding: '10px 40px',
+                borderRadius: '10px',
+                textTransform: 'none',
+                boxShadow: 3,
+              }}>
+                {open ? 'Close' : 'Insert'}
+              </Button>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>

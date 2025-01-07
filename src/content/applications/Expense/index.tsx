@@ -6,10 +6,11 @@ import Footer               from 'src/components/Footer';
 
 import PageHeader           from './PageHeader';
 import RecentOrders         from './RecentOrders';
+import { CollapseProvider } from '../../../contexts/CollapseToggle';
 
 function ApplicationsTransactions() {
   return (
-    <>
+    <CollapseProvider>
       <Helmet>
         <title>Transactions - Applications</title>
       </Helmet>
@@ -24,7 +25,7 @@ function ApplicationsTransactions() {
         </Grid>
       </Container>
       <Footer />
-    </>
+    </CollapseProvider>
   );
 }
 
