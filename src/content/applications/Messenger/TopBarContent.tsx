@@ -201,7 +201,7 @@ function TopBarContent() {
               }}
             >
               <List component="nav">
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <SearchTwoToneIcon />
                   </ListItemIconWrapper>
@@ -210,7 +210,7 @@ function TopBarContent() {
                     primaryTypographyProps={{ variant: 'h5' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <ColorLensTwoToneIcon />
                   </ListItemIconWrapper>
@@ -219,7 +219,7 @@ function TopBarContent() {
                     primaryTypographyProps={{ variant: 'h5' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <EmojiEmotionsTwoToneIcon />
                   </ListItemIconWrapper>
@@ -244,7 +244,7 @@ function TopBarContent() {
               }}
             >
               <List component="nav">
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <NotificationsOffTwoToneIcon />
                   </ListItemIconWrapper>
@@ -253,7 +253,7 @@ function TopBarContent() {
                     primaryTypographyProps={{ variant: 'h5' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <CancelTwoToneIcon />
                   </ListItemIconWrapper>
@@ -262,7 +262,7 @@ function TopBarContent() {
                     primaryTypographyProps={{ variant: 'h5' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <BlockTwoToneIcon />
                   </ListItemIconWrapper>
@@ -271,7 +271,7 @@ function TopBarContent() {
                     primaryTypographyProps={{ variant: 'h5' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <WarningTwoToneIcon />
                   </ListItemIconWrapper>
@@ -298,7 +298,7 @@ function TopBarContent() {
               }}
             >
               <List component="nav">
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <DescriptionTwoToneIcon />
                   </ListItemIconWrapper>
@@ -309,7 +309,7 @@ function TopBarContent() {
                     secondaryTypographyProps={{ variant: 'subtitle1' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <DescriptionTwoToneIcon />
                   </ListItemIconWrapper>
@@ -320,7 +320,7 @@ function TopBarContent() {
                     secondaryTypographyProps={{ variant: 'subtitle1' }}
                   />
                 </ListItem>
-                <ListItem button>
+                <ListItem >
                   <ListItemIconWrapper>
                     <DescriptionTwoToneIcon />
                   </ListItemIconWrapper>

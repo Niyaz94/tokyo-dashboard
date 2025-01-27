@@ -45,7 +45,6 @@ function SimpleDialog(props) {
       <List sx={{ pt: 0 }}>
         {emails.map((email) => (
           <ListItem
-            button
             onClick={() => handleListItemClick(email)}
             key={email}
           >
@@ -60,7 +59,6 @@ function SimpleDialog(props) {
 
         <ListItem
           autoFocus
-          button
           onClick={() => handleListItemClick('addAccount')}
         >
           <ListItemAvatar>

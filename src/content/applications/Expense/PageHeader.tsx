@@ -1,23 +1,11 @@
-// import React from 'react';
-// import { Collapse, TextField, Box, Button } from '@mui/material';
-//'(e: React.ChangeEvent<HTMLInputElement | {    value: unknown;    name?: string;}>) => void' 
-//'(e: SelectChangeEvent<string>, child: ReactNode) => void'
-
 import React, { useState, useEffect } from 'react';
-import {
-  Collapse,
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  InputLabel,
-  FormControl,
-} from '@mui/material';
-import ReactQuill from 'react-quill';
+import {Collapse,Box,TextField,Button} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid2';
 import { useCollapseContext } from '../../../contexts/CollapseToggle';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CustomSelect from '../../../components/Custom/Form/CustomSelect';
+import LexicalEditor from '../../../components/Custom/Lexical/Editor';
 import {useSelectOptions}  from '../../../utility/customHook/useSelectOptions';
 
 
@@ -58,6 +46,8 @@ const CollapsibleForm: React.FC = () => {
     setFormData((prev) => ({ ...prev, note: value }));
   };
 
+
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -94,93 +84,38 @@ const CollapsibleForm: React.FC = () => {
   return (
     <Collapse in={open}>
       <Box
-        component="form"
-        sx={{
-          mt: 2,
-          p: 2,
-          border: '1px solid #ccc',
-          borderRadius: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          // maxWidth: 600,
-          margin: '0 auto',
-        }}
-        noValidate
-        autoComplete="off"
+        component="form" noValidate autoComplete="off"
+        sx={{mt: 2,p: 2,border: '1px solid #ccc',borderRadius: 2,display: 'flex',flexDirection: 'column',gap: 2,margin: '0 auto'}}
+        
       >
-        {/* Date Field */}
-        <TextField
-          label="Date"
-          name="date"
-          type="date"
-          value={formData.date}
-          onChange={handleChange}
-          InputLabelProps={{ shrink: true }}
-          variant="outlined"
-          fullWidth
-        />
+        <Grid container spacing={2}>
+          <Grid size={6} >
+            <TextField label="Date"   name="date" type="date" value={formData.date} onChange={handleChange} InputLabelProps={{ shrink: true }} variant="outlined" fullWidth/>
+          </Grid>
+          <Grid size={6}>
+            <TextField label="Amount" name="amount" type="number" value={formData.amount} onChange={handleChange} variant="outlined" fullWidth/>
+          </Grid>
+          <Grid size={6} >
+            <CustomSelect label="Type" name="type" value={formData.type} onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} options={types}/>
+          </Grid>
+          <Grid size={6}>
+            <CustomSelect label="Currency" name="currency" value={formData.currency} onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} options={currencies}/>
+          </Grid>
+          <Grid size={12} >
+            <LexicalEditor />
+          </Grid>
+          <Grid size={12} >
+            <Button
+              variant="contained" color="success" onClick={handleSave} fullWidth
+              sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none',}}
+            >
+              Save
+            </Button>
+          </Grid>
+        </Grid>
 
-        {/* Amount Field */}
-        <TextField
-          label="Amount"
-          name="amount"
-          type="number"
-          value={formData.amount}
-          onChange={handleChange}
-          variant="outlined"
-          fullWidth
-        />
-
-        {/* Quill Editor for Note */}
-        <Box sx={{ display: 'flex', flexDirection: 'column' ,height: '300px'}} alignItems="stretch">
-          <InputLabel sx={{ m: 1 }}>Note</InputLabel>
-          <ReactQuill
-            value={formData.note}
-            onChange={handleNoteChange}
-            theme="snow"
-            style={{
-              padding: '10px',
-              height: '200px',
-              width: '100%',
-              borderRadius: '4px',
-            }}
-          />
-        </Box>
-
-        {/* Currency Select */}
-        <CustomSelect
-          label="Currency"
-          name="currency"
-          value={formData.currency}
-          onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-          options={currencies}
-        />
-
-        {/* Type Select */}
-        <CustomSelect
-          label="Type"
-          name="type"
-          value={formData.type}
-          onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-          options={types}
-        />
-
-        {/* Save Button */}
-        <Button
-          variant="contained"
-          color="success"
-          onClick={handleSave}
-          fullWidth
-          sx={{
-            fontSize: '1rem',
-            padding: '10px 20px',
-            borderRadius: '8px',
-            textTransform: 'none',
-          }}
-        >
-          Save
-        </Button>
+        
+        
       </Box>
     </Collapse>
   );

@@ -149,7 +149,7 @@ function HeaderSearch() {
             </Box>
             <Divider sx={{ my: 1 }} />
             <List disablePadding>
-              <ListItem button>
+              <ListItem >
                 <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
@@ -188,7 +188,7 @@ function HeaderSearch() {
                 <ChevronRightTwoToneIcon />
               </ListItem>
               <Divider sx={{ my: 1 }} component="li" />
-              <ListItem button>
+              <ListItem>
                 <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
@@ -226,7 +226,7 @@ function HeaderSearch() {
                 <ChevronRightTwoToneIcon />
               </ListItem>
               <Divider sx={{ my: 1 }} component="li" />
-              <ListItem button>
+              <ListItem >
                 <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar

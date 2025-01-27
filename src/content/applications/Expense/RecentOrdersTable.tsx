@@ -1,5 +1,4 @@
 import { FC, ChangeEvent, useState }      from 'react';
-import PropTypes                          from 'prop-types';
 import {
   Tooltip,Divider,Box,FormControl,InputLabel,Card,
   Checkbox,IconButton,Table,TableBody,TableCell,
@@ -24,19 +23,6 @@ interface Filters {
   status?: CryptoOrderStatus; // it is an interface that accept three string values
 }
 
-
-// Return the label element for [Status] column
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
-  const map = {
-    failed:     {text: 'Failed'   ,color: 'error'},
-    completed:  {text: 'Completed',color: 'success'},
-    pending:    {text: 'Pending'  ,color: 'warning'}
-  };
-
-  const { text, color }: any = map[cryptoOrderStatus];
-
-  return <Label color={color}>{text}</Label>;
-};
 // It filter the rows based on filter selection in the left top cornor of the table
 const applyFilters = (cryptoOrders: CryptoOrder[],filters: Filters): CryptoOrder[] => {
   return cryptoOrders.filter((cryptoOrder) => {
@@ -46,6 +32,16 @@ const applyFilters = (cryptoOrders: CryptoOrder[],filters: Filters): CryptoOrder
     }
     return matches;
   });
+};
+// const containsHTML = (str: string): boolean => {
+//   const div = document.createElement('div');
+//   div.innerHTML = str;
+//   console.log(div.childNodes.length)
+//   return div.childNodes.length > 0;
+// };
+const containsHTML = (str: string): boolean => {
+  var doc = new DOMParser().parseFromString(str, "text/html");
+  return Array.from(doc.body.childNodes).some(node => node.nodeType === 1);
 };
 // It return intended slice based on pagination
 const applyPagination = (cryptoOrders: CryptoOrder[],page: number,limit: number): CryptoOrder[] => {
@@ -149,11 +145,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell padding="checkbox">
                 <Checkbox color="primary" checked={selectedAllCryptoOrders} indeterminate={selectedSomeCryptoOrders} onChange={handleSelectAllCryptoOrders}/>
               </TableCell>
-              <TableCell>Notes</TableCell>
               <TableCell>Currency</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Status</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Amount</TableCell>
+              <TableCell align="right">Notes</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -161,6 +156,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
           <TableBody>
             {/* This function [paginatedCryptoOrders] contains current rows after applying [filtering] and [pagination] */}
             {paginatedCryptoOrders.map((cryptoOrder) => {
+
+              // console.log(cryptoOrder.id,containsHTML(cryptoOrder.note))
               // it check if the row is selected or not
               const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.id);
               return (
@@ -186,25 +183,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.date}
+                      {cryptoOrder.amount}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {cryptoOrder.date}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                    <Typography variant="body1" fontWeight="bold" color="text.primary" gutterBottom noWrap>
-                      {cryptoOrder.amount}
-                      {/* {cryptoOrder.cryptoCurrency} */}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" >
-                      {cryptoOrder.note[0]
-                      // .format(`${cryptoOrder.currency_name}0,0.00`)
-                      }
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
+                  <TableCell align="right" >
+                    {(containsHTML(cryptoOrder.note)) ? 
+                    <Typography variant="body2" color="text.secondary" style={{width: '50%'}} dangerouslySetInnerHTML={{ __html: cryptoOrder.note }}></Typography> : 
+                    <Typography variant="body2" color="text.secondary" align="left" noWrap>{JSON.parse(cryptoOrder.note)[0]}</Typography>
+                    }  
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -234,10 +223,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     </Card>
   );
 };
-RecentOrdersTable.propTypes = {
-  cryptoOrders: PropTypes.array.isRequired
-};
-RecentOrdersTable.defaultProps = {
-  cryptoOrders: []
-};
+// interface RecentOrdersTableProps {
+//   cryptoOrders: [];
+// }
+// RecentOrdersTable.propTypes = {
+//   cryptoOrders: PropTypes.array.isRequired
+// };
+// RecentOrdersTable.defaultProps = {
+//   cryptoOrders: []
+// };
 export default RecentOrdersTable;

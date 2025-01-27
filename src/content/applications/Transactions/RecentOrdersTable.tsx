@@ -1,13 +1,14 @@
-import { FC, ChangeEvent, useState }      from 'react';
+import { FC, ChangeEvent, useState, JSX } from 'react';
 import { format }                         from 'date-fns';
 import numeral                            from 'numeral';
-import PropTypes                          from 'prop-types';
+
 import {
   Tooltip,Divider,Box,FormControl,InputLabel,Card,
   Checkbox,IconButton,Table,TableBody,TableCell,
   TableHead,TablePagination,TableRow,TableContainer,
   Select,MenuItem,Typography,useTheme,CardHeader
                                         } from '@mui/material';
+
 import Label                              from 'src/components/Label';
 import { CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
@@ -229,10 +230,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     </Card>
   );
 };
-RecentOrdersTable.propTypes = {
-  cryptoOrders: PropTypes.array.isRequired
-};
-RecentOrdersTable.defaultProps = {
-  cryptoOrders: []
-};
+// RecentOrdersTable.propTypes = {
+//   cryptoOrders: PropTypes.array.isRequired
+// };
+// RecentOrdersTable.defaultProps = {
+//   cryptoOrders: []
+// };
 export default RecentOrdersTable;

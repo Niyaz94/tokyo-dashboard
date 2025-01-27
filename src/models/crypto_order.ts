@@ -20,7 +20,7 @@ export interface CryptoOrder {
   expense_type: string;
   date: string;
   amount: number;
-  note: string[];
+  note: string;
   status: CryptoOrderStatus;
 
 }

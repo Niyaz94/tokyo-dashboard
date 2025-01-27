@@ -1,0 +1,12 @@
+.editor-input {
+  outline: none;
+  min-height: 100px;
+  padding: 8px;
+  font-size: 16px;
+}
+  
+.editor-placeholder {
+  color: #aaa;
+  padding: 8px;
+  position: absolute;
+}

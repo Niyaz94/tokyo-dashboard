@@ -35,7 +35,6 @@ function PopularTags() {
             color: `${theme.colors.primary.main}`,
             '&:hover': { color: `${theme.colors.primary.dark}` }
           }}
-          button
         >
           <ListItemText primary="#HTML" />
         </ListItem>
@@ -45,7 +44,6 @@ function PopularTags() {
             color: `${theme.colors.primary.main}`,
             '&:hover': { color: `${theme.colors.primary.dark}` }
           }}
-          button
         >
           <ListItemText primary="#software_development" />
         </ListItem>
@@ -55,7 +53,6 @@ function PopularTags() {
             color: `${theme.colors.primary.main}`,
             '&:hover': { color: `${theme.colors.primary.dark}` }
           }}
-          button
         >
           <ListItemText primary="#TrendingInfuencers" />
         </ListItem>
@@ -65,7 +62,6 @@ function PopularTags() {
             color: `${theme.colors.primary.main}`,
             '&:hover': { color: `${theme.colors.primary.dark}` }
           }}
-          button
         >
           <ListItemText primary="#investorsWatch2022" />
         </ListItem>
@@ -76,7 +72,7 @@ function PopularTags() {
           </Typography>
         </ListSubheader>
         <Divider />
-        <ListItem button>
+        <ListItem >
           <ListItemAvatar>
             <Avatar
               sx={{
@@ -98,7 +94,7 @@ function PopularTags() {
           />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem >
           <ListItemAvatar>
             <Avatar
               sx={{
@@ -120,7 +116,7 @@ function PopularTags() {
           />
         </ListItem>
         <Divider />
-        <ListItem button>
+        <ListItem >
           <ListItemAvatar>
             <Avatar
               sx={{ width: 38, height: 38 }}
