@@ -9,6 +9,8 @@ import Label                              from 'src/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
+import TableFilter                        from '../../../components/Custom/Table/Filter';
+
 
 import BulkActions                        from './BulkActions';
 
@@ -103,6 +105,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
   return (
     <Card>
+      <Box p={2}> 
+        {/* <TableFilter /> */}
+        <TableFilter onFilterChange={(filters) => console.log(filters)} />
+      </Box>
       {/* When user select a row or more this panel will open */}
       {selectedBulkActions && (<Box flex={1} p={2}><BulkActions /></Box>)}
       {/* When user does not select any rows this panel will open (default one) */}

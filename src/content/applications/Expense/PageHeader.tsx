@@ -6,7 +6,7 @@ import { useCollapseContext } from '../../../contexts/CollapseToggle';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CustomSelect from '../../../components/Custom/Form/CustomSelect';
 import LexicalEditor from '../../../components/Custom/Lexical/Editor';
-import {useSelectOptions}  from '../../../utility/customHook/useSelectOptions';
+import {useSelectOptions}   from '../../../utility/customHook/useSelectOptions';
 
 
 
@@ -113,9 +113,6 @@ const CollapsibleForm: React.FC = () => {
             </Button>
           </Grid>
         </Grid>
-
-        
-        
       </Box>
     </Collapse>
   );
