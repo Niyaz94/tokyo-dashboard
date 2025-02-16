@@ -26,6 +26,11 @@ const Expense       = Loader(lazy(() => import('src/content/applications/Expense
 const UserProfile   = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/settings')));
 
+
+// Daily Life
+const Sleep         = Loader(lazy(() => import('src/content/applications/Sleep')));
+
+
 // Components
 const Buttons     = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
 const Modals      = Loader(lazy(() => import('src/content/pages/Components/Modals')));
@@ -94,6 +99,13 @@ const routes: RouteObject[] = [
     ]
   },
   {
+    path: 'personal',
+    element: <SidebarLayout />,
+    children: [
+      // {path: '',element: <Navigate to="transactions" replace />},
+      {path: 'sleep',element: <Sleep />},
+    ]
+  },{
     path: '/components',
     element: <SidebarLayout />,
     children: [

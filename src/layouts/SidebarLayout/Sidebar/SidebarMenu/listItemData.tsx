@@ -17,6 +17,7 @@ import ChromeReaderModeTwoToneIcon  from '@mui/icons-material/ChromeReaderModeTw
 import WorkspacePremiumTwoToneIcon  from '@mui/icons-material/WorkspacePremiumTwoTone';
 import CameraFrontTwoToneIcon       from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon   from '@mui/icons-material/DisplaySettingsTwoTone';
+import BedtimeIcon                  from '@mui/icons-material/Bedtime';
 
 import { ReactElement } from 'react';
 
@@ -52,11 +53,11 @@ const slideBarItems: Record<string, SlideBarSection> = {
         title: 'Money Management',
         showSubHeader: true,
         children: [
-          {title: 'Transactions List',link: '/management/transactions',icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Types',link: '/money/expense/types',icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Details',link: '/money/expense',icon: <TableChartTwoToneIcon />},
-          {title: 'Currency',link: '/money/currency',icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Reports',link: '/money/expense/reports',icon: <TableChartTwoToneIcon />},
+          {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Types',    link: '/money/expense/types',       icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Details',  link: '/money/expense',             icon: <TableChartTwoToneIcon />},
+          {title: 'Currency',         link: '/money/currency',            icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Reports',  link: '/money/expense/reports',     icon: <TableChartTwoToneIcon />},
         ],
       },
       myDailyLife: {
@@ -65,7 +66,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
         children: [
           {title: 'Today',link: '/personal/today',icon: <TableChartTwoToneIcon />,},
           {title: 'Activity',link: '/personal/activity',icon: <TableChartTwoToneIcon />},
-          {title: 'Sleep',link: '/personal/sleep',icon: <TableChartTwoToneIcon />},
+          {title: 'Sleep',link: '/personal/sleep',icon: <BedtimeIcon />},
           {title: 'Tomorrow',link: '/personal/tomorrow',icon: <TableChartTwoToneIcon />},
         ],
       },
