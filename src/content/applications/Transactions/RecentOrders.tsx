@@ -1,5 +1,5 @@
 import { Card } from '@mui/material';
-import { CryptoOrderStatus } from 'src/models/crypto_order';
+import { CryptoOrderStatus } from 'src/utility/types/data_types';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 

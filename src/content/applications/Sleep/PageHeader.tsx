@@ -19,7 +19,7 @@ interface Props {
 const CollapsibleForm: React.FC = () => {
 
   const { options: currencies, loading: currenciesLoading } = useSelectOptions('notes/currency/currency_select');
-  const { options: types, loading: typesLoading } = useSelectOptions('notes/expense_type/types_select');
+  const { options: types, loading: typesLoading }           = useSelectOptions('notes/expense_type/types_select');
 
   const { open } = useCollapseContext();
 

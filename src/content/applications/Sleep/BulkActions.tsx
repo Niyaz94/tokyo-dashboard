@@ -1,25 +1,15 @@
 import { useState, useRef } from 'react';
-
 import {
-  Box,
-  Menu,
-  IconButton,
-  Button,
-  ListItemText,
-  ListItemButton,
-  List,
-  Typography
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
+  Box,Menu,IconButton,Button,ListItemText,ListItemButton,List,Typography
+}                           from '@mui/material';
+import { styled }           from '@mui/material/styles';
+import DeleteTwoToneIcon    from '@mui/icons-material/DeleteTwoTone';
+import MoreVertTwoToneIcon  from '@mui/icons-material/MoreVertTwoTone';
 
 const ButtonError = styled(Button)(
   ({ theme }) => `
      background: ${theme.colors.error.main};
      color: ${theme.palette.error.contrastText};
-
      &:hover {
         background: ${theme.colors.error.dark};
      }
@@ -27,8 +17,9 @@ const ButtonError = styled(Button)(
 );
 
 function BulkActions() {
-  const [onMenuOpen, menuOpen] = useState<boolean>(false);
-  const moreRef = useRef<HTMLButtonElement | null>(null);
+  const [onMenuOpen, menuOpen]  = useState<boolean>(false);
+  const moreRef                 = useRef<HTMLButtonElement | null>(null);
+
   const openMenu = (): void => {menuOpen(true);};
   const closeMenu = (): void => {menuOpen(false);};
 
@@ -48,8 +39,8 @@ function BulkActions() {
         anchorOrigin={{vertical: 'center',horizontal: 'center'}} transformOrigin={{vertical: 'center',horizontal: 'center'}}
       >
         <List sx={{ p: 1 }} component="nav">
-          <ListItemButton ><ListItemText primary="Bulk delete selected" /></ListItemButton>
-          <ListItemButton><ListItemText primary="Bulk edit selected" /></ListItemButton>
+          <ListItemButton ><ListItemText  primary="Bulk delete selected" /></ListItemButton>
+          <ListItemButton><ListItemText   primary="Bulk edit selected" /></ListItemButton>
         </List>
       </Menu>
     </>

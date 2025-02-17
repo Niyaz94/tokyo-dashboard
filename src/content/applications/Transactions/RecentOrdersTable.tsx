@@ -10,7 +10,7 @@ import {
                                         } from '@mui/material';
 
 import Label                              from 'src/components/Label';
-import { CryptoOrderStatus } from 'src/models/crypto_order';
+import { CryptoOrderStatus } from 'src/utility/types/data_types';
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
 import BulkActions                        from './BulkActions';

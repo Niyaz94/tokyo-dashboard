@@ -1,5 +1,5 @@
 import { Card }           from '@mui/material';
-import { CryptoOrder }    from 'src/models/crypto_order';
+import { CryptoOrder }    from 'src/utility/types/data_types';
 import RecentOrdersTable  from './RecentOrdersTable';
 import { subDays }        from 'date-fns';
 import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
