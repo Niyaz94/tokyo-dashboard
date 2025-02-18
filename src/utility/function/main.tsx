@@ -1,8 +1,14 @@
 import {JSX }                               from 'react';
 import Label                                from 'src/components/Label';
 import { level1Status }                     from 'src/utility/types/data_types';
+import TrendingDownIcon                     from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon                       from '@mui/icons-material/TrendingUp';
+import BalanceIcon                          from '@mui/icons-material/Balance';
+import ThumbDownOffAltIcon                  from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbUpOffAltIcon                    from '@mui/icons-material/ThumbUpOffAlt';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 
-export const getStatusLabel = (status: level1Status,extraText:string=""): JSX.Element => {
+export const getStatusLabel = (status: level1Status,extraText:string="",icon:JSX.Element=null): JSX.Element => {
 
   const map = {
     VERY_LOW: {text: 'Very Low'   ,color: 'error'},
@@ -13,11 +19,41 @@ export const getStatusLabel = (status: level1Status,extraText:string=""): JSX.El
     Not_Available:{text: 'Not Available'  ,color: 'black'},
   };
   const { text, color }: any = map[status];
-  return <Label color={color} >{`${extraText} ${text}`}</Label>;
+  return <Label color={color} >{icon}{` ${extraText} ${text}`}</Label>;
+};
+
+export const getStatusIcon = (status: level1Status,icon:JSX.Element,reverse:boolean=false): JSX.Element => {
+
+  const map = {
+    VERY_LOW: {text: 'Very Low'           ,color: 'error',      icon:<ThumbDownOffAltIcon/>},
+    LOW:      {text: 'Low'                ,color: 'warning',    icon:<TrendingDownIcon/>},
+    NORMAL:   {text: 'Normal'             ,color: 'secondary',  icon:<BalanceIcon/>},
+    HIGH:     {text: 'High'               ,color: 'info',       icon:<TrendingUpIcon/>},
+    VERY_HIGH:{text: 'Very High'          ,color: 'success',    icon:<ThumbUpOffAltIcon/>},
+    Not_Available:{text: 'Not Available'  ,color: 'black',      icon:<HourglassEmptyIcon/>},
+  };
+  let { text, color,icon:s_icon }: any = map[status];
+  if (reverse){
+    const keys = Object.keys(map);
+    const old_index = keys.indexOf(status);
+    if ([0,4].includes(old_index))
+      s_icon=map[keys[4-old_index]]["icon"]
+    color=map[keys[4-old_index]]["color"]
+  }
+  return <Label color={color} >{icon} {s_icon}</Label>;
 };
 
 export const labelWithColor = (text,color): JSX.Element => {
   return <Label color={color} >{text}</Label>;
+};
+export const labelWithColorByIndex = (text,index): JSX.Element => {
+
+  type colorType=| 'primary'| 'black'| 'secondary'| 'error'| 'warning'| 'success'| 'info';
+  let colors:colorType[]=['primary','black','secondary','error','warning','success','info']
+
+  index = index> colors.length?index%colors.length:index
+
+  return <Label color={colors[index]} >{text}</Label>;
 };
 
 export const labelColorByNumber = (num: number): any => {

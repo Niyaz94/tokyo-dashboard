@@ -16,7 +16,9 @@ interface LabelProps {
 }
 
 const LabelWrapper = styled('span')(
-  ({ theme }) => `
+  ({ theme }) => {
+    console.log(theme.colors)
+    return `
       background-color: ${theme.colors.alpha.black[5]};
       padding: ${theme.spacing(0.5, 1)};
       font-size: ${theme.typography.pxToRem(13)};
@@ -61,8 +63,11 @@ const LabelWrapper = styled('span')(
           background-color: ${theme.colors.info.lighter};
           color: ${theme.palette.info.main}
         }
+
+        
       }
 `
+  }
 );
 
 const Label: FC<LabelProps> = ({

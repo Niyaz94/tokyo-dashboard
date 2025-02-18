@@ -2,6 +2,9 @@ export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
 
 export type level1Status = "VERY_LOW" |  "LOW" |  "NORMAL" |  "HIGH" |  "VERY_HIGH"
 export type level2Status =   "LOW" |  "NORMAL" |  "HIGH" 
+export type level3Status =   "ACHIEVED" |  "POSTPONED" |  "INPROGRESS" | "COMPLETED" | "HALF_COMPLETED" | "NOT_STARTED" | "FAILED" | "FOLLOWUP"
+
+
 
 export interface CryptoOrder {
   id: string;
@@ -54,10 +57,29 @@ export interface ActivityType {
   SleepState: level1Status;
   eatingLevel:level2Status;
   minBurnCalories: number;
-  isGoingGym:boolean
+  isGoingGym:boolean;
+  is_meditation:boolean;
 }
 
 export interface RecentActivityTableInterface {
   className?: string;
   activityData: ActivityType[];
+}
+
+
+export interface SingleTaskSampleInterface {
+  id: string;
+  date: string;
+  type_name: string;
+  description: string[];
+  title:string;
+  priority: level2Status;
+  status: level3Status;
+  deadline:string;
+}
+
+export interface SingleTaskRecordInterface {
+  className?: string;
+  unique_type:string[];
+  data: SingleTaskSampleInterface[];
 }

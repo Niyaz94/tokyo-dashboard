@@ -6,9 +6,15 @@ import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
 import TableCusCell                       from '../../../components/Table/Cell';
 import DirectionsRunIcon                  from '@mui/icons-material/DirectionsRun';
-import AirlineSeatIndividualSuiteIcon     from '@mui/icons-material/AirlineSeatIndividualSuite';
+import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
+import FastfoodIcon                       from '@mui/icons-material/Fastfood';
+import FitnessCenterIcon                  from '@mui/icons-material/FitnessCenter';
+import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal';
+import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { 
-    getStatusLabel,labelWithColor,labelColorByNumber,
+    getStatusLabel,getStatusIcon,labelWithColor,labelColorByNumber,
     getDayAbbreviation 
   } from '../../../utility/function/main';
 
@@ -19,7 +25,7 @@ function CustomTableRow({data,isActivityDataelected,handleSelectOneActivityData}
 
 
     const {id,date,success,worrying,activityLevel,eatingLevel,is_busy,consumeWaterInLiter,weight,
-              SleepState,minBurnCalories,isGoingGym} = data;
+              SleepState,minBurnCalories,isGoingGym,is_meditation} = data;
 
   return (
     <TableRow hover  key={id}  selected={isActivityDataelected}>
@@ -36,15 +42,16 @@ function CustomTableRow({data,isActivityDataelected,handleSelectOneActivityData}
                   />
                   <TableCusCell cellProps={{align:"center"}} prop={
                     [
-                      {text:getStatusLabel(SleepState),styleType:1},
+                      {text:getStatusIcon(activityLevel,<DirectionsRunIcon/>),styleType:1},
                       {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
-                        {labelWithColor(`WL: ${worrying}`,"success")}
+                        {getStatusIcon(eatingLevel,<FastfoodIcon />)}
+                        {labelWithColor(`WD: ${consumeWaterInLiter}`,"success")}
                         </Stack>,styleType:2}
                     ]
                   } />
                   <TableCusCell cellProps={{align:"center"}} prop={
                     [
-                      {text: (isGoingGym?<DirectionsRunIcon sx={{ fontSize: '3rem', color: 'primary.main' }} />:<AirlineSeatIndividualSuiteIcon sx={{ fontSize: '3rem', color: 'error.main' }}/>)
+                      {text: (isGoingGym?<FitnessCenterIcon sx={{ fontSize: '3rem', color: 'primary.main' }} />:<AirlineSeatReclineNormalIcon sx={{ fontSize: '3rem', color: 'error.main' }}/>)
                         ,styleType:1},
                       {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
                         {labelWithColor(`${weight} Kg`,"black")}
@@ -54,11 +61,13 @@ function CustomTableRow({data,isActivityDataelected,handleSelectOneActivityData}
                   } />
                    <TableCusCell cellProps={{align:"center"}} prop={
                     [
-                      {text:labelWithColor(`BC: ${minBurnCalories} kcal`,labelColorByNumber(minBurnCalories/300*100)),styleType:1},
-                      // {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
-                      //   {getStatusLabel(worrying,"WL: ")}
-                      //   {getStatusLabel(activity_level,"AL: ")}
-                      //   </Stack>,styleType:2}
+                      {text:getStatusIcon(SleepState,<AirlineSeatFlatIcon/>),styleType:1},
+                      {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
+                        {getStatusIcon(worrying,<SentimentVeryDissatisfiedIcon />,true)}
+                        {is_meditation?labelWithColor(<SelfImprovementIcon/>,"success"):labelWithColor(<RemoveCircleOutlineIcon/>,"error")}
+
+                        
+                        </Stack>,styleType:2}
                     ]
                   } />
                   <TableCell align="right">

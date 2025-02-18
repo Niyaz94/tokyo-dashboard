@@ -19,6 +19,7 @@ import CameraFrontTwoToneIcon       from '@mui/icons-material/CameraFrontTwoTone
 import DisplaySettingsTwoToneIcon   from '@mui/icons-material/DisplaySettingsTwoTone';
 import BedtimeIcon                  from '@mui/icons-material/Bedtime';
 import DirectionsRunIcon            from '@mui/icons-material/DirectionsRun';
+import AssignmentIcon               from '@mui/icons-material/Assignment';
 
 import { ReactElement } from 'react';
 
@@ -78,7 +79,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
           {title: 'Goals',link: '/goals/goals',icon: <TableChartTwoToneIcon />},
           {title: 'Months',link: '/goals/months',icon: <TableChartTwoToneIcon />},
           {title: 'Single Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
-          {title: 'Single Task',link: '/goals/single_task',icon: <TableChartTwoToneIcon />},
+          {title: 'Single Task',link: '/goals/single_task',icon: <AssignmentIcon />},
           {title: 'Task',link: '/goals/task',icon: <TableChartTwoToneIcon />},
           {title: 'Task Status',link: '/goals/task/status',icon: <TableChartTwoToneIcon />},
         ],
