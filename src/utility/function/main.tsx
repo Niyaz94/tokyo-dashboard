@@ -9,7 +9,8 @@ export const getStatusLabel = (status: level1Status,extraText:string=""): JSX.El
     LOW:      {text: 'Low',color: 'warning'},
     NORMAL:   {text: 'Normal'  ,color: 'secondary'},
     HIGH:     {text: 'High'  ,color: 'info'},
-    VERY_HIGH:{text: 'Very High'  ,color: 'success'}
+    VERY_HIGH:{text: 'Very High'  ,color: 'success'},
+    Not_Available:{text: 'Not Available'  ,color: 'black'},
   };
   const { text, color }: any = map[status];
   return <Label color={color} >{`${extraText} ${text}`}</Label>;
@@ -50,4 +51,16 @@ export const getDayAbbreviation = (dateString: string): string => {
 // https://dev.to/tlylt/typescript-generic-function-reported-as-jsx-error-57nf 
 export const applyPagination = <T,> (data: T[], page: number, limit: number): T[] => {
   return data.slice(page * limit, page * limit + limit);
+};
+
+
+export const applyFilters = <T,F> (data: T[],filters: F,field:string): T[] => {
+  return data.filter((data) => {
+    let matches = true;
+    // FIXXXXXXXX
+    if (filters["status"] && data[`${field}`] !== filters["status"]) {
+      matches = false;
+    }
+    return matches;
+  });
 };

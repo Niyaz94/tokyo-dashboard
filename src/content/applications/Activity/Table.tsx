@@ -3,7 +3,7 @@ import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,TableContainer,
   Select,MenuItem,Typography,useTheme,CardHeader,Button
 } from '@mui/material';
-import { RecentSleepTableInterface,SleepType, Filters }   from 'src/utility/types/data_types';
+import { RecentActivityTableInterface,ActivityType, Filters }   from 'src/utility/types/data_types';
 import BulkActions                                        from './BulkActions';
 import { useCollapseContext }                             from '../../../contexts/CollapseToggle';
 import CustomPagination                                   from '../../../components/Table/Pagination';
@@ -13,12 +13,12 @@ import CustomTableRow                                     from './TableRow';
 
 
 
-const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
+const ActivityDataTable: FC<RecentActivityTableInterface> = ({ activityData }) => {
 
   // it contains the ids of selected rows
-  const [selectedSleepData, setSelectedSleepData] = useState<string[]>([]);
+  const [selectedActivityData, setSelectedActivityData] = useState<string[]>([]);
   // it let you know if any rows have been selected
-  const selectedBulkActions = selectedSleepData.length > 0;
+  const selectedBulkActions = selectedActivityData.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
 
@@ -38,15 +38,15 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
     setFilters((prevFilters) => ({...prevFilters,status: value}));
   };
   // The checkbox inside the [table header] which either make all rows [selected/unselected]
-  const handleSelectAllSleepData = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedSleepData(event.target.checked? sleepData.map(({id}) => id): []);
+  const handleSelectAllActivityData = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSelectedActivityData(event.target.checked? activityData.map(({id}) => id): []);
   };
-  // it [add/remove] row ids to [selectedSleepData] variable when the user [select/deselect] row
-  const handleSelectOneSleepData = (event: ChangeEvent<HTMLInputElement>,sleepId: string): void => {
-    if (!selectedSleepData.includes(sleepId)) {
-      setSelectedSleepData((prevSelected) => [...prevSelected,sleepId]);
+  // it [add/remove] row ids to [selectedActivityData] variable when the user [select/deselect] row
+  const handleSelectOneActivityData = (event: ChangeEvent<HTMLInputElement>,activityId: string): void => {
+    if (!selectedActivityData.includes(activityId)) {
+      setSelectedActivityData((prevSelected) => [...prevSelected,activityId]);
     } else {
-      setSelectedSleepData((prevSelected) =>prevSelected.filter((id) => id !== sleepId));
+      setSelectedActivityData((prevSelected) =>prevSelected.filter((id) => id !== activityId));
     }
   };
   // when the user change the table page
@@ -56,12 +56,12 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredSleepData     = applyFilters<SleepType,Filters>(sleepData, filters,"SleepState");
-  const paginatedSleepData    = applyPagination<SleepType>(filteredSleepData,page,limit);
+  const filteredActivityData     = applyFilters<ActivityType,Filters>(activityData, filters,"activityLevel");
+  const paginatedActivityData    = applyPagination<ActivityType>(filteredActivityData,page,limit);
   // it will be [true] if some but not all rows are selected
-  const selectedSomeSleepData = selectedSleepData.length > 0 && selectedSleepData.length < sleepData.length;
+  const selectedSomeActivityData = selectedActivityData.length > 0 && selectedActivityData.length < activityData.length;
   // It will be [true] if all rows are selected
-  const selectedAllSleepData  = selectedSleepData.length === sleepData.length;
+  const selectedAllActivityData  = selectedActivityData.length === activityData.length;
 
   return (
     <Card>
@@ -104,26 +104,26 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
-                <Checkbox color="primary" checked={selectedAllSleepData} indeterminate={selectedSomeSleepData} onChange={handleSelectAllSleepData}/>
+                <Checkbox color="primary" checked={selectedAllActivityData} indeterminate={selectedSomeActivityData} onChange={handleSelectAllActivityData}/>
               </TableCell>
               <TableCell align='center'>Date</TableCell>
               <TableCell align='center'>Morning Feeling</TableCell>
-              <TableCell align='center'>Sleep State</TableCell>
+              <TableCell align='center'>Activity State</TableCell>
               <TableCell align="center">Activity</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           {/* The content of the table */}
           <TableBody>
-            {/* This function [paginatedSleepData] contains current rows after applying [filtering] and [pagination] */}
-            {paginatedSleepData.map((row) => {
-                return <CustomTableRow data={row} isSleepDataelected={selectedSleepData.includes(row.id)} handleSelectOneSleepData={handleSelectOneSleepData}/>
+            {/* This function [paginatedActivityData] contains current rows after applying [filtering] and [pagination] */}
+            {paginatedActivityData.map((row) => {
+                return <CustomTableRow data={row} isActivityDataelected={selectedActivityData.includes(row.id)} handleSelectOneActivityData={handleSelectOneActivityData}/>
             })}
           </TableBody>
         </Table>
       </TableContainer>
       <CustomPagination
-        count={filteredSleepData.length}
+        count={filteredActivityData.length}
         page={page}
         rowsPerPage={limit}
         onPageChange={handlePageChange}
@@ -132,4 +132,4 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
     </Card>
   );
 };
-export default SleepDataTable;
+export default ActivityDataTable;

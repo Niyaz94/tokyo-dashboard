@@ -18,6 +18,7 @@ import WorkspacePremiumTwoToneIcon  from '@mui/icons-material/WorkspacePremiumTw
 import CameraFrontTwoToneIcon       from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon   from '@mui/icons-material/DisplaySettingsTwoTone';
 import BedtimeIcon                  from '@mui/icons-material/Bedtime';
+import DirectionsRunIcon            from '@mui/icons-material/DirectionsRun';
 
 import { ReactElement } from 'react';
 
@@ -65,7 +66,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
         showSubHeader: true,
         children: [
           {title: 'Today',link: '/personal/today',icon: <TableChartTwoToneIcon />,},
-          {title: 'Activity',link: '/personal/activity',icon: <TableChartTwoToneIcon />},
+          {title: 'Activity',link: '/personal/activity',icon: <DirectionsRunIcon />},
           {title: 'Sleep',link: '/personal/sleep',icon: <BedtimeIcon />},
           {title: 'Tomorrow',link: '/personal/tomorrow',icon: <TableChartTwoToneIcon />},
         ],
