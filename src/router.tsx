@@ -31,6 +31,7 @@ const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/s
 const Sleep         = Loader(lazy(() => import('src/content/applications/Sleep')));
 const Activity      = Loader(lazy(() => import('src/content/applications/Activity')));
 const SINGLE_TASK   = Loader(lazy(() => import('src/content/applications/SINGLE_TASK')));
+const GOAL   = Loader(lazy(() => import('src/content/applications/GOAL')));
 
 
 
@@ -120,8 +121,7 @@ const routes: RouteObject[] = [
     children: [
       // {path: '',element: <Navigate to="transactions" replace />},
       {path: 'single_task',element: <SINGLE_TASK />},
-
-      
+      {path: 'goals',element: <GOAL />},
     ]
   },{
     path: '/components',

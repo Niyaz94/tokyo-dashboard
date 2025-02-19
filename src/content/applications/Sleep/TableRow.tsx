@@ -50,7 +50,7 @@ function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData}) {
                       {text:getStatusLabel(SleepState),styleType:1},
                       {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
                         {labelWithColor(`WT: ${wastedTime}`,labelColorByNumber(100-wastedTime/240*100))}
-                        {labelWithColor(`ST: ${sleepInHour}`,labelColorByNumber(sleepInHour/10*100))}
+                        {labelWithColor(`ST: ${(sleepInHour.toFixed(2))}`,labelColorByNumber(sleepInHour/10*100))}
                         {labelWithColor(`WN: ${approxWakingNum}`,"warning")}
                         {labelWithColor(`PN: ${peeCountDuringNight}`,"primary")}
                         </Stack>,styleType:2}

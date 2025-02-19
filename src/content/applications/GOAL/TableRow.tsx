@@ -8,13 +8,10 @@ import CampaignIcon                       from '@mui/icons-material/Campaign';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { getStatusIcon,labelWithColor,getDayAbbreviation ,labelWithColorByIndex} from '../../../utility/function/main';
 
-function CustomTableRow({data,isDataSelected,handleSelectOneData,unique_type}) {
+function CustomTableRow({data,isDataSelected,handleSelectOneData}) {
 
     const theme = useTheme();
-
-
-
-    const {id,date,type_name,description,title,priority,status,deadline} = data;
+    const {id,startDate,endDate,prizeAmount,title,importanceLevel,difficultyLevel,currentStatus} = data;
 
     const unique_status=["ACHIEVED" ,  "POSTPONED" ,  "INPROGRESS" , "COMPLETED" , "HALF_COMPLETED" , "NOT_STARTED" , "FAILED" , "FOLLOWUP"]
 
@@ -28,24 +25,24 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,unique_type}) {
                   </TableCell>
                   <TableCusCell prop={
                     [
-                      {text:`${date} (${getDayAbbreviation(date)})`,styleType:1},
+                      {text:`${startDate} (${getDayAbbreviation(startDate)})`,styleType:1},
                       {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
                         {labelWithColor(<EventAvailableIcon/>,"info")}
-                        {labelWithColor(deadline?deadline:"Not Available","warning")}
+                        {labelWithColor(endDate,"warning")}
                       </Stack>,styleType:2}
                   ]} 
                   />
                   <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text:labelWithColorByIndex(type_name.replace(/_/gi, " "),unique_type.indexOf(type_name)),styleType:1},]
+                    [{text:labelWithColorByIndex(importanceLevel,0),styleType:1},]
                   } />
                   <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text: title,styleType:1},{text: description,styleType:2}]
+                    [{text: title,styleType:1},{text: prizeAmount,styleType:2}]
                   } />
                    <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text: getStatusIcon(priority.toUpperCase(),<CampaignIcon />),styleType:1}]
+                    [{text: labelWithColorByIndex(difficultyLevel,0),styleType:1}]
                   } />
                   <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text:labelWithColorByIndex(status.replace(/_/gi, " ").toUpperCase(),unique_status.indexOf(status.toUpperCase())),styleType:1}]
+                    [{text:labelWithColorByIndex(currentStatus.replace(/_/gi, " ").toUpperCase(),0),styleType:1}]
                   } />
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

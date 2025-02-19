@@ -4,7 +4,7 @@ import {
   Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
 import { 
-  SingleTaskRecordInterface as TableRecordInterface,SingleTaskSampleInterface as SingleSampleInterface, Filters 
+  GoalRecordInterface as TableRecordInterface,GoalSampleInterface as SingleSampleInterface, Filters 
 }   from 'src/utility/types/data_types';
 import BulkActions                                        from './BulkActions';
 import { useCollapseContext }                             from '../../../contexts/CollapseToggle';
@@ -14,7 +14,7 @@ import CustomTableRow                                     from './TableRow';
 
 
 
-const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
+const PageDataTable: FC<TableRecordInterface> = ({ data }) => {
 
   // it contains the ids of selected rows
   const [selectedData, setSelectedData] = useState<string[]>([]);
@@ -57,7 +57,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredData     = applyFilters<SingleSampleInterface,Filters>(data, filters,"type_name");
+  const filteredData     = applyFilters<SingleSampleInterface,Filters>(data, filters,"importanceLevel");
   const paginatedData    = applyPagination<SingleSampleInterface>(filteredData,page,limit);
   // it will be [true] if some but not all rows are selected
   const selectedSomeData = selectedData.length > 0 && selectedData.length < data.length;
@@ -90,7 +90,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {["all",...unique_type].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+                  {["all","LOW" ,"NORMAL" ,"HIGH"].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
                 </Select>
               </FormControl>
             </Box>
@@ -117,7 +117,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
             {/* This function [paginatedData] contains current rows after applying [filtering] and [pagination] */}
             {paginatedData.map((row) => {
                 return <CustomTableRow 
-                  data={row} unique_type={unique_type} isDataSelected={selectedData.includes(row.id)} 
+                  data={row} isDataSelected={selectedData.includes(row.id)} 
                   handleSelectOneData={handleSelectOneData}
                 />
             })}

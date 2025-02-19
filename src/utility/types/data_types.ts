@@ -3,7 +3,8 @@ export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
 export type level1Status = "VERY_LOW" |  "LOW" |  "NORMAL" |  "HIGH" |  "VERY_HIGH"
 export type level2Status =   "LOW" |  "NORMAL" |  "HIGH" 
 export type level3Status =   "ACHIEVED" |  "POSTPONED" |  "INPROGRESS" | "COMPLETED" | "HALF_COMPLETED" | "NOT_STARTED" | "FAILED" | "FOLLOWUP"
-
+export type level4Status =  "ACHIEVED" | "POSTPONED" | "INPROGRESS" | "COMPLETED" | "UNCOMPLETED"
+export type level5Status =   "LESS" |  "NORMAL" |  "VERY" 
 
 
 export interface CryptoOrder {
@@ -82,4 +83,21 @@ export interface SingleTaskRecordInterface {
   className?: string;
   unique_type:string[];
   data: SingleTaskSampleInterface[];
+}
+
+
+export interface GoalSampleInterface {
+  id: string;
+  startDate: string;
+  endDate: string;
+  title: string;
+  prizeAmount: number;
+  importanceLevel: level5Status;
+  difficultyLevel: level5Status;
+  currentStatus:level4Status;
+}
+
+export interface GoalRecordInterface {
+  className?: string;
+  data: GoalSampleInterface[];
 }

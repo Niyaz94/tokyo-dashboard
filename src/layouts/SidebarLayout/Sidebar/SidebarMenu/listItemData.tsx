@@ -20,6 +20,7 @@ import DisplaySettingsTwoToneIcon   from '@mui/icons-material/DisplaySettingsTwo
 import BedtimeIcon                  from '@mui/icons-material/Bedtime';
 import DirectionsRunIcon            from '@mui/icons-material/DirectionsRun';
 import AssignmentIcon               from '@mui/icons-material/Assignment';
+import EmojiEventsIcon              from '@mui/icons-material/EmojiEvents';
 
 import { ReactElement } from 'react';
 
@@ -76,7 +77,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
         title: 'Life Goals',
         showSubHeader: true,
         children: [
-          {title: 'Goals',link: '/goals/goals',icon: <TableChartTwoToneIcon />},
+          {title: 'Goals',link: '/goals/goals',icon: <EmojiEventsIcon />},
           {title: 'Months',link: '/goals/months',icon: <TableChartTwoToneIcon />},
           {title: 'Single Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
           {title: 'Single Task',link: '/goals/single_task',icon: <AssignmentIcon />},
