@@ -6,15 +6,19 @@ import {
 import { 
   SingleTaskRecordInterface as TableRecordInterface,SingleTaskSampleInterface as SingleSampleInterface, Filters 
 }   from 'src/utility/types/data_types';
-import BulkActions                                        from './BulkActions';
-import { useCollapseContext }                             from '../../../contexts/CollapseToggle';
-import CustomPagination                                   from '../../../components/Table/Pagination';
-import { applyPagination,applyFilters }                   from '../../../utility/function/main';
-import CustomTableRow                                     from './TableRow';
+import BulkActions                                          from './BulkActions';
+import { useCollapseContext }                               from '../../../contexts/CollapseToggle';
+import CustomPagination                                     from '../../../components/Table/Pagination';
+import { applyPagination,applyFilters,createMapLabelData }  from '../../../utility/function/main';
+import CustomTableRow                                       from './TableRow';
 
 
 
-const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
+const PageDataTable: FC<TableRecordInterface> = ({data,unique}) => {
+
+  const {name:task_type_name,status:task_status,priority:task_priority}=unique
+  const taskTypeNameMap=createMapLabelData(task_type_name)
+  const taskStatusMap=createMapLabelData(task_status)  
 
   // it contains the ids of selected rows
   const [selectedData, setSelectedData] = useState<string[]>([]);
@@ -90,7 +94,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {["all",...unique_type].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+                  {["all",...task_type_name].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
                 </Select>
               </FormControl>
             </Box>
@@ -117,8 +121,9 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
             {/* This function [paginatedData] contains current rows after applying [filtering] and [pagination] */}
             {paginatedData.map((row) => {
                 return <CustomTableRow 
-                  data={row} unique_type={unique_type} isDataSelected={selectedData.includes(row.id)} 
+                  data={row} taskTypeNameMap={taskTypeNameMap} isDataSelected={selectedData.includes(row.id)} 
                   handleSelectOneData={handleSelectOneData}
+                  taskStatusMap={taskStatusMap}
                 />
             })}
           </TableBody>
@@ -130,6 +135,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique_type }) => {
         rowsPerPage={limit}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
+        
       />
     </Card>
   );

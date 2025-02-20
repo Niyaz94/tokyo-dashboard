@@ -17,12 +17,7 @@ const Toolbar: React.FC = () => {
   };
 
   return (
-    <ToggleButtonGroup
-      value={formats}
-      onChange={handleFormat}
-      aria-label="text formatting"
-      sx={{ marginBottom: 1 }}
-    >
+    <ToggleButtonGroup value={formats} onChange={handleFormat} aria-label="text formatting" sx={{ marginBottom: 1 }}>
       <ToggleButton value="bold" aria-label="bold">
         <FormatBold />
       </ToggleButton>

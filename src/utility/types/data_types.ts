@@ -81,9 +81,18 @@ export interface SingleTaskSampleInterface {
 
 export interface SingleTaskRecordInterface {
   className?: string;
-  unique_type:string[];
+  unique:{
+    name:string[];
+    priority:string[];
+    status:string[];
+  }
   data: SingleTaskSampleInterface[];
 }
+
+// interface recordTypes {
+//   data:[],
+  
+// }
 
 
 export interface GoalSampleInterface {
@@ -100,4 +109,8 @@ export interface GoalSampleInterface {
 export interface GoalRecordInterface {
   className?: string;
   data: GoalSampleInterface[];
+  unique:{
+    goal_status:string[];
+    goal_level:string[];
+  }
 }

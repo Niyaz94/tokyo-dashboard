@@ -2,14 +2,16 @@ import { Card }               from '@mui/material';
 import ActivityTable          from './Table';
 import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
 
+import { SingleTaskRecordInterface}   from 'src/utility/types/data_types';
 function MainPage() {
 
-  const { data,success}: FetchData<[]> = useFetch <[]>('schedule/stask',[]);
 
-  console.log(data)
+
+  const { data,success}: FetchData<SingleTaskRecordInterface> = useFetch <SingleTaskRecordInterface>('schedule/stask',{data:[],unique:{}});
+
   return (
     <Card>
-      <ActivityTable data={Object.keys(data).length>0?data["data"]:[]} unique_type={Object.keys(data).length>0?data["unique_type"]:[]} />
+      {data.data.length>0 && <ActivityTable {...data} />}
     </Card>
   );
 }

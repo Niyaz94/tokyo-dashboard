@@ -6,15 +6,22 @@ import {
 import { 
   GoalRecordInterface as TableRecordInterface,GoalSampleInterface as SingleSampleInterface, Filters 
 }   from 'src/utility/types/data_types';
-import BulkActions                                        from './BulkActions';
-import { useCollapseContext }                             from '../../../contexts/CollapseToggle';
-import CustomPagination                                   from '../../../components/Table/Pagination';
-import { applyPagination,applyFilters }                   from '../../../utility/function/main';
-import CustomTableRow                                     from './TableRow';
+import BulkActions                                          from './BulkActions';
+import { useCollapseContext }                               from '../../../contexts/CollapseToggle';
+import CustomPagination                                     from '../../../components/Table/Pagination';
+import { applyPagination,applyFilters,createMapLabelData }  from '../../../utility/function/main';
+import CustomTableRow                                       from './TableRow';
+// createMapLabelData
 
 
 
-const PageDataTable: FC<TableRecordInterface> = ({ data }) => {
+const PageDataTable: FC<TableRecordInterface> = ({ data,unique }) => {
+
+  const {goal_level,goal_status}=unique
+
+  const goalStatusMap=createMapLabelData(goal_status)
+  const goalLevelMap=createMapLabelData(goal_level,[6,5,0])
+
 
   // it contains the ids of selected rows
   const [selectedData, setSelectedData] = useState<string[]>([]);
@@ -88,9 +95,9 @@ const PageDataTable: FC<TableRecordInterface> = ({ data }) => {
                 {open ? 'Close' : 'Insert'}
               </Button>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {["all","LOW" ,"NORMAL" ,"HIGH"].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+                <InputLabel>Importance Level</InputLabel>
+                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Importance Level" autoWidth>
+                  {["all",...goal_level].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
                 </Select>
               </FormControl>
             </Box>
@@ -106,9 +113,9 @@ const PageDataTable: FC<TableRecordInterface> = ({ data }) => {
                 <Checkbox color="primary" checked={selectedAllData} indeterminate={selectedSomeData} onChange={handleSelectAllData}/>
               </TableCell>
               <TableCell align='center'>Date</TableCell>
-              <TableCell align='center'>Task Type</TableCell>
+              <TableCell align='center'>Importance Level</TableCell>
               <TableCell align='center'>Title</TableCell>
-              <TableCell align="center">Priority</TableCell>
+              <TableCell align="center">Difficulty Level</TableCell>
               <TableCell align="center">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -119,6 +126,8 @@ const PageDataTable: FC<TableRecordInterface> = ({ data }) => {
                 return <CustomTableRow 
                   data={row} isDataSelected={selectedData.includes(row.id)} 
                   handleSelectOneData={handleSelectOneData}
+                  goalStatusMap={goalStatusMap}
+                  goalLevelMap={goalLevelMap}
                 />
             })}
           </TableBody>

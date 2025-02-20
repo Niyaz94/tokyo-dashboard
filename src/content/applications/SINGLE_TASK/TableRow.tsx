@@ -8,15 +8,10 @@ import CampaignIcon                       from '@mui/icons-material/Campaign';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { getStatusIcon,labelWithColor,getDayAbbreviation ,labelWithColorByIndex} from '../../../utility/function/main';
 
-function CustomTableRow({data,isDataSelected,handleSelectOneData,unique_type}) {
+function CustomTableRow({data,isDataSelected,handleSelectOneData,taskTypeNameMap,taskStatusMap}) {
 
     const theme = useTheme();
-
-
-
     const {id,date,type_name,description,title,priority,status,deadline} = data;
-
-    const unique_status=["ACHIEVED" ,  "POSTPONED" ,  "INPROGRESS" , "COMPLETED" , "HALF_COMPLETED" , "NOT_STARTED" , "FAILED" , "FOLLOWUP"]
 
   return (
     <TableRow hover  key={id}  selected={isDataSelected}>
@@ -36,7 +31,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,unique_type}) {
                   ]} 
                   />
                   <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text:labelWithColorByIndex(type_name.replace(/_/gi, " "),unique_type.indexOf(type_name)),styleType:1},]
+                    [{text:labelWithColor(taskTypeNameMap[type_name].text,taskTypeNameMap[type_name].color),styleType:1},]
                   } />
                   <TableCusCell cellProps={{align:"center"}} prop={
                     [{text: title,styleType:1},{text: description,styleType:2}]
@@ -45,7 +40,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,unique_type}) {
                     [{text: getStatusIcon(priority.toUpperCase(),<CampaignIcon />),styleType:1}]
                   } />
                   <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text:labelWithColorByIndex(status.replace(/_/gi, " ").toUpperCase(),unique_status.indexOf(status.toUpperCase())),styleType:1}]
+                    [{text:labelWithColor(taskStatusMap[status.toUpperCase()].text,taskStatusMap[status.toUpperCase()].color)
+                      ,styleType:1},]
                   } />
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

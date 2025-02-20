@@ -4,7 +4,7 @@ import { Grid2 as Grid, Container }  from '@mui/material';
 import PageTitleWrapper     from 'src/components/PageTitleWrapper';
 import Footer               from 'src/components/Footer';
 
-import PageHeader           from './PageHeader';
+import PageHeader           from './AddEditSleep';
 import RecentOrders         from './Main';
 import { CollapseProvider } from '../../../contexts/CollapseToggle';
 

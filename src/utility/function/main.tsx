@@ -27,7 +27,7 @@ export const labelWithColor = (text,color): JSX.Element => {
 };
 export const labelWithColorByIndex = (text,index): JSX.Element => {
 
-  type colorType=| 'primary'| 'black'| 'secondary'| 'error'| 'warning'| 'success'| 'info';
+  type colorType='primary'| 'black'| 'secondary'| 'error'| 'warning'| 'success'| 'info';
   let colors:colorType[]=['primary','black','secondary','error','warning','success','info']
 
   index = index> colors.length?index%colors.length:index
@@ -79,3 +79,15 @@ export const applyFilters = <T,F> (data: T[],filters: F,field:string): T[] => {
     return matches;
   });
 };
+export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
+  let results: Record<string | number, { text: string; color: string }> = {};
+
+  let colors:string[]=["error","info","warning","success","black","primary","secondary"]
+  let color_length=colors.length
+  const use_predefine_color=values.length==pos.length
+  for (const [index,element] of values.entries()) {
+      let color_index=use_predefine_color?pos[index]:(index>color_length-1?index%color_length:index)
+      results[element]={text: element.replace(/_/gi, " ").toUpperCase(),color: colors[color_index]}
+  }
+  return results
+} 

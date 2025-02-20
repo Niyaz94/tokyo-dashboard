@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 
-export interface FetchData<T> {
-    data: T;
+export interface FetchData<S> {
+    data: S;
     loading: boolean;
     success: boolean;
     error: string|null;

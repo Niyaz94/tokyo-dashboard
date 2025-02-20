@@ -9,7 +9,6 @@ interface LabelProps {
 
 const LabelWrapper = styled('span')(
   ({ theme }) => {
-    console.log(theme.colors)
     return `
       background-color: ${theme.colors.alpha.black[5]};
       padding: ${theme.spacing(0.5, 1)};
