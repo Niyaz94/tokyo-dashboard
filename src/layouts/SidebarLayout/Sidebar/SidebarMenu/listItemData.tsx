@@ -21,6 +21,7 @@ import BedtimeIcon                  from '@mui/icons-material/Bedtime';
 import DirectionsRunIcon            from '@mui/icons-material/DirectionsRun';
 import AssignmentIcon               from '@mui/icons-material/Assignment';
 import EmojiEventsIcon              from '@mui/icons-material/EmojiEvents';
+import AddTaskIcon                  from '@mui/icons-material/AddTask';
 
 import { ReactElement } from 'react';
 
@@ -81,7 +82,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
           {title: 'Months',link: '/goals/months',icon: <TableChartTwoToneIcon />},
           {title: 'Single Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
           {title: 'Single Task',link: '/goals/single_task',icon: <AssignmentIcon />},
-          {title: 'Task',link: '/goals/task',icon: <TableChartTwoToneIcon />},
+          {title: 'Task',link: '/goals/task',icon: <AddTaskIcon />},
           {title: 'Task Status',link: '/goals/task/status',icon: <TableChartTwoToneIcon />},
         ],
       },

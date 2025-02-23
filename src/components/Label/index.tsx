@@ -1,8 +1,10 @@
 import { FC, ReactNode } from 'react';
 import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 
 interface LabelProps {
   className?: string;
+  tooltip?:string;
   color?:| 'primary'| 'black'| 'secondary'| 'error'| 'warning'| 'success'| 'info';
   children?: ReactNode;
 }
@@ -56,11 +58,13 @@ const LabelWrapper = styled('span')(
   }
 );
 
-const Label: FC<LabelProps> = ({className,color = 'secondary',children,...rest}) => {
+const Label: FC<LabelProps> = ({className,color = 'secondary',tooltip='',children,...rest}) => {
   return (
-    <LabelWrapper className={'MuiLabel-' + color} {...rest}>
-      {children}
-    </LabelWrapper>
+    <Tooltip title={tooltip}>
+      <LabelWrapper className={'MuiLabel-' + color} {...rest}>
+        {children}
+      </LabelWrapper>
+    </Tooltip>
   );
 };
 

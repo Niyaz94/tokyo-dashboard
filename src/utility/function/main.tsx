@@ -22,8 +22,14 @@ export const getStatusIcon = (status: level1Status,icon:JSX.Element,reverse:bool
   return <Label color={color} >{icon} {s_icon}</Label>;
 };
 
-export const labelWithColor = (text,color): JSX.Element => {
-  return <Label color={color} >{text}</Label>;
+export const getTextWithIcon = (text: string,icon:JSX.Element,color): JSX.Element => {
+
+
+  return <Label color={color} >{text} {icon}</Label>;
+};
+
+export const labelWithColor = (text,color,tooltip=""): JSX.Element => {
+  return <Label color={color} tooltip={tooltip}>{text}</Label>;
 };
 export const labelWithColorByIndex = (text,index): JSX.Element => {
 
@@ -70,10 +76,10 @@ export const applyPagination = <T,> (data: T[], page: number, limit: number): T[
 
 
 export const applyFilters = <T,F> (data: T[],filters: F,field:string): T[] => {
-  return data.filter((data) => {
+  return data.filter((row) => {
     let matches = true;
     // FIXXXXXXXX
-    if (filters["status"] && data[`${field}`] !== filters["status"]) {
+    if (filters["status"] && row[`${field}`] !== filters["status"]) {
       matches = false;
     }
     return matches;
@@ -87,7 +93,7 @@ export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
   const use_predefine_color=values.length==pos.length
   for (const [index,element] of values.entries()) {
       let color_index=use_predefine_color?pos[index]:(index>color_length-1?index%color_length:index)
-      results[element]={text: element.replace(/_/gi, " ").toUpperCase(),color: colors[color_index]}
+      results[element]={text: element.toString().replace(/_/gi, " ").toUpperCase(),color: colors[color_index]}
   }
   return results
 } 

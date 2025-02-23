@@ -32,7 +32,8 @@ const Sleep         = Loader(lazy(() => import('src/content/applications/Sleep')
 // const AddSleep      = Loader(lazy(() => import('src/content/applications/Sleep/AddSleep')));
 const Activity      = Loader(lazy(() => import('src/content/applications/Activity')));
 const SINGLE_TASK   = Loader(lazy(() => import('src/content/applications/SINGLE_TASK')));
-const GOAL   = Loader(lazy(() => import('src/content/applications/GOAL')));
+const TASK          = Loader(lazy(() => import('src/content/applications/TASK')));
+const GOAL          = Loader(lazy(() => import('src/content/applications/GOAL')));
 
 
 
@@ -127,6 +128,9 @@ const routes: RouteObject[] = [
       // {path: '',element: <Navigate to="transactions" replace />},
       {path: 'single_task',element: <SINGLE_TASK />},
       {path: 'goals',element: <GOAL />},
+      {path: 'task',element: <TASK />},
+
+      
     ]
   },{
     path: '/components',

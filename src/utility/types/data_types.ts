@@ -110,7 +110,40 @@ export interface GoalRecordInterface {
   className?: string;
   data: GoalSampleInterface[];
   unique:{
-    goal_status:string[];
-    goal_level:string[];
+    goal_status:level4Status[];
+    goal_level:level5Status[];
+  }
+}
+
+
+export interface TaskSingleSampleInterface {
+  id: string;
+  task_month: string;
+  task_year: number;
+  task_date:string;
+  name: string;
+  prizeAmount: number;
+  percentage: number;
+  result:number;
+  status:string;
+  goal:{
+    title: string;
+    start_date: string;
+    end_date : string;
+    status: level4Status;
+    difficulty: level5Status;
+    importance: level5Status;
+  }
+}
+
+
+export interface TaskRecordInterface {
+  data: TaskSingleSampleInterface[];
+  unique:{
+    goal_status:level4Status[];
+    goal_level:level5Status[];
+    years:string[];
+    months:string[];
+    years_month:string[];
   }
 }
