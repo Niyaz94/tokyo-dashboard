@@ -12,7 +12,7 @@ function ApplicationsTransactions() {
   return (
     <CollapseProvider>
       <Helmet>
-        <title>Personal - Activity</title>
+        <title>Goals - Task Progress</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />

@@ -4,8 +4,8 @@ import {Tooltip,Checkbox,IconButton,TableCell,TableRow,Stack,useTheme} from '@mu
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
 import TableCusCell                       from '../../../components/Table/Cell';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { labelWithColor,getTextWithIcon } from '../../../utility/function/main';
+import EmojiEventsIcon                    from '@mui/icons-material/EmojiEvents';
+import { labelWithColor,getTextWithIcon,capitalizeFirstLetterOfWords } from '../../../utility/function/main';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,goalStatusMap,goalLevelMap,monthMap,yearlMap,taskStatusMap}) {
 
@@ -31,16 +31,16 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,goalStatusMap,g
                       </Stack>,styleType:2}
                   ]} 
                   />
-                  <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text:goal_name,styleType:1},
+                  <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={
+                    [{text:capitalizeFirstLetterOfWords(goal_name),styleType:1},
                       {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
                         {labelWithColor(start_date?start_date:"Not Available","primary","Goal's Start Date")}
                         {labelWithColor(end_date?end_date:"Not Available","warning","Goal's Deadline")}
                       </Stack>,styleType:2}
                     ]
                   } />
-                  <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text: task_name,styleType:1},
+                  <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={
+                    [{text: capitalizeFirstLetterOfWords(task_name),styleType:1},
                       {
                         text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
                         {labelWithColor(`SP: ${percentage}%`,"info","Success Percentage")}

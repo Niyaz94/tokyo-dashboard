@@ -33,15 +33,15 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,taskTypeNameMap
                   <TableCusCell cellProps={{align:"center"}} prop={
                     [{text:labelWithColor(taskTypeNameMap[type_name].text,taskTypeNameMap[type_name].color),styleType:1},]
                   } />
-                  <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text: title,styleType:1},{text: description,styleType:2}]
-                  } />
+                  <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={[
+                      {text: title,styleType:1},
+                      {text: description,styleType:2}
+                  ]} />
                    <TableCusCell cellProps={{align:"center"}} prop={
                     [{text: getStatusIcon(priority.toUpperCase(),<CampaignIcon />),styleType:1}]
                   } />
                   <TableCusCell cellProps={{align:"center"}} prop={
-                    [{text:labelWithColor(taskStatusMap[status.toUpperCase()].text,taskStatusMap[status.toUpperCase()].color)
-                      ,styleType:1},]
+                    [{text:labelWithColor(taskStatusMap[status.toUpperCase()].text,taskStatusMap[status.toUpperCase()].color),styleType:1},]
                   } />
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

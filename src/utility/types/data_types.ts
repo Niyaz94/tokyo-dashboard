@@ -136,7 +136,6 @@ export interface TaskSingleSampleInterface {
   }
 }
 
-
 export interface TaskRecordInterface {
   data: TaskSingleSampleInterface[];
   unique:{
@@ -145,5 +144,30 @@ export interface TaskRecordInterface {
     years:string[];
     months:string[];
     years_month:string[];
+  }
+}
+
+export interface TaskStatusSingleSampleInterface {
+  id: string;
+  date: string;
+  note: string[];
+  spendingTime:number;
+  status: string;
+  task_name: string;
+  isTodaySTask:boolean;
+  task_detail:{
+    status : string;
+    goal_name: string;
+    prizeAmount: number;
+    percentage: number;
+    result: number;
+  }
+}
+
+export interface TaskStatusRecordInterface {
+  data: TaskStatusSingleSampleInterface[];
+  unique:{
+    tasks_name:string[];
+    task_status:string[];
   }
 }

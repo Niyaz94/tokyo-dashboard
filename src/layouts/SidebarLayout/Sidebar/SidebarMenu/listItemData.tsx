@@ -22,6 +22,7 @@ import DirectionsRunIcon            from '@mui/icons-material/DirectionsRun';
 import AssignmentIcon               from '@mui/icons-material/Assignment';
 import EmojiEventsIcon              from '@mui/icons-material/EmojiEvents';
 import AddTaskIcon                  from '@mui/icons-material/AddTask';
+import ChecklistIcon                from '@mui/icons-material/Checklist';
 
 import { ReactElement } from 'react';
 
@@ -83,7 +84,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
           {title: 'Single Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
           {title: 'Single Task',link: '/goals/single_task',icon: <AssignmentIcon />},
           {title: 'Task',link: '/goals/task',icon: <AddTaskIcon />},
-          {title: 'Task Status',link: '/goals/task/status',icon: <TableChartTwoToneIcon />},
+          {title: 'Task Progress',link: '/goals/task_progress',icon: <ChecklistIcon />},
         ],
       },
       personalImprovment: {

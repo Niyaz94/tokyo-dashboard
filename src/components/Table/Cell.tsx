@@ -17,12 +17,12 @@ const labelColorByNumber = (num: number): string => {
     return colors[index];
   };
 
-function Cell({prop,cellProps={}}) {
+function Cell({prop,cellProps={},sx={},child_sx={}}) {
   return (
-    <TableCell {...cellProps}>
+    <TableCell {...cellProps} {...sx}>
         {prop.map(({text,styleType}, index) => {
             return (
-                <Typography key={index} {...cellStyle(styleType)} >
+                <Typography key={index} {...cellStyle(styleType)} {...child_sx}>
                     {text}
                 </Typography>
             )

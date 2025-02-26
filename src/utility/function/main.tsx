@@ -97,3 +97,7 @@ export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
   }
   return results
 } 
+
+export const capitalizeFirstLetterOfWords= (str) => {
+  return str.split("_").join(" ").replace(/\b\w/g, char => char.toUpperCase());
+}
