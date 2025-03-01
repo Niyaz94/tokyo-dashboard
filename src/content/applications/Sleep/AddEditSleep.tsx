@@ -4,21 +4,15 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid2';
 import { useCollapseContext } from '../../../contexts/CollapseToggle';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import CustomSelect from '../../../components/Custom/Form/CustomSelect';
+import CustomSelect from '../../../components/Form/CustomSelect';
 import LexicalEditor from '../../../components/Custom/Lexical/Editor';
 import {useSelectOptions}   from '../../../utility/customHook/useSelectOptions';
-import DynamicSelect from '../../../components/Custom/Form/DynamicSelect';
-
-
-
-
-interface Props {
-  open: boolean;
-  currencies: { id: string | number; name: string }[];
-  types: { id: string | number; name: string }[];
-}
+import DynamicSelect from '../../../components/Form/DynamicSelect';
+import TimePickers from '../../../components/Form/TimePickers';
+import dayjs,{ Dayjs } from "dayjs";
 
 const CollapsibleForm: React.FC = () => {
+
 
   const { options: currencies, loading: currenciesLoading } = useSelectOptions('notes/currency/currency_select');
   const { options: types, loading: typesLoading }           = useSelectOptions('notes/expense_type/types_select');
@@ -85,6 +79,17 @@ const CollapsibleForm: React.FC = () => {
     }
   };
 
+  const [times, setTimes] = useState<{ [key: string]: Dayjs | null }>({
+    time1: dayjs(),
+    time2: null,
+    time3: dayjs("09:00", "HH:mm"),
+  });
+  
+  const handleTimeChange = (key: string, newValue: Dayjs | null) => {
+    console.log(newValue)
+    setTimes((prev) => ({ ...prev, [key]: newValue }));
+  };
+
   return (
     <Collapse in={open}>
       <Card>
@@ -97,10 +102,17 @@ const CollapsibleForm: React.FC = () => {
 
           >
             <Grid container spacing={2}>
-              <Grid size={6} >
-                <TextField label="Date"   name="date" type="date" value={formData.date} onChange={handleChange} InputLabelProps={{ shrink: true }} variant="outlined" fullWidth/>
+              <Grid size={4} >
+                <TimePickers label="Bed Time" value={times.time1} onChange={(newValue) => handleTimeChange("time1", newValue)} />
+              </Grid>
+              <Grid size={4} >
+                <TimePickers label="Fell Sleep Time" value={times.time2} onChange={(newValue) => handleTimeChange("time3", newValue)} />
+              </Grid>
+              <Grid size={4} >
+                <TimePickers label="Waking Up Time" value={times.time3} onChange={(newValue) => handleTimeChange("time3", newValue)} />
               </Grid>
               <Grid size={6}>
+                {/* <TextField label="Date"   name="date" type="date" value={formData.date} onChange={handleChange} InputLabelProps={{ shrink: true }} variant="outlined" fullWidth/> */}
                 <TextField label="Amount" name="amount" type="number" value={formData.amount} onChange={handleChange} variant="outlined" fullWidth/>
               </Grid>
               <Grid size={6} >

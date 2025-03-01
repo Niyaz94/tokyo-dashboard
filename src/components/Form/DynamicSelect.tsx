@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { CircularProgress, FormControl, InputLabel } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
+import useFetch, {FetchData}  from '../../utility/customHook/useGetAPI';
 
 
 
@@ -12,7 +12,7 @@ const DynamicSelect = ({ label, apiUrl, onChange, key_value,isMulti = false }) =
 
     const { data,success}: FetchData<[]> = useFetch <[]>(apiUrl,[{label:0,value:new Date().toJSON().slice(0,10)}]);
 
-    console.log(data)
+    // console.log(data)
     return (
         <FormControl fullWidth>
             {/* <InputLabel>{label}</InputLabel> */}

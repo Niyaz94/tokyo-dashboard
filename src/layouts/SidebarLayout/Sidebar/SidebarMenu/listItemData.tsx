@@ -81,10 +81,10 @@ const slideBarItems: Record<string, SlideBarSection> = {
         children: [
           {title: 'Goals',link: '/goals/goals',icon: <EmojiEventsIcon />},
           {title: 'Months',link: '/goals/months',icon: <TableChartTwoToneIcon />},
-          {title: 'Single Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
-          {title: 'Single Task',link: '/goals/single_task',icon: <AssignmentIcon />},
-          {title: 'Task',link: '/goals/task',icon: <AddTaskIcon />},
-          {title: 'Task Progress',link: '/goals/task_progress',icon: <ChecklistIcon />},
+          {title: 'One-Time Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
+          {title: 'One-Time Tasks',link: '/goals/single_task',icon: <AssignmentIcon />},
+          {title: 'Tasks',link: '/goals/task',icon: <AddTaskIcon />},
+          {title: 'Tasks Progress',link: '/goals/task_progress',icon: <ChecklistIcon />},
         ],
       },
       personalImprovment: {

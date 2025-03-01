@@ -126,6 +126,7 @@ export interface TaskSingleSampleInterface {
   percentage: number;
   result:number;
   status:string;
+  dailyTime:number;
   goal:{
     title: string;
     start_date: string;

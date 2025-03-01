@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid2';
 import { useCollapseContext } from '../../../contexts/CollapseToggle';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import CustomSelect from '../../../components/Custom/Form/CustomSelect';
+import CustomSelect from '../../../components/Form/CustomSelect';
 import LexicalEditor from '../../../components/Custom/Lexical/Editor';
 import {useSelectOptions}   from '../../../utility/customHook/useSelectOptions';
 
