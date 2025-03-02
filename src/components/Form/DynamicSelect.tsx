@@ -12,7 +12,6 @@ const DynamicSelect = ({ label, apiUrl, onChange, key_value,isMulti = false }) =
 
     const { data,success}: FetchData<[]> = useFetch <[]>(apiUrl,[{label:0,value:new Date().toJSON().slice(0,10)}]);
 
-    // console.log(data)
     return (
         <FormControl fullWidth>
             {/* <InputLabel>{label}</InputLabel> */}

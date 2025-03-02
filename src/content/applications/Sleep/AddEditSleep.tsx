@@ -9,13 +9,14 @@ import LexicalEditor from '../../../components/Custom/Lexical/Editor';
 import {useSelectOptions}   from '../../../utility/customHook/useSelectOptions';
 import DynamicSelect from '../../../components/Form/DynamicSelect';
 import TimePickers from '../../../components/Form/TimePickers';
+import DynamicAutocomplete from '../../../components/Form/DynamicAutocomplete';
+import StaticAutocomplete from '../../../components/Form/StaticAutocomplete';
 import dayjs,{ Dayjs } from "dayjs";
 
 const CollapsibleForm: React.FC = () => {
 
 
   const { options: currencies, loading: currenciesLoading } = useSelectOptions('notes/currency/currency_select');
-  const { options: types, loading: typesLoading }           = useSelectOptions('notes/expense_type/types_select');
 
   const { open } = useCollapseContext();
 
@@ -26,6 +27,14 @@ const CollapsibleForm: React.FC = () => {
     currency: '',
     type: '',
   });
+
+  const [sleepStatus, setsleepStatus] = useState([
+    {value:"vlow",label: 'Very Low'},
+    {value:"low",label: 'Low'},
+    {value:"normal",label: 'Normal'}, 
+    {value:"high",label: 'High'},
+    {value:"vhigh",label: 'Very High'},
+  ]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | { value: unknown; name?: string }>) => {
     const { name, value } = e.target as HTMLInputElement;
@@ -111,16 +120,22 @@ const CollapsibleForm: React.FC = () => {
               <Grid size={4} >
                 <TimePickers label="Waking Up Time" value={times.time3} onChange={(newValue) => handleTimeChange("time3", newValue)} />
               </Grid>
-              <Grid size={6}>
-                {/* <TextField label="Date"   name="date" type="date" value={formData.date} onChange={handleChange} InputLabelProps={{ shrink: true }} variant="outlined" fullWidth/> */}
-                <TextField label="Amount" name="amount" type="number" value={formData.amount} onChange={handleChange} variant="outlined" fullWidth/>
+              <Grid size={4} >
+                <DynamicAutocomplete label="Select The Day" endpoint="notes/daily/select_date" onChange={handleSelectChange} />
               </Grid>
-              <Grid size={6} >
-                {/* <CustomSelect label="Type" name="type" value={formData.type} onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} options={types}/> */}
-                <DynamicSelect label="Choose an option" apiUrl="notes/daily/select_date" onChange={handleSelectChange} key_value="date"/>
+              <Grid size={4}>
+               <StaticAutocomplete label="Morning Feeling" options={sleepStatus} onChange={handleSelectChange}
+                // onChange={({label,value}) =>setFormData((prev) => ({ ...prev, [label]: value }))} 
+              />
+
+                
               </Grid>
-              <Grid size={6}>
-                <CustomSelect label="Currency" name="currency" value={formData.currency} onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} options={currencies}/>
+              <Grid size={4}>
+               <StaticAutocomplete label="Sleep State" options={sleepStatus} onChange={handleSelectChange}
+                // onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} 
+              />
+
+               
               </Grid>
               <Grid size={12} >
                 <LexicalEditor onChange={handleNoteChange} value={markdown} />
