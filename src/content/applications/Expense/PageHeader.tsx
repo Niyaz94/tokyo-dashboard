@@ -102,7 +102,7 @@ const CollapsibleForm: React.FC = () => {
             <CustomSelect label="Currency" name="currency" value={formData.currency} onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} options={currencies}/>
           </Grid>
           <Grid size={12} >
-            <LexicalEditor />
+            {/* <LexicalEditor /> */}
           </Grid>
           <Grid size={12} >
             <Button

@@ -6,13 +6,14 @@ interface CustomAutocompleteProps {
     label: string;
     endpoint: string;
     multiple?: boolean;
-    onChange: (value: any) => void;
+    onChange: (key:string,value: any) => void;
     defaultValue?: any;
     disabled?: boolean;
+    formKey: string;
 }
 
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
-    label,endpoint,multiple = false,onChange,defaultValue = null,disabled = false,
+    label,endpoint,formKey,multiple = false,onChange,defaultValue = null,disabled = false,
 }) => {
 
     const { data: options, success }: FetchData<[]> = useFetch <[]>(endpoint,[]);
@@ -25,7 +26,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
         defaultValue={defaultValue}
         loading={success?false:true}
         disabled={disabled}
-        onChange={(_, value) => onChange(value)}
+        onChange={(_, value) => onChange(formKey,value)}
         autoHighlight
         getOptionLabel={(option) => option.label}
         renderOption={(props, option) => {

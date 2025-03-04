@@ -12,21 +12,30 @@ import TimePickers from '../../../components/Form/TimePickers';
 import DynamicAutocomplete from '../../../components/Form/DynamicAutocomplete';
 import StaticAutocomplete from '../../../components/Form/StaticAutocomplete';
 import dayjs,{ Dayjs } from "dayjs";
+import { min } from 'date-fns';
 
 const CollapsibleForm: React.FC = () => {
 
-
-  const { options: currencies, loading: currenciesLoading } = useSelectOptions('notes/currency/currency_select');
-
   const { open } = useCollapseContext();
 
+  // const [times, setTimes] = useState<{ [key: string]: Dayjs | null }>({
+    // time1: dayjs(),
+    // time2: null,
+    // time3: dayjs("09:00", "HH:mm"),
+  // });
   const [formData, setFormData] = useState({
-    date: '',
-    amount: '',
-    note: '', // Quill editor content
-    currency: '',
-    type: '',
+    bedTime: dayjs(),
+    approxFellSleepTime: null,
+    morningWakingUp: dayjs("09:00", "HH:mm"),
+    SleepState: '',
+    morningFeeling: '',
+    daily:'',
+    note: '{}',
+    dayTimeSleepInMinutes: 0,
+    peeCountDuringNight: 0,
+    approxWakingNum: 0,
   });
+ 
 
   const [sleepStatus, setsleepStatus] = useState([
     {value:"vlow",label: 'Very Low'},
@@ -40,32 +49,31 @@ const CollapsibleForm: React.FC = () => {
     const { name, value } = e.target as HTMLInputElement;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const handleFormChange = (key,value,dataType="normal") => {
 
-  // const handleSelectChange = (event: SelectChangeEvent) => {
-  //   // setAge(event.target.value as string);
-  //   const { name, value } = event.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
+    let currentValue=value
 
-  const handleNoteChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, note: value }));
+    // if(dataType === 'time'){ 
+    //   currentValue=dayjs(value);
+    // }
+    setFormData((prev) => ({ 
+      ...prev, [key]: currentValue 
+    }));
+
   };
-  const handleSelectChange = (selectedOption) => {
-    console.log('Selected:', selectedOption);
-};
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [markdown, setMarkdown] = useState("**Bold *Italic***");
 
   const handleSave = async () => {
-    // console.log('Form Data:', formData);
+    console.log('Form Data:', formData);
     // alert('Form saved!');
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/notes/expense/', {
+      const response = await fetch('http://127.0.0.1:8000/notes/sleep/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,16 +96,6 @@ const CollapsibleForm: React.FC = () => {
     }
   };
 
-  const [times, setTimes] = useState<{ [key: string]: Dayjs | null }>({
-    time1: dayjs(),
-    time2: null,
-    time3: dayjs("09:00", "HH:mm"),
-  });
-  
-  const handleTimeChange = (key: string, newValue: Dayjs | null) => {
-    console.log(newValue)
-    setTimes((prev) => ({ ...prev, [key]: newValue }));
-  };
 
   return (
     <Collapse in={open}>
@@ -111,38 +109,57 @@ const CollapsibleForm: React.FC = () => {
 
           >
             <Grid container spacing={2}>
+
               <Grid size={4} >
-                <TimePickers label="Bed Time" value={times.time1} onChange={(newValue) => handleTimeChange("time1", newValue)} />
+                <TimePickers label="Bed Time" value={formData.bedTime} onChange={(newValue) => handleFormChange("bedTime", newValue)} />
               </Grid>
               <Grid size={4} >
-                <TimePickers label="Fell Sleep Time" value={times.time2} onChange={(newValue) => handleTimeChange("time3", newValue)} />
+                <TimePickers label="Fell Sleep Time" value={formData.approxFellSleepTime} onChange={(newValue) => handleFormChange("approxFellSleepTime", newValue)} />
               </Grid>
               <Grid size={4} >
-                <TimePickers label="Waking Up Time" value={times.time3} onChange={(newValue) => handleTimeChange("time3", newValue)} />
+                <TimePickers label="Waking Up Time" value={formData.morningWakingUp} onChange={(newValue) => handleFormChange("morningWakingUp", newValue)} />
               </Grid>
+
               <Grid size={4} >
-                <DynamicAutocomplete label="Select The Day" endpoint="notes/daily/select_date" onChange={handleSelectChange} />
+                <DynamicAutocomplete label="Select The Day" endpoint="notes/daily/select_date" formKey="daily" onChange={handleFormChange} />
               </Grid>
               <Grid size={4}>
-               <StaticAutocomplete label="Morning Feeling" options={sleepStatus} onChange={handleSelectChange}
-                // onChange={({label,value}) =>setFormData((prev) => ({ ...prev, [label]: value }))} 
-              />
-
-                
+               <StaticAutocomplete label="Morning Feeling" options={sleepStatus}  formKey="morningFeeling" onChange={handleFormChange}/>
               </Grid>
               <Grid size={4}>
-               <StaticAutocomplete label="Sleep State" options={sleepStatus} onChange={handleSelectChange}
-                // onChange={(e) =>setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} 
-              />
-
-               
+                <StaticAutocomplete label="Sleep State" options={sleepStatus} formKey="SleepState" onChange={handleFormChange}/>    
               </Grid>
+              <Grid size={4} >
+                <TextField 
+                  label={"Day Time Sleep"} variant="outlined" fullWidth type="number" value={formData.dayTimeSleepInMinutes} 
+                  onChange={(e)=>handleFormChange("dayTimeSleepInMinutes",e.target.value)} 
+                  slotProps={{ inputLabel:{shrink: true},htmlInput: { max: 600, min: 0 ,step: 1}}} 
+
+                />
+              </Grid>
+              <Grid size={4}>
+                <TextField 
+                  label={"Pee Count During Night"} variant="outlined" fullWidth type="number" value={formData.peeCountDuringNight} 
+                  onChange={(e)=>handleFormChange("peeCountDuringNight",e.target.value)} 
+                  slotProps={{ inputLabel:{shrink: true},htmlInput: { max: 10, min: 0 ,step: 1}}} 
+                />
+              </Grid>
+              <Grid size={4}>
+                <TextField 
+                  label={"Waking Up Time"} variant="outlined" fullWidth type="number" value={formData.approxWakingNum} 
+                  onChange={(e)=>handleFormChange("approxWakingNum",e.target.value)} 
+                  slotProps={{ inputLabel:{shrink: true},htmlInput: { max: 10, min: 0 ,step: 1}}} 
+
+                />
+              </Grid>
+
+
+              
+              
+
               <Grid size={12} >
-                <LexicalEditor onChange={handleNoteChange} value={markdown} />
+                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" />
               </Grid>
-              {/* <Grid size={12} > */}
-                {/* <LexicalEditor value={markdown} isDisabled key={markdown} onChange={() => {}} /> */}
-              {/* </Grid> */}
               <Grid size={12} >
                 <Button
                   variant="contained" color="success" onClick={handleSave} fullWidth

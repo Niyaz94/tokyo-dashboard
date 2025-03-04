@@ -5,13 +5,14 @@ interface CustomAutocompleteProps {
     label: string;
     options: { value: string; label: string; }[];
     multiple?: boolean;
-    onChange: (value: any) => void;
+    onChange: (key:string,value: any) => void;
     defaultValue?: any;
     disabled?: boolean;
+    formKey: string;
 }
 
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
-    label,options,multiple = false,onChange,defaultValue = null,disabled = false,
+    label,options,formKey,multiple = false,onChange,defaultValue = null,disabled = false,
 }) => {
 
 
@@ -21,7 +22,9 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
         options={options}
         defaultValue={defaultValue}
         disabled={disabled}
-        onChange={(_, value) => onChange(value)}
+        onChange={(_, {value,label}) => {
+            onChange(formKey,value.toUpperCase());
+        }}
         autoHighlight
         getOptionLabel={(option) => option.label}
         renderOption={(props, option) => {

@@ -1,5 +1,5 @@
-import { $getRoot, $getSelection } from "lexical";
-import { useEffect } from "react";
+import { $getRoot, $getSelection,$getTextContent } from "lexical";
+import { useEffect,useState } from "react";
 
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -8,7 +8,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { MuiContentEditable, placeHolderSx } from "./styles";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider,Paper, Typography, Button  } from "@mui/material";
 import { lexicalEditorConfig ,editorConfig} from "./config/lexicalEditorConfig";
 import LexicalEditorTopBar from "./components/LexicalEditorTopBar";
 import TreeViewPlugin from "./components/CustomPlugins/TreeViewPlugin";
@@ -17,28 +17,78 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import ImagesPlugin from "./components/CustomPlugins/ImagePlugin";
 import FloatingTextFormatToolbarPlugin from "./components/CustomPlugins/FloatingTextFormatPlugin";
 
-function LexicalEditorWrapper(props) {
+
+const SaveLoadPlugin = ({ onChange, value,formKey }) => {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    if (value) {
+      editor.update(() => {
+        const editorState = editor.parseEditorState(JSON.parse(value));
+        editor.setEditorState(editorState);
+        editor.focus();
+
+      });
+    }
+  }, [editor, value]);
+
   return (
-    <LexicalComposer 
-    initialConfig={lexicalEditorConfig}
-  >
+    <OnChangePlugin
+      onChange={(editorState) => {
+        onChange(formKey,JSON.stringify(editorState.toJSON())); // Send JSON to parent
+      }}
+    />
+  );
+
+}
+
+const LexicalEditorWrapper= ({onChange, value,formKey}) => {
+
+  const [savedJson, setSavedJson] = useState(null);
+  const [editorHtml, setEditorHtml] = useState("");
+
+  const handleSave = () => {
+    if (savedJson) {
+      localStorage.setItem("editorContent", savedJson);
+    }
+  };
+  const handleLoad = () => {
+    const storedJson = localStorage.getItem("editorContent");
+    if (storedJson) {
+      setSavedJson(storedJson);
+    }
+  };
+  const handleConvertToHtml = () => {
+    const editor = document.querySelector(".editor-input");
+    if (editor) {
+      const dom = new DOMParser().parseFromString(editor.innerHTML, "text/html");
+      setEditorHtml($generateHtmlFromNodes(dom));
+    }
+  };
+
+  return (
+    <Box sx={{ width: "100%",  margin: "auto" }}>
+    <LexicalComposer initialConfig={lexicalEditorConfig}>
       <LexicalEditorTopBar />
       <Divider />
       <Box sx={{ position: "relative", background: "white" }}>
         <RichTextPlugin // #312D4B
           contentEditable={<MuiContentEditable />}
           placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
-          ErrorBoundary={LexicalErrorBoundary}
+          // ErrorBoundary={LexicalErrorBoundary}
         />
-        <OnChangePlugin onChange={onChange} />
+        {/* <OnChangePlugin onChange={onChange} /> */}
+
+        <SaveLoadPlugin onChange={onChange} value={value} formKey={formKey} />
         <HistoryPlugin />
-        <TreeViewPlugin />
+        {/* <TreeViewPlugin /> */}
         <ListPlugin />
         <LinkPlugin />
-        <ImagesPlugin captionsEnabled={false} />
+        <ImagesPlugin captionsEnabled={true} />
         <FloatingTextFormatToolbarPlugin />
       </Box>
     </LexicalComposer>
+    </Box>
   );
 }
 
