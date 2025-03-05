@@ -5,6 +5,7 @@ import Label                              from 'src/components/Label';
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
 import TableCusCell                        from '../../../components/Table/Cell';
+import { useNavigate } from 'react-router-dom';
 import { 
     getStatusLabel,labelWithColor,labelColorByNumber,getTimeDifferenceInMinutes,
     getDayAbbreviation 
@@ -13,6 +14,8 @@ import {
 function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData}) {
 
     const theme = useTheme();
+    const navigate = useNavigate();
+
     
 
     const {id,date,success,worrying,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,peeCountDuringNight,
@@ -67,7 +70,7 @@ function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData}) {
                   } />
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
-                      <IconButton color="inherit" size="small" sx={{'&:hover': {background: theme.colors.primary.lighter},color: theme.palette.primary.main}} >
+                      <IconButton color="inherit" onClick={()=>navigate(`${id}`)} size="small" sx={{'&:hover': {background: theme.colors.primary.lighter},color: theme.palette.primary.main}} >
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>

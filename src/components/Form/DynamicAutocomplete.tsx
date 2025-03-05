@@ -26,7 +26,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
         defaultValue={defaultValue}
         loading={success?false:true}
         disabled={disabled}
-        onChange={(_, value) => onChange(formKey,value)}
+        onChange={(_, {label,value}) => onChange(formKey,value)}
         autoHighlight
         getOptionLabel={(option) => option.label}
         renderOption={(props, option) => {

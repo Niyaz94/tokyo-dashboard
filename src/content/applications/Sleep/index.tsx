@@ -1,32 +1,14 @@
-import { Helmet }           from 'react-helmet-async';
-import { Grid2 as Grid, Container }  from '@mui/material';
+import Template               from '../../../components/Page/Template';
+import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
+import SleepTable             from './Table';
 
-import PageTitleWrapper     from 'src/components/PageTitleWrapper';
-import Footer               from 'src/components/Footer';
 
-import PageHeader           from './AddEditSleep';
-import RecentOrders         from './Main';
-import { CollapseProvider } from '../../../contexts/CollapseToggle';
-
-function ApplicationsTransactions() {
+export default () =>{
+  const { data,success}: FetchData<[]> = useFetch <[]>('notes/sleep',[]);
   return (
-    <CollapseProvider>
-      <Helmet>
-        <title>Personal - Sleep</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid container direction="row" justifyContent="center" alignItems="stretch" spacing={3}>
-          <Grid size={{xs:12}}>
-            <RecentOrders />
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
-    </CollapseProvider>
+    <Template templateTitle="Personal - Sleep">
+      <SleepTable sleepData={data} />
+    </Template>
   );
 }
 
-export default ApplicationsTransactions;

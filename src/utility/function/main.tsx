@@ -101,3 +101,13 @@ export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
 export const capitalizeFirstLetterOfWords= (str) => {
   return str.split("_").join(" ").replace(/\b\w/g, char => char.toUpperCase());
 }
+
+
+// Those functions are used previously in the project but not used anymore. But I keep them for future use
+
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | { value: unknown; name?: string }>
+) => {
+  const { name, value } = e.target as HTMLInputElement;
+  // setFormData((prev) => ({ ...prev, [name]: value }));
+};

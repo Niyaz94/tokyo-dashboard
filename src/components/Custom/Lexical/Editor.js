@@ -44,6 +44,7 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
 
 const LexicalEditorWrapper= ({onChange, value,formKey}) => {
 
+  // console.log("LexicalEditorWrapper",value);
   const [savedJson, setSavedJson] = useState(null);
   const [editorHtml, setEditorHtml] = useState("");
 

@@ -13,35 +13,41 @@ const usePostAPI =() => {
   const [error,      setError]  = useState<string>('');
 
 
-  const postData = async (url:string,body:any) => {
-
+  const postData = async (url:string,body:any,bodyType:string="JSON") => {
     setLoading(true);
     setSuccess(false);
 
     try {
-      const preData = new FormData();
-      for (const key in body){
-        if(key.startsWith("file")){
-          preData.append(key, body[key][0]);
-        }else if(key.startsWith("date")){
-          // if date and time is needed
-          //preData.append(key, new Date(formData[key as keyof FORM_TYPE]).toLocaleString("en-CA",{hour12: false}).replace(",",""));
-          preData.append(key, new Date(body[key]).toLocaleDateString("en-CA"));
-        }else{
-          preData.append(key, body[key].value ? body[key].value: body[key]);
+      let preData;
+
+      if (bodyType==="JSON"){
+        preData = JSON.stringify(body)
+      }
+      if(bodyType==="FORM"){
+        preData = new FormData();
+        for (const key in body){
+          if(key.startsWith("file")){
+            preData.append(key, body[key][0]);
+          }else if(key.startsWith("date")){
+            // if date and time is needed
+            //preData.append(key, new Date(formData[key as keyof FORM_TYPE]).toLocaleString("en-CA",{hour12: false}).replace(",",""));
+            preData.append(key, new Date(body[key]).toLocaleDateString("en-CA"));
+          }else{
+            preData.append(key, body[key].value ? body[key].value: body[key]);
+          }
         }
       }
       const requestOptions: RequestInit = {
         method: "POST",
         headers: {
-            // 'Content-Type': 'application/json',"content-type": "multipart/form-data"
+            'Content-Type': bodyType==="JSON"?'application/json':'multipart/form-data',
         }, 
         body: preData
       };
-      const res = await fetch(url, requestOptions);
+      const res = await fetch(`http://127.0.0.1:8000/${url}`, requestOptions);
       const {data:post_response,status} = await res.json();
 
-      if (status===200) {
+      if (status===201) {
         setResponse({ success: true, data:post_response });
         setSuccess(true);
       } else {

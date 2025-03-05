@@ -1,3 +1,6 @@
+import { ReactNode }          from 'react';
+
+
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
 
 export type level1Status = "VERY_LOW" |  "LOW" |  "NORMAL" |  "HIGH" |  "VERY_HIGH"
@@ -6,6 +9,12 @@ export type level3Status =   "ACHIEVED" |  "POSTPONED" |  "INPROGRESS" | "COMPLE
 export type level4Status =  "ACHIEVED" | "POSTPONED" | "INPROGRESS" | "COMPLETED" | "UNCOMPLETED"
 export type level5Status =   "LESS" |  "NORMAL" |  "VERY" 
 
+
+
+export interface TemplatePropsInterface {
+  children?: ReactNode;
+  templateTitle: string;
+}
 
 export interface CryptoOrder {
   id: string;

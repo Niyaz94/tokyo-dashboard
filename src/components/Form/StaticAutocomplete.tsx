@@ -23,7 +23,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
         defaultValue={defaultValue}
         disabled={disabled}
         onChange={(_, {value,label}) => {
-            onChange(formKey,value.toUpperCase());
+            onChange(formKey,value);
         }}
         autoHighlight
         getOptionLabel={(option) => option.label}

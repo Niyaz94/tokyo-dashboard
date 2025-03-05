@@ -25,3 +25,10 @@ export const mapLabelData = {
     Not_Available : {text: 'Not Available'      ,color: 'black',      icon:<HourglassEmptyIcon/>},
 };
 
+export  const sleepStatus = [
+    { value: 'VERY_LOW', label: 'Very Low' },
+    { value: 'LOW', label: 'Low' },
+    { value: 'NORMAL', label: 'Normal' },
+    { value: 'HIGH', label: 'High' },
+    { value: 'VERY_HIGH', label: 'Very High' }
+  ];

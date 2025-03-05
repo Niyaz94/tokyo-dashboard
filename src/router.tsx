@@ -29,6 +29,8 @@ const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/s
 
 // Daily Life
 const Sleep         = Loader(lazy(() => import('src/content/applications/SLEEP')));
+const SleepAdd      = Loader(lazy(() => import('src/content/applications/SLEEP/AddEdit')));
+const SleepEdit     = Loader(lazy(() => import('src/content/applications/SLEEP/AddEdit')));
 // const AddSleep      = Loader(lazy(() => import('src/content/applications/Sleep/AddSleep')));
 const Activity      = Loader(lazy(() => import('src/content/applications/ACTIVITY')));
 const SINGLE_TASK   = Loader(lazy(() => import('src/content/applications/SINGLE_TASK')));
@@ -113,6 +115,12 @@ const routes: RouteObject[] = [
     children: [
       // {path: '',element: <Navigate to="transactions" replace />},
       {path: 'sleep',element: <Sleep />},
+      {path: 'sleep/add',element: <SleepAdd />},
+      {path: 'sleep/:id',element: <SleepEdit   />},
+
+      
+
+      
       {path: 'activity',element: <Activity />,
         // children: [
           // { path: 'add', element: <AddSleep /> }, // Route: /personal/sleep/add
@@ -130,12 +138,7 @@ const routes: RouteObject[] = [
       {path: 'single_task',element: <SINGLE_TASK />},
       {path: 'goals',element: <GOAL />},
       {path: 'task_progress',element: <TASK_STATUS />},
-      {path: 'task',element: <TASK />},
-
-
-      
-
-      
+      {path: 'task',element: <TASK />}, 
     ]
   },{
     path: '/components',

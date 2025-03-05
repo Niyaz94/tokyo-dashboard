@@ -9,7 +9,7 @@ import dayjs,{ Dayjs } from "dayjs";
 
 interface CustomTimePickerProps {
     label: string;
-    value: Dayjs | null;
+    value: Dayjs | string | null;
     onChange: (newValue: Dayjs | string | null) => void;
 }
 const ResponsiveTimePickers: React.FC<CustomTimePickerProps>= ({label,value,onChange}) => {
@@ -18,7 +18,7 @@ const ResponsiveTimePickers: React.FC<CustomTimePickerProps>= ({label,value,onCh
         <MobileTimePicker
             label={label}
             value={(typeof value==='string'?dayjs(value,"HH:mm"):value)}
-            onChange={(date)=>{onChange(date.format("HH:mm"))}}
+            onChange={(date)=>{onChange(date.format("HH:mm:ss"))}}
             ampm={false}
             slots={{ textField: TextField }} 
             closeOnSelect={true}

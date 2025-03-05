@@ -5,15 +5,17 @@ import {
 } from '@mui/material';
 import { RecentSleepTableInterface,SleepType, Filters }   from 'src/utility/types/data_types';
 import BulkActions                                        from './BulkActions';
-import { useCollapseContext }                             from '../../../contexts/CollapseToggle';
 import CustomPagination                                   from '../../../components/Table/Pagination';
 import { applyPagination,applyFilters }                   from '../../../utility/function/main';
 import { filterStatusOptions }                            from '../../../utility/function/data';
 import CustomTableRow                                     from './TableRow';
+import { useNavigate } from "react-router-dom";
 
 
 
 const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
+
+  const navigate = useNavigate();
 
   // it contains the ids of selected rows
   const [selectedSleepData, setSelectedSleepData] = useState<string[]>([]);
@@ -22,7 +24,6 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
 
-  const { open, toggleOpen } = useCollapseContext();
 
   // It uses for controlling filter selection in the left top cornor of the table
   const [filters, setFilters] = useState<Filters>({status: null});
@@ -82,9 +83,9 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
           action={
             <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Button 
-                variant="contained" color="primary" onClick={toggleOpen} 
+                variant="outlined" color="primary" onClick={() => navigate("add")} 
                 sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}>
-                {open ? 'Close' : 'Insert'}
+                Insert
               </Button>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
