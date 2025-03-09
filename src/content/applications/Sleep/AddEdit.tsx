@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Card,CardHeader,CardContent,Divider,Stack,Box,TextField,Button} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -13,32 +13,60 @@ import StaticAutocomplete   from '../../../components/Form/StaticAutocomplete';
 import Template             from '../../../components/Page/Template';
 import { sleepStatus }      from '../../../utility/function/data';
 import usePostAPI           from '../../../utility/customHook/usePostAPI';
+import useEditAPI           from '../../../utility/customHook/useEditAPI';
+import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
 
+type FormState = {
+  id: number;
+  bedTime: dayjs.Dayjs;
+  approxFellSleepTime: string | null;
+  morningWakingUp: string;
+  SleepState: string;
+  morningFeeling: string;
+  daily: string;
+  whatYouThink: string;
+  dayTimeSleepInMinutes: number;
+  peeCountDuringNight: number;
+  approxWakingNum: number;
+};
+
+const formIntialState:FormState = {
+  id: 0,
+  bedTime: dayjs(),
+  approxFellSleepTime: null,
+  morningWakingUp: '09:00:00',
+  SleepState: '',
+  morningFeeling: '',
+  daily: '',
+  whatYouThink: '{}',
+  dayTimeSleepInMinutes: 0,
+  peeCountDuringNight: 0,
+  approxWakingNum: 0
+};
 
 const CollapsibleForm: React.FC = () => {
   const navigate = useNavigate();
-
-  const formIntialState = {
-    bedTime: dayjs(),
-    approxFellSleepTime: null,
-    morningWakingUp: '09:00:00',
-    SleepState: '',
-    morningFeeling: '',
-    daily: '',
-    whatYouThink: '{}',
-    dayTimeSleepInMinutes: 0,
-    peeCountDuringNight: 0,
-    approxWakingNum: 0
-  };
-
   const { id:edit_sleep_id } = useParams();
+
+  // const { data, loading, error } = useGetAPI(id ? `items/${id}` : null);
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormState> = useFetch <FormState>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
+
+
   const buttonText = edit_sleep_id ? {save: "Edit And Return",saveAndAdd: "Save And Continue Editing"}:{save: "Save And Return",saveAndAdd: "Save And Add Another"}
 
   const { loading:post_api_loading, error:post_api_error, success,response, postData} = usePostAPI();
+  const { response:editResponse, loading:editLoading, error:editError, editData} = useEditAPI();
 
   const [formData, setFormData] = useState(formIntialState);
 
 
+  useEffect(() => {
+    if (Object.keys(fetchEditData).length > 0) {
+      setFormData({
+        ...fetchEditData
+      });
+    }
+  }, [fetchEditData]);
 
 
   const handleFormChange = (key, value, dataType = 'normal') => {
@@ -54,8 +82,16 @@ const CollapsibleForm: React.FC = () => {
   };
 
   const handleSave = async () => {
-    // console.log('Form Data:', formData);
-    await postData('notes/sleep/', formData);
+  
+
+    const { id, ...dataToBeSent } = formData; // Destructure once
+
+    if (edit_sleep_id) {
+      await editData(`notes/sleep/${edit_sleep_id}/`, formData);
+    }else{
+      await postData("notes/sleep/", dataToBeSent);
+    }
+    
   };
   const cleanForm = () => {
     setFormData(formIntialState)

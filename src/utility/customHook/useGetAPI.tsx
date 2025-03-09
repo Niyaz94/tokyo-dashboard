@@ -31,6 +31,9 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
     }
   };
   useEffect(() => {
+    if (!url) 
+      return; 
+    
     fetchData();
     return () => {};
   }, [url]);
