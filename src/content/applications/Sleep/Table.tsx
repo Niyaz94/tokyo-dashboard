@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useState }      from 'react';
+import { FC, ChangeEvent, useState,useEffect, use }      from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,TableContainer,
   Select,MenuItem,Typography,useTheme,CardHeader,Button
@@ -6,27 +6,54 @@ import {
 import { RecentSleepTableInterface,SleepType, Filters }   from 'src/utility/types/data_types';
 import BulkActions                                        from './BulkActions';
 import CustomPagination                                   from '../../../components/Table/Pagination';
-import { applyPagination,applyFilters }                   from '../../../utility/function/main';
+import { applyPagination,applyFilters,applyFilterValue }  from '../../../utility/function/main';
 import { filterStatusOptions }                            from '../../../utility/function/data';
 import CustomTableRow                                     from './TableRow';
-import { useNavigate } from "react-router-dom";
+import { useNavigate }                                    from "react-router-dom";
+import useDeleteAPI                                       from '../../../utility/customHook/useDeleteAPI';
+
 
 
 
 const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
 
   const navigate = useNavigate();
+  const { response:deleteRowResponse, loading, error, deleteData } = useDeleteAPI();
+
 
   // it contains the ids of selected rows
-  const [selectedSleepData, setSelectedSleepData] = useState<string[]>([]);
+  const [selectedSleepData, setSelectedSleepData]     = useState<string[]>([]);
   // it let you know if any rows have been selected
-  const selectedBulkActions = selectedSleepData.length > 0;
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
+  const [page, setPage]                               = useState<number>(0);
+  const [limit, setLimit]                             = useState<number>(5);
+  const [filters, setFilters]                         = useState<Filters>({status: null});
+  const [filteredSleepData,setFilteredSleepData]      = useState<SleepType[]>([]);
+  const [paginatedSleepData,setPaginatedSleepData]    = useState<SleepType[]>([]);
+  const [deletedRowId,setDeletedRowId]    = useState(0);
 
+
+  const selectedBulkActions = selectedSleepData.length > 0;
+
+
+  useEffect(() => {
+    setFilteredSleepData(applyFilters<SleepType,Filters>(sleepData, filters,"SleepState"));
+  }, [sleepData,filters]);
+
+  useEffect(() => {
+    const newPaginatedData = applyPagination<SleepType>(filteredSleepData, page, limit);
+    setPaginatedSleepData(newPaginatedData);
+  }, [filteredSleepData, page, limit]); 
+
+  useEffect(() => {
+    const {data,success} = deleteRowResponse || {data:null,success:false};
+    if(success){
+      setFilteredSleepData(applyFilterValue<SleepType>(filteredSleepData,"id",deletedRowId))
+      setDeletedRowId(0);
+    }
+  }
+  , [deleteRowResponse]);
 
   // It uses for controlling filter selection in the left top cornor of the table
-  const [filters, setFilters] = useState<Filters>({status: null});
   //The list of all options in filter selection in the left top cornor of the table
 
 
@@ -57,12 +84,16 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredSleepData     = applyFilters<SleepType,Filters>(sleepData, filters,"SleepState");
-  const paginatedSleepData    = applyPagination<SleepType>(filteredSleepData,page,limit);
+ 
   // it will be [true] if some but not all rows are selected
   const selectedSomeSleepData = selectedSleepData.length > 0 && selectedSleepData.length < sleepData.length;
   // It will be [true] if all rows are selected
   const selectedAllSleepData  = selectedSleepData.length === sleepData.length;
+
+  const deleteTableRow=async (id)=>{
+    await deleteData(`notes/sleep/${id}/`);
+    setDeletedRowId(id);
+  }
 
   return (
     <Card>
@@ -118,7 +149,12 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
           <TableBody>
             {/* This function [paginatedSleepData] contains current rows after applying [filtering] and [pagination] */}
             {paginatedSleepData.map((row) => {
-                return <CustomTableRow data={row} isSleepDataelected={selectedSleepData.includes(row.id)} handleSelectOneSleepData={handleSelectOneSleepData}/>
+                return <CustomTableRow 
+                  data={row} 
+                  isSleepDataelected={selectedSleepData.includes(row.id)} 
+                  handleSelectOneSleepData={handleSelectOneSleepData}
+                  onDeleteRow={deleteTableRow}
+                />
             })}
           </TableBody>
         </Table>

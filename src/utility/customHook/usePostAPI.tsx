@@ -45,9 +45,10 @@ const usePostAPI =() => {
         body: preData
       };
       const res = await fetch(`http://127.0.0.1:8000/${url}`, requestOptions);
-      const {data:post_response,status} = await res.json();
+      const post_response = await res.json();
 
-      if (status===201) {
+      //res.statusText
+      if (res.status===201) {
         setResponse({ success: true, data:post_response });
         setSuccess(true);
       } else {
@@ -59,6 +60,9 @@ const usePostAPI =() => {
     } finally {
       setLoading(false);
     }
+
+    // if you add return then you can receive the data in this way => const responseData = await postData('notes/sleep/', formData);
+    // return response;
   };
 
   return { loading, error, success,response, postData};

@@ -18,11 +18,7 @@ import usePostAPI           from '../../../utility/customHook/usePostAPI';
 const CollapsibleForm: React.FC = () => {
   const navigate = useNavigate();
 
-  const { id:edit_sleep_id } = useParams();
-
-  const { loading:post_api_loading, error:post_api_error, success,response, postData} = usePostAPI();
-
-  const [formData, setFormData] = useState({
+  const formIntialState = {
     bedTime: dayjs(),
     approxFellSleepTime: null,
     morningWakingUp: '09:00:00',
@@ -33,7 +29,14 @@ const CollapsibleForm: React.FC = () => {
     dayTimeSleepInMinutes: 0,
     peeCountDuringNight: 0,
     approxWakingNum: 0
-  });
+  };
+
+  const { id:edit_sleep_id } = useParams();
+  const buttonText = edit_sleep_id ? {save: "Edit And Return",saveAndAdd: "Save And Continue Editing"}:{save: "Save And Return",saveAndAdd: "Save And Add Another"}
+
+  const { loading:post_api_loading, error:post_api_error, success,response, postData} = usePostAPI();
+
+  const [formData, setFormData] = useState(formIntialState);
 
 
 
@@ -51,8 +54,11 @@ const CollapsibleForm: React.FC = () => {
   };
 
   const handleSave = async () => {
-    console.log('Form Data:', formData);
+    // console.log('Form Data:', formData);
     await postData('notes/sleep/', formData);
+  };
+  const cleanForm = () => {
+    setFormData(formIntialState)
   };
   return (
     <Template templateTitle="Personal - Sleep">
@@ -171,31 +177,25 @@ const CollapsibleForm: React.FC = () => {
               <Grid size={12}>
                 <Stack spacing={2} direction="row-reverse">
                   <Button
-                    variant="outlined"
-                    color="success"
-                    onClick={handleSave}
-                    sx={{
-                      fontSize: '1rem',
-                      padding: '10px 20px',
-                      borderRadius: '8px',
-                      textTransform: 'none'
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="warning"
-                    onClick={() => navigate('/personal/sleep')}
-                    sx={{
-                      fontSize: '1rem',
-                      padding: '10px 20px',
-                      borderRadius: '8px',
-                      textTransform: 'none'
-                    }}
+                    variant="outlined" color="warning" onClick={() => navigate('/personal/sleep')}
+                    sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none'}}
                   >
                     Return To List
                   </Button>
+                  <Button
+                    variant="outlined" color="info" onClick={()=>handleSave().then(()=>cleanForm())}
+                    sx={{fontSize: '1rem', padding: '10px 20px', borderRadius: '8px', textTransform: 'none'}}
+                  >
+                    {buttonText.saveAndAdd}
+                  </Button>
+
+                  <Button
+                    variant="outlined" color="success" onClick={()=>handleSave().then(()=>navigate('/personal/sleep'))}
+                    sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none'}}
+                  >
+                    {buttonText.save}
+                  </Button>
+                  
                 </Stack>
               </Grid>
             </Grid>

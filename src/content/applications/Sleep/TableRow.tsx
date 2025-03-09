@@ -1,22 +1,25 @@
-import {ChangeEvent }      from 'react';
+import {ChangeEvent,useState }      from 'react';
 
-import {Tooltip,Checkbox,IconButton,TableCell,TableRow,Stack,useTheme} from '@mui/material';
+import {Tooltip,Checkbox,IconButton,TableCell,TableRow,Stack,useTheme,Typography} from '@mui/material';
 import Label                              from 'src/components/Label';
 import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
-import TableCusCell                        from '../../../components/Table/Cell';
-import { useNavigate } from 'react-router-dom';
+import TableCusCell                       from '../../../components/Table/Cell';
+import { useNavigate }                    from 'react-router-dom';
 import { 
     getStatusLabel,labelWithColor,labelColorByNumber,getTimeDifferenceInMinutes,
     getDayAbbreviation 
-  } from '../../../utility/function/main';
+} from '../../../utility/function/main';
 
-function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData}) {
+import ConfirmDialog          from '../../../components/Custom/Dialog/ConfirmDialog';
+
+
+function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDeleteRow}) {
+  
+    const [openDeleteConfirmDialog, setOpenDeleteConfirmDialog] = useState(false);
 
     const theme = useTheme();
     const navigate = useNavigate();
-
-    
 
     const {id,date,success,worrying,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,peeCountDuringNight,
               SleepState,approxWakingNum,morningWakingUp,dayTimeSleepInMinutes,burn_calories} = data;
@@ -75,10 +78,18 @@ function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData}) {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
-                      <IconButton color="inherit" size="small" sx={{'&:hover': { background: theme.colors.error.lighter },color: theme.palette.error.main}}  >
+                      <IconButton color="inherit" size="small" onClick={()=>setOpenDeleteConfirmDialog(true)} sx={{'&:hover': { background: theme.colors.error.lighter },color: theme.palette.error.main}}  >
                         <DeleteTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
+                    <ConfirmDialog 
+                      title="Delete Sleep?" 
+                      open={openDeleteConfirmDialog} 
+                      setOpen={setOpenDeleteConfirmDialog} 
+                      onConfirm={()=>onDeleteRow(id)}
+                    >
+                      <Typography>Are you sure you want to delete this sleep row?</Typography>
+                    </ConfirmDialog>
                   </TableCell>
                 </TableRow>
   )

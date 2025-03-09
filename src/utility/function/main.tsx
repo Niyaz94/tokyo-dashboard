@@ -78,12 +78,14 @@ export const applyPagination = <T,> (data: T[], page: number, limit: number): T[
 export const applyFilters = <T,F> (data: T[],filters: F,field:string): T[] => {
   return data.filter((row) => {
     let matches = true;
-    // FIXXXXXXXX
     if (filters["status"] && row[`${field}`] !== filters["status"]) {
       matches = false;
     }
     return matches;
   });
+};
+export const applyFilterValue = <T,> (data: T[],field:string,value:any,filterType:string="not_equal"): T[] => {
+  return data.filter((row) => filterType=="not_equal"?row[`${field}`] !== value:row[`${field}`] === value);
 };
 export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
   let results: Record<string | number, { text: string; color: string }> = {};
