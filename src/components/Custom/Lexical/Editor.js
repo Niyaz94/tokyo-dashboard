@@ -9,7 +9,7 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { MuiContentEditable, placeHolderSx } from "./styles";
 import { Box, Divider,Paper, Typography, Button  } from "@mui/material";
-import { lexicalEditorConfig ,editorConfig} from "./config/lexicalEditorConfig";
+import { lexicalEditorConfig} from "./config/lexicalEditorConfig";
 import LexicalEditorTopBar from "./components/LexicalEditorTopBar";
 import TreeViewPlugin from "./components/CustomPlugins/TreeViewPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
@@ -42,82 +42,35 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
 
 }
 
-const LexicalEditorWrapper= ({onChange, value,formKey}) => {
-
-  // console.log("LexicalEditorWrapper",value);
-  const [savedJson, setSavedJson] = useState(null);
-  const [editorHtml, setEditorHtml] = useState("");
-
-  const handleSave = () => {
-    if (savedJson) {
-      localStorage.setItem("editorContent", savedJson);
-    }
-  };
-  const handleLoad = () => {
-    const storedJson = localStorage.getItem("editorContent");
-    if (storedJson) {
-      setSavedJson(storedJson);
-    }
-  };
-  const handleConvertToHtml = () => {
-    const editor = document.querySelector(".editor-input");
-    if (editor) {
-      const dom = new DOMParser().parseFromString(editor.innerHTML, "text/html");
-      setEditorHtml($generateHtmlFromNodes(dom));
-    }
-  };
+const LexicalEditorWrapper= ({onChange, value,formKey,label}) => {
 
   return (
     <Box sx={{ width: "100%",  margin: "auto" }}>
-    <LexicalComposer initialConfig={lexicalEditorConfig}>
-      <LexicalEditorTopBar />
-      <Divider />
-      <Box sx={{ position: "relative", background: "white" }}>
-        <RichTextPlugin // #312D4B
-          contentEditable={<MuiContentEditable />}
-          placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
-          // ErrorBoundary={LexicalErrorBoundary}
-        />
-        {/* <OnChangePlugin onChange={onChange} /> */}
+      <Typography variant="h4" sx={{ color: 'text.secondary' }}>
+        {label}
+        </Typography>
+      <LexicalComposer initialConfig={lexicalEditorConfig(formKey)}>
+        <LexicalEditorTopBar />
+        <Divider />
+        <Box sx={{ position: "relative", background: "white",border: "1px solid #eee",borderRadius: "8px"}}>
+          <RichTextPlugin 
+            contentEditable={<MuiContentEditable />}
+            placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}
+            ErrorBoundary={() => <div>Something went wrong.</div>}
+          />
+          {/* <OnChangePlugin onChange={onChange} /> */}
 
-        <SaveLoadPlugin onChange={onChange} value={value} formKey={formKey} />
-        <HistoryPlugin />
-        {/* <TreeViewPlugin /> */}
-        <ListPlugin />
-        <LinkPlugin />
-        <ImagesPlugin captionsEnabled={true} />
-        <FloatingTextFormatToolbarPlugin />
-      </Box>
-    </LexicalComposer>
+          <SaveLoadPlugin onChange={onChange} value={value} formKey={formKey} />
+          <HistoryPlugin />
+          {/* <TreeViewPlugin /> */}
+          <ListPlugin />
+          <LinkPlugin />
+          {/* <ImagesPlugin captionsEnabled={true} /> */}
+          <FloatingTextFormatToolbarPlugin />
+        </Box>
+      </LexicalComposer>
     </Box>
   );
-}
-
-// When the editor changes, you can get notified via the
-// LexicalOnChangePlugin!
-function onChange(editorState) {
-  editorState.read(() => {
-    // Read the contents of the EditorState here.
-    const root = $getRoot();
-    const selection = $getSelection();
-
-    console.log(root, selection);
-  });
-}
-
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
-function MyCustomAutoFocusPlugin() {
-  const [editor] = useLexicalComposerContext();
-
-  useEffect(() => {
-    // Focus the editor when the effect fires!
-    editor.focus();
-  }, [editor]);
-
-  return null;
 }
 
 export default LexicalEditorWrapper;

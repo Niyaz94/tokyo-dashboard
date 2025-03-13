@@ -7,7 +7,6 @@ import dayjs                     from 'dayjs';
 
 import LexicalEditor        from '../../../components/Custom/Lexical/Editor';
 import TimePickers          from '../../../components/Form/TimePickers';
-import DynamicAutocomplete  from '../../../components/Form/DynamicAutocomplete';
 import StaticAutocomplete   from '../../../components/Form/StaticAutocomplete';
 
 import Template             from '../../../components/Page/Template';
@@ -15,30 +14,22 @@ import { sleepStatus }      from '../../../utility/function/data';
 import usePostAPI           from '../../../utility/customHook/usePostAPI';
 import useEditAPI           from '../../../utility/customHook/useEditAPI';
 import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
+import { useSelector }      from 'react-redux';
+import { RootState }        from '../../../store/Reducer';
+import { FormStateInterface }        from '../../../utility/types/Page';
 
-type FormState = {
-  id: number;
-  bedTime: dayjs.Dayjs;
-  approxFellSleepTime: string | null;
-  morningWakingUp: string;
-  SleepState: string;
-  morningFeeling: string;
-  daily: string;
-  whatYouThink: string;
-  dayTimeSleepInMinutes: number;
-  peeCountDuringNight: number;
-  approxWakingNum: number;
-};
 
-const formIntialState:FormState = {
+
+const formIntialState:FormStateInterface = {
   id: 0,
   bedTime: dayjs(),
   approxFellSleepTime: null,
   morningWakingUp: '09:00:00',
   SleepState: '',
   morningFeeling: '',
-  daily: '',
+  daily: 0,
   whatYouThink: '{}',
+  sleepNotes: '{}',
   dayTimeSleepInMinutes: 0,
   peeCountDuringNight: 0,
   approxWakingNum: 0
@@ -48,14 +39,16 @@ const CollapsibleForm: React.FC = () => {
   const navigate = useNavigate();
   const { id:edit_sleep_id } = useParams();
 
+  const dailyData   = useSelector((state: RootState) => state.daily.data);
+
   // const { data, loading, error } = useGetAPI(id ? `items/${id}` : null);
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormState> = useFetch <FormState>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormStateInterface> = useFetch <FormStateInterface>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
 
 
   const buttonText = edit_sleep_id ? {save: "Edit And Return",saveAndAdd: "Save And Continue Editing"}:{save: "Save And Return",saveAndAdd: "Save And Add Another"}
 
   const { loading:post_api_loading, error:post_api_error, success,response, postData} = usePostAPI();
-  const { response:editResponse, loading:editLoading, error:editError, editData} = useEditAPI();
+  const { response:editResponse, loading:editLoading, error:editError, editData}      = useEditAPI();
 
   const [formData, setFormData] = useState(formIntialState);
 
@@ -65,16 +58,16 @@ const CollapsibleForm: React.FC = () => {
       setFormData({
         ...fetchEditData
       });
+      console.log(fetchEditData);
     }
   }, [fetchEditData]);
 
 
   const handleFormChange = (key, value, dataType = 'normal') => {
+
+
     let currentValue = value;
 
-    // if(dataType === 'time'){
-    //   currentValue=dayjs(value);
-    // }
     setFormData((prev) => ({
       ...prev,
       [key]: currentValue
@@ -86,11 +79,12 @@ const CollapsibleForm: React.FC = () => {
 
     const { id, ...dataToBeSent } = formData; // Destructure once
 
-    if (edit_sleep_id) {
-      await editData(`notes/sleep/${edit_sleep_id}/`, formData);
-    }else{
-      await postData("notes/sleep/", dataToBeSent);
-    }
+    console.log(formData);
+    // if (edit_sleep_id) {
+    //   await editData(`notes/sleep/${edit_sleep_id}/`, formData);
+    // }else{
+    //   await postData("notes/sleep/", dataToBeSent);
+    // }
     
   };
   const cleanForm = () => {
@@ -132,9 +126,10 @@ const CollapsibleForm: React.FC = () => {
                 />
               </Grid>
               <Grid size={4}>
-                <DynamicAutocomplete
+                <StaticAutocomplete
                   label="Select The Day"
-                  endpoint="notes/daily/select_date"
+                  options={dailyData}
+                  defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
                   formKey="daily"
                   onChange={handleFormChange}
                 />
@@ -143,6 +138,7 @@ const CollapsibleForm: React.FC = () => {
                 <StaticAutocomplete
                   label="Morning Feeling"
                   options={sleepStatus}
+                  defaultValue={sleepStatus.filter((item) => item.value === formData.morningFeeling)[0]}
                   formKey="morningFeeling"
                   onChange={handleFormChange}
                 />
@@ -150,6 +146,7 @@ const CollapsibleForm: React.FC = () => {
               <Grid size={4}>
                 <StaticAutocomplete
                   label="Sleep State"
+                  defaultValue={sleepStatus.filter((item) => item.value === formData.SleepState)[0]}
                   options={sleepStatus}
                   formKey="SleepState"
                   onChange={handleFormChange}
@@ -203,12 +200,11 @@ const CollapsibleForm: React.FC = () => {
                   }}
                 />
               </Grid>
-              <Grid size={12}>
-                <LexicalEditor
-                  value={formData.whatYouThink}
-                  onChange={handleFormChange}
-                  formKey="whatYouThink"
-                />
+              <Grid size={6}>
+                <LexicalEditor value={formData.whatYouThink} onChange={handleFormChange} formKey="whatYouThink" label="What You Think"/>
+              </Grid>
+              <Grid size={6}>
+                <LexicalEditor value={formData.sleepNotes} onChange={handleFormChange} formKey="sleepNotes" label="Sleep Notes"/>
               </Grid>
               <Grid size={12}>
                 <Stack spacing={2} direction="row-reverse">

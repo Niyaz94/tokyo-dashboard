@@ -13,25 +13,28 @@ function onError(error) {
   console.error(error);
 }
 
-export const lexicalEditorConfig = {
-  namespace: "MyEditor",
-  theme: lexicalEditorTheme,
-  onError,
+export const lexicalEditorConfig = (id)=>{
 
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    QuoteNode,
-    CodeNode,
-    CodeHighlightNode,
-    TableNode,
-    TableCellNode,
-    TableRowNode,
-    AutoLinkNode,
-    LinkNode,
-    ImageNode,
-  ],
+  return {
+    namespace: `editor-${id}`,
+    theme: lexicalEditorTheme,
+    onError,
+  
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      QuoteNode,
+      CodeNode,
+      CodeHighlightNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      AutoLinkNode,
+      LinkNode,
+      ImageNode,
+    ],
+  }
 };
 
 

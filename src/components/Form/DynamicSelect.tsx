@@ -6,10 +6,9 @@ import useFetch, {FetchData}  from '../../utility/customHook/useGetAPI';
 
 
 
-const DynamicSelect = ({ label, apiUrl, onChange, key_value,isMulti = false }) => {
+const DynamicSelect = ({ label, apiUrl, onChange, key_value,isMulti = false,defaultValue }) => {
 
-    const theme = useTheme();
-
+    console.log(defaultValue);
     const { data,success}: FetchData<[]> = useFetch <[]>(apiUrl,[{label:0,value:new Date().toJSON().slice(0,10)}]);
 
     return (
@@ -20,7 +19,8 @@ const DynamicSelect = ({ label, apiUrl, onChange, key_value,isMulti = false }) =
                     className="basic-single"
                     classNamePrefix="select"
                     options={data}
-                    defaultValue={data.pop()["label"]}
+                    defaultValue={data.filter(({label,value}) => value === defaultValue)[0]}
+                    value={defaultValue || {}}
                     onChange={onChange}
                     isMulti={isMulti}
                     styles={{

@@ -19,22 +19,22 @@ import ImageIcon from "@mui/icons-material/Image";
 export const eventTypes = {
   paragraph: "paragraph",
   h1: "h1",
-  h2: "h2",
+  // h2: "h2",
   ul: "ul",
   ol: "ol",
   quote: "quote",
-  formatCode: "formatCode",
+  // formatCode: "formatCode",
   formatUndo: "formatUndo",
   formatRedo: "formatRedo",
   formatBold: "formatBold",
   formatItalic: "formatItalic",
   formatUnderline: "formatUnderline",
-  formatStrike: "formatStrike",
+  // formatStrike: "formatStrike",
   formatInsertLink: "formatInsertLink",
   formatAlignLeft: "formatAlignLeft",
   formatAlignCenter: "formatAlignCenter",
   formatAlignRight: "formatAlignRight",
-  insertImage: "insertImage",
+  // insertImage: "insertImage",
 };
 
 const pluginsList = [
@@ -48,86 +48,86 @@ const pluginsList = [
     Icon: FormatHeader1,
     event: eventTypes.h1,
   },
+  // {
+  //   id: 3,
+  //   Icon: FormatHeader2,
+  //   event: eventTypes.h2,
+  // },
   {
     id: 3,
-    Icon: FormatHeader2,
-    event: eventTypes.h2,
-  },
-  {
-    id: 4,
     Icon: FormatListBulletedIcon,
     event: eventTypes.ul,
   },
 
   {
-    id: 5,
+    id: 4,
     Icon: FormatListNumberedIcon,
     event: eventTypes.ol,
   },
   {
-    id: 6,
+    id: 5,
     Icon: FormatQuoteIcon,
     event: eventTypes.quote,
   },
 
+  // {
+  //   id: 7,
+  //   Icon: CodeIcon,
+  //   event: eventTypes.formatCode,
+  // },
   {
-    id: 7,
-    Icon: CodeIcon,
-    event: eventTypes.formatCode,
-  },
-  {
-    id: 8,
+    id: 6,
     Icon: UndoOutlinedIcon,
     event: eventTypes.formatUndo,
   },
   {
-    id: 9,
+    id: 7,
     Icon: RedoOutlinedIcon,
     event: eventTypes.formatRedo,
   },
   {
-    id: 10,
+    id: 8,
     Icon: FormatBoldOutlinedIcon,
     event: eventTypes.formatBold,
   },
   {
-    id: 11,
+    id: 9,
     Icon: FormatItalicOutlinedIcon,
     event: eventTypes.formatItalic,
   },
-  {
-    id: 12,
-    Icon: FormatUnderlinedOutlinedIcon,
-    event: eventTypes.formatUnderline,
-  },
+  // {
+  //   id: 12,
+  //   Icon: FormatUnderlinedOutlinedIcon,
+  //   event: eventTypes.formatUnderline,
+  // },
   // { // reactive it if you need it
   //   id: 13,
   //   Icon: StrikethroughSOutlinedIcon,
   //   event: eventTypes.formatStrike,
   // },
+  // {
+    // id: 13,
+    // Icon: ImageIcon,
+    // event: eventTypes.insertImage,
+  // },
   {
-    id: 13,
-    Icon: ImageIcon,
-    event: eventTypes.insertImage,
-  },
-  {
-    id: 14,
+    id: 10,
     Icon: InsertLinkOutlinedIcon,
     event: eventTypes.formatInsertLink,
   },
   {
-    id: 15,
+    id: 11,
     Icon: FormatAlignLeftOutlinedIcon,
     event: eventTypes.formatAlignLeft,
   },
 
   {
-    id: 16,
+    id: 12,
     Icon: FormatAlignJustifyOutlinedIcon,
     event: eventTypes.formatAlignCenter,
   },
   {
-    id: 17,
+    id: 13,
     Icon: FormatAlignRightOutlinedIcon,
     event: eventTypes.formatAlignRight,
   },

@@ -1,9 +1,11 @@
-import React from "react";
-import { Autocomplete, TextField, CircularProgress,Box } from "@mui/material";
+import React,{useEffect,useState} from "react";
+import { Autocomplete, TextField,Box } from "@mui/material";
+import { dailySingleInterface }      from '../../utility/types/typeStore';
+
 
 interface CustomAutocompleteProps {
     label: string;
-    options: { value: string; label: string; }[];
+    options: dailySingleInterface[];
     multiple?: boolean;
     onChange: (key:string,value: any) => void;
     defaultValue?: any;
@@ -14,15 +16,16 @@ interface CustomAutocompleteProps {
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({
     label,options,formKey,multiple = false,onChange,defaultValue = null,disabled = false,
 }) => {
-
-
     return (
         <Autocomplete
         multiple={multiple}
         options={options}
-        defaultValue={defaultValue}
+        defaultValue={options.filter((item) => item.value === defaultValue)[0]}
+        value={defaultValue || null}
         disabled={disabled}
-        onChange={(_, {value,label}) => {
+        disableClearable
+        onChange={(e, {value,label},reason, details) => {
+            // console.log(value,label,reason, details)
             onChange(formKey,value);
         }}
         autoHighlight
