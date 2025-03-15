@@ -4,9 +4,12 @@ import { level1Status } from 'src/utility/types/data_types';
 import  {mapLabelData}  from "./data"
 
 export const getStatusLabel = (status: level1Status,extraText:string="",icon:JSX.Element=null): JSX.Element => {
-
-  const { text, color }: any = mapLabelData[status];
-  return <Label color={color} >{icon}{` ${extraText} ${text}`}</Label>;
+  if (status){
+    const { text, color }: any = mapLabelData[status] || {text:"Normal",color:"error"};
+    return <Label color={color} >{icon}{` ${extraText} ${text}`}</Label>
+  }else{
+    return  <Label color="warning">NOT FOUND</Label>;
+  }
 };
 
 export const getStatusIcon = (status: level1Status,icon:JSX.Element,reverse:boolean=false): JSX.Element => {

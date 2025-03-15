@@ -4,7 +4,6 @@ import ThumbDownOffAltIcon                  from '@mui/icons-material/ThumbDownO
 import ThumbUpOffAltIcon                    from '@mui/icons-material/ThumbUpOffAlt';
 import HourglassEmptyIcon                   from '@mui/icons-material/HourglassEmpty';
 import TrendingDownIcon                     from '@mui/icons-material/TrendingDown';
-import {SvgIconTypeMap}                     from "@mui/material";
 
 
 export const filterStatusOptions = [
@@ -31,4 +30,4 @@ export  const sleepStatus = [
     { value: 'NORMAL', label: 'Normal' },
     { value: 'HIGH', label: 'High' },
     { value: 'VERY_HIGH', label: 'Very High' }
-  ];
+];
