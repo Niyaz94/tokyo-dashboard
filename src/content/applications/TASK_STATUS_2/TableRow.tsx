@@ -1,16 +1,16 @@
+import {ChangeEvent }      from 'react';
 
-import {
-  Checkbox,TableCell,TableRow,Stack
-}                           from '@mui/material';
-import {ChangeEvent }       from 'react';
-import TableCusCell         from '../../../components/Table/Cell';
-import EmojiEventsIcon      from '@mui/icons-material/EmojiEvents';
-import ButtonTable          from "../../../components/Form/ButtonTable"       
-
+import {Tooltip,Checkbox,IconButton,TableCell,TableRow,Stack,useTheme} from '@mui/material';
+import EditTwoToneIcon                    from '@mui/icons-material/EditTwoTone';
+import DeleteTwoToneIcon                  from '@mui/icons-material/DeleteTwoTone';
+import TableCusCell                       from '../../../components/Table/Cell';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 import { labelWithColor,getTextWithIcon,getDayAbbreviation,capitalizeFirstLetterOfWords } from '../../../utility/function/main';
 
-function CustomTableRow({data,isDataSelected,handleSelectOneData,taskNameMap,taskStatusMap,taskMap,onDeleteRow}) {
+function CustomTableRow({data,isDataSelected,handleSelectOneData,taskNameMap,taskStatusMap,taskMap}) {
+
+    const theme = useTheme();
 
     const {id,date,note,spendingTime,task_name,status,task_detail,isTodaySTask}=data;
     const {status:task_status,goal_name,prizeAmount,percentage,result} =task_detail;
@@ -53,7 +53,16 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,taskNameMap,tas
         {text:(isTodaySTask && labelWithColor("TMIT","primary","Today's Most Important Task")),styleType:2}
       ]} />
       <TableCell align="right">
-        <ButtonTable id={id} text="sleep" onDeleteRow={onDeleteRow} />
+        <Tooltip title="Edit Order" arrow>
+          <IconButton color="inherit" size="small" sx={{'&:hover': {background: theme.colors.primary.lighter},color: theme.palette.primary.main}} >
+            <EditTwoToneIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete Order" arrow>
+          <IconButton color="inherit" size="small" sx={{'&:hover': { background: theme.colors.error.lighter },color: theme.palette.error.main}}  >
+            <DeleteTwoToneIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </TableCell>
     </TableRow>
   )

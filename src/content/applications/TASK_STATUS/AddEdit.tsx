@@ -1,33 +1,53 @@
-import React, { useState,useEffect } from 'react';
+import { 
+  usePostAPI, useEditAPI, useFetch, FetchData 
+}         from "../../../utility/customHook";
+
+import React, { useState,useEffect,FC } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 import { useNavigate,useParams } from 'react-router-dom';
 import dayjs                  from 'dayjs';
 import LexicalEditor          from '../../../components/Custom/Lexical/Editor';
-import TimePickers            from '../../../components/Form/TimePickers';
+
+import CustomDatePicker       from '../../../components/Form/CustomDatePickers';
+import CustomizedSwitch       from '../../../components/Form/CustomSwitch';
+
+
 import StaticAutocomplete     from '../../../components/Form/StaticAutocomplete';
-import Template               from '../../../components/Page/Template';
-import { sleepStatus }        from '../../../utility/function/data';
-import usePostAPI             from '../../../utility/customHook/usePostAPI';
-import useEditAPI             from '../../../utility/customHook/useEditAPI';
-import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
-import { useSelector }        from 'react-redux';
-import { RootState }          from '../../../store/Reducer';
-import { SleepFormStateInterface } from '../../../utility/types/Page';
 import MultiButton            from "../../../components/Form/MultiButton"
 
-import {sleepFormIntialState} from "../../../utility/function/defaultData"
+import Template               from '../../../components/Page/Template';
 
-const CollapsibleForm: React.FC = () => {
+import { sleepStatus }        from '../../../utility/function/data';
+import {TaskStatusFormIntialState} from "../../../utility/function/defaultData"
+
+import { useSelector }        from 'react-redux';
+
+import { RootState }                    from '../../../store/Reducer';
+import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
+import {useAddEdit}                     from '../../../store/Context';
+
+
+interface AddEditProps {
+  tasks_name: string[];
+  task_status: string[];
+}
+const CollapsibleForm = () => {
+
+  const  {addEditData}  = useAddEdit();
+
+  const {tasks_name,task_status} = addEditData;
+
+  console.log(tasks_name.filter(row=>row[1]=="active").map(row=>row[0]),task_status)
 
   const navigate              = useNavigate();
   const { id:edit_sleep_id }  = useParams();
 
-  const [formData, setFormData] = useState(sleepFormIntialState);
+  const [formData, setFormData] = useState(TaskStatusFormIntialState);
   const dailyData               = useSelector((state: RootState) => state.daily.data);
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<SleepFormStateInterface>  = useFetch <SleepFormStateInterface>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
@@ -40,24 +60,27 @@ const CollapsibleForm: React.FC = () => {
 
   useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
-      setFormData({...fetchEditData});
+      // Uncommented for edit
+      // setFormData({...fetchEditData});
     }
   }, [fetchEditData]);
 
   const handleFormChange = (key, value) => {
+    // console.log("handleFormChange",key,value)
     setFormData((prev) => ({...prev,[key]: value}));
   };
   const handleSave = async () => {
+    console.log("handleSave",formData)
     const { id, ...dataToBeSent } = formData; // Destructure once
-    if (edit_sleep_id) {
-      await editData(`notes/sleep/${edit_sleep_id}/`, formData);
-    }else{
-      await postData("notes/sleep/", dataToBeSent);
-    }
+    // if (edit_sleep_id) {
+      // await editData(`notes/sleep/${edit_sleep_id}/`, formData);
+    // }else{
+      // await postData("notes/sleep/", dataToBeSent);
+    // }
     
   };
   const cleanForm = () => {
-    setFormData(sleepFormIntialState)
+    setFormData(TaskStatusFormIntialState)
   };
 
   return (
@@ -70,60 +93,59 @@ const CollapsibleForm: React.FC = () => {
             sx={{mt: 2,p: 2,display: 'flex',flexDirection: 'column',gap: 2,margin: '0 auto'}}
           >
             <Grid container spacing={2}>
-              <Grid size={4}>
-                <TimePickers
-                  label="Bed Time"
-                  value={formData.bedTime}
-                  onChange={(newValue) => handleFormChange('bedTime', newValue)}
+              <Grid size={6}>
+                <CustomDatePicker
+                  label="Date"
+                  value={formData.date}
+                  placeholder=""
+                  onChange={(newValue) => handleFormChange('date', newValue)}
                 />
               </Grid>
-              <Grid size={4}>
-                <TimePickers
-                  label="Fell Sleep Time"
-                  value={formData.approxFellSleepTime}
-                  onChange={(newValue) =>
-                    handleFormChange('approxFellSleepTime', newValue)
+              <Grid size={6}>
+                <TextField
+                  label={'Spending Time in Minutes'}
+                  variant="outlined"
+                  required={true}
+                  fullWidth
+                  type="number"
+                  value={formData.spendingTime}
+                  onChange={(e) =>
+                    handleFormChange('spendingTime', e.target.value)
                   }
+                  margin="dense"
+                  slotProps={{
+                    inputLabel: { shrink: true },
+                    htmlInput: { max: 500, min: 0, step: 1 }
+                  }}
                 />
               </Grid>
               <Grid size={4}>
-                <TimePickers
-                  label="Waking Up Time"
-                  value={dayjs(formData.morningWakingUp, 'HH:mm:ss')}
-                  onChange={(newValue) =>
-                    handleFormChange('morningWakingUp', newValue)
-                  }
+                <CustomizedSwitch 
+                  value={formData.isTodaySTask}
+                  onChange={(newValue) => handleFormChange('isTodaySTask', newValue)}
+                  label="Is Today's Task"
                 />
               </Grid>
               <Grid size={4}>
-                <StaticAutocomplete
-                  label="Select The Day"
-                  options={dailyData}
-                  defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
-                  formKey="daily"
-                  onChange={handleFormChange}
-                />
-              </Grid>
-              <Grid size={4}>
-                <StaticAutocomplete
+                {/* <StaticAutocomplete
                   label="Morning Feeling"
                   options={sleepStatus}
                   defaultValue={sleepStatus.filter((item) => item.value === formData.morningFeeling)[0]}
                   formKey="morningFeeling"
                   onChange={handleFormChange}
-                />
+                /> */}
               </Grid>
               <Grid size={4}>
-                <StaticAutocomplete
+                {/* <StaticAutocomplete
                   label="Sleep State"
                   defaultValue={sleepStatus.filter((item) => item.value === formData.SleepState)[0]}
                   options={sleepStatus}
                   formKey="SleepState"
                   onChange={handleFormChange}
-                />
+                /> */}
               </Grid>
               <Grid size={4}>
-                <TextField
+                {/* <TextField
                   label={'Day Time Sleep'}
                   variant="outlined"
                   fullWidth
@@ -136,10 +158,10 @@ const CollapsibleForm: React.FC = () => {
                     inputLabel: { shrink: true },
                     htmlInput: { max: 600, min: 0, step: 1 }
                   }}
-                />
+                /> */}
               </Grid>
               <Grid size={4}>
-                <TextField
+                {/* <TextField
                   label={'Pee Count During Night'}
                   variant="outlined"
                   fullWidth
@@ -152,10 +174,10 @@ const CollapsibleForm: React.FC = () => {
                     inputLabel: { shrink: true },
                     htmlInput: { max: 10, min: 0, step: 1 }
                   }}
-                />
+                /> */}
               </Grid>
               <Grid size={4}>
-                <TextField
+                {/* <TextField
                   label={'Waking Up Time'}
                   variant="outlined"
                   fullWidth
@@ -168,16 +190,13 @@ const CollapsibleForm: React.FC = () => {
                     inputLabel: { shrink: true },
                     htmlInput: { max: 10, min: 0, step: 1 }
                   }}
-                />
-              </Grid>
-              <Grid size={6}>
-                <LexicalEditor value={formData.whatYouThink} onChange={handleFormChange} formKey="whatYouThink" label="What You Think"/>
-              </Grid>
-              <Grid size={6}>
-                <LexicalEditor value={formData.sleepNotes} onChange={handleFormChange} formKey="sleepNotes" label="Sleep Notes"/>
+                /> */}
               </Grid>
               <Grid size={12}>
-                <MultiButton type={edit_sleep_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/sleep'}/>
+                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Tasks Note"/>
+              </Grid>           
+              <Grid size={12}>
+                <MultiButton type={edit_sleep_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/task_progress'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}

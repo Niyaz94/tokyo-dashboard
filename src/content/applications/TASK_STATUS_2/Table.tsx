@@ -4,24 +4,27 @@ import {
   Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
 import { 
-  GoalRecordInterface as TableRecordInterface,GoalSampleInterface as SingleSampleInterface, Filters 
+  TaskStatusSingleSampleInterface as SingleSampleInterface,TaskStatusRecordInterface as RecordInterface, Filters 
 }   from 'src/utility/types/data_types';
 import BulkActions                                          from './BulkActions';
 import { useCollapseContext }                               from '../../../contexts/CollapseToggle';
 import CustomPagination                                     from '../../../components/Table/Pagination';
 import { applyPagination,applyFilters,createMapLabelData }  from '../../../utility/function/main';
 import CustomTableRow                                       from './TableRow';
-// createMapLabelData
 
 
 
-const PageDataTable: FC<TableRecordInterface> = ({ data,unique }) => {
+const PageDataTable: FC<RecordInterface> = ({data,unique}) => {
 
-  const {goal_level,goal_status}=unique
+  const {tasks_name,task_status} = unique
+  const valueMap ={
+    taskNameMap:createMapLabelData(tasks_name),
+    taskStatusMap:createMapLabelData(task_status,[3,0,2,4]),
+    taskMap:createMapLabelData(["active","inactive","archive"],[3,2,4]),
 
-  const goalStatusMap=createMapLabelData(goal_status)
-  const goalLevelMap=createMapLabelData(goal_level,[6,5,0])
+  }
 
+   
 
   // it contains the ids of selected rows
   const [selectedData, setSelectedData] = useState<string[]>([]);
@@ -64,7 +67,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredData     = applyFilters<SingleSampleInterface,Filters>(data, filters,"importanceLevel");
+  const filteredData     = applyFilters<SingleSampleInterface,Filters>(data, filters,"task_name");
   const paginatedData    = applyPagination<SingleSampleInterface>(filteredData,page,limit);
   // it will be [true] if some but not all rows are selected
   const selectedSomeData = selectedData.length > 0 && selectedData.length < data.length;
@@ -95,9 +98,9 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique }) => {
                 {open ? 'Close' : 'Insert'}
               </Button>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Importance Level</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Importance Level" autoWidth>
-                  {["all",...goal_level].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+                <InputLabel>Status</InputLabel>
+                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
+                  {["all",...tasks_name].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
                 </Select>
               </FormControl>
             </Box>
@@ -112,22 +115,19 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique }) => {
               <TableCell padding="checkbox">
                 <Checkbox color="primary" checked={selectedAllData} indeterminate={selectedSomeData} onChange={handleSelectAllData}/>
               </TableCell>
-              <TableCell align='center'>Date</TableCell>
-              <TableCell align='center'>Importance Level</TableCell>
-              <TableCell align='center'>Title</TableCell>
-              <TableCell align="center">Difficulty Level</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="right" >Actions</TableCell>
+              <TableCell align='center'>Progress Date</TableCell>
+              <TableCell align='center'>Task Detail</TableCell>
+              <TableCell align='center'>Note</TableCell>
+              <TableCell align="center">Prize</TableCell>
+              <TableCell align="center">Progress Status</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {/* This function [paginatedData] contains current rows after applying [filtering] and [pagination] */}
             {paginatedData.map((row) => {
                 return <CustomTableRow 
-                  data={row} isDataSelected={selectedData.includes(row.id)} 
-                  handleSelectOneData={handleSelectOneData}
-                  goalStatusMap={goalStatusMap}
-                  goalLevelMap={goalLevelMap}
+                  data={row} {...valueMap} isDataSelected={selectedData.includes(row.id)} handleSelectOneData={handleSelectOneData}
                 />
             })}
           </TableBody>
@@ -139,6 +139,7 @@ const PageDataTable: FC<TableRecordInterface> = ({ data,unique }) => {
         rowsPerPage={limit}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
+        
       />
     </Card>
   );

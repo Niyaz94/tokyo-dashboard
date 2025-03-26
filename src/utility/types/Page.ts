@@ -1,7 +1,7 @@
 
 import dayjs                     from 'dayjs';
 
-export type FormStateInterface = {
+export type SleepFormStateInterface = {
   id: number;
   bedTime: dayjs.Dayjs;
   approxFellSleepTime: string | null;
@@ -14,4 +14,14 @@ export type FormStateInterface = {
   dayTimeSleepInMinutes: number;
   peeCountDuringNight: number;
   approxWakingNum: number;
+};
+
+export type TaskStatusFormStateInterface = {
+  id: number;
+  task:number;
+  date: dayjs.Dayjs | null; // DONE
+  status: string;
+  note: string; // DONE
+  isTodaySTask: boolean; // DONE
+  spendingTime: number; // DONE
 };

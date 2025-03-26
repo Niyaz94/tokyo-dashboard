@@ -38,6 +38,9 @@ const TASK          = Loader(lazy(() => import('src/content/applications/TASK'))
 const GOAL          = Loader(lazy(() => import('src/content/applications/GOAL')));
 const TASK_STATUS   = Loader(lazy(() => import('src/content/applications/TASK_STATUS')));
 
+const TASK_STATUS_AddEdit = Loader(lazy(() => import('src/content/applications/TASK_STATUS/AddEdit')));
+
+
 // 
 
 
@@ -137,7 +140,9 @@ const routes: RouteObject[] = [
       // {path: '',element: <Navigate to="transactions" replace />},
       {path: 'single_task',element: <SINGLE_TASK />},
       {path: 'goals',element: <GOAL />},
-      {path: 'task_progress',element: <TASK_STATUS />},
+      {path: 'task_progress/*',element: <TASK_STATUS />},
+      // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},
+      // {path: 'task_progress/:id',element: <TASK_STATUS_AddEdit   />},
       {path: 'task',element: <TASK />}, 
     ]
   },{

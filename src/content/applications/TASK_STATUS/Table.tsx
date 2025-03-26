@@ -1,44 +1,82 @@
-import { FC, ChangeEvent, useState }      from 'react';
+import { FC, ChangeEvent, useState,useEffect }      from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,TableContainer,
   Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
+import BulkActions                                        from './BulkActions';
+import CustomPagination                                   from '../../../components/Table/Pagination';
+import { applyPagination,applyFilters,applyFilterValue ,createMapLabelData}  from '../../../utility/function/main';
+import { filterStatusOptions }                            from '../../../utility/function/data';
+import CustomTableRow                                     from './TableRow';
+import { useNavigate }                                    from "react-router-dom";
+
+import useDeleteAPI                                       from '../../../utility/customHook/useDeleteAPI';
 import { 
   TaskStatusSingleSampleInterface as SingleSampleInterface,TaskStatusRecordInterface as RecordInterface, Filters 
 }   from 'src/utility/types/data_types';
-import BulkActions                                          from './BulkActions';
-import { useCollapseContext }                               from '../../../contexts/CollapseToggle';
-import CustomPagination                                     from '../../../components/Table/Pagination';
-import { applyPagination,applyFilters,createMapLabelData }  from '../../../utility/function/main';
-import CustomTableRow                                       from './TableRow';
 
 
 
-const PageDataTable: FC<RecordInterface> = ({data,unique}) => {
+
+const SleepDataTable: FC<RecordInterface> = ({data:tableData,unique}) => {
+
+  // const  {addEditData}  = useAddEdit();
+  // console.log(addEditData)
+  
 
   const {tasks_name,task_status} = unique
   const valueMap ={
-    taskNameMap:createMapLabelData(tasks_name),
+    taskNameMap:createMapLabelData(tasks_name.map((row)=>row[0])),
     taskStatusMap:createMapLabelData(task_status,[3,0,2,4]),
     taskMap:createMapLabelData(["active","inactive","archive"],[3,2,4]),
 
   }
 
-   
+  const navigate = useNavigate();
+  const { response:deleteRowResponse, loading, error, deleteData } = useDeleteAPI();
+
 
   // it contains the ids of selected rows
-  const [selectedData, setSelectedData] = useState<string[]>([]);
+  const [selectedSleepData, setSelectedSleepData]     = useState<string[]>([]);
   // it let you know if any rows have been selected
-  const selectedBulkActions = selectedData.length > 0;
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
+  const [page, setPage]                               = useState<number>(0);
+  const [limit, setLimit]                             = useState<number>(5);
+  const [filters, setFilters]                         = useState<Filters>({status: null});
+  const [filteredSleepData,setFilteredSleepData]      = useState<SingleSampleInterface[]>([]);
+  const [paginatedSleepData,setPaginatedSleepData]    = useState<SingleSampleInterface[]>([]);
+  const [deletedRowId,setDeletedRowId]    = useState(0);
 
-  const { open, toggleOpen } = useCollapseContext();
 
+  const selectedBulkActions = selectedSleepData.length > 0;
+
+
+  const handleSelectOneData = (event: ChangeEvent<HTMLInputElement>,id: string): void => {
+    if (!selectedSleepData.includes(id)) {
+      setSelectedSleepData((prevSelected) => [...prevSelected,id]);
+    } else {
+      setSelectedSleepData((prevSelected) =>prevSelected.filter((singleId) => singleId !== id));
+    }
+  };
+
+  useEffect(() => {
+    setFilteredSleepData(applyFilters<SingleSampleInterface,Filters>(tableData, filters,"task_name"));
+  }, [tableData,filters]);
+
+  useEffect(() => {
+    const newPaginatedData = applyPagination<SingleSampleInterface>(filteredSleepData, page, limit);
+    setPaginatedSleepData(newPaginatedData);
+  }, [filteredSleepData, page, limit]); 
+
+  useEffect(() => {
+    const {data,success} = deleteRowResponse || {data:null,success:false};
+    if(success){
+      setFilteredSleepData(applyFilterValue<SingleSampleInterface>(filteredSleepData,"id",deletedRowId))
+      setDeletedRowId(0);
+    }
+  }
+  , [deleteRowResponse]);
   // It uses for controlling filter selection in the left top cornor of the table
-  const [filters, setFilters] = useState<Filters>({status: null});
   //The list of all options in filter selection in the left top cornor of the table
-
 
   //The action handler for filter selection in the left top cornor of the table
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -49,15 +87,15 @@ const PageDataTable: FC<RecordInterface> = ({data,unique}) => {
     setFilters((prevFilters) => ({...prevFilters,status: value}));
   };
   // The checkbox inside the [table header] which either make all rows [selected/unselected]
-  const handleSelectAllData = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedData(event.target.checked? data.map(({id}) => id): []);
+  const handleSelectAllSleepData = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSelectedSleepData(event.target.checked? tableData.map(({id}) => id): []);
   };
-  // it [add/remove] row ids to [selectedData] variable when the user [select/deselect] row
-  const handleSelectOneData = (event: ChangeEvent<HTMLInputElement>,id: string): void => {
-    if (!selectedData.includes(id)) {
-      setSelectedData((prevSelected) => [...prevSelected,id]);
+  // it [add/remove] row ids to [selectedSleepData] variable when the user [select/deselect] row
+  const handleSelectOneSleepData = (event: ChangeEvent<HTMLInputElement>,sleepId: string): void => {
+    if (!selectedSleepData.includes(sleepId)) {
+      setSelectedSleepData((prevSelected) => [...prevSelected,sleepId]);
     } else {
-      setSelectedData((prevSelected) =>prevSelected.filter((singleId) => singleId !== id));
+      setSelectedSleepData((prevSelected) =>prevSelected.filter((id) => id !== sleepId));
     }
   };
   // when the user change the table page
@@ -67,12 +105,16 @@ const PageDataTable: FC<RecordInterface> = ({data,unique}) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredData     = applyFilters<SingleSampleInterface,Filters>(data, filters,"task_name");
-  const paginatedData    = applyPagination<SingleSampleInterface>(filteredData,page,limit);
+
   // it will be [true] if some but not all rows are selected
-  const selectedSomeData = selectedData.length > 0 && selectedData.length < data.length;
+  const selectedSomeSleepData = selectedSleepData.length > 0 && selectedSleepData.length < tableData.length;
   // It will be [true] if all rows are selected
-  const selectedAllData  = selectedData.length === data.length;
+  const selectedAllSleepData  = selectedSleepData.length === tableData.length;
+
+  const deleteTableRow=async (id)=>{
+    // await deleteData(`notes/sleep/${id}/`);
+    setDeletedRowId(id);
+  }
 
   return (
     <Card>
@@ -93,14 +135,14 @@ const PageDataTable: FC<RecordInterface> = ({data,unique}) => {
           action={
             <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Button 
-                variant="contained" color="primary" onClick={toggleOpen} 
+                variant="outlined" color="primary" onClick={() => navigate("add")} 
                 sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}>
-                {open ? 'Close' : 'Insert'}
+                Insert
               </Button>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {["all",...tasks_name].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+                  {filterStatusOptions.map(({id,name}) => (<MenuItem key={id} value={id}>{name}</MenuItem>))}
                 </Select>
               </FormControl>
             </Box>
@@ -108,40 +150,44 @@ const PageDataTable: FC<RecordInterface> = ({data,unique}) => {
         />
       )}
       <Divider />
+      {/* The Table */}
       <TableContainer>
         <Table>
+          {/* Table Header */}
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
-                <Checkbox color="primary" checked={selectedAllData} indeterminate={selectedSomeData} onChange={handleSelectAllData}/>
+                <Checkbox color="primary" checked={selectedAllSleepData} indeterminate={selectedSomeSleepData} onChange={handleSelectAllSleepData}/>
               </TableCell>
-              <TableCell align='center'>Progress Date</TableCell>
-              <TableCell align='center'>Task Detail</TableCell>
-              <TableCell align='center'>Note</TableCell>
-              <TableCell align="center">Prize</TableCell>
-              <TableCell align="center">Progress Status</TableCell>
+              <TableCell align='center'>Date</TableCell>
+              <TableCell align='center'>Morning Feeling</TableCell>
+              <TableCell align='center'>Sleep State</TableCell>
+              <TableCell align="center">Activity</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
+          {/* The content of the table */}
           <TableBody>
-            {/* This function [paginatedData] contains current rows after applying [filtering] and [pagination] */}
-            {paginatedData.map((row) => {
+            {/* This function [paginatedSleepData] contains current rows after applying [filtering] and [pagination] */}
+            {paginatedSleepData.map((row) => {
                 return <CustomTableRow 
-                  data={row} {...valueMap} isDataSelected={selectedData.includes(row.id)} handleSelectOneData={handleSelectOneData}
+                  data={row} {...valueMap} 
+                  isDataSelected={selectedSleepData.includes(row.id)} 
+                  handleSelectOneData={handleSelectOneData}
+                  onDeleteRow={deleteTableRow}
                 />
             })}
           </TableBody>
         </Table>
       </TableContainer>
       <CustomPagination
-        count={filteredData.length}
+        count={filteredSleepData.length}
         page={page}
         rowsPerPage={limit}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
-        
       />
     </Card>
   );
 };
-export default PageDataTable;
+export default SleepDataTable;

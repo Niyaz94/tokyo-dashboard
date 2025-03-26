@@ -20,7 +20,6 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
   const navigate = useNavigate();
   const { response:deleteRowResponse, loading, error, deleteData } = useDeleteAPI();
 
-
   // it contains the ids of selected rows
   const [selectedSleepData, setSelectedSleepData]     = useState<string[]>([]);
   // it let you know if any rows have been selected
@@ -29,11 +28,9 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
   const [filters, setFilters]                         = useState<Filters>({status: null});
   const [filteredSleepData,setFilteredSleepData]      = useState<SleepType[]>([]);
   const [paginatedSleepData,setPaginatedSleepData]    = useState<SleepType[]>([]);
-  const [deletedRowId,setDeletedRowId]    = useState(0);
-
+  const [deletedRowId,setDeletedRowId]                = useState(0);
 
   const selectedBulkActions = selectedSleepData.length > 0;
-
 
   useEffect(() => {
     setFilteredSleepData(applyFilters<SleepType,Filters>(sleepData, filters,"SleepState"));
@@ -142,7 +139,7 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
               <TableCell align='center'>Morning Feeling</TableCell>
               <TableCell align='center'>Sleep State</TableCell>
               <TableCell align="center">Activity</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="right" width="8%">Actions</TableCell>
             </TableRow>
           </TableHead>
           {/* The content of the table */}
