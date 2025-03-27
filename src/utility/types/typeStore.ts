@@ -62,8 +62,8 @@ export interface AuthState {
 
 
 export interface dailySingleInterface {
-    value:number|string;
-    label:string;
+    value: number|string;
+    label: string;
 }
 export interface dailyInitialStateInterface {
     data: dailySingleInterface[];

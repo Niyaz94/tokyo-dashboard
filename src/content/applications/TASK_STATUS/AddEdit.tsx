@@ -6,40 +6,33 @@ import React, { useState,useEffect,FC } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
-import { useNavigate,useParams } from 'react-router-dom';
-import dayjs                  from 'dayjs';
-import LexicalEditor          from '../../../components/Custom/Lexical/Editor';
+import { useNavigate,useParams }    from 'react-router-dom';
+import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
+import CustomDatePicker             from '../../../components/Form/CustomDatePickers';
+import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
+import MultiButton                  from "../../../components/Form/MultiButton"
+import Template                     from '../../../components/Page/Template';
+import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
 
-import CustomDatePicker       from '../../../components/Form/CustomDatePickers';
-import CustomizedSwitch       from '../../../components/Form/CustomSwitch';
-
-
-import StaticAutocomplete     from '../../../components/Form/StaticAutocomplete';
-import MultiButton            from "../../../components/Form/MultiButton"
-
-import Template               from '../../../components/Page/Template';
-
-import { sleepStatus }        from '../../../utility/function/data';
-import {TaskStatusFormIntialState} from "../../../utility/function/defaultData"
-
-import { useSelector }        from 'react-redux';
+import { useSelector }              from 'react-redux';
+import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 
 import { RootState }                    from '../../../store/Reducer';
 import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
 import {useAddEdit}                     from '../../../store/Context';
 
+import {createSelectMap}                from '../../../utility/function/main';
 
-interface AddEditProps {
-  tasks_name: string[];
-  task_status: string[];
-}
+
 const CollapsibleForm = () => {
 
   const  {addEditData}  = useAddEdit();
 
   const {tasks_name,task_status} = addEditData;
 
-  console.log(tasks_name.filter(row=>row[1]=="active").map(row=>row[0]),task_status)
+  const task_name_map   = createSelectMap(tasks_name.filter(row=>row[2]=="active").map(row=>row))
+  const task_status_map = createSelectMap(task_status,"array")
+
 
   const navigate              = useNavigate();
   const { id:edit_sleep_id }  = useParams();
@@ -55,7 +48,8 @@ const CollapsibleForm = () => {
     handleSave().then(()=>navigate('/personal/sleep'))
   }
   const saveContinue=()=>{
-    handleSave().then(()=>cleanForm())
+    // handleSave().then(()=>cleanForm())
+    handleSave()
   }
 
   useEffect(() => {
@@ -119,79 +113,33 @@ const CollapsibleForm = () => {
                   }}
                 />
               </Grid>
-              <Grid size={4}>
+              <Grid size={6}>
+                <StaticAutocomplete
+                  label="Morning Feeling"
+                  options={task_name_map}
+                  defaultValue={task_name_map.filter((item) => item.value === formData.task)[0]}
+                  formKey="task"
+                  showValueInLabel={false}
+                  onChange={handleFormChange}
+                />
+              </Grid>
+              <Grid size={6}>
+                <StaticAutocomplete
+                  label="Morning Feeling"
+                  options={task_status_map}
+                  defaultValue={task_status_map.filter((item) => item.value === formData.status)[0]}
+                  formKey="status"
+                  showValueInLabel={false}
+                  onChange={handleFormChange}
+                />
+              </Grid>  
+              <Grid size={12}>
                 <CustomizedSwitch 
                   value={formData.isTodaySTask}
                   onChange={(newValue) => handleFormChange('isTodaySTask', newValue)}
                   label="Is Today's Task"
                 />
-              </Grid>
-              <Grid size={4}>
-                {/* <StaticAutocomplete
-                  label="Morning Feeling"
-                  options={sleepStatus}
-                  defaultValue={sleepStatus.filter((item) => item.value === formData.morningFeeling)[0]}
-                  formKey="morningFeeling"
-                  onChange={handleFormChange}
-                /> */}
-              </Grid>
-              <Grid size={4}>
-                {/* <StaticAutocomplete
-                  label="Sleep State"
-                  defaultValue={sleepStatus.filter((item) => item.value === formData.SleepState)[0]}
-                  options={sleepStatus}
-                  formKey="SleepState"
-                  onChange={handleFormChange}
-                /> */}
-              </Grid>
-              <Grid size={4}>
-                {/* <TextField
-                  label={'Day Time Sleep'}
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={formData.dayTimeSleepInMinutes}
-                  onChange={(e) =>
-                    handleFormChange('dayTimeSleepInMinutes', e.target.value)
-                  }
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    htmlInput: { max: 600, min: 0, step: 1 }
-                  }}
-                /> */}
-              </Grid>
-              <Grid size={4}>
-                {/* <TextField
-                  label={'Pee Count During Night'}
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={formData.peeCountDuringNight}
-                  onChange={(e) =>
-                    handleFormChange('peeCountDuringNight', e.target.value)
-                  }
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    htmlInput: { max: 10, min: 0, step: 1 }
-                  }}
-                /> */}
-              </Grid>
-              <Grid size={4}>
-                {/* <TextField
-                  label={'Waking Up Time'}
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={formData.approxWakingNum}
-                  onChange={(e) =>
-                    handleFormChange('approxWakingNum', e.target.value)
-                  }
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    htmlInput: { max: 10, min: 0, step: 1 }
-                  }}
-                /> */}
-              </Grid>
+              </Grid>  
               <Grid size={12}>
                 <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Tasks Note"/>
               </Grid>           

@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import BulkActions                                        from './BulkActions';
 import CustomPagination                                   from '../../../components/Table/Pagination';
-import { applyPagination,applyFilters,applyFilterValue ,createMapLabelData}  from '../../../utility/function/main';
+import { applyPagination,applyFilters,applyFilterValue }  from '../../../utility/function/main';
 import { filterStatusOptions }                            from '../../../utility/function/data';
 import CustomTableRow                                     from './TableRow';
 import { useNavigate }                                    from "react-router-dom";
@@ -18,23 +18,10 @@ import {
 
 
 
-const SleepDataTable: FC<RecordInterface> = ({data:tableData,unique}) => {
-
-  // const  {addEditData}  = useAddEdit();
-  // console.log(addEditData)
-  
-
-  const {tasks_name,task_status} = unique
-  const valueMap ={
-    taskNameMap:createMapLabelData(tasks_name.map((row)=>row[0])),
-    taskStatusMap:createMapLabelData(task_status,[3,0,2,4]),
-    taskMap:createMapLabelData(["active","inactive","archive"],[3,2,4]),
-
-  }
+const SleepDataTable: FC<{tableData:SingleSampleInterface[]}> = ({tableData}) => {
 
   const navigate = useNavigate();
   const { response:deleteRowResponse, loading, error, deleteData } = useDeleteAPI();
-
 
   // it contains the ids of selected rows
   const [selectedSleepData, setSelectedSleepData]     = useState<string[]>([]);
@@ -46,9 +33,7 @@ const SleepDataTable: FC<RecordInterface> = ({data:tableData,unique}) => {
   const [paginatedSleepData,setPaginatedSleepData]    = useState<SingleSampleInterface[]>([]);
   const [deletedRowId,setDeletedRowId]    = useState(0);
 
-
   const selectedBulkActions = selectedSleepData.length > 0;
-
 
   const handleSelectOneData = (event: ChangeEvent<HTMLInputElement>,id: string): void => {
     if (!selectedSleepData.includes(id)) {
@@ -171,7 +156,8 @@ const SleepDataTable: FC<RecordInterface> = ({data:tableData,unique}) => {
             {/* This function [paginatedSleepData] contains current rows after applying [filtering] and [pagination] */}
             {paginatedSleepData.map((row) => {
                 return <CustomTableRow 
-                  data={row} {...valueMap} 
+                  data={row} 
+                  // {...valueMap} 
                   isDataSelected={selectedSleepData.includes(row.id)} 
                   handleSelectOneData={handleSelectOneData}
                   onDeleteRow={deleteTableRow}

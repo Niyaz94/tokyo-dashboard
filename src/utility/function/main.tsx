@@ -104,7 +104,20 @@ export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
 } 
 
 export const capitalizeFirstLetterOfWords= (str) => {
-  return str.split("_").join(" ").replace(/\b\w/g, char => char.toUpperCase());
+  return str.toString().replace(/_/gi, " ").replace(/\b\w/g, char => char.toUpperCase());
+}
+
+export const createSelectMap = (values: string[],mappingType:string="object"): { label: string; value: string|number }[] => {
+
+  const map :{ label: string; value: string|number }[] = [];
+  for (const value of values) {
+    if (mappingType=="object"){
+      map.push({ label:capitalizeFirstLetterOfWords(value[1].toLowerCase()), value:value[0] })
+    }else if (mappingType=="array"){
+      map.push({ label:capitalizeFirstLetterOfWords(value.toLowerCase()), value:value })
+    }
+  }
+  return map;
 }
 
 

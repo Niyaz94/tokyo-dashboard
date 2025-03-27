@@ -23,7 +23,7 @@ export default () =>{
     <AddEditProvider initialData={unique}>
       <Template templateTitle="Goals - Task Progress">
         <Routes>
-          <Route path=""    element={<PageTable {...data} />} />
+          <Route path=""    element={<PageTable tableData={tableData} />} />
           <Route path="add" element={ <AddEdit/>} />
         </Routes>
       </Template>
