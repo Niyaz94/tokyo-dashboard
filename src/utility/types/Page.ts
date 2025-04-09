@@ -40,3 +40,18 @@ export type ActivityFormIntialStateInterface = {
   isGoingGym: boolean;
   weight: number;
 };
+
+export type TodayFormIntialStateInterface = {
+  id: number;
+  date: string;
+  worryingLevel: string;
+  infoConsumptionLevel: string;
+  isBusyDay: boolean;
+  isMeditation: boolean;
+  isSuccessfulDay: boolean;
+  dailyNotes: string;
+  whatToDoBetter: string;
+  usefulTimeInMinutes: number;
+  wastedTimeInMinutes: number;
+  successRate: number;
+};

@@ -41,3 +41,20 @@ export const ActivityFormIntialState = {
   isGoingGym: false,
   weight: 0,
 };
+
+
+
+export const TodayFormIntialStateInterface = {
+  id: 0,
+  date: dayjs().format('YYYY-MM-DD'),
+  worryingLevel: '',
+  infoConsumptionLevel: '',
+  isBusyDay: false,
+  isMeditation: false,
+  isSuccessfulDay: false,
+  dailyNotes: '{}',
+  whatToDoBetter: '{}',
+  usefulTimeInMinutes: 0,
+  wastedTimeInMinutes: 0,
+  successRate: 50
+};

@@ -31,3 +31,9 @@ export  const StatusCase1 = [
     { value: 'HIGH', label: 'High' },
     { value: 'VERY_HIGH', label: 'Very High' }
 ];
+export  const StatusCase2 = [
+    { value: 'LOW', label: 'Low' },
+    { value: 'NORMAL', label: 'Normal' },
+    { value: 'HIGH', label: 'High' },
+];
+
