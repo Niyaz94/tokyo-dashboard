@@ -1,32 +1,33 @@
-import { Helmet }           from 'react-helmet-async';
-import { Grid2 as Grid, Container }  from '@mui/material';
+import Template                       from '../../../components/Page/Template';
+import useFetch, {FetchData}          from '../../../utility/customHook/useGetAPI';
+import PageTable                      from './Table';
+import AddEdit                        from './AddEdit';
+import { Routes, Route }              from "react-router-dom";
+import {ActivityProvider}             from '../../../store/context/activityContext';
+import { RecentActivityTableInterface} from 'src/utility/types/data_types';
 
-import PageTitleWrapper     from 'src/components/PageTitleWrapper';
-import Footer               from 'src/components/Footer';
 
-import PageHeader           from './PageHeader';
-import RecentOrders         from './Main';
-import { CollapseProvider } from '../../../contexts/CollapseToggle';
+export default () =>{
 
-function ApplicationsTransactions() {
+  const { data,success}: FetchData<RecentActivityTableInterface> = useFetch <RecentActivityTableInterface>('notes/activity',{data:[]});
+
+
+  if (!success) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <CollapseProvider>
-      <Helmet>
-        <title>Personal - Activity</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid container direction="row" justifyContent="center" alignItems="stretch" spacing={3}>
-          <Grid size={{xs:12}}>
-            <RecentOrders />
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
-    </CollapseProvider>
+    <ActivityProvider tableData={data} >
+      <Template templateTitle="Perosnal - Activity">
+        <Routes>
+          <Route path=""    element={<PageTable />} />
+          {/* <Route path=""    element={<PageTable tableData={tableData} />} /> */}
+          <Route path="add" element={ <AddEdit/>} />
+          <Route path=":id" element={ <AddEdit/>} />
+        </Routes>
+      </Template>
+    </ActivityProvider>
+
   );
 }
 
-export default ApplicationsTransactions;

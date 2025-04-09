@@ -20,9 +20,24 @@ export const sleepFormIntialState:SleepFormStateInterface = {
 export const TaskStatusFormIntialState = {
   id: 0,
   task:0,
-  date: dayjs(),
+  date: dayjs().format('YYYY-MM-DD'),
   status: '',
   note: '{}',
   isTodaySTask: false,
   spendingTime: 0,
+};
+
+export const ActivityFormIntialState = {
+  id: 0,
+  consumeWaterInLiters: 0,
+  minBurnCalories: 0,
+  mbNumber: 0,
+  mbSpendingTime: 0,
+  eatingLevel:'',
+  daily: 0,
+  activityLevel: '',
+  activityNotes: '{}',
+  eattingNotes: '{}',
+  isGoingGym: false,
+  weight: 0,
 };

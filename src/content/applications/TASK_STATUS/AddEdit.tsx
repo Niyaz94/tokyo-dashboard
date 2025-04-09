@@ -13,12 +13,10 @@ import CustomizedSwitch             from '../../../components/Form/CustomSwitch'
 import MultiButton                  from "../../../components/Form/MultiButton"
 import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
 
-import { useSelector }              from 'react-redux';
 import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 
-import { RootState }                    from '../../../store/Reducer';
 import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
-import {useTaskStatus}                  from '../../../store/tastStatusContext';
+import {useTaskStatus}                  from '../../../store/context/tastStatusContext';
 
 import {createSelectMap}                from '../../../utility/function/main';
 import {TaskStatusSingleSampleInterface} from 'src/utility/types/data_types';
@@ -40,7 +38,6 @@ const CollapsibleForm = () => {
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(TaskStatusFormIntialState);
-  const dailyData               = useSelector((state: RootState) => state.daily.data);
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_page_id ?`schedule/task_status/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
@@ -72,6 +69,9 @@ const CollapsibleForm = () => {
   }, [fetchEditData]);
 
   const handleFormChange = useCallback((key, value) => {
+    if (key === 'date') {
+      value = dayjs(value).format('YYYY-MM-DD');
+    }
     setFormData((prev) => ({...prev,[key]: value}));
   },[]);
   
@@ -101,10 +101,10 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <CustomDatePicker
                   label="Date"
-                  value={dayjs(formData.date, 'YYYY-MM-DD')}
+                  value={formData.date}
                   // value={formData.date}
                   placeholder=""
-                  onChange={(newValue) => handleFormChange('date', newValue)}
+                  onChange={(newValue) => handleFormChange('date', newValue )}
                 />
               </Grid>
               <Grid size={6}>

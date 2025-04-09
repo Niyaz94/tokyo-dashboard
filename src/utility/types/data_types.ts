@@ -55,8 +55,8 @@ export interface Filters {
 
 
 
-export interface ActivityType {
-  id: string;
+export interface ActivitySingleSampleInterface {
+  id: number;
   date: string;
   success: number;
   weight: number;
@@ -69,11 +69,12 @@ export interface ActivityType {
   minBurnCalories: number;
   isGoingGym:boolean;
   is_meditation:boolean;
+  mbNumber: number;
+  mbSpendingTime: number;
 }
 
 export interface RecentActivityTableInterface {
-  className?: string;
-  activityData: ActivityType[];
+  data: ActivitySingleSampleInterface[];
 }
 
 
@@ -97,12 +98,6 @@ export interface SingleTaskRecordInterface {
   }
   data: SingleTaskSampleInterface[];
 }
-
-// interface recordTypes {
-//   data:[],
-  
-// }
-
 
 export interface GoalSampleInterface {
   id: string;

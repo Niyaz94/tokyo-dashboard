@@ -8,7 +8,7 @@ import LexicalEditor          from '../../../components/Custom/Lexical/Editor';
 import TimePickers            from '../../../components/Form/TimePickers';
 import StaticAutocomplete     from '../../../components/Form/StaticAutocomplete';
 import Template               from '../../../components/Page/Template';
-import { sleepStatus }        from '../../../utility/function/data';
+import { StatusCase1 as sleepStatus }        from '../../../utility/function/data';
 import usePostAPI             from '../../../utility/customHook/usePostAPI';
 import useEditAPI             from '../../../utility/customHook/useEditAPI';
 import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';

@@ -63,9 +63,6 @@ const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/Comi
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
 
 
-
-
-
 const routes: RouteObject[] = [
   {
     path: '',
@@ -122,9 +119,7 @@ const routes: RouteObject[] = [
       {path: 'sleep/:id',element: <SleepEdit   />},
 
       
-
-      
-      {path: 'activity',element: <Activity />,
+      {path: 'activity/*',element: <Activity />,
         // children: [
           // { path: 'add', element: <AddSleep /> }, // Route: /personal/sleep/add
         // ]

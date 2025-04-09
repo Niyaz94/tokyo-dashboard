@@ -17,7 +17,7 @@ interface CustomAutocompleteProps {
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     label,options,formKey,multiple = false,onChange,defaultValue = null,disabled = false,showValueInLabel=true
 }) => {
-    // console.log("CustomAutocomplete",formKey); //Do not remove this line, it relates to the rerendering issue.
+    console.log("CustomAutocomplete",formKey); //Do not remove this line, it relates to the rerendering issue.
     return (
         <Autocomplete
             multiple={multiple}

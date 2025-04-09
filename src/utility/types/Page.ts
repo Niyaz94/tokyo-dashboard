@@ -19,9 +19,24 @@ export type SleepFormStateInterface = {
 export type TaskStatusFormStateInterface = {
   id: number;
   task:number;
-  date: dayjs.Dayjs | null; // DONE
+  date: string | null; // DONE
   status: string;
   note: string; // DONE
   isTodaySTask: boolean; // DONE
   spendingTime: number; // DONE
+};
+
+export type ActivityFormIntialStateInterface = {
+  id: number;
+  consumeWaterInLiters: number;
+  minBurnCalories: number;
+  mbNumber: number;
+  mbSpendingTime: number;
+  eatingLevel:string;
+  daily: number;
+  activityLevel: string;
+  activityNotes: string;
+  eattingNotes: string;
+  isGoingGym: boolean;
+  weight: number;
 };
