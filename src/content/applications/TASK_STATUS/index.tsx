@@ -3,16 +3,12 @@ import useFetch, {FetchData}          from '../../../utility/customHook/useGetAP
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { TaskStatusRecordInterface}   from 'src/utility/types/data_types';
-import { Routes, Route } from "react-router-dom";
-import {AddEditProvider,useAddEdit} from '../../../store/Context';
-import { useEffect } from 'react';
+import { Routes, Route }              from "react-router-dom";
+import {TaskStatusProvider}           from '../../../store/tastStatusContext';
 
 
 export default () =>{
-  // const { data,success}: FetchData<[]> = useFetch <[]>('notes/sleep',[]);
   const { data,success}: FetchData<TaskStatusRecordInterface> = useFetch <TaskStatusRecordInterface>('schedule/task_status',{data:[],unique:{}});
-  // const { setAddEditData } = useAddEdit();
-  
   const {data:tableData,unique} = data;
 
   if (!success) {
@@ -20,14 +16,16 @@ export default () =>{
   }
 
   return (
-    <AddEditProvider initialData={unique}>
+    <TaskStatusProvider tableData={tableData} secondaryData={unique} >
       <Template templateTitle="Goals - Task Progress">
         <Routes>
-          <Route path=""    element={<PageTable tableData={tableData} />} />
+          <Route path=""    element={<PageTable />} />
+          {/* <Route path=""    element={<PageTable tableData={tableData} />} /> */}
           <Route path="add" element={ <AddEdit/>} />
+          <Route path=":id" element={ <AddEdit/>} />
         </Routes>
       </Template>
-    </AddEditProvider>
+    </TaskStatusProvider>
 
   );
 }

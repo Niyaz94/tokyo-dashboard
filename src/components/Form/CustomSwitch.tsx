@@ -15,11 +15,12 @@ const useStyles = makeStyles({
     // background:"#000"
   },
 });
-const CustomizedSwitch:FC<CustomSwitchInterface>= ({value,label,onChange}) => {
-
+const CustomizedSwitch:FC<CustomSwitchInterface>= React.memo(({value,label,onChange}) => {
+    // value=true
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // console.log("handleChange",event.target.checked);
         onChange(event.target.checked);
     };
     return (
@@ -29,6 +30,7 @@ const CustomizedSwitch:FC<CustomSwitchInterface>= ({value,label,onChange}) => {
                     <Switch 
                         size="medium" 
                         color="success" 
+                        checked={value}
                         defaultChecked={value} 
                         onChange={handleChange}
                         classes={{ root: classes.root }}
@@ -38,6 +40,6 @@ const CustomizedSwitch:FC<CustomSwitchInterface>= ({value,label,onChange}) => {
             />
         </FormGroup>
     );
-}
+})
 
 export default CustomizedSwitch

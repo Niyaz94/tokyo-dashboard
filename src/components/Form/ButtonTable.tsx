@@ -10,7 +10,6 @@ import ConfirmDialog      from '../../components/Custom/Dialog/ConfirmDialog';
 
 
 const ButtonTable = ({ id, text,onDeleteRow }) => {
-  console.log(id)
   const [openDeleteConfirmDialog, setOpenDeleteConfirmDialog] = useState(false);
   
   const theme = useTheme();

@@ -2,7 +2,7 @@ import {
   usePostAPI, useEditAPI, useFetch, FetchData 
 }         from "../../../utility/customHook";
 
-import React, { useState,useEffect,FC } from 'react';
+import React, { useState,useEffect,useCallback,useMemo, use } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -11,7 +11,6 @@ import LexicalEditor                from '../../../components/Custom/Lexical/Edi
 import CustomDatePicker             from '../../../components/Form/CustomDatePickers';
 import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
 import MultiButton                  from "../../../components/Form/MultiButton"
-import Template                     from '../../../components/Page/Template';
 import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
 
 import { useSelector }              from 'react-redux';
@@ -19,33 +18,36 @@ import StaticAutocomplete           from '../../../components/Form/StaticAutocom
 
 import { RootState }                    from '../../../store/Reducer';
 import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
-import {useAddEdit}                     from '../../../store/Context';
+import {useTaskStatus}                  from '../../../store/tastStatusContext';
 
 import {createSelectMap}                from '../../../utility/function/main';
+import {TaskStatusSingleSampleInterface} from 'src/utility/types/data_types';
+import dayjs                           from "dayjs";
 
 
 const CollapsibleForm = () => {
 
-  const  {addEditData}  = useAddEdit();
+  const  {secondary,table,setTable}              = useTaskStatus();
+  const {tasks_name,task_status}  = secondary;
 
-  const {tasks_name,task_status} = addEditData;
-
-  const task_name_map   = createSelectMap(tasks_name.filter(row=>row[2]=="active").map(row=>row))
-  const task_status_map = createSelectMap(task_status,"array")
+  const task_name_map         = createSelectMap(tasks_name.filter(row=>row[2]=="active").map(row=>row))
+  const mem_task_name_map     = useMemo(() => task_name_map, []);
 
 
-  const navigate              = useNavigate();
-  const { id:edit_sleep_id }  = useParams();
+  const task_status_map         = createSelectMap(task_status,"array")
+  const mem_task_status_map     = useMemo(() => task_status_map, []);
 
+  const navigate                = useNavigate();
+  const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(TaskStatusFormIntialState);
   const dailyData               = useSelector((state: RootState) => state.daily.data);
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_page_id ?`schedule/task_status/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/personal/sleep'))
+    handleSave().then(()=>navigate('/goals/task_progress'))
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -53,24 +55,34 @@ const CollapsibleForm = () => {
   }
 
   useEffect(() => {
+      const {success,data}=response || {success:false,data:null};
+      setTable(prev => success ?[data,...prev]:prev);
+  }, [response]);
+
+  useEffect(() => {
+      const {success,data}=editResponse || {success:false,data:null};
+      setTable(prev => success ?[...prev.map((item:TaskStatusSingleSampleInterface) => item.id === data.id?data:item),data]:prev);
+  }, [editResponse]);
+
+
+  useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
-      // Uncommented for edit
-      // setFormData({...fetchEditData});
+      setFormData({...fetchEditData});
     }
   }, [fetchEditData]);
 
-  const handleFormChange = (key, value) => {
-    // console.log("handleFormChange",key,value)
+  const handleFormChange = useCallback((key, value) => {
     setFormData((prev) => ({...prev,[key]: value}));
-  };
+  },[]);
+  
   const handleSave = async () => {
-    console.log("handleSave",formData)
     const { id, ...dataToBeSent } = formData; // Destructure once
-    // if (edit_sleep_id) {
-      // await editData(`notes/sleep/${edit_sleep_id}/`, formData);
-    // }else{
-      // await postData("notes/sleep/", dataToBeSent);
-    // }
+    if (edit_page_id) {
+      await editData(`schedule/task_status/${edit_page_id}/`, formData);
+    }else{
+      console.log("formData",formData)
+      await postData("schedule/task_status/", dataToBeSent);
+    }
     
   };
   const cleanForm = () => {
@@ -78,7 +90,6 @@ const CollapsibleForm = () => {
   };
 
   return (
-    <Template templateTitle="Personal - Sleep">
       <Card>
         <CardHeader title="Input Fields" />
         <Divider />
@@ -90,7 +101,8 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <CustomDatePicker
                   label="Date"
-                  value={formData.date}
+                  value={dayjs(formData.date, 'YYYY-MM-DD')}
+                  // value={formData.date}
                   placeholder=""
                   onChange={(newValue) => handleFormChange('date', newValue)}
                 />
@@ -115,9 +127,9 @@ const CollapsibleForm = () => {
               </Grid>
               <Grid size={6}>
                 <StaticAutocomplete
-                  label="Morning Feeling"
-                  options={task_name_map}
-                  defaultValue={task_name_map.filter((item) => item.value === formData.task)[0]}
+                  label="Task Name"
+                  options={mem_task_name_map}
+                  defaultValue={mem_task_name_map.filter((item) => item.value === formData.task)[0]}
                   formKey="task"
                   showValueInLabel={false}
                   onChange={handleFormChange}
@@ -125,9 +137,9 @@ const CollapsibleForm = () => {
               </Grid>
               <Grid size={6}>
                 <StaticAutocomplete
-                  label="Morning Feeling"
-                  options={task_status_map}
-                  defaultValue={task_status_map.filter((item) => item.value === formData.status)[0]}
+                  label="Task Status"
+                  options={mem_task_status_map}
+                  defaultValue={mem_task_status_map.filter((item) => item.value === formData.status)[0]}
                   formKey="status"
                   showValueInLabel={false}
                   onChange={handleFormChange}
@@ -136,7 +148,7 @@ const CollapsibleForm = () => {
               <Grid size={12}>
                 <CustomizedSwitch 
                   value={formData.isTodaySTask}
-                  onChange={(newValue) => handleFormChange('isTodaySTask', newValue)}
+                  onChange={useCallback((newValue) => handleFormChange('isTodaySTask', newValue),[])}
                   label="Is Today's Task"
                 />
               </Grid>  
@@ -144,7 +156,7 @@ const CollapsibleForm = () => {
                 <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Tasks Note"/>
               </Grid>           
               <Grid size={12}>
-                <MultiButton type={edit_sleep_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/task_progress'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/task_progress'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
@@ -155,7 +167,6 @@ const CollapsibleForm = () => {
           </Box>
         </CardContent>
       </Card>
-    </Template>
   );
 };
 export default CollapsibleForm;

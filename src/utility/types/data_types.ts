@@ -174,10 +174,17 @@ export interface TaskStatusSingleSampleInterface {
   }
 }
 
-export interface TaskStatusRecordInterface {
-  data: TaskStatusSingleSampleInterface[];
-  unique:{
+export interface TaskStatusUniqueInterface {
     tasks_name:string[];
     task_status:string[];
-  }
+}
+export interface TaskStatusRecordInterface {
+  data: TaskStatusSingleSampleInterface[];
+  unique:TaskStatusUniqueInterface
+}
+export interface TaskStatusContextInterface {
+  table: TaskStatusSingleSampleInterface[];
+  setTable: (val: TaskStatusSingleSampleInterface[]) => void;
+  secondary: TaskStatusUniqueInterface;
+  setSecondary: (val: {}) => void;
 }

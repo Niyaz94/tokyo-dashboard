@@ -4,7 +4,7 @@ import TableCusCell from '../../../components/Table/Cell';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
-import { useAddEdit } from '../../../store/Context';
+import { useTaskStatus } from '../../../store/tastStatusContext';
 
 import {
   labelWithColor,
@@ -15,14 +15,15 @@ import {
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const { addEditData } = useAddEdit();
-  const { tasks_name, task_status } = addEditData;
-  const taskNameMap = createMapLabelData(tasks_name.map((row) => row[0]));
+  const { secondary } = useTaskStatus();
+  const { tasks_name, task_status } = secondary;
+  const taskNameMap = createMapLabelData(tasks_name.map((row) => row[1]));
   const taskStatusMap = createMapLabelData(task_status, [3, 0, 2, 4]);
   const taskMap = createMapLabelData(['active', 'inactive', 'archive'],[3, 2, 4]);
-  const {id,date,note,spendingTime,task_name,status,task_detail,isTodaySTask} = data;
+  const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
   const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail;
 
+  const note_text = JSON.parse(note)
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -68,8 +69,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(taskNameMap[task_name].text)}`,
-              taskNameMap[task_name].color,
+              `${capitalizeFirstLetterOfWords(taskNameMap[single_task_name].text)}`,
+              taskNameMap[single_task_name].color,
               'Task Name'
             ),
             styleType: 1
@@ -81,7 +82,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
         child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
-        prop={[{ text: note[0], styleType: 2 }]}
+        prop={[{ text: note_text["root"]["children"][0]["children"][0].text, styleType: 2 }]}
       />
       <TableCusCell
         cellProps={{ align: 'center' }}
@@ -136,7 +137,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         ]}
       />
       <TableCell align="right">
-        <ButtonTable id={id} text="sleep" onDeleteRow={onDeleteRow} />
+        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} />
       </TableCell>
     </TableRow>
   );
