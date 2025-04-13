@@ -34,6 +34,8 @@ const SleepEdit     = Loader(lazy(() => import('src/content/applications/SLEEP/A
 // const AddSleep      = Loader(lazy(() => import('src/content/applications/Sleep/AddSleep')));
 const Activity      = Loader(lazy(() => import('src/content/applications/ACTIVITY')));
 const Today      = Loader(lazy(() => import('src/content/applications/TODAY')));
+const Tomorrow      = Loader(lazy(() => import('src/content/applications/TOMORROW')));
+
 const SINGLE_TASK   = Loader(lazy(() => import('src/content/applications/SINGLE_TASK')));
 const TASK          = Loader(lazy(() => import('src/content/applications/TASK')));
 const GOAL          = Loader(lazy(() => import('src/content/applications/GOAL')));
@@ -120,6 +122,8 @@ const routes: RouteObject[] = [
       {path: 'sleep/:id',element: <SleepEdit   />},
 
       {path: 'today/*',element: <Today />},
+      {path: 'tomorrow/*',element: <Tomorrow />},
+      
       {path: 'activity/*',element: <Activity />,
       
         // children: [

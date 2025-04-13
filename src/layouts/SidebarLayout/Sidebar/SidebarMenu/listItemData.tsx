@@ -59,10 +59,10 @@ const slideBarItems: Record<string, SlideBarSection> = {
         showSubHeader: true,
         children: [
           {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Types',    link: '/money/expense/types',       icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Details',  link: '/money/expense',             icon: <TableChartTwoToneIcon />},
-          {title: 'Currency',         link: '/money/currency',            icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Reports',  link: '/money/expense/reports',     icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Types',    link: '/management/expense/types',       icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Details',  link: '/management/expense',             icon: <TableChartTwoToneIcon />},
+          {title: 'Currency',         link: '/management/currency',            icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Reports',  link: '/management/expense/reports',     icon: <TableChartTwoToneIcon />},
         ],
       },
       myDailyLife: {

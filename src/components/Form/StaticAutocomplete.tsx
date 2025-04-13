@@ -20,6 +20,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     console.log("CustomAutocomplete",formKey); //Do not remove this line, it relates to the rerendering issue.
     return (
         <Autocomplete
+            sx={{paddingTop: "10px"}}
             multiple={multiple}
             options={options}
             defaultValue={options.filter((item) => item.value === defaultValue)[0]}

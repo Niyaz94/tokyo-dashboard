@@ -40,12 +40,13 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
   return (
 
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={['DatePicker']}>
+      <DemoContainer components={['DatePicker']} sx={{paddingTop: "10px"}}>
         <DatePicker 
           label={label} 
           onChange={(date)=>{onChange(currentValueFormat(date))}}
           value={(typeof value==='string'?dayjs(value,"YYYY-MM-DD"):value)}
           slots={{ textField: TextField }} 
+          
           slotProps={{
             field: { 
               clearable: true, 

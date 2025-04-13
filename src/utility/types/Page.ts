@@ -55,3 +55,11 @@ export type TodayFormIntialStateInterface = {
   wastedTimeInMinutes: number;
   successRate: number;
 };
+
+export type TomorrowFormIntialStateInterface = {
+  id: number;
+  date: string;
+  hasPlan: boolean;
+  tomorrowNotes: string;
+  daily: number;
+};     

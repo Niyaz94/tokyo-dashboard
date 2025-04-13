@@ -58,3 +58,12 @@ export const TodayFormIntialStateInterface = {
   wastedTimeInMinutes: 0,
   successRate: 50
 };
+
+export const TomorrowFormIntialStateInterface = {
+  id: 0,
+  daily: null,
+  date: dayjs().add(1, "day").format('YYYY-MM-DD'),
+  hasPlan: false,
+  tomorrowNotes: '{}'
+};
+
