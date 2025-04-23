@@ -103,7 +103,7 @@ const DataTable = () => {
   const selectedAllPageData  = selectedTableData.length === tableData.length;
 
   const deleteTableRow = async (id) => {
-    await deleteData(`notes/activity/${id}/`);
+    await deleteData(`notes/tomorrow/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
@@ -153,10 +153,10 @@ const DataTable = () => {
               <TableCell padding="checkbox">
                 <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
               </TableCell>
-              <TableCell align='center'>Date</TableCell>
-              <TableCell align='center'>Activity Level</TableCell>
-              <TableCell align='center'>Gym</TableCell>
-              <TableCell align="center">Activity</TableCell>
+              <TableCell align='left'>Date</TableCell>
+              <TableCell align='center'>Meditation</TableCell>
+              <TableCell align='center'>Activity</TableCell>
+              <TableCell align="center">Plan</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>

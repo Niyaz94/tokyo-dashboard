@@ -183,3 +183,20 @@ export interface TaskStatusContextInterface {
   secondary: TaskStatusUniqueInterface;
   setSecondary: (val: {}) => void;
 }
+
+
+export interface TomorrowSingleSampleInterface {
+  id: number;
+  date: string;
+  daily: number|null;
+  isBusyDay: boolean;
+  succssRate: number;
+  isMeditation: boolean;
+  usefulTimeInMinutes: number;
+  wastedTimeInMinutes: number;
+  hasPlan: boolean;
+}
+
+export interface RecentTomorrowTableInterface {
+  data: TomorrowSingleSampleInterface[];
+}

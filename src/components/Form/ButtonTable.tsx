@@ -16,7 +16,7 @@ const ButtonTable = ({ id, text,onDeleteRow }) => {
   const navigate = useNavigate();
  
   return (
-    <Stack direction="row" spacing={0.5} >
+    <Stack direction="row" spacing={0.5} sx={{justifyContent: "center",alignItems: "center",}}>
       <Tooltip title={`EDIT ${text.toUpperCase()}`} arrow>
         <IconButton 
           color="inherit" onClick={()=>navigate(`${id}`)} size="medium" 

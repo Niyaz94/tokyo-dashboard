@@ -1,9 +1,7 @@
 import { ChangeEvent } from 'react';
 
 import {
-  Tooltip,
   Checkbox,
-  IconButton,
   TableCell,
   TableRow,
   Stack,
@@ -20,12 +18,18 @@ import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatRecline
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import LockClockIcon from '@mui/icons-material/LockClock';
 import {getStatusIcon,labelWithColor,labelColorByNumber,getDayAbbreviation} from '../../../utility/function/main';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
-  const theme = useTheme();
-  const {id,date,success,worrying,activityLevel,eatingLevel,is_busy,consumeWaterInLiter,weight,SleepState,minBurnCalories,isGoingGym,is_meditation} = data;
 
+  console.log('data',data);
+
+  const {id,date,daily,isBusyDay,succssRate,isMeditation,usefulTimeInMinutes,wastedTimeInMinutes,hasPlan} = data;
+  console.log(succssRate,date);
   return (
     <TableRow hover key={id} selected={isDataSelected}>
       <TableCell padding="checkbox">
@@ -44,11 +48,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           {
             text: (
               <Stack direction="row" spacing={1}>
-                <Label color={is_busy ? 'primary' : 'warning'}>
-                  {is_busy ? 'B' : 'N'}
-                </Label>
-                <Label color={labelColorByNumber(success)}>
-                  SR: {success} %
+                <Label color={labelColorByNumber(succssRate)}>
+                  SR: {succssRate} %
                 </Label>
               </Stack>
             ),
@@ -60,18 +61,27 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: getStatusIcon(activityLevel, <DirectionsRunIcon />),
+            text: isMeditation ? (
+              <SelfImprovementIcon sx={{ fontSize: '2rem', color: 'primary.main' }}/>
+            ) : (<RemoveCircleOutlineIcon sx={{ fontSize: '2rem', color: 'error.main' }}/>),
+            styleType: 1
+          }
+        ]}
+      />
+      <TableCusCell
+        cellProps={{ align: 'center' }}
+        prop={[
+          {
+            text: isBusyDay ? (
+              <HourglassTopIcon sx={{ fontSize: '2rem', color: 'primary.main' }}/>
+            ) : (<LockClockIcon sx={{ fontSize: '2rem', color: 'error.main' }}/>),
             styleType: 1
           },
           {
             text: (
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'center', alignItems: 'center' }}
-                spacing={1}
-              >
-                {getStatusIcon(eatingLevel, <FastfoodIcon />)}
-                {labelWithColor(`WD: ${consumeWaterInLiter}`, 'success')}
+              <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>
+                {labelWithColor(`${usefulTimeInMinutes} min`, labelColorByNumber((usefulTimeInMinutes / 3)))}
+                {labelWithColor(`${wastedTimeInMinutes} min`,labelColorByNumber(Math.abs(100-wastedTimeInMinutes / 3)))}
               </Stack>
             ),
             styleType: 2
@@ -81,62 +91,12 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       <TableCusCell
         cellProps={{ align: 'center' }}
         prop={[
-          {
-            text: isGoingGym ? (
-              <FitnessCenterIcon
-                sx={{ fontSize: '3rem', color: 'primary.main' }}
-              />
-            ) : (
-              <AirlineSeatReclineNormalIcon
-                sx={{ fontSize: '3rem', color: 'error.main' }}
-              />
-            ),
-            styleType: 1
-          },
-          {
-            text: (
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'center', alignItems: 'center' }}
-                spacing={1}
-              >
-                {labelWithColor(`${weight} Kg`, 'black')}
-                {labelWithColor(
-                  `${minBurnCalories} kcal`,
-                  labelColorByNumber((minBurnCalories / 300) * 100)
-                )}
-              </Stack>
-            ),
-            styleType: 2
-          }
-        ]}
-      />
-      <TableCusCell
-        cellProps={{ align: 'center' }}
-        prop={[
-          {
-            text: getStatusIcon(SleepState, <AirlineSeatFlatIcon />),
-            styleType: 1
-          },
-          {
-            text: (
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'center', alignItems: 'center' }}
-                spacing={1}
-              >
-                {getStatusIcon(
-                  worrying,
-                  <SentimentVeryDissatisfiedIcon />,
-                  true
-                )}
-                {is_meditation
-                  ? labelWithColor(<SelfImprovementIcon />, 'success')
-                  : labelWithColor(<RemoveCircleOutlineIcon />, 'error')}
-              </Stack>
-            ),
-            styleType: 2
-          }
+          {text: hasPlan ? (
+            <BeenhereIcon sx={{ fontSize: '2rem', color: 'primary.main' }}/>
+          ) : (
+            <EventBusyIcon sx={{ fontSize: '2rem', color: 'error.main' }}/>
+          ),
+            styleType: 1}
         ]}
       />
       <TableCell align="right">

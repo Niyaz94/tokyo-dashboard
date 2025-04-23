@@ -21,14 +21,17 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     return (
         <Autocomplete
             sx={{paddingTop: "10px"}}
+            id={`${formKey}-autocomplete`}
             multiple={multiple}
             options={options}
-            defaultValue={options.filter((item) => item.value === defaultValue)[0]}
+            defaultValue={options.filter((item) => item.value === defaultValue)[0] || null}
             value={defaultValue || null}
             disabled={disabled}
-            disableClearable
-            onChange={(e, {value,label},reason, details) => {
-                // console.log(value,label,reason, details)
+            // disableClearable
+            onChange={(e, newValue,reason, details) => {
+
+                const value = newValue?.value ?? null;  
+                // const label = newValue?.label ?? formKey;
                 onChange(formKey,value);
             }}
             autoHighlight
