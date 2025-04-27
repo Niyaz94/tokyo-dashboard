@@ -1,5 +1,6 @@
 import dayjs                  from 'dayjs';
 import { SleepFormStateInterface } from '../../utility/types/Page';
+import { n } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
 
 
 export const sleepFormIntialState:SleepFormStateInterface = {
@@ -40,6 +41,15 @@ export const ActivityFormIntialState = {
   eattingNotes: '{}',
   isGoingGym: false,
   weight: 0,
+};
+
+export const ExpenseFormIntialState = {
+  id: 0,
+  date: dayjs().format('YYYY-MM-DD'),
+  amount: 0,
+  note: '{}',
+  currency: 0,
+  type: 0
 };
 
 

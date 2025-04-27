@@ -17,8 +17,10 @@ export interface CartState {
     discount: number;
 }
 
-export interface CounterState {
-    value: number;
+export interface tablePaginationInterface {
+    name: string;
+    page: number;
+    limit: number;
 }
 
 

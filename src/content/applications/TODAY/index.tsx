@@ -4,12 +4,12 @@ import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { Routes, Route }              from "react-router-dom";
 import {ActivityProvider}             from '../../../store/context/activityContext';
-import { RecentActivityTableInterface} from 'src/utility/types/data_types';
+import { RecentDailyTableInterface} from 'src/utility/types/data_types';
 
 
 export default () =>{
 
-  const { data,success}: FetchData<RecentActivityTableInterface> = useFetch <RecentActivityTableInterface>('notes/activity',{data:[]});
+  const { data,success}: FetchData<RecentDailyTableInterface> = useFetch <RecentDailyTableInterface>('notes/daily',{data:[]});
 
 
   if (!success) {
@@ -21,7 +21,6 @@ export default () =>{
       <Template templateTitle="Perosnal - Today">
         <Routes>
           <Route path=""    element={<PageTable />} />
-          {/* <Route path=""    element={<PageTable tableData={tableData} />} /> */}
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>

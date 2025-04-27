@@ -36,7 +36,7 @@ const CollapsibleForm = () => {
   const [formData, setFormData] = useState(FormIntialState);
   const dailyData               = useSelector((state: RootState) => state.daily.data);
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/activity/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/daily/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
@@ -50,12 +50,12 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=response || {success:false,data:null};
-      // setTable(prev => success ?[data,...prev]:prev);
+      setTable(prev => success ?[data,...prev]:prev);
   }, [response]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      // setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
+      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
   }, [editResponse]);
 
 

@@ -1,10 +1,14 @@
-import { AuthState, BookState, tableState,CounterState,CartState,titleState,dailyInitialStateInterface} from '../utility/types/typeStore';
+import { AuthState, BookState, tableState,tablePaginationInterface,CartState,titleState,dailyInitialStateInterface} from '../utility/types/typeStore';
 
 
 
-export const counterInitialState: CounterState = {
-  value: 0,
-};
+export const tablePagination: tablePaginationInterface[] = [
+  { name: "expense",page: 0, limit: 10 },
+  { name: "today",page: 0, limit: 10 },
+  { name: "tomorrow",page: 0, limit: 10 },
+  { name: "activity",page: 0, limit: 10 },
+  { name: "sleep"  ,page: 0, limit: 10 },
+]
 export const bookInitialState: BookState = {
   books: [
     { id: 1, title: 'Book 1', price: 20, quantity: 10 },

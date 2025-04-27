@@ -200,3 +200,53 @@ export interface TomorrowSingleSampleInterface {
 export interface RecentTomorrowTableInterface {
   data: TomorrowSingleSampleInterface[];
 }
+
+
+export interface DailySingleSampleInterface {
+  id: number;
+  date: string;
+  isBusyDay: boolean;
+  isMeditation: boolean;
+  isSuccessfulDay: boolean;
+  worryingLevel: level1Status;
+  infoConsumptionLevel: level2Status;
+  usefulTimeInMinutes: number;
+  wastedTimeInMinutes: number;
+  successRate: number;
+  activity: {
+      isGoingGym: boolean;
+      weight: number;
+      mbNumber: number;
+  } | null;
+  sleep: {
+      SleepState: level1Status;
+      bedTime: string;
+      approxFellSleepTime: string;
+      morningWakingUp: string;
+      dayTimeSleepInMinutes: number;
+  } | null;
+}
+
+export interface RecentDailyTableInterface {
+  data: DailySingleSampleInterface[];
+}
+
+
+
+export interface ExpenseUniqueInterface {
+  type:string[];
+  currency:string[];
+}
+export interface ExpenseSingleSampleInterface {
+  id: string;
+  date: string;
+  note: string;
+  amount: number;
+  expense_type:string;
+  deadline:string;
+}
+
+export interface RecentExpenseTableInterface {
+  data: ExpenseSingleSampleInterface[];
+  unique:ExpenseUniqueInterface;
+}

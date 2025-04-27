@@ -18,7 +18,9 @@ const LabelWrapper = styled('span')(
       border-radius: ${theme.general.borderRadius};
       display: inline-flex;
       align-items: center;
+      font-size: ${theme.typography.pxToRem(14)};
       justify-content: center;
+      gap: ${theme.spacing(1)}; 
       // text-transform: capitalize;
       max-height: ${theme.spacing(3)};
       

@@ -12,10 +12,15 @@ import CustomTableRow                                     from './TableRow';
 import { useNavigate }                                    from "react-router-dom";
 import useDeleteAPI                                       from '../../../utility/customHook/useDeleteAPI';
 
-
+import { useSelector,useDispatch }    from 'react-redux';
+import { RootState }                  from '../../../store/Reducer';
+import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 
 
 const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
+
+  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'sleep')[0]);
+  const dispatch        = useDispatch();
 
   const navigate = useNavigate();
   const { response:deleteRowResponse, loading, error, deleteData } = useDeleteAPI();
@@ -23,8 +28,6 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
   // it contains the ids of selected rows
   const [selectedSleepData, setSelectedSleepData]     = useState<string[]>([]);
   // it let you know if any rows have been selected
-  const [page, setPage]                               = useState<number>(0);
-  const [limit, setLimit]                             = useState<number>(5);
   const [filters, setFilters]                         = useState<Filters>({status: null});
   const [filteredSleepData,setFilteredSleepData]      = useState<SleepType[]>([]);
   const [paginatedSleepData,setPaginatedSleepData]    = useState<SleepType[]>([]);
@@ -74,11 +77,12 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
       setSelectedSleepData((prevSelected) =>prevSelected.filter((id) => id !== sleepId));
     }
   };
-  // when the user change the table page
-  const handlePageChange = (event: any, newPage: number): void => {setPage(newPage);};
+  const handlePageChange = (event: any, newPage: number): void => {
+    dispatch(setPage({ name: 'sleep', page: newPage }));
+  };
   // change table pagination length
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
+    dispatch(setLimit({  name: 'sleep', limit: parseInt(event.target.value) }));
   };
 
  

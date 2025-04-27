@@ -4,7 +4,7 @@ import TableCusCell from '../../../components/Table/Cell';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
-import { useTaskStatus } from '../../../store/context/tastStatusContext';
+import { useTaskStatus } from '../../../store/context/taskStatusContext';
 
 import {
   labelWithColor,
@@ -69,9 +69,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(taskNameMap[single_task_name].text)}`,
-              taskNameMap[single_task_name].color,
-              'Task Name'
+              `${capitalizeFirstLetterOfWords(taskNameMap[single_task_name].text)}`,taskNameMap[single_task_name].color,'Task Name'
             ),
             styleType: 1
           },

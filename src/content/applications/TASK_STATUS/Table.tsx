@@ -10,7 +10,7 @@ import { filterStatusOptions } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
-import { useTaskStatus } from '../../../store/context/tastStatusContext';
+import { useTaskStatus } from '../../../store/context/taskStatusContext';
 import {
   TaskStatusSingleSampleInterface as SingleSampleInterface,Filters
 } from 'src/utility/types/data_types';

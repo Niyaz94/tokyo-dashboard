@@ -41,6 +41,15 @@ export type ActivityFormIntialStateInterface = {
   weight: number;
 };
 
+export type ExpenseFormIntialStateInterface = {
+  id: number;
+  date: string;
+  amount: number;
+  note: string;
+  currency: number;
+  type: number;
+};
+
 export type TodayFormIntialStateInterface = {
   id: number;
   date: string;

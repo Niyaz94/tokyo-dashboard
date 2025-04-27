@@ -4,7 +4,7 @@ import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { TaskStatusRecordInterface}   from 'src/utility/types/data_types';
 import { Routes, Route }              from "react-router-dom";
-import {TaskStatusProvider}           from '../../../store/context/tastStatusContext';
+import {TaskStatusProvider}           from '../../../store/context/taskStatusContext';
 
 
 export default () =>{

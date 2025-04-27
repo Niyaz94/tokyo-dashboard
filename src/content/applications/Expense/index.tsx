@@ -1,32 +1,33 @@
-import { Helmet }           from 'react-helmet-async';
-import { Grid, Container }  from '@mui/material';
+import Template                       from '../../../components/Page/Template';
+import useFetch, {FetchData}          from '../../../utility/customHook/useGetAPI';
+import PageTable                      from './Table';
+import AddEdit                        from './AddEdit';
+import { Routes, Route }              from "react-router-dom";
+import {TaskStatusProvider}           from '../../../store/context/taskStatusContext';
 
-import PageTitleWrapper     from 'src/components/PageTitleWrapper';
-import Footer               from 'src/components/Footer';
+import { RecentExpenseTableInterface} from 'src/utility/types/data_types';
 
-import PageHeader           from './PageHeader';
-import RecentOrders         from './RecentOrders';
-import { CollapseProvider } from '../../../contexts/CollapseToggle';
 
-function ApplicationsTransactions() {
+export default () =>{
+
+  const { data,success}: FetchData<RecentExpenseTableInterface> = useFetch <RecentExpenseTableInterface>('notes/expense',{data:[],unique:{}});
+  const {data:tableData,unique} = data;
+
+  if (!success) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <CollapseProvider>
-      <Helmet>
-        <title>Transactions - Applications</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid container direction="row" justifyContent="center" alignItems="stretch" spacing={3}>
-          <Grid item xs={12}>
-            <RecentOrders />
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
-    </CollapseProvider>
+    <TaskStatusProvider tableData={tableData} secondaryData={unique}>
+      <Template templateTitle="Managment - Expense">
+        <Routes>
+          <Route path=""    element={<PageTable />} />
+          <Route path="add" element={ <AddEdit/>} />
+          <Route path=":id" element={ <AddEdit/>} />
+        </Routes>
+      </Template>
+    </TaskStatusProvider>
+
   );
 }
 
-export default ApplicationsTransactions;

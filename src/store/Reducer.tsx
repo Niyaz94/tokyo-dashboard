@@ -1,6 +1,6 @@
 import { combineReducers,ThunkAction,Action} from '@reduxjs/toolkit';
 
-import counterReducer from './slice/counter';
+import tablePaginationReducer from './slice/tablePagination';
 import tableReducer   from './slice/table';
 import bookReducer    from './slice/book';
 import cartReducer    from './slice/cart';
@@ -9,7 +9,7 @@ import loginSlice     from './slice/login';
 import dailySlice     from './slice/daily';
 
 const rootReducer = combineReducers({
-  counter :counterReducer,
+  tablePagination :tablePaginationReducer,
   table   :tableReducer,
   books   :bookReducer,
   cart    :cartReducer,

@@ -125,11 +125,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 sx={{ justifyContent: 'center', alignItems: 'center' }}
                 spacing={1}
               >
-                {getStatusIcon(
-                  worrying,
-                  <SentimentVeryDissatisfiedIcon />,
-                  true
-                )}
+                {getStatusIcon(worrying,<SentimentVeryDissatisfiedIcon />,true)}
                 {is_meditation
                   ? labelWithColor(<SelfImprovementIcon />, 'success')
                   : labelWithColor(<RemoveCircleOutlineIcon />, 'error')}

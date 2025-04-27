@@ -2,6 +2,7 @@ import {JSX }           from 'react';
 import Label            from 'src/components/Label';
 import { level1Status } from 'src/utility/types/data_types';
 import  {mapLabelData}  from "./data"
+import NotInterestedIcon from '@mui/icons-material/NotInterested';
 
 export const getStatusLabel = (status: level1Status,extraText:string="",icon:JSX.Element=null): JSX.Element => {
   if (status){
@@ -14,7 +15,7 @@ export const getStatusLabel = (status: level1Status,extraText:string="",icon:JSX
 
 export const getStatusIcon = (status: level1Status,icon:JSX.Element,reverse:boolean=false): JSX.Element => {
 
-  let { text, color,icon:s_icon }: any = mapLabelData[status];
+  let { text, color,icon:s_icon }: any = mapLabelData[status] || {text:"Not found",color:"error",icon:<NotInterestedIcon />};
   if (reverse){
     const keys = Object.keys(mapLabelData);
     const old_index = keys.indexOf(status);
@@ -31,8 +32,8 @@ export const getTextWithIcon = (text: string,icon:JSX.Element,color): JSX.Elemen
   return <Label color={color} >{text} {icon}</Label>;
 };
 
-export const labelWithColor = (text,color,tooltip=""): JSX.Element => {
-  return <Label color={color} tooltip={tooltip}>{text}</Label>;
+export const labelWithColor = (text,color,tooltip="",secondary_text=""): JSX.Element => {
+  return <Label color={color} tooltip={tooltip}>{secondary_text} {text}</Label>;
 };
 export const labelWithColorByIndex = (text,index): JSX.Element => {
 

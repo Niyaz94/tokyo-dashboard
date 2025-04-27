@@ -5,47 +5,41 @@ import {
 } from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
-import {applyPagination,applyFilters,applyFilterValue} from '../../../utility/function/main';
-import { filterStatusOptions } from '../../../utility/function/data';
+import {applyPagination,applyFilters} from '../../../utility/function/main';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
-import { useActivity } from '../../../store/context/activityContext';
-import {
-  TaskStatusSingleSampleInterface as SingleSampleInterface,Filters
-} from 'src/utility/types/data_types';
+import { useTaskStatus } from '../../../store/context/taskStatusContext';
+import {TaskStatusSingleSampleInterface as SingleSampleInterface,Filters} from 'src/utility/types/data_types';
+
 
 import { useSelector,useDispatch }    from 'react-redux';
 import { RootState }                  from '../../../store/Reducer';
 import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 
 
+
 const DataTable = () => {
 
-  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'today')[0]);
+  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'expense')[0]);
   const dispatch        = useDispatch();
 
-  const { table: tableData,setTable } = useActivity();
+  const { table: tableData,setTable,secondary } = useTaskStatus();
+
+  const { type:expense_types} = secondary;
+
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 
   // it contains the ids of selected rows
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  // it let you know if any rows have been selected
   const [filters, setFilters] = useState<Filters>({ status: null });
-  const [filteredPageData, setFilteredPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
-  const [paginatedPageData, setPaginatedPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
+  const [filteredPageData, setFilteredPageData] = useState<SingleSampleInterface[]>([]);
+  const [paginatedPageData, setPaginatedPageData] = useState<SingleSampleInterface[]>([]);
 
   const selectedBulkActions = selectedTableData.length > 0;
 
-  const handleSelectOneData = (
-    event: ChangeEvent<HTMLInputElement>,
-    id: string
-  ): void => {
+  const handleSelectOneData = (event: ChangeEvent<HTMLInputElement>,id: string): void => {
     if (!selectedTableData.includes(id)) {
       setSelectedTableData((prevSelected) => [...prevSelected, id]);
     } else {
@@ -57,7 +51,7 @@ const DataTable = () => {
 
   useEffect(() => {
     setFilteredPageData(
-      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'task_name')
+      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'expense_type')
     );
   }, [tableData, filters]);
 
@@ -96,19 +90,20 @@ const DataTable = () => {
       );
     }
   };
+  // when the user change the table page
   const handlePageChange = (event: any, newPage: number): void => {
-    dispatch(setPage({ name: 'today', page: newPage }));
+    dispatch(setPage({ name: 'expense', page: newPage }));
   };
   // change table pagination length
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setLimit({  name: 'today', limit: parseInt(event.target.value) }));
+    dispatch(setLimit({  name: 'expense', limit: parseInt(event.target.value) }));
   };
 
   const selectedSomePageData = selectedTableData.length > 0 && selectedTableData.length < tableData.length;
   const selectedAllPageData  = selectedTableData.length === tableData.length;
 
   const deleteTableRow = async (id) => {
-    await deleteData(`notes/daily/${id}/`);
+    await deleteData(`notes/expense/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
@@ -143,7 +138,7 @@ const DataTable = () => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {filterStatusOptions.map(({ id, name }) => (<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                  {["all",...expense_types.map((row) => row[1])].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
                 </Select>
               </FormControl>
             </Box>
@@ -159,10 +154,9 @@ const DataTable = () => {
                 <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
               </TableCell>
               <TableCell align='center'>Date</TableCell>
-              <TableCell align='center'>Meditation</TableCell>
-              <TableCell align='center'>Time Managment</TableCell>
-              <TableCell align='center'>Sleep</TableCell>
-              <TableCell align="center">Activity</TableCell>
+              <TableCell align='center'>Expense Type</TableCell>
+              <TableCell align='center'>Amount</TableCell>
+              <TableCell align="center">Note</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>

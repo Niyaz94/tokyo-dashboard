@@ -15,17 +15,21 @@ import {
   TaskStatusSingleSampleInterface as SingleSampleInterface,Filters
 } from 'src/utility/types/data_types';
 
+import { useSelector,useDispatch }    from 'react-redux';
+import { RootState }                  from '../../../store/Reducer';
+import {setPage,setLimit}             from '../../../store/slice/tablePagination';
+
 
 const DataTable = () => {
+  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'activity')[0]);
+  const dispatch        = useDispatch();
+
   const { table: tableData,setTable } = useActivity();
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 
   // it contains the ids of selected rows
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  // it let you know if any rows have been selected
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({ status: null });
   const [filteredPageData, setFilteredPageData] = useState<
     SingleSampleInterface[]
@@ -90,13 +94,12 @@ const DataTable = () => {
       );
     }
   };
-  // when the user change the table page
   const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
+    dispatch(setPage({ name: 'activity', page: newPage }));
   };
   // change table pagination length
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
+    dispatch(setLimit({  name: 'activity', limit: parseInt(event.target.value) }));
   };
 
   const selectedSomePageData = selectedTableData.length > 0 && selectedTableData.length < tableData.length;
