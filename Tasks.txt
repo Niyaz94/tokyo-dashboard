@@ -7,3 +7,6 @@
 7 - Add Image Field to Today Task's Insert Page
 8 - Add tooltip for Activity Page (Or others if they are not exist)
 9 - Add [mbNumber] and [mbSpendingTime] to Activity view
+10- In Tast Progress, After Insert I add the new row to the table and then make a new API request, This is wrong
+11- Scroll for long text inside the table does not work.
+12- The pagination in Tast Status when, 100 sample shown then you select Half_complete. It return wrong numbers

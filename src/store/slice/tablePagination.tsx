@@ -1,10 +1,10 @@
 import { createSlice,PayloadAction } from '@reduxjs/toolkit';
-import {tablePagination} from "../initialStore"
+import {tablePaginationInit} from "../initialStore"
 
 
 const tablePaginationSlice = createSlice({
   name: 'tablePagination',
-  initialState:tablePagination,
+  initialState:tablePaginationInit,
   reducers: {
     setPage: (state,action: PayloadAction<{ name: string; page: number }>) => {
 

@@ -10,30 +10,25 @@ import { filterStatusOptions } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
-import { useTaskStatus } from '../../../store/context/taskStatusContext';
-import {
-  TaskStatusSingleSampleInterface as SingleSampleInterface,Filters
-} from 'src/utility/types/data_types';
+import { usePaginationContext } from '../../../store/context/paginationContext';
+
+import { useSelector,useDispatch }    from 'react-redux';
+import { RootState }                  from '../../../store/Reducer';
+import {setPage,setLimit}             from '../../../store/slice/tablePagination';
+import {axiosGetData} from '../../../utility/Axios'
 
 
 const DataTable = () => {
-  const { table: tableData,setTable } = useTaskStatus();
+  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'taskStatus')[0]);
+  const dispatch        = useDispatch();
+  const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
+  const { _, task_status } = secondary;
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 
   // it contains the ids of selected rows
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  // it let you know if any rows have been selected
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({ status: null });
-  const [filteredPageData, setFilteredPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
-  const [paginatedPageData, setPaginatedPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
-
+  const [filters, setFilters] = useState<{status:string}>({ status: "all" });
   const selectedBulkActions = selectedTableData.length > 0;
 
   const handleSelectOneData = (
@@ -50,23 +45,20 @@ const DataTable = () => {
   };
 
   useEffect(() => {
-    setFilteredPageData(
-      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'task_name')
-    );
-  }, [tableData, filters]);
-
-  useEffect(() => {
-    const newPaginatedData = applyPagination<SingleSampleInterface>(filteredPageData,page,limit);
-    setPaginatedPageData(newPaginatedData);
-  }, [filteredPageData, page, limit]);
+    axiosGetData(`schedule/task_status/plist/?status=${filters.status}&page=${page+1}&page_size=${limit}`).then((res) => {
+      const {results,count,next,previous} = res.data;
+      setTable(results);
+      setPagination({count: count, next: next, previous: previous});
+    });
+  }, [ page, limit,filters]);
 
 
   // It uses for controlling filter selection in the left top cornor of the table
   //The list of all options in filter selection in the left top cornor of the table
 
   //The action handler for filter selection in the left top cornor of the table
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
+  const handleTableFilter = (e: ChangeEvent<HTMLInputElement>): void => {
+    let value = 'all';
     if (e.target.value !== 'all') {
       value = e.target.value;
     }
@@ -92,11 +84,12 @@ const DataTable = () => {
   };
   // when the user change the table page
   const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
+    const direction = newPage > page ? 'next' : 'previous'; // To know the direction of page change
+    dispatch(setPage({ name: 'taskStatus', page: newPage }));
   };
   // change table pagination length
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
+    dispatch(setLimit({ name: 'taskStatus', limit: parseInt(event.target.value) }));
   };
 
   // it will be [true] if some but not all rows are selected
@@ -140,8 +133,10 @@ const DataTable = () => {
               </Button>
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {filterStatusOptions.map(({ id, name }) => (<MenuItem key={id} value={id}>{name}</MenuItem>))}
+                <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth>
+                  {/* {task_status.map((val) => (<MenuItem key={val} value={val}>{val}</MenuItem>))} */}
+                  {["all",...task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+
                 </Select>
               </FormControl>
             </Box>
@@ -154,10 +149,7 @@ const DataTable = () => {
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary" checked={selectedAllPageData}
-                  indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}
-                />
+                <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
               </TableCell>
               <TableCell align="center">Progress Date</TableCell>
               <TableCell align="center">Task Detail</TableCell>
@@ -168,7 +160,7 @@ const DataTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedPageData.map((row) => {
+            {tableData.map((row) => {
               return (
                 <CustomTableRow
                   data={row} isDataSelected={selectedTableData.includes(row.id)}
@@ -180,7 +172,7 @@ const DataTable = () => {
         </Table>
       </TableContainer>
       <CustomPagination
-        count={filteredPageData.length}
+        count={pagination.count}
         page={page}
         rowsPerPage={limit}
         onPageChange={handlePageChange}

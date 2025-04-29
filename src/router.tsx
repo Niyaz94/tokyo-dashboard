@@ -41,9 +41,6 @@ const TASK          = Loader(lazy(() => import('src/content/applications/TASK'))
 const GOAL          = Loader(lazy(() => import('src/content/applications/GOAL')));
 const TASK_STATUS   = Loader(lazy(() => import('src/content/applications/TASK_STATUS')));
 
-const TASK_STATUS_AddEdit = Loader(lazy(() => import('src/content/applications/TASK_STATUS/AddEdit')));
-
-
 // 
 
 

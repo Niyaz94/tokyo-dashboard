@@ -55,7 +55,7 @@ const DataTable = () => {
 
   useEffect(() => {
     setFilteredPageData(
-      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'task_name')
+      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'activityLevel')
     );
   }, [tableData, filters]);
 

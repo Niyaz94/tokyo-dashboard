@@ -4,7 +4,7 @@ import TableCusCell from '../../../components/Table/Cell';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
-import { useTaskStatus } from '../../../store/context/taskStatusContext';
+import { usePaginationContext } from '../../../store/context/paginationContext';
 
 import {
   labelWithColor,
@@ -15,7 +15,7 @@ import {
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const { secondary } = useTaskStatus();
+  const { secondary } = usePaginationContext();
   const { tasks_name, task_status } = secondary;
   const taskNameMap = createMapLabelData(tasks_name.map((row) => row[1]));
   const taskStatusMap = createMapLabelData(task_status, [3, 0, 2, 4]);
@@ -79,7 +79,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       <TableCusCell
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
-        child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
+        child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' ,height: 100,overflowY: 'auto'}}
         prop={[{ text: note_text["root"]["children"][0]["children"][0].text, styleType: 2 }]}
       />
       <TableCusCell

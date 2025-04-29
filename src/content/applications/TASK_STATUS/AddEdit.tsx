@@ -16,7 +16,7 @@ import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
 import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 
 import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
-import {useTaskStatus}                  from '../../../store/context/taskStatusContext';
+import {usePaginationContext}                  from '../../../store/context/paginationContext';
 
 import {createSelectMap}                from '../../../utility/function/main';
 import {TaskStatusSingleSampleInterface} from 'src/utility/types/data_types';
@@ -25,7 +25,7 @@ import dayjs                           from "dayjs";
 
 const CollapsibleForm = () => {
 
-  const  {secondary,table,setTable}              = useTaskStatus();
+  const  {secondary,table,setTable}              = usePaginationContext();
   const {tasks_name,task_status}  = secondary;
 
   const task_name_map         = createSelectMap(tasks_name.filter(row=>row[2]=="active").map(row=>row))
@@ -80,7 +80,6 @@ const CollapsibleForm = () => {
     if (edit_page_id) {
       await editData(`schedule/task_status/${edit_page_id}/`, formData);
     }else{
-      console.log("formData",formData)
       await postData("schedule/task_status/", dataToBeSent);
     }
     

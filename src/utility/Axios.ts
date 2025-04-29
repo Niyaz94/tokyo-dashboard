@@ -7,4 +7,11 @@ const API = axios.create({
   },
 });
 
+
 export default API;
+
+
+export const axiosGetData = async (URL:string) => {
+  const res = await API.get(URL);
+  return res;
+};

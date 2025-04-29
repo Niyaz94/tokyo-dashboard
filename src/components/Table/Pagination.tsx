@@ -17,7 +17,9 @@ const CustomPagination: React.FC<PaginationProps> = ({ count, page, rowsPerPage,
           count={count}
           page={page}
           rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[5, 10, 25, 30]}
+          rowsPerPageOptions={[5, 10, 25, 30,50,100]}
+          labelRowsPerPage="Rows per page"
+          labelDisplayedRows={({ from, to, count }) => `${from}-${to} of ${count}`}
           onPageChange={onPageChange}
           onRowsPerPageChange={onRowsPerPageChange}
         />

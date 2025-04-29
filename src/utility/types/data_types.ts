@@ -184,6 +184,13 @@ export interface TaskStatusContextInterface {
   setSecondary: (val: {}) => void;
 }
 
+export interface TaskStatusTableDataInterface {
+  results: TaskStatusSingleSampleInterface[];
+  count: number;
+  next: string | null;
+  previous: string | null;
+}
+
 
 export interface TomorrowSingleSampleInterface {
   id: number;

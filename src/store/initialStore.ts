@@ -2,12 +2,13 @@ import { AuthState, BookState, tableState,tablePaginationInterface,CartState,tit
 
 
 
-export const tablePagination: tablePaginationInterface[] = [
+export const tablePaginationInit: tablePaginationInterface[] = [
   { name: "expense",page: 0, limit: 10 },
   { name: "today",page: 0, limit: 10 },
   { name: "tomorrow",page: 0, limit: 10 },
   { name: "activity",page: 0, limit: 10 },
   { name: "sleep"  ,page: 0, limit: 10 },
+  { name: "taskStatus"  ,page: 0, limit: 10 },
 ]
 export const bookInitialState: BookState = {
   books: [
