@@ -152,7 +152,7 @@ export interface TaskRecordInterface {
   }
 }
 
-export interface TaskStatusSingleSampleInterface {
+export interface TaskStatusRowSampleInterface {
   id: string;
   date: string;
   note: string[];
@@ -169,23 +169,35 @@ export interface TaskStatusSingleSampleInterface {
   }
 }
 
+export interface SingleTaskRowSampleInterface {
+  id: string;
+  date: string;
+  type_name: string;
+  title:string;
+  description: string[];
+  priority: level2Status;
+  type: number;
+  deadline:string;
+  status: string; 
+}
+
 export interface TaskStatusUniqueInterface {
     tasks_name:string[];
     task_status:string[];
 }
 export interface TaskStatusRecordInterface {
-  data: TaskStatusSingleSampleInterface[];
+  data: TaskStatusRowSampleInterface[];
   unique:TaskStatusUniqueInterface
 }
 export interface TaskStatusContextInterface {
-  table: TaskStatusSingleSampleInterface[];
-  setTable: (val: TaskStatusSingleSampleInterface[]) => void;
+  table: TaskStatusRowSampleInterface[];
+  setTable: (val: TaskStatusRowSampleInterface[]) => void;
   secondary: TaskStatusUniqueInterface;
   setSecondary: (val: {}) => void;
 }
 
-export interface TaskStatusTableDataInterface {
-  results: TaskStatusSingleSampleInterface[];
+export interface PaginationTableDataInterface<T> {
+  results: T[];
   count: number;
   next: string | null;
   previous: string | null;
@@ -256,4 +268,10 @@ export interface ExpenseSingleSampleInterface {
 export interface RecentExpenseTableInterface {
   data: ExpenseSingleSampleInterface[];
   unique:ExpenseUniqueInterface;
+}
+
+export interface SingleTaskUniqueInterface {
+  type:string[];
+  status:string[];
+  priority:string[];
 }

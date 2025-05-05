@@ -2,13 +2,13 @@ import Template                       from '../../../components/Page/Template';
 import useFetch, {FetchData}          from '../../../utility/customHook/useGetAPI';
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
-import { TaskStatusTableDataInterface,TaskStatusUniqueInterface}   from 'src/utility/types/data_types';
+import { PaginationTableDataInterface,TaskStatusRowSampleInterface,TaskStatusUniqueInterface}   from 'src/utility/types/data_types';
 import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
 
 
 export default () =>{
-  const { data,success}: FetchData<TaskStatusTableDataInterface> = useFetch <TaskStatusTableDataInterface>('schedule/task_status/plist',{results:[],count:0,next:null,previous:null});
+  const { data,success}: FetchData<PaginationTableDataInterface<TaskStatusRowSampleInterface>> = useFetch <PaginationTableDataInterface<TaskStatusRowSampleInterface>>('schedule/task_status/plist',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
   const { data:unique_data,success:unque_success}: FetchData<TaskStatusUniqueInterface> = useFetch <TaskStatusUniqueInterface>('schedule/task_status/unique',{tasks_name:[],task_status:[]});

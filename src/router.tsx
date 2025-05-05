@@ -136,7 +136,7 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       // {path: '',element: <Navigate to="transactions" replace />},
-      {path: 'single_task',element: <SINGLE_TASK />},
+      {path: 'single_task/*',element: <SINGLE_TASK />},
       {path: 'goals',element: <GOAL />},
       {path: 'task_progress/*',element: <TASK_STATUS />},
       // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},

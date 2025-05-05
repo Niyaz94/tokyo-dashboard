@@ -28,6 +28,18 @@ export const TaskStatusFormIntialState = {
   spendingTime: 0,
 };
 
+export const SingleTaskFormIntialState = {
+  id: 0,
+  type:0,
+  deadline: dayjs().format('YYYY-MM-DD'),
+  status: '',
+  note: '{}',
+  title: '',
+  priority: '',
+};
+
+
+
 export const ActivityFormIntialState = {
   id: 0,
   consumeWaterInLiters: 0,

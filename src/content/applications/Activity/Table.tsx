@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
 import { useActivity } from '../../../store/context/activityContext';
 import {
-  TaskStatusSingleSampleInterface as SingleSampleInterface,Filters
+  TaskStatusRowSampleInterface as SingleSampleInterface,Filters
 } from 'src/utility/types/data_types';
 
 import { useSelector,useDispatch }    from 'react-redux';

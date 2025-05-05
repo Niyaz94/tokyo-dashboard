@@ -26,6 +26,16 @@ export type TaskStatusFormStateInterface = {
   spendingTime: number; // DONE
 };
 
+export type SingleTaskFormStateInterface = {
+  id: number;
+  type:number;
+  deadline: string | null; // DONE
+  status: string;
+  note: string; // DONE
+  title: string; // DONE
+  priority: string; // DONE
+};
+
 export type ActivityFormIntialStateInterface = {
   id: number;
   consumeWaterInLiters: number;
