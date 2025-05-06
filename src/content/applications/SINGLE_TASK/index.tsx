@@ -8,11 +8,7 @@ import {PaginationProvider}           from '../../../store/context/paginationCon
 
 
 /**
- * Remove the description column in the table and in the database
- * Fix the returned data for select
- * Fix the insert/ edit action
  * Add multi value filter for the table
- * Test delete action
  */
 
 export default () =>{

@@ -19,15 +19,15 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const { status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
 
   const taskStatusMap = createMapLabelData(single_task_status);
-  const taskTypeNameMap = createMapLabelData(single_task_type);
+  const taskTypeNameMap = createMapLabelData(single_task_type.map((item) => item[1]));
 
 
   // const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
   // const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail;
 
   const theme = useTheme();
-  const {id,date,type_name,description,title,priority,status,deadline} = data;
-  // const note_text = JSON.parse(note)
+  const {id,date,type_name,note,title,priority,status,deadline} = data;
+  const note_text = JSON.parse(note)
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -54,7 +54,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       } />
       <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={[
           {text: title,styleType:1},
-          {text: description,styleType:2}
+          {text: note_text ? note_text["root"]["children"][0]["children"][0].text:"No text found",styleType:2}
       ]} />
        <TableCusCell cellProps={{align:"center"}} prop={
         [{text: getStatusIcon(priority.toUpperCase(),<CampaignIcon />),styleType:1}]

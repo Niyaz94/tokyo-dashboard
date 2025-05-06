@@ -116,6 +116,8 @@ export const createSelectMap = (values: string[],mappingType:string="object"): {
       map.push({ label:capitalizeFirstLetterOfWords(value[1].toLowerCase()), value:value[0] })
     }else if (mappingType=="array"){
       map.push({ label:capitalizeFirstLetterOfWords(value.toLowerCase()), value:value })
+    }else if (mappingType=="type3"){
+      map.push({ label:capitalizeFirstLetterOfWords(value.toLowerCase()), value:value.toLowerCase() })
     }
   }
   return map;

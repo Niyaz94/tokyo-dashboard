@@ -28,15 +28,14 @@ const CollapsibleForm = () => {
 
   const { status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
 
-  const singleTaskPriority      = createSelectMap(single_task_priority,"array")
+  const singleTaskPriority      = createSelectMap(single_task_priority,"type3")
   const memSingleTaskPriority   = useMemo(() => singleTaskPriority, []);
 
-
-  const singleTaskType         = createSelectMap(single_task_type,"array")
+  const singleTaskType         = createSelectMap(single_task_type,"object")
   const memSingleTaskType      = useMemo(() => singleTaskType, []);
 
 
-  const singleTaskStatus        = createSelectMap(single_task_status,"array")
+  const singleTaskStatus        = createSelectMap(single_task_status,"type3")
   const memSingleTaskStatus     = useMemo(() => singleTaskStatus, []);
 
   const navigate                = useNavigate();

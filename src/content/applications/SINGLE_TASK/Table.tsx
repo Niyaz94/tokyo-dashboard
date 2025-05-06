@@ -14,6 +14,7 @@ import { useSelector,useDispatch }    from 'react-redux';
 import { RootState }                  from '../../../store/Reducer';
 import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 import {axiosGetData} from '../../../utility/Axios'
+import { SelectChangeEvent } from "@mui/material";
 
 
 const DataTable = () => {
@@ -22,11 +23,15 @@ const DataTable = () => {
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const {status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
   const navigate = useNavigate();
-  const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
+  const {deleteData} = useDeleteAPI();
 
   // it contains the ids of selected rows
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  const [filters, setFilters] = useState<{status:string}>({ status: "all" });
+  const [filters, setFilters] = useState<{status:string,type:string,priority:string}>({ 
+    status: "all" ,
+    type: "all",
+    priority: "all"
+  });
   const selectedBulkActions = selectedTableData.length > 0;
 
   const handleSelectOneData = (
@@ -43,7 +48,7 @@ const DataTable = () => {
   };
 
   useEffect(() => {
-    axiosGetData(`schedule/stask/?status=${filters.status.toLowerCase()}&page=${page+1}&page_size=${limit}`).then((res) => {
+    axiosGetData(`schedule/stask/?type=${filters.type}&priority=${filters.priority.toLowerCase()}&status=${filters.status.toLowerCase()}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
       setTable(results);
       setPagination({count: count, next: next, previous: previous});
@@ -55,12 +60,12 @@ const DataTable = () => {
   //The list of all options in filter selection in the left top cornor of the table
 
   //The action handler for filter selection in the left top cornor of the table
-  const handleTableFilter = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleTableFilter = (e: SelectChangeEvent<string>,filterType:string): void => {
     let value = 'all';
     if (e.target.value !== 'all') {
       value = e.target.value;
     }
-    setFilters((prevFilters) => ({ ...prevFilters, status: value }));
+    setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
   };
   // The checkbox inside the [table header] which either make all rows [selected/unselected]
   const handleSelectAllPageData = (
@@ -111,23 +116,53 @@ const DataTable = () => {
               <Typography variant="h6">Recent Orders</Typography>
             </Box>
           }
+          
           action={
-            <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Button
-                variant="outlined" color="primary" onClick={() => navigate('add')}
-                sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
-              >
-                Insert
-              </Button>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth>
-                  {/* {single_task_status.map((val) => (<MenuItem key={val} value={val}>{val}</MenuItem>))} */}
-                  {["all",...single_task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
-
-                </Select>
-              </FormControl>
+            <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
+              <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center' }}>
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <InputLabel>Type</InputLabel>
+                  <Select value={filters.type || 'all'} onChange={(event)=>(handleTableFilter(event,"type"))} label="Type" autoWidth>
+                    {["all", ...single_task_type.map((row)=>row[1])].map((name) => (
+                      <MenuItem key={name} value={name}>
+                        {name.replace(/_/gi, " ").toUpperCase()}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <InputLabel>Status</InputLabel>
+                  <Select value={filters.status || 'all'} onChange={(event)=>(handleTableFilter(event,"status"))} label="Status" autoWidth>
+                    {["all", ...single_task_status].map((name) => (
+                      <MenuItem key={name} value={name}>
+                        {name.replace(/_/gi, " ").toUpperCase()}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <InputLabel>Priority</InputLabel>
+                  <Select value={filters.priority || 'all'} onChange={(event)=>(handleTableFilter(event,"priority"))} label="Priority" autoWidth>
+                    {["all", ...single_task_priority].map((name) => (
+                      <MenuItem key={name} value={name}>
+                        {name.replace(/_/gi, " ").toUpperCase()}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => navigate('add')}
+                  sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
+                >
+                  Insert
+                </Button>
+              </Box>
             </Box>
+
           }
         />
       )}
