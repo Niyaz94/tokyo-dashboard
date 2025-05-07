@@ -19,6 +19,9 @@ import MultiButton            from "../../../components/Form/MultiButton"
 
 import {sleepFormIntialState} from "../../../utility/function/defaultData"
 
+import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
+import {axiosGetData} from '../../../utility/Axios'
+
 const CollapsibleForm: React.FC = () => {
 
   const navigate              = useNavigate();
@@ -96,10 +99,20 @@ const CollapsibleForm: React.FC = () => {
                 />
               </Grid>
               <Grid size={4}>
-                <StaticAutocomplete
+                {/* <StaticAutocomplete
                   label="Select The Day"
                   options={dailyData}
                   defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
+                  formKey="daily"
+                  onChange={handleFormChange}
+                /> */}
+                <DynamicAutocomplete
+                  label="Select The Day"
+                  fetchOptions={async (query) => {
+                    const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
+                    const {data} = await res;
+                    return  data ?? [];
+                  }}
                   formKey="daily"
                   onChange={handleFormChange}
                 />

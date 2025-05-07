@@ -23,6 +23,9 @@ import {useActivity as usePage}                  from '../../../store/context/ac
 
 import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
+import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
+import {axiosGetData} from '../../../utility/Axios'
+
 
 const CollapsibleForm = () => {
 
@@ -91,10 +94,13 @@ const CollapsibleForm = () => {
           >
             <Grid container spacing={2}>
               <Grid size={4}>
-                <StaticAutocomplete
+                <DynamicAutocomplete
                   label="Select The Day"
-                  options={dailyData}
-                  defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
+                  fetchOptions={async (query) => {
+                    const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
+                    const {data} = await res;
+                    return  data ?? [];
+                  }}
                   formKey="daily"
                   onChange={handleFormChange}
                 />

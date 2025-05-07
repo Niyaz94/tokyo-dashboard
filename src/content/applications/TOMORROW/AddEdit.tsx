@@ -24,6 +24,8 @@ import { TomorrowFormIntialStateInterface as FormIntialStateInterface } from '..
 import { RootState }                    from '../../../store/Reducer';
 import {useActivity as usePage}                  from '../../../store/context/activityContext';
 
+import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
+import {axiosGetData} from '../../../utility/Axios'
 
 
 const CollapsibleForm = () => {
@@ -102,10 +104,20 @@ const CollapsibleForm = () => {
                 />
               </Grid>
               <Grid size={6}>
-                <StaticAutocomplete
+                {/* <StaticAutocomplete
                   label="Select The Day"
                   options={dailyData}
                   defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
+                  formKey="daily"
+                  onChange={handleFormChange}
+                /> */}
+                <DynamicAutocomplete
+                  label="Select The Day"
+                  fetchOptions={async (query) => {
+                    const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
+                    const {data} = await res;
+                    return  data ?? [];
+                  }}
                   formKey="daily"
                   onChange={handleFormChange}
                 />
