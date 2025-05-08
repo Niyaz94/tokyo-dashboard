@@ -10,33 +10,33 @@ import Grid from '@mui/material/Grid2';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
 import MultiButton                  from "../../../components/Form/MultiButton"
-import CustomDatePicker             from '../../../components/Form/CustomDatePickers';
-import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
+import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
 
 
 import {TomorrowSingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../utility/customHook";
 import {TomorrowFormIntialStateInterface as FormIntialState}   from "../../../utility/function/defaultData"
-import { StatusCase1,StatusCase2  }                         from '../../../utility/function/data';
-import { TomorrowFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import {TomorrowFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 
 
 import { RootState }                    from '../../../store/Reducer';
-import {useActivity as usePage}                  from '../../../store/context/activityContext';
+import {usePageContext as usePage}      from '../../../store/context/pageContext';
 
 import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
-import {axiosGetData} from '../../../utility/Axios'
+import {dailySearch}                    from "../../../utility/function/main"
 
 
 const CollapsibleForm = () => {
 
-  const  {setTable}               = usePage();
+  const  {setTable,pageDefault} = usePage();
 
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(FormIntialState);
-  const dailyData               = useSelector((state: RootState) => state.daily.data);
+
+  const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
+
   
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/tomorrow/${edit_page_id}`: null,{});
@@ -104,20 +104,10 @@ const CollapsibleForm = () => {
                 />
               </Grid>
               <Grid size={6}>
-                {/* <StaticAutocomplete
-                  label="Select The Day"
-                  options={dailyData}
-                  defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
-                  formKey="daily"
-                  onChange={handleFormChange}
-                /> */}
                 <DynamicAutocomplete
                   label="Select The Day"
-                  fetchOptions={async (query) => {
-                    const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
-                    const {data} = await res;
-                    return  data ?? [];
-                  }}
+                  defaultValue={selectDefaultValue}
+                  fetchOptions={dailySearch}
                   formKey="daily"
                   onChange={handleFormChange}
                 />

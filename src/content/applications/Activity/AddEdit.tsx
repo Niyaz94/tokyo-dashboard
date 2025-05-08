@@ -1,41 +1,36 @@
-import { 
-  usePostAPI, useEditAPI, useFetch, FetchData 
-}         from "../../../utility/customHook";
+import { usePostAPI, useEditAPI, useFetch, FetchData } from "../../../utility/customHook";
 
-import React, { useState,useEffect,useCallback,useMemo } from 'react';
+import React, { useState,useEffect,useCallback} from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
-import MultiButton                  from "../../../components/Form/MultiButton"
 import {ActivityFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
-import { useSelector }              from 'react-redux';
-import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 import { StatusCase1 as ActivityStatus }   from '../../../utility/function/data';
 
 
-import { RootState }                    from '../../../store/Reducer';
 import { ActivityFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
-import {useActivity as usePage}                  from '../../../store/context/activityContext';
+import {usePageContext as usePage}                  from '../../../store/context/pageContext';
 
 import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
-import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
-import {axiosGetData} from '../../../utility/Axios'
+import {
+  CustomSwitch,StaticAutocomplete,MultiButton,DynamicAutocomplete
+}       from '../../../components/Form';
 
+import {dailySearch}                    from "../../../utility/function/main"
 
 const CollapsibleForm = () => {
 
-  const  {setTable}               = usePage();
+  const navigate                  = useNavigate();
+  const { id:edit_page_id }       = useParams();
 
+  const  {setTable,pageDefault}   = usePage();
+  const [formData, setFormData]   = useState(FormIntialState);
 
-  const navigate                = useNavigate();
-  const { id:edit_page_id }     = useParams();
-  const [formData, setFormData] = useState(FormIntialState);
-  const dailyData               = useSelector((state: RootState) => state.daily.data);
+  const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/activity/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
@@ -75,7 +70,7 @@ const CollapsibleForm = () => {
     if (edit_page_id) {
       await editData(`notes/activity/${edit_page_id}/`, formData);
     }else{
-      console.log("formData",formData)
+      // console.log("formData",formData)
       await postData("notes/activity/", dataToBeSent);
     }
     
@@ -96,11 +91,8 @@ const CollapsibleForm = () => {
               <Grid size={4}>
                 <DynamicAutocomplete
                   label="Select The Day"
-                  fetchOptions={async (query) => {
-                    const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
-                    const {data} = await res;
-                    return  data ?? [];
-                  }}
+                  defaultValue={selectDefaultValue}
+                  fetchOptions={dailySearch}
                   formKey="daily"
                   onChange={handleFormChange}
                 />
@@ -217,7 +209,7 @@ const CollapsibleForm = () => {
               </Grid>
               
               <Grid size={12}>
-                <CustomizedSwitch 
+                <CustomSwitch 
                   value={formData.isGoingGym}
                   onChange={useCallback((newValue) => handleFormChange('isGoingGym', newValue),[])}
                   label="Is Going Gym"

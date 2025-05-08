@@ -27,7 +27,7 @@ export interface CryptoOrder {
 
 }
 
-export interface SleepType {
+export interface SleepRowSampleInterface {
   id: string;
   date: string;
   success: number;
@@ -45,8 +45,7 @@ export interface SleepType {
   burn_calories: number;
 }
 export interface RecentSleepTableInterface {
-  className?: string;
-  sleepData: SleepType[];
+  data: SleepRowSampleInterface[];
 }
 
 export interface Filters {
@@ -249,7 +248,6 @@ export interface DailySingleSampleInterface {
 export interface RecentDailyTableInterface {
   data: DailySingleSampleInterface[];
 }
-
 
 
 export interface ExpenseUniqueInterface {

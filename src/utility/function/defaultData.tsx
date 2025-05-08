@@ -5,7 +5,8 @@ import { n } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
 
 export const sleepFormIntialState:SleepFormStateInterface = {
   id: 0,
-  bedTime: dayjs(),
+  // bedTime: dayjs(),
+  bedTime: dayjs().format('HH:mm:ss'),
   approxFellSleepTime: null,
   morningWakingUp: '09:00:00',
   SleepState: '',

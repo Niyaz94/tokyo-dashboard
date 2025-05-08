@@ -3,7 +3,7 @@ import useFetch, {FetchData}          from '../../../utility/customHook/useGetAP
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { Routes, Route }              from "react-router-dom";
-import {ActivityProvider}             from '../../../store/context/activityContext';
+import {PageProvider}             from '../../../store/context/pageContext';
 import { RecentDailyTableInterface} from 'src/utility/types/data_types';
 
 
@@ -17,7 +17,7 @@ export default () =>{
   }
 
   return (
-    <ActivityProvider tableData={data} >
+    <PageProvider tableData={data} pageDefaultData={{}}>
       <Template templateTitle="Perosnal - Today">
         <Routes>
           <Route path=""    element={<PageTable />} />
@@ -25,7 +25,7 @@ export default () =>{
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>
       </Template>
-    </ActivityProvider>
+    </PageProvider>
 
   );
 }

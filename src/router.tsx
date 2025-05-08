@@ -114,10 +114,11 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       // {path: '',element: <Navigate to="transactions" replace />},
-      {path: 'sleep',element: <Sleep />},
-      {path: 'sleep/add',element: <SleepAdd />},
-      {path: 'sleep/:id',element: <SleepEdit   />},
+      // {path: 'sleep',element: <Sleep />},
+      // {path: 'sleep/add',element: <SleepAdd />},
+      // {path: 'sleep/:id',element: <SleepEdit   />},
 
+      {path: 'sleep/*',element: <Sleep />},
       {path: 'today/*',element: <Today />},
       {path: 'tomorrow/*',element: <Tomorrow />},
       

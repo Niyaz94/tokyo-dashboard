@@ -1,35 +1,29 @@
 import { ChangeEvent } from 'react';
 
-import {
-  Checkbox,
-  TableCell,
-  TableRow,
-  Stack,
-  useTheme
-} from '@mui/material';
+import {Checkbox,TableCell,TableRow,Stack} from '@mui/material';
 import Label from 'src/components/Label';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import AirlineSeatReclineNormalIcon from '@mui/icons-material/AirlineSeatReclineNormal';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import LockClockIcon from '@mui/icons-material/LockClock';
-import {getStatusIcon,labelWithColor,labelColorByNumber,getDayAbbreviation} from '../../../utility/function/main';
+import {labelWithColor,labelColorByNumber,getDayAbbreviation} from '../../../utility/function/main';
+import {usePageContext as usePage}      from '../../../store/context/pageContext';
+
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  console.log('data',data);
+  const {setPageDefault}         = usePage();
 
   const {id,date,daily,isBusyDay,succssRate,isMeditation,usefulTimeInMinutes,wastedTimeInMinutes,hasPlan} = data;
-  console.log(succssRate,date);
+
+  const onEditButtonClick = () => {
+    setPageDefault(prev => ({...prev, date:{label:date,value: daily}}));
+  }
+
   return (
     <TableRow hover key={id} selected={isDataSelected}>
       <TableCell padding="checkbox">
@@ -100,7 +94,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         ]}
       />
       <TableCell align="right">
-        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} />
+        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} onEditButtonClick={onEditButtonClick} />
       </TableCell>
     </TableRow>
   );

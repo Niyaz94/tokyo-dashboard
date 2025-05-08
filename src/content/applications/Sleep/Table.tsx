@@ -3,7 +3,7 @@ import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,TableContainer,
   Select,MenuItem,Typography,useTheme,CardHeader,Button
 } from '@mui/material';
-import { RecentSleepTableInterface,SleepType, Filters }   from 'src/utility/types/data_types';
+import {SleepRowSampleInterface, Filters }   from 'src/utility/types/data_types';
 import BulkActions                                        from './BulkActions';
 import CustomPagination                                   from '../../../components/Table/Pagination';
 import { applyPagination,applyFilters,applyFilterValue }  from '../../../utility/function/main';
@@ -11,16 +11,20 @@ import { filterStatusOptions }                            from '../../../utility
 import CustomTableRow                                     from './TableRow';
 import { useNavigate }                                    from "react-router-dom";
 import useDeleteAPI                                       from '../../../utility/customHook/useDeleteAPI';
+import { usePageContext }                                 from '../../../store/context/pageContext';
 
 import { useSelector,useDispatch }    from 'react-redux';
 import { RootState }                  from '../../../store/Reducer';
 import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 
 
-const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
+const DataTable = () => {
 
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'sleep')[0]);
   const dispatch        = useDispatch();
+
+  const { table: sleepData,setTable } = usePageContext();
+
 
   const navigate = useNavigate();
   const { response:deleteRowResponse, loading, error, deleteData } = useDeleteAPI();
@@ -29,25 +33,25 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
   const [selectedSleepData, setSelectedSleepData]     = useState<string[]>([]);
   // it let you know if any rows have been selected
   const [filters, setFilters]                         = useState<Filters>({status: null});
-  const [filteredSleepData,setFilteredSleepData]      = useState<SleepType[]>([]);
-  const [paginatedSleepData,setPaginatedSleepData]    = useState<SleepType[]>([]);
+  const [filteredSleepData,setFilteredSleepData]      = useState<SleepRowSampleInterface[]>([]);
+  const [paginatedSleepData,setPaginatedSleepData]    = useState<SleepRowSampleInterface[]>([]);
   const [deletedRowId,setDeletedRowId]                = useState(0);
 
   const selectedBulkActions = selectedSleepData.length > 0;
 
   useEffect(() => {
-    setFilteredSleepData(applyFilters<SleepType,Filters>(sleepData, filters,"SleepState"));
+    setFilteredSleepData(applyFilters<SleepRowSampleInterface,Filters>(sleepData, filters,"SleepState"));
   }, [sleepData,filters]);
 
   useEffect(() => {
-    const newPaginatedData = applyPagination<SleepType>(filteredSleepData, page, limit);
+    const newPaginatedData = applyPagination<SleepRowSampleInterface>(filteredSleepData, page, limit);
     setPaginatedSleepData(newPaginatedData);
   }, [filteredSleepData, page, limit]); 
 
   useEffect(() => {
     const {data,success} = deleteRowResponse || {data:null,success:false};
     if(success){
-      setFilteredSleepData(applyFilterValue<SleepType>(filteredSleepData,"id",deletedRowId))
+      setFilteredSleepData(applyFilterValue<SleepRowSampleInterface>(filteredSleepData,"id",deletedRowId))
       setDeletedRowId(0);
     }
   }
@@ -151,7 +155,7 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
             {/* This function [paginatedSleepData] contains current rows after applying [filtering] and [pagination] */}
             {paginatedSleepData.map((row) => {
                 return <CustomTableRow 
-                  data={row} 
+                  data={row} key={row.id}
                   isSleepDataelected={selectedSleepData.includes(row.id)} 
                   handleSelectOneSleepData={handleSelectOneSleepData}
                   onDeleteRow={deleteTableRow}
@@ -170,4 +174,4 @@ const SleepDataTable: FC<RecentSleepTableInterface> = ({ sleepData }) => {
     </Card>
   );
 };
-export default SleepDataTable;
+export default DataTable;

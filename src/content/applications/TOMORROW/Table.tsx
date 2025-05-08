@@ -10,7 +10,7 @@ import { filterStatusOptions } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
-import { useActivity } from '../../../store/context/activityContext';
+import { usePageContext } from '../../../store/context/pageContext';
 import {
   TaskStatusRowSampleInterface as SingleSampleInterface,Filters
 } from 'src/utility/types/data_types';
@@ -25,7 +25,7 @@ const DataTable = () => {
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'tomorrow')[0]);
   const dispatch        = useDispatch();
 
-  const { table: tableData,setTable } = useActivity();
+  const { table: tableData,setTable } = usePageContext();
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 
@@ -168,7 +168,7 @@ const DataTable = () => {
           <TableBody>
             {paginatedPageData.map((row) => {
               return (
-                <CustomTableRow
+                <CustomTableRow key={row.id}
                   data={row} isDataSelected={selectedTableData.includes(row.id)}
                   handleSelectOneData={handleSelectOneData} onDeleteRow={deleteTableRow}
                 />

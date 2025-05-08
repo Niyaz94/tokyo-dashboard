@@ -3,7 +3,7 @@ import dayjs                     from 'dayjs';
 
 export type SleepFormStateInterface = {
   id: number;
-  bedTime: dayjs.Dayjs;
+  bedTime: string;
   approxFellSleepTime: string | null;
   morningWakingUp: string;
   SleepState: string;

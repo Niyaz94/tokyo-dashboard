@@ -18,9 +18,9 @@ interface CustomAutocompleteProps {
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     label,formKey,fetchOptions,multiple = false,onChange,defaultValue = null,disabled = false,showValueInLabel=true,debounceMs = 500
 }) => {
-
+    
     const [inputValue, setInputValue] = useState('');
-    const [selectValue, setSelectValue] = useState({
+    const [selectValue, setSelectValue] = useState(defaultValue || {
         value: null,
         label: ''
     } as dailySingleInterface);
@@ -82,7 +82,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
                     setInputValue(value);
                 }
             }}
-            // defaultValue={options.filter((item) => item.value === defaultValue)[0] || null}
+            // defaultValue={defaultValue}
             value={selectValue.label ? selectValue: null}
             disabled={disabled}
             // disableClearable

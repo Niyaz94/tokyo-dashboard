@@ -3,6 +3,8 @@ import Label            from 'src/components/Label';
 import { level1Status } from 'src/utility/types/data_types';
 import  {mapLabelData}  from "./data"
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import {axiosGetData} from '../../utility/Axios'
+
 
 export const getStatusLabel = (status: level1Status,extraText:string="",icon:JSX.Element=null): JSX.Element => {
   if (status){
@@ -132,3 +134,10 @@ const handleChange = (
   const { name, value } = e.target as HTMLInputElement;
   // setFormData((prev) => ({ ...prev, [name]: value }));
 };
+
+
+export const dailySearch = async (query) => {
+  const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
+  const {data} = await res;
+  return  data ?? [];
+}

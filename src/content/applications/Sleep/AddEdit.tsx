@@ -5,41 +5,56 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate,useParams } from 'react-router-dom';
 import dayjs                  from 'dayjs';
 import LexicalEditor          from '../../../components/Custom/Lexical/Editor';
-import TimePickers            from '../../../components/Form/TimePickers';
-import StaticAutocomplete     from '../../../components/Form/StaticAutocomplete';
-import Template               from '../../../components/Page/Template';
 import { StatusCase1 as sleepStatus }        from '../../../utility/function/data';
-import usePostAPI             from '../../../utility/customHook/usePostAPI';
-import useEditAPI             from '../../../utility/customHook/useEditAPI';
-import useFetch, {FetchData}  from '../../../utility/customHook/useGetAPI';
-import { useSelector }        from 'react-redux';
-import { RootState }          from '../../../store/Reducer';
+import { 
+  usePostAPI, useEditAPI, useFetch, FetchData 
+}       from "../../../utility/customHook";
+import {
+  TimePickers,StaticAutocomplete,MultiButton,DynamicAutocomplete
+}       from '../../../components/Form';
+import {usePageContext as usePage}                  from '../../../store/context/pageContext';
 import { SleepFormStateInterface } from '../../../utility/types/Page';
-import MultiButton            from "../../../components/Form/MultiButton"
-
 import {sleepFormIntialState} from "../../../utility/function/defaultData"
+import {dailySearch}                    from "../../../utility/function/main"
+import {SleepRowSampleInterface}  from 'src/utility/types/data_types';
 
-import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
-import {axiosGetData} from '../../../utility/Axios'
 
 const CollapsibleForm: React.FC = () => {
 
   const navigate              = useNavigate();
-  const { id:edit_sleep_id }  = useParams();
+  const { id:edit_page_id }  = useParams();
 
+  const  {setTable,pageDefault}   = usePage();
   const [formData, setFormData] = useState(sleepFormIntialState);
-  const dailyData               = useSelector((state: RootState) => state.daily.data);
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<SleepFormStateInterface>   = useFetch <SleepFormStateInterface>(edit_sleep_id ?`notes/sleep/${edit_sleep_id}`: null,{});
+  const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
+
+
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<SleepFormStateInterface>   = useFetch <SleepFormStateInterface>(edit_page_id ?`notes/sleep/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}         = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}              = useEditAPI();
 
   const saveReturn=()=>{
+    // const success = edit_page_id ? editResponse?.success : response?.success;
+
+    // await handleSave();
+    // navigate('/personal/sleep');
     handleSave().then(()=>navigate('/personal/sleep'))
   }
   const saveContinue=()=>{
     handleSave().then(()=>cleanForm())
   }
+
+    useEffect(() => {
+        const {success,data}=response || {success:false,data:null};
+        setTable(prev => success ?[data,...prev]:prev);
+    }, [response]);
+  
+    useEffect(() => {
+        const {success,data}=editResponse || {success:false,data:null};
+        setTable(prev => success ?[...prev.map((item:SleepRowSampleInterface) => item.id === data.id?data:item),data]:prev);
+    }, [editResponse]);
+
 
   useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
@@ -52,8 +67,8 @@ const CollapsibleForm: React.FC = () => {
   };
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
-    if (edit_sleep_id) {
-      await editData(`notes/sleep/${edit_sleep_id}/`, formData);
+    if (edit_page_id) {
+      await editData(`notes/sleep/${edit_page_id}/`, formData);
     }else{
       await postData("notes/sleep/", dataToBeSent);
     }
@@ -64,7 +79,6 @@ const CollapsibleForm: React.FC = () => {
   };
 
   return (
-    <Template templateTitle="Personal - Sleep">
       <Card>
         <CardHeader title="Input Fields" />
         <Divider />
@@ -99,20 +113,10 @@ const CollapsibleForm: React.FC = () => {
                 />
               </Grid>
               <Grid size={4}>
-                {/* <StaticAutocomplete
-                  label="Select The Day"
-                  options={dailyData}
-                  defaultValue={dailyData.filter(({label,value}) => value == Number(formData.daily))[0]}
-                  formKey="daily"
-                  onChange={handleFormChange}
-                /> */}
                 <DynamicAutocomplete
                   label="Select The Day"
-                  fetchOptions={async (query) => {
-                    const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
-                    const {data} = await res;
-                    return  data ?? [];
-                  }}
+                  defaultValue={selectDefaultValue}
+                  fetchOptions={dailySearch}
                   formKey="daily"
                   onChange={handleFormChange}
                 />
@@ -190,7 +194,7 @@ const CollapsibleForm: React.FC = () => {
                 <LexicalEditor value={formData.sleepNotes} onChange={handleFormChange} formKey="sleepNotes" label="Sleep Notes"/>
               </Grid>
               <Grid size={12}>
-                <MultiButton type={edit_sleep_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/sleep'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/sleep'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
@@ -201,7 +205,6 @@ const CollapsibleForm: React.FC = () => {
           </Box>
         </CardContent>
       </Card>
-    </Template>
   );
 };
 export default CollapsibleForm;

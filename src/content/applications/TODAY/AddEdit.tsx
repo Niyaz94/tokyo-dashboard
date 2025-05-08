@@ -2,26 +2,23 @@ import {
   usePostAPI, useEditAPI, useFetch, FetchData 
 }         from "../../../utility/customHook";
 
-import React, { useState,useEffect,useCallback,useMemo } from 'react';
+import { useState,useEffect,useCallback,useMemo } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
-
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
-import MultiButton                  from "../../../components/Form/MultiButton"
-import CustomDatePicker             from '../../../components/Form/CustomDatePickers';
 
 import {TodayFormIntialStateInterface as FormIntialState}  from "../../../utility/function/defaultData"
 
-import { useSelector }              from 'react-redux';
-import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 import { StatusCase1,StatusCase2  }   from '../../../utility/function/data';
 
+import {
+  CustomSwitch,StaticAutocomplete,MultiButton,CustomDatePicker
+}       from '../../../components/Form';
 
-import { RootState }                    from '../../../store/Reducer';
+
 import { TodayFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
-import {useActivity as usePage}                  from '../../../store/context/activityContext';
+import {usePageContext as usePage}                  from '../../../store/context/pageContext';
 
 import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
@@ -30,11 +27,9 @@ const CollapsibleForm = () => {
 
   const  {setTable}               = usePage();
 
-
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(FormIntialState);
-  const dailyData               = useSelector((state: RootState) => state.daily.data);
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/daily/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
@@ -178,21 +173,21 @@ const CollapsibleForm = () => {
               </Grid>
               
               <Grid size={4}>
-                <CustomizedSwitch 
+                <CustomSwitch 
                   value={formData.isBusyDay}
                   onChange={useCallback((newValue) => handleFormChange('isBusyDay', newValue),[])}
                   label="Is Busy Day"
                 />
               </Grid>  
               <Grid size={4}>
-                <CustomizedSwitch 
+                <CustomSwitch 
                   value={formData.isMeditation}
                   onChange={useCallback((newValue) => handleFormChange('isMeditation', newValue),[])}
                   label="Is Meditation"
                 />
               </Grid>
               <Grid size={4}>
-                <CustomizedSwitch 
+                <CustomSwitch 
                   value={formData.isSuccessfulDay}
                   onChange={useCallback((newValue) => handleFormChange('isSuccessfulDay', newValue),[])}
                   label="Is Successful Day"

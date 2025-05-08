@@ -5,12 +5,12 @@ import {
 } from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
-import {applyPagination,applyFilters,applyFilterValue} from '../../../utility/function/main';
+import {applyPagination,applyFilters} from '../../../utility/function/main';
 import { filterStatusOptions } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
-import { useActivity } from '../../../store/context/activityContext';
+import { usePageContext } from '../../../store/context/pageContext';
 import {
   TaskStatusRowSampleInterface as SingleSampleInterface,Filters
 } from 'src/utility/types/data_types';
@@ -24,7 +24,7 @@ const DataTable = () => {
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'activity')[0]);
   const dispatch        = useDispatch();
 
-  const { table: tableData,setTable } = useActivity();
+  const { table: tableData,setTable } = usePageContext();
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 

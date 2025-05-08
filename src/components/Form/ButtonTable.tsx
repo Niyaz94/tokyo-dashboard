@@ -9,7 +9,7 @@ import ConfirmDialog      from '../../components/Custom/Dialog/ConfirmDialog';
 
 
 
-const ButtonTable = ({ id, text,onDeleteRow }) => {
+const ButtonTable = ({ id, text,onDeleteRow,onEditButtonClick=null}) => {
   const [openDeleteConfirmDialog, setOpenDeleteConfirmDialog] = useState(false);
   
   const theme = useTheme();
@@ -19,7 +19,12 @@ const ButtonTable = ({ id, text,onDeleteRow }) => {
     <Stack direction="row" spacing={0.5} sx={{justifyContent: "center",alignItems: "center",}}>
       <Tooltip title={`EDIT ${text.toUpperCase()}`} arrow>
         <IconButton 
-          color="inherit" onClick={()=>navigate(`${id}`)} size="medium" 
+          color="inherit" onClick={() => {
+            if (typeof onEditButtonClick === 'function') {
+              onEditButtonClick();
+            }
+            navigate(`${id}`);
+          }}  size="medium" 
           sx={{'&:hover': {background: theme.colors.primary.lighter},color: theme.palette.primary.main}} 
         >
           <EditTwoToneIcon fontSize="medium" />

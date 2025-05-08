@@ -5,23 +5,28 @@ import {ChangeEvent }      from 'react';
 import {Checkbox,TableCell,TableRow,Stack}  from '@mui/material';
 import Label                                from 'src/components/Label';
 import TableCusCell                         from '../../../components/Table/Cell';
-import { useNavigate }                      from 'react-router-dom';
 import ButtonTable                          from "../../../components/Form/ButtonTable"       
+import {usePageContext as usePage}      from '../../../store/context/pageContext';
 
 
 
 function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDeleteRow}) {
   
-    // const [openDeleteConfirmDialog, setOpenDeleteConfirmDialog] = useState(false);
+    const {
+      id,date,daily,success,worrying,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,
+      peeCountDuringNight,SleepState,approxWakingNum,morningWakingUp,dayTimeSleepInMinutes,burn_calories
+    } = data;
+    const {setPageDefault}         = usePage();
 
-    const navigate = useNavigate();
 
-    const {id,date,success,worrying,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,peeCountDuringNight,
-              SleepState,approxWakingNum,morningWakingUp,dayTimeSleepInMinutes,burn_calories} = data;
+    const onEditButtonClick = () => {
+      setPageDefault(prev => ({...prev, date:{label:date,value: daily}}));
+    }
 
     
     const sleepInHour=(getTimeDifferenceInMinutes(approxFellSleepTime.slice(0,5),morningWakingUp.slice(0,5))+dayTimeSleepInMinutes)/60
     const wastedTime=getTimeDifferenceInMinutes(bedTime.slice(0,5),approxFellSleepTime.slice(0,5))
+
   return (
     <TableRow hover  key={id}  selected={isSleepDataelected}>
       <TableCell padding="checkbox">
@@ -67,7 +72,7 @@ function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDele
         ]
       } />
       <TableCell align="right">
-        <ButtonTable id={id} text="sleep" onDeleteRow={onDeleteRow} />
+        <ButtonTable id={id} text="sleep" onDeleteRow={onDeleteRow} onEditButtonClick={onEditButtonClick} />
       </TableCell>
     </TableRow>
   )

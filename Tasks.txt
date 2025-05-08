@@ -1,3 +1,6 @@
+13- [IMP], in daily select during edit the date does not appear ---> DONE
+
+
 1 - [CustomizedSwitch] is re-render when any values of [setFormData] is changed
 2 - Update Table After Action
 3 - Generalization
@@ -10,5 +13,5 @@
 10- In Tast Progress, After Insert I add the new row to the table and then make a new API request, This is wrong
 11- Scroll for long text inside the table does not work.
 12- The pagination in Tast Status when, 100 sample shown then you select Half_complete. It return wrong numbers
-
-13- [IMP], in daily select during edit the date does not appear
+14- [IMP], validation in frontend does not work. For example if time is [00:09] it make the field red still send the request and save the data.
+15- [IMP],In [Save And Return] if there is an error in the insertation it still go back to the main page and there is no indication of error

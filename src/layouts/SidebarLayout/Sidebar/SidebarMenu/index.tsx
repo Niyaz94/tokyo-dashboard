@@ -160,10 +160,10 @@ function SidebarMenu() {
     Object.keys(slideBarItems).map((key, index) => {
       const item = slideBarItems[key];
       return (
-        <List component="div" subheader={item.showSubHeader ? <ListSubheader component="div" disableSticky>{item.title}</ListSubheader> : null}>
+        <List component="div" key={key} subheader={item.showSubHeader ? <ListSubheader component="div" disableSticky>{item.title}</ListSubheader> : null}>
           <SubMenuWrapper><List component="div">
             {item.children.map((item, index) =>  {
-              return (<CustomListItem action={closeSidebar} icon={item.icon} text={item.title} link={item.link} />)
+              return (<CustomListItem key={`${key}_${index}`} action={closeSidebar} icon={item.icon} text={item.title} link={item.link} />)
             })}
           </List></SubMenuWrapper>
         </List>
