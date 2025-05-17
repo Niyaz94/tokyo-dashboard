@@ -1,16 +1,14 @@
 import { 
-  usePostAPI, useEditAPI, useFetch, FetchData 
+  usePostAPI, useEditAPI, useFetch, FetchData , useSnackbar
 }         from "../../../utility/customHook";
 
-import React, { useState,useEffect,useCallback,useMemo, use } from 'react';
+import React, { useState,useEffect,useCallback,useMemo, useRef } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
-import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
-import MultiButton                  from "../../../components/Form/MultiButton"
+import {MultiButton,CustomSnackbar,CustomSwitch,CustomDatePicker}                  from "../../../components/Form"
 import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
 
 import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
@@ -19,12 +17,13 @@ import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';
 
 import {createSelectMap}                from '../../../utility/function/main';
-import {TaskStatusRowSampleInterface} from 'src/utility/types/data_types';
+import {TaskStatusRowSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
 import dayjs                           from "dayjs";
 
 
 const CollapsibleForm = () => {
 
+  const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
   const  {secondary,table,setTable}              = usePaginationContext();
   const {tasks_name,task_status}  = secondary;
 
@@ -37,29 +36,55 @@ const CollapsibleForm = () => {
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
+  const isFirstRender = useRef(true);
   const [formData, setFormData] = useState(TaskStatusFormIntialState);
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_page_id ?`schedule/task_status/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
+  const [pageReDirect, setPageRedirect] = useState(false);
+  
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/goals/task_progress'))
+    setPageRedirect(true);
+    handleSave()
   }
   const saveContinue=()=>{
-    // handleSave().then(()=>cleanForm())
+    setPageRedirect(false);
     handleSave()
   }
 
   useEffect(() => {
-      const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[data,...prev]:prev);
-  }, [response]);
-
-  useEffect(() => {
-      const {success,data}=editResponse || {success:false,data:null};
-      setTable(prev => success ?[...prev.map((item:TaskStatusRowSampleInterface) => item.id === data.id?data:item),data]:prev);
-  }, [editResponse]);
+      if (isFirstRender.current) {
+        isFirstRender.current = false; // skip the first run
+        return;
+      }
+      const postSuccess = response?.success;
+      const editSuccess = editResponse?.success;
+  
+      if (postSuccess && response?.data) {
+        setTable(prev => [response.data, ...prev]);
+      }
+  
+      if (editSuccess && editResponse?.data) {
+        setTable(prev => prev.map((item: SingleSampleInterface) =>
+          item.id === editResponse.data.id ? editResponse.data : item
+        ));
+      }
+      try {
+        const errorMessage = post_api_error || editError;
+        const success = postSuccess || editSuccess;
+        const successMessage = postSuccess ? 'Submitted successfully!' : editSuccess ? 'Edited successfully!' : null;
+  
+        if (success) {
+          showSnackbar(successMessage, 'success');
+          setTimeout(() => {if(pageReDirect) navigate('/goals/task_progress');}, 1000); 
+        } else 
+          showSnackbar(errorMessage, 'error');
+      } catch (error) {
+        showSnackbar('Network error. Please try again.', 'error');
+      } 
+    }, [response,editResponse]);
 
 
   useEffect(() => {
@@ -145,7 +170,7 @@ const CollapsibleForm = () => {
                 />
               </Grid>  
               <Grid size={12}>
-                <CustomizedSwitch 
+                <CustomSwitch 
                   value={formData.isTodaySTask}
                   onChange={useCallback((newValue) => handleFormChange('isTodaySTask', newValue),[])}
                   label="Is Today's Task"
@@ -156,13 +181,9 @@ const CollapsibleForm = () => {
               </Grid>           
               <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/task_progress'}/>
+                <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>
             </Grid>
-            {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
-            {success && <p style={{ color: "green" }}>Success! Data submitted.</p>}
-            {response && response.data && (
-              <pre>Response: {JSON.stringify(response.data, null, 2)}</pre>
-            )}
           </Box>
         </CardContent>
       </Card>

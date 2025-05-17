@@ -16,7 +16,9 @@ export const sleepFormIntialState:SleepFormStateInterface = {
   sleepNotes: '{}',
   dayTimeSleepInMinutes: 0,
   peeCountDuringNight: 0,
-  approxWakingNum: 0
+  approxWakingNum: 0,
+  isSleepControl:false,
+  isEatDrinkBeforeSleep: true
 };
 
 export const TaskStatusFormIntialState = {

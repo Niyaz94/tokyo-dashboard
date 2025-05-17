@@ -1,25 +1,19 @@
-import React, { useState,useEffect,useCallback,useMemo } from 'react';
-import { useSelector }                from 'react-redux';
+import React, { useState,useEffect,useCallback,useRef } from 'react';
 import { useNavigate,useParams }    from 'react-router-dom';
-import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
+import {Card,CardHeader,CardContent,Divider,Box} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
-
-
-
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomizedSwitch             from '../../../components/Form/CustomSwitch';
-import MultiButton                  from "../../../components/Form/MultiButton"
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
+
+import {CustomSwitch,CustomSnackbar,MultiButton,CustomDatePicker}       from '../../../components/Form';
 
 
 import {TomorrowSingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
-import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../utility/customHook";
+import { usePostAPI, useEditAPI, useFetch, FetchData,useSnackbar }  from "../../../utility/customHook";
 import {TomorrowFormIntialStateInterface as FormIntialState}   from "../../../utility/function/defaultData"
 import {TomorrowFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 
 
-import { RootState }                    from '../../../store/Reducer';
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
 
 import DynamicAutocomplete             from '../../../components/Form/DynamicAutocomplete';
@@ -27,6 +21,7 @@ import {dailySearch}                    from "../../../utility/function/main"
 
 
 const CollapsibleForm = () => {
+  const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
 
   const  {setTable,pageDefault} = usePage();
 
@@ -38,28 +33,63 @@ const CollapsibleForm = () => {
   const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
 
   
-
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/tomorrow/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
+  const isFirstRender = useRef(true);
+  const [pageReDirect, setPageRedirect] = useState(false);
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/personal/tomorrow'))
+    handleSave().then(()=>{setPageRedirect(true);})
   }
   const saveContinue=()=>{
-    // handleSave().then(()=>cleanForm())
-    handleSave()
+    handleSave().then(()=>{setPageRedirect(false);})
   }
 
-  useEffect(() => {
-      const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[data,...prev]:prev);
-  }, [response]);
+  const handleSave = async () => {
+    const { id, ...dataToBeSent } = formData; // Destructure once
+    if (edit_page_id) {
+      await editData(`notes/tomorrow/${edit_page_id}/`, formData);
+    }else{
+      await postData("notes/tomorrow/", dataToBeSent);
+    }
+  };
 
   useEffect(() => {
-      const {success,data}=editResponse || {success:false,data:null};
-      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
-  }, [editResponse]);
+    if (isFirstRender.current) {
+      isFirstRender.current = false; // skip the first run
+      return;
+    }
+    const postSuccess = response?.success;
+    const editSuccess = editResponse?.success;
+
+    if (postSuccess && response?.data) {
+      setTable(prev => [response.data, ...prev]);
+    }
+
+    if (editSuccess && editResponse?.data) {
+      setTable(prev => prev.map((item: SingleSampleInterface) =>
+        item.id === editResponse.data.id ? editResponse.data : item
+      ));
+    }
+    try {
+      const errorMessage = post_api_error || editError;
+      const success = postSuccess || editSuccess;
+      const successMessage = postSuccess ? 'Submitted successfully!' : editSuccess ? 'Edited successfully!' : null;
+
+      if (success) {
+        showSnackbar(successMessage, 'success');
+        setTimeout(() => {
+          if(pageReDirect) 
+            navigate('/personal/tomorrow');
+        }, 1500); 
+      } else 
+        showSnackbar(errorMessage, 'error');
+    } catch (error) {
+      showSnackbar('Network error. Please try again.', 'error');
+    } 
+  }, [response,editResponse]);
+
 
 
   useEffect(() => {
@@ -70,18 +100,8 @@ const CollapsibleForm = () => {
 
   const handleFormChange = useCallback((key, value) => {
     setFormData((prev) => ({...prev,[key]: value}));
-  },[]);
-  
-  const handleSave = async () => {
-    const { id, ...dataToBeSent } = formData; // Destructure once
-    if (edit_page_id) {
-      await editData(`notes/tomorrow/${edit_page_id}/`, formData);
-    }else{
-      console.log("formData",formData)
-      await postData("notes/tomorrow/", dataToBeSent);
-    }
-    
-  };
+  },[]); 
+
   const cleanForm = () => {
     setFormData(FormIntialState)
   };
@@ -112,29 +132,21 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>
-
               <Grid size={12}>
-                <CustomizedSwitch 
+                <CustomSwitch 
                   value={formData.hasPlan}
                   onChange={useCallback((newValue) => handleFormChange('hasPlan', newValue),[])}
                   label="Do you have a plan for tomorrow?"
                 />
-              </Grid>  
-              
+              </Grid>      
               <Grid size={12}>
                 <LexicalEditor value={formData.tomorrowNotes} onChange={handleFormChange} formKey="tomorrowNotes" label="Tomorrow's Notes"/>
               </Grid>  
-              
-
               <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/tomorrow'}/>
+                <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>
-            </Grid>
-            {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
-            {success && <p style={{ color: "green" }}>Success! Data submitted.</p>}
-            {response && response.data && (
-              <pre>Response: {JSON.stringify(response.data, null, 2)}</pre>
-            )}
+            </Grid>           
           </Box>
         </CardContent>
       </Card>

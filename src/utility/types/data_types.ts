@@ -9,6 +9,9 @@ export type level3Status =   "ACHIEVED" |  "POSTPONED" |  "INPROGRESS" | "COMPLE
 export type level4Status =  "ACHIEVED" | "POSTPONED" | "INPROGRESS" | "COMPLETED" | "UNCOMPLETED"
 export type level5Status =   "LESS" |  "NORMAL" |  "VERY" 
 
+export type SnackbarType = 'success' | 'error' | 'info' | 'warning';
+
+
 
 
 export interface TemplatePropsInterface {

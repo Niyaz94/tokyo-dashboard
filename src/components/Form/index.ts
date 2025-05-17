@@ -5,3 +5,4 @@ export {default as DynamicAutocomplete}    from './DynamicAutocomplete';
 export {default as CustomSwitch}           from './CustomSwitch';
 export {default as CustomDatePicker}      from './CustomDatePicker';
 export {default as ButtonTable}            from './ButtonTable';
+export {default as CustomSnackbar}        from './CustomSnackbar';

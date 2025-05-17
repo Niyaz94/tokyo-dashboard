@@ -1,8 +1,8 @@
 import { 
-  usePostAPI, useEditAPI, useFetch, FetchData 
+  usePostAPI, useEditAPI, useFetch, FetchData , useSnackbar
 }         from "../../../utility/customHook";
 
-import { useState,useEffect,useCallback,useMemo } from 'react';
+import { useState,useEffect,useCallback,useRef } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useNavigate,useParams }    from 'react-router-dom';
@@ -13,7 +13,7 @@ import {TodayFormIntialStateInterface as FormIntialState}  from "../../../utilit
 import { StatusCase1,StatusCase2  }   from '../../../utility/function/data';
 
 import {
-  CustomSwitch,StaticAutocomplete,MultiButton,CustomDatePicker
+  CustomSwitch,StaticAutocomplete,MultiButton,CustomDatePicker,CustomSnackbar
 }       from '../../../components/Form';
 
 
@@ -24,34 +24,60 @@ import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utili
 
 
 const CollapsibleForm = () => {
-
+  const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
   const  {setTable}               = usePage();
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
+  const isFirstRender = useRef(true);
   const [formData, setFormData] = useState(FormIntialState);
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/daily/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
+  const [pageReDirect, setPageRedirect] = useState(false);
+  
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/personal/today'))
+    setPageRedirect(true);
+    handleSave()
   }
   const saveContinue=()=>{
-    // handleSave().then(()=>cleanForm())
+    setPageRedirect(false);
     handleSave()
   }
 
   useEffect(() => {
-      const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[data,...prev]:prev);
-  }, [response]);
-
-  useEffect(() => {
-      const {success,data}=editResponse || {success:false,data:null};
-      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
-  }, [editResponse]);
+      if (isFirstRender.current) {
+        isFirstRender.current = false; // skip the first run
+        return;
+      }
+      const postSuccess = response?.success;
+      const editSuccess = editResponse?.success;
+  
+      if (postSuccess && response?.data) {
+        setTable(prev => [response.data, ...prev]);
+      }
+  
+      if (editSuccess && editResponse?.data) {
+        setTable(prev => prev.map((item: SingleSampleInterface) =>
+          item.id === editResponse.data.id ? editResponse.data : item
+        ));
+      }
+      try {
+        const errorMessage = post_api_error || editError;
+        const success = postSuccess || editSuccess;
+        const successMessage = postSuccess ? 'Submitted successfully!' : editSuccess ? 'Edited successfully!' : null;
+  
+        if (success) {
+          showSnackbar(successMessage, 'success');
+          setTimeout(() => {if(pageReDirect) navigate('/personal/today');}, 1500); 
+        } else 
+          showSnackbar(errorMessage, 'error');
+      } catch (error) {
+        showSnackbar('Network error. Please try again.', 'error');
+      } 
+    }, [response,editResponse]);
 
 
   useEffect(() => {
@@ -115,8 +141,6 @@ const CollapsibleForm = () => {
                 />
               </Grid>
 
-
-              
               <Grid size={4}>
                 <TextField
                   label={'Useful Time In Minutes'}
@@ -193,7 +217,7 @@ const CollapsibleForm = () => {
                   label="Is Successful Day"
                 />
               </Grid>
-              
+            
               <Grid size={6}>
                 <LexicalEditor value={formData.dailyNotes} onChange={handleFormChange} formKey="dailyNotes" label="Daily Notes"/>
               </Grid>  
@@ -203,13 +227,9 @@ const CollapsibleForm = () => {
 
               <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/today'}/>
+                <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>
             </Grid>
-            {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
-            {success && <p style={{ color: "green" }}>Success! Data submitted.</p>}
-            {response && response.data && (
-              <pre>Response: {JSON.stringify(response.data, null, 2)}</pre>
-            )}
           </Box>
         </CardContent>
       </Card>

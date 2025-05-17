@@ -14,6 +14,8 @@ export type SleepFormStateInterface = {
   dayTimeSleepInMinutes: number;
   peeCountDuringNight: number;
   approxWakingNum: number;
+  isSleepControl: boolean;
+  isEatDrinkBeforeSleep: boolean;
 };
 
 export type TaskStatusFormStateInterface = {

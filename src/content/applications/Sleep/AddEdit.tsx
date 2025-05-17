@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useCallback,useRef } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -7,22 +7,25 @@ import dayjs                  from 'dayjs';
 import LexicalEditor          from '../../../components/Custom/Lexical/Editor';
 import { StatusCase1 as sleepStatus }        from '../../../utility/function/data';
 import { 
-  usePostAPI, useEditAPI, useFetch, FetchData 
+  usePostAPI, useEditAPI, useFetch, FetchData , useSnackbar
 }       from "../../../utility/customHook";
 import {
-  TimePickers,StaticAutocomplete,MultiButton,DynamicAutocomplete
+  TimePickers,StaticAutocomplete,MultiButton,DynamicAutocomplete,CustomSwitch,CustomSnackbar
 }       from '../../../components/Form';
 import {usePageContext as usePage}                  from '../../../store/context/pageContext';
 import { SleepFormStateInterface } from '../../../utility/types/Page';
 import {sleepFormIntialState} from "../../../utility/function/defaultData"
 import {dailySearch}                    from "../../../utility/function/main"
-import {SleepRowSampleInterface}  from 'src/utility/types/data_types';
+import {SleepRowSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
 
 const CollapsibleForm: React.FC = () => {
 
+  const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
+  
   const navigate              = useNavigate();
   const { id:edit_page_id }  = useParams();
+  const isFirstRender = useRef(true);
 
   const  {setTable,pageDefault}   = usePage();
   const [formData, setFormData] = useState(sleepFormIntialState);
@@ -34,26 +37,48 @@ const CollapsibleForm: React.FC = () => {
   const { loading:post_api_loading, error:post_api_error, success,response, postData}         = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}              = useEditAPI();
 
+  const [pageReDirect, setPageRedirect] = useState(false);
+  
   const saveReturn=()=>{
-    // const success = edit_page_id ? editResponse?.success : response?.success;
-
-    // await handleSave();
-    // navigate('/personal/sleep');
-    handleSave().then(()=>navigate('/personal/sleep'))
+    setPageRedirect(true);
+    handleSave()
   }
   const saveContinue=()=>{
-    handleSave().then(()=>cleanForm())
+    setPageRedirect(false);
+    handleSave()
   }
 
-    useEffect(() => {
-        const {success,data}=response || {success:false,data:null};
-        setTable(prev => success ?[data,...prev]:prev);
-    }, [response]);
+  useEffect(() => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false; // skip the first run
+        return;
+      }
+      const postSuccess = response?.success;
+      const editSuccess = editResponse?.success;
   
-    useEffect(() => {
-        const {success,data}=editResponse || {success:false,data:null};
-        setTable(prev => success ?[...prev.map((item:SleepRowSampleInterface) => item.id === data.id?data:item),data]:prev);
-    }, [editResponse]);
+      if (postSuccess && response?.data) {
+        setTable(prev => [response.data, ...prev]);
+      }
+  
+      if (editSuccess && editResponse?.data) {
+        setTable(prev => prev.map((item: SingleSampleInterface) =>
+          item.id === editResponse.data.id ? editResponse.data : item
+        ));
+      }
+      try {
+        const errorMessage = post_api_error || editError;
+        const success = postSuccess || editSuccess;
+        const successMessage = postSuccess ? 'Submitted successfully!' : editSuccess ? 'Edited successfully!' : null;
+  
+        if (success) {
+          showSnackbar(successMessage, 'success');
+          setTimeout(() => {if(pageReDirect) navigate('/personal/sleep');}, 1500); 
+        } else 
+          showSnackbar(errorMessage, 'error');
+      } catch (error) {
+        showSnackbar('Network error. Please try again.', 'error');
+      } 
+  }, [response,editResponse]);
 
 
   useEffect(() => {
@@ -188,6 +213,21 @@ const CollapsibleForm: React.FC = () => {
                 />
               </Grid>
               <Grid size={6}>
+                <CustomSwitch 
+                  value={formData.isSleepControl}
+                  onChange={useCallback((newValue) => handleFormChange('isSleepControl', newValue),[])}
+                  label="Do You Control Your Sleep?"
+                />
+              </Grid> 
+                <Grid size={6}>
+                <CustomSwitch 
+                  value={formData.isEatDrinkBeforeSleep}
+                  onChange={useCallback((newValue) => handleFormChange('isEatDrinkBeforeSleep', newValue),[])}
+                  label="Do You Eat or Drink Before Sleep?"
+                />
+              </Grid> 
+              
+              <Grid size={6}>
                 <LexicalEditor value={formData.whatYouThink} onChange={handleFormChange} formKey="whatYouThink" label="What You Think"/>
               </Grid>
               <Grid size={6}>
@@ -195,13 +235,9 @@ const CollapsibleForm: React.FC = () => {
               </Grid>
               <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/sleep'}/>
+                <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>
             </Grid>
-            {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
-            {success && <p style={{ color: "green" }}>Success! Data submitted.</p>}
-            {response && response.data && (
-              <pre>Response: {JSON.stringify(response.data, null, 2)}</pre>
-            )}
           </Box>
         </CardContent>
       </Card>

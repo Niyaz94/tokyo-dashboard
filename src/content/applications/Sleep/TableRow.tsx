@@ -7,14 +7,16 @@ import Label                                from 'src/components/Label';
 import TableCusCell                         from '../../../components/Table/Cell';
 import ButtonTable                          from "../../../components/Form/ButtonTable"       
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
-
-
+import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import NoFoodIcon from '@mui/icons-material/NoFood';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 
 function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDeleteRow}) {
   
     const {
-      id,date,daily,success,worrying,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,
-      peeCountDuringNight,SleepState,approxWakingNum,morningWakingUp,dayTimeSleepInMinutes,burn_calories
+      id,date,daily,success,worrying,isSleepControl,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,
+      peeCountDuringNight,isEatDrinkBeforeSleep,SleepState,approxWakingNum,morningWakingUp,dayTimeSleepInMinutes,burn_calories
     } = data;
     const {setPageDefault}         = usePage();
 
@@ -64,10 +66,27 @@ function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDele
       } />
       <TableCusCell cellProps={{align:"center"}} prop={
         [
-          {text:labelWithColor(`BC: ${burn_calories} kcal`,labelColorByNumber(burn_calories/300*100)),styleType:1},
+          {
+            text: 
+            <Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
+            {isSleepControl ? (
+              <PsychologyIcon sx={{ fontSize: '2rem', color: 'primary.main' }}/>
+            ) : (
+              <EmojiObjectsIcon
+                sx={{ fontSize: '2rem', color: 'error.main' }}
+              />
+            )}
+            {isEatDrinkBeforeSleep ? (
+              <FastfoodIcon sx={{ fontSize: '2rem', color: 'warning.main' }}/>
+            ) : (
+              <NoFoodIcon sx={{ fontSize: '2rem', color: 'success.main' }} />
+            )}
+            </Stack>,
+            styleType: 1
+          },
           {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
             {getStatusLabel(worrying,"WL: ")}
-            {getStatusLabel(activity_level,"AL: ")}
+            {labelWithColor(`BC: ${burn_calories} kcal`,labelColorByNumber(burn_calories/300*100))}
             </Stack>,styleType:2}
         ]
       } />
