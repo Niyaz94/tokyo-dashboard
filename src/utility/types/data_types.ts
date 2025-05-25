@@ -122,7 +122,7 @@ export interface GoalRecordInterface {
 }
 
 
-export interface TaskSingleSampleInterface {
+export interface TaskRowSampleInterface {
   id: string;
   task_month: string;
   task_year: number;
@@ -143,15 +143,11 @@ export interface TaskSingleSampleInterface {
   }
 }
 
-export interface TaskRecordInterface {
-  data: TaskSingleSampleInterface[];
-  unique:{
+export interface TaskUniqueInterface {
     goal_status:level4Status[];
     goal_level:level5Status[];
     years:string[];
     months:string[];
-    years_month:string[];
-  }
 }
 
 export interface TaskStatusRowSampleInterface {

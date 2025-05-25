@@ -1,32 +1,35 @@
-import { Helmet }           from 'react-helmet-async';
-import { Grid2 as Grid, Container }  from '@mui/material';
+import Template                       from '../../../components/Page/Template';
+import useFetch, {FetchData}          from '../../../utility/customHook/useGetAPI';
+import PageTable                      from './Table';
+import AddEdit                        from './AddEdit';
+import { PaginationTableDataInterface,TaskRowSampleInterface,TaskUniqueInterface}   from 'src/utility/types/data_types';
+import { Routes, Route }              from "react-router-dom";
+import {PaginationProvider}           from '../../../store/context/paginationContext';
 
-import PageTitleWrapper     from 'src/components/PageTitleWrapper';
-import Footer               from 'src/components/Footer';
 
-import PageHeader           from './PageHeader';
-import RecentOrders         from './Main';
-import { CollapseProvider } from '../../../contexts/CollapseToggle';
+export default () =>{
+  const { data,success}: FetchData<PaginationTableDataInterface<TaskRowSampleInterface>> = useFetch <PaginationTableDataInterface<TaskRowSampleInterface>>('schedule/task',{results:[],count:0,next:null,previous:null});
+  const {results,count,next,previous} = data;
 
-function ApplicationsTransactions() {
+  const { data:unique_data,success:unque_success}: FetchData<TaskUniqueInterface> = useFetch <TaskUniqueInterface>('schedule/task/unique',{
+    months:[],years:[], goal_status:[], goal_level:[]
+  });
+
+  if (!success) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <CollapseProvider>
-      <Helmet>
-        <title>Goals - Tasks</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
-        <Grid container direction="row" justifyContent="center" alignItems="stretch" spacing={3}>
-          <Grid size={{xs:12}}>
-            <RecentOrders />
-          </Grid>
-        </Grid>
-      </Container>
-      <Footer />
-    </CollapseProvider>
+    <PaginationProvider tableData={results} secondaryData={unique_data} paginData={{count: count, next: next, previous: previous}}>
+      <Template templateTitle="Goals - Task">
+        <Routes>
+          <Route path=""    element={<PageTable />} />
+          <Route path="add" element={ <AddEdit/>} />
+          <Route path=":id" element={ <AddEdit/>} />
+        </Routes>
+      </Template>
+    </PaginationProvider>
+
   );
 }
 
-export default ApplicationsTransactions;

@@ -142,7 +142,7 @@ const routes: RouteObject[] = [
       {path: 'task_progress/*',element: <TASK_STATUS />},
       // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},
       // {path: 'task_progress/:id',element: <TASK_STATUS_AddEdit   />},
-      {path: 'task',element: <TASK />}, 
+      {path: 'task/*',element: <TASK />}, 
     ]
   },{
     path: '/components',

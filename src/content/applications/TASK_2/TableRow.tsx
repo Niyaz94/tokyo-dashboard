@@ -1,33 +1,56 @@
-import { Checkbox, TableCell, TableRow, Stack,useTheme } from '@mui/material';
 import { ChangeEvent } from 'react';
-import TableCusCell from '../../../components/Table/Cell';
-import ButtonTable from '../../../components/Form/ButtonTable';
-import { createMapLabelData } from '../../../utility/function/main';
-import { usePaginationContext } from '../../../store/context/paginationContext';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
+import {
+  Tooltip,
+  Checkbox,
+  IconButton,
+  TableCell,
+  TableRow,
+  Stack,
+  useTheme
+} from '@mui/material';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import TableCusCell from '../../../components/Table/Cell';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import {
   labelWithColor,
   getTextWithIcon,
   capitalizeFirstLetterOfWords
 } from '../../../utility/function/main';
 
-function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
-
-  const { secondary } = usePaginationContext();
+function CustomTableRow({
+  data,
+  isDataSelected,
+  handleSelectOneData,
+  goalStatusMap,
+  goalLevelMap,
+  monthMap,
+  yearlMap,
+  taskStatusMap
+}) {
+  const theme = useTheme();
 
   const {
-    goal_status:goal_status_all,goal_level:goal_level_all,years:task_years,months:task_months,status:task_status
-  } = secondary;
-
-  const {id,task_month,task_year,name: task_name,prizeAmount,percentage,result,status,dailyTime,goal} = data;
-  const {title: goal_name,start_date,end_date,status: goal_status,difficulty,importance} = goal;
-
-  const goalStatusMap = createMapLabelData(goal_status_all,[3,1,0])
-  const goalLevelMap  = createMapLabelData(goal_level_all,[3,1,0])
-  const taskStatusMap = createMapLabelData(task_status,[3,1,0])
-  const monthMap      = createMapLabelData(Object.keys(task_months).map((key)=>task_months[key]))
-  const yearlMap      = createMapLabelData(task_years,[5])
+    id,
+    task_month,
+    task_year,
+    name: task_name,
+    prizeAmount,
+    percentage,
+    result,
+    status,
+    dailyTime,
+    goal
+  } = data;
+  const {
+    title: goal_name,
+    start_date,
+    end_date,
+    status: goal_status,
+    difficulty,
+    importance
+  } = goal;
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -167,7 +190,10 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: labelWithColor(taskStatusMap[status.toUpperCase()].text,taskStatusMap[status.toUpperCase()].color),
+            text: labelWithColor(
+              taskStatusMap[status].text,
+              taskStatusMap[status].color
+            ),
             styleType: 1
           },
           {
@@ -180,12 +206,31 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           }
         ]}
       />
-      
-      
-      
-      
       <TableCell align="right">
-        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} />
+        <Tooltip title="Edit Order" arrow>
+          <IconButton
+            color="inherit"
+            size="small"
+            sx={{
+              '&:hover': { background: theme.colors.primary.lighter },
+              color: theme.palette.primary.main
+            }}
+          >
+            <EditTwoToneIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete Order" arrow>
+          <IconButton
+            color="inherit"
+            size="small"
+            sx={{
+              '&:hover': { background: theme.colors.error.lighter },
+              color: theme.palette.error.main
+            }}
+          >
+            <DeleteTwoToneIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
       </TableCell>
     </TableRow>
   );
