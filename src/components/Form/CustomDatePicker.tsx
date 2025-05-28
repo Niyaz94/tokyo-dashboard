@@ -12,8 +12,9 @@ interface CustomDatePickerInterface {
     placeholder?:string;
     value: Dayjs | string | null;
     onChange: (newValue: Dayjs | string | null) => void;
+    pickerFullWidth?: boolean;
 }
-const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onChange,placeholder="Please fill this field"}) => {
+const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onChange,placeholder="Please fill this field",pickerFullWidth=true}) => {
 
   const [cleared, setCleared] = React.useState<boolean>(false);
 
@@ -53,8 +54,8 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
               onClear: () => setCleared(true) 
             },
             textField: { 
-              fullWidth: true,
-              helperText: placeholder 
+              helperText: placeholder ,
+              ...(pickerFullWidth? { fullWidth: true }: { sx: { width: 200 } })
             }
           }}
         />

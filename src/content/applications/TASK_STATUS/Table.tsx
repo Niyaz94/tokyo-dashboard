@@ -1,12 +1,10 @@
-import { FC, ChangeEvent, useState, useEffect } from 'react';
+import { useCallback, ChangeEvent, useState, useEffect } from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
   TableContainer,Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
-import {applyPagination,applyFilters,applyFilterValue} from '../../../utility/function/main';
-import { filterStatusOptions } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
@@ -16,6 +14,8 @@ import { useSelector,useDispatch }    from 'react-redux';
 import { RootState }                  from '../../../store/Reducer';
 import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 import {axiosGetData} from '../../../utility/Axios'
+
+import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
 
 
 const DataTable = () => {
@@ -28,7 +28,13 @@ const DataTable = () => {
 
   // it contains the ids of selected rows
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  const [filters, setFilters] = useState<{status:string}>({ status: "all" });
+  // const [filters, setFilters] = useState<{status:string}>({ status: "all" });
+
+   const [filters, setFilters] = useState<{tfStatus:string,tfStartDate:string,tfEndDate:string}>({ 
+      tfStartDate: null ,
+      tfEndDate: null,
+      tfStatus: "all"
+    });
   const selectedBulkActions = selectedTableData.length > 0;
 
   const handleSelectOneData = (
@@ -45,12 +51,29 @@ const DataTable = () => {
   };
 
   useEffect(() => {
-    axiosGetData(`schedule/task_status/plist/?status=${filters.status}&page=${page+1}&page_size=${limit}`).then((res) => {
+
+    let extremParams = '';
+    if (filters.tfStartDate) {
+      extremParams += `&start_date=${filters.tfStartDate}`;
+    }
+    if (filters.tfEndDate) {
+      extremParams += `&end_date=${filters.tfEndDate}`;
+    }
+    
+    axiosGetData(`schedule/task_status/plist/?status=${filters.tfStatus}${extremParams}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
       setTable(results);
       setPagination({count: count, next: next, previous: previous});
     });
   }, [ page, limit,filters]);
+
+  const handleFormChange = useCallback((key, value) => {
+    if (key === 'tfStatus' && value === null) {
+      value = 'all'; 
+    }
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+    console.log(filters);
+  },[]);
 
 
   // It uses for controlling filter selection in the left top cornor of the table
@@ -123,23 +146,81 @@ const DataTable = () => {
               <Typography variant="h6">Recent Orders</Typography>
             </Box>
           }
-          action={
-            <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Button
-                variant="outlined" color="primary" onClick={() => navigate('add')}
-                sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
-              >
-                Insert
-              </Button>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth>
-                  {/* {task_status.map((val) => (<MenuItem key={val} value={val}>{val}</MenuItem>))} */}
-                  {["all",...task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+          // action={
+          //   <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          //     
+          //     <FormControl fullWidth variant="outlined">
+          //       <InputLabel>Status</InputLabel>
+          //       <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth>
+          //         {/* {task_status.map((val) => (<MenuItem key={val} value={val}>{val}</MenuItem>))} */}
+          //         {["all",...task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
 
-                </Select>
-              </FormControl>
+          //       </Select>
+          //     </FormControl>
+          //   </Box>
+          // }
+
+          action={
+            <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
+              <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center'}}>
+
+                
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <CustomDatePicker
+                    pickerFullWidth={false}
+                    label="Start Date"
+                    value={null}
+                    placeholder=""
+                    onChange={(newValue) => handleFormChange('tfStartDate', newValue )}
+                  />
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <CustomDatePicker
+                    pickerFullWidth={false}
+                    label="End Date"
+                    value={null}
+                    placeholder=""
+                    onChange={(newValue) => handleFormChange('tfEndDate', newValue )}
+                  />
+                  
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 250}}>
+                  <StaticAutocomplete
+                    label="Status"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.tfStatus,label: filters.tfStatus.toUpperCase()}}
+                    options={["all",...task_status].map((name) => ({value: name, label: name.replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="tfStatus"
+                    onChange={handleFormChange}
+                  />
+                  {/* <InputLabel>Status</InputLabel> */}
+                  {/* <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth> */}
+                    {/* {["all",...task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))} */}
+                  {/* </Select> */}
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <InputLabel>Task Name</InputLabel>
+                  {/* <Select value={filters.priority || 'all'} onChange={(event)=>(handleTableFilter(event,"priority"))} label="Priority" autoWidth>
+                    {["all", ...single_task_priority].map((name) => (
+                      <MenuItem key={name} value={name}>
+                        {name.replace(/_/gi, " ").toUpperCase()}
+                      </MenuItem>
+                    ))}
+                  </Select> */}
+                </FormControl>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => navigate('add')}
+                  sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
+                >
+                  Insert
+                </Button>
+              </Box>
             </Box>
+
           }
         />
       )}
