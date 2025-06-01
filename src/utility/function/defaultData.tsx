@@ -42,6 +42,26 @@ export const SingleTaskFormIntialState = {
 };
 
 
+export const TaskFormIntialState = {
+  id: 0,
+  status: '',
+  name: '', 
+  tag: '', 
+
+  goal:0,
+  month:0,
+
+  result: 0,
+  percentage: 0,
+  prizeAmount: 0,
+  dailyTime: 0,
+
+  description : '{}', 
+  prizeDetail : '{}', 
+  resultDescription : '{}' 
+};
+
+
 
 export const ActivityFormIntialState = {
   id: 0,

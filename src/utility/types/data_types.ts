@@ -133,7 +133,9 @@ export interface TaskRowSampleInterface {
   result:number;
   status:string;
   dailyTime:number;
-  goal:{
+  month:number;
+  goal:number;
+  goal_detail:{
     title: string;
     start_date: string;
     end_date : string;
@@ -179,9 +181,11 @@ export interface SingleTaskRowSampleInterface {
   status: string; 
 }
 
+
 export interface TaskStatusUniqueInterface {
     tasks_name:string[];
     task_status:string[];
+    task_tags:string[];
 }
 export interface TaskStatusRecordInterface {
   data: TaskStatusRowSampleInterface[];

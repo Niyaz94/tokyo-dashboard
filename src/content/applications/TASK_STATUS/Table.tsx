@@ -22,7 +22,9 @@ const DataTable = () => {
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'taskStatus')[0]);
   const dispatch        = useDispatch();
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  const { _, task_status } = secondary;
+
+  console.log(secondary);
+  const { _, task_status,task_tags } = secondary;
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 
@@ -30,10 +32,11 @@ const DataTable = () => {
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
   // const [filters, setFilters] = useState<{status:string}>({ status: "all" });
 
-   const [filters, setFilters] = useState<{tfStatus:string,tfStartDate:string,tfEndDate:string}>({ 
+   const [filters, setFilters] = useState<{tfStatus:string,tfTags:string,tfStartDate:string,tfEndDate:string}>({ 
       tfStartDate: null ,
       tfEndDate: null,
-      tfStatus: "all"
+      tfStatus: "all",
+      tfTags: "all"
     });
   const selectedBulkActions = selectedTableData.length > 0;
 
@@ -60,7 +63,7 @@ const DataTable = () => {
       extremParams += `&end_date=${filters.tfEndDate}`;
     }
     
-    axiosGetData(`schedule/task_status/plist/?status=${filters.tfStatus}${extremParams}&page=${page+1}&page_size=${limit}`).then((res) => {
+    axiosGetData(`schedule/task_status/plist/?tag=${filters.tfTags}&status=${filters.tfStatus}${extremParams}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
       setTable(results);
       setPagination({count: count, next: next, previous: previous});
@@ -68,7 +71,7 @@ const DataTable = () => {
   }, [ page, limit,filters]);
 
   const handleFormChange = useCallback((key, value) => {
-    if (key === 'tfStatus' && value === null) {
+    if ( ['tfStatus','tfTags'].includes(key) && value === null) {
       value = 'all'; 
     }
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
@@ -146,19 +149,6 @@ const DataTable = () => {
               <Typography variant="h6">Recent Orders</Typography>
             </Box>
           }
-          // action={
-          //   <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          //     
-          //     <FormControl fullWidth variant="outlined">
-          //       <InputLabel>Status</InputLabel>
-          //       <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth>
-          //         {/* {task_status.map((val) => (<MenuItem key={val} value={val}>{val}</MenuItem>))} */}
-          //         {["all",...task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
-
-          //       </Select>
-          //     </FormControl>
-          //   </Box>
-          // }
 
           action={
             <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
@@ -193,20 +183,16 @@ const DataTable = () => {
                     formKey="tfStatus"
                     onChange={handleFormChange}
                   />
-                  {/* <InputLabel>Status</InputLabel> */}
-                  {/* <Select value={filters.status || 'all'} onChange={handleTableFilter} label="Status" autoWidth> */}
-                    {/* {["all",...task_status].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))} */}
-                  {/* </Select> */}
                 </FormControl>
                 <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <InputLabel>Task Name</InputLabel>
-                  {/* <Select value={filters.priority || 'all'} onChange={(event)=>(handleTableFilter(event,"priority"))} label="Priority" autoWidth>
-                    {["all", ...single_task_priority].map((name) => (
-                      <MenuItem key={name} value={name}>
-                        {name.replace(/_/gi, " ").toUpperCase()}
-                      </MenuItem>
-                    ))}
-                  </Select> */}
+                  <StaticAutocomplete
+                    label="Tags"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.tfTags,label: filters.tfTags.toUpperCase()}}
+                    options={["all",...task_tags].map((name) => ({value: name, label: name.replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="tfTags"
+                    onChange={handleFormChange}
+                  />
                 </FormControl>
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>

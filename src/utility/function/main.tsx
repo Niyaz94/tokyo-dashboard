@@ -141,3 +141,17 @@ export const dailySearch = async (query) => {
   const {data} = await res;
   return  data ?? [];
 }
+
+export const monthlySearch = async (query) => {
+  const res = axiosGetData(`schedule/task/query_month/?query=${query}`);
+  const {data} = await res;
+  return  data ?? [];
+}
+
+export const goalSearch = async (query) => {
+  const res = axiosGetData(`schedule/task/query_goal/?query=${query}`);
+  const {data} = await res;
+  return  data ?? [];
+}
+
+

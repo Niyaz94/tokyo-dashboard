@@ -14,14 +14,22 @@ import {
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const { secondary } = usePaginationContext();
+  const { secondary,setPageDefault } = usePaginationContext();
+
+  const onEditButtonClick = () => {
+    setPageDefault(prev => ({
+      ...prev, 
+      goal:{label:goal_name,value: goal},
+      month:{label:`${task_month} (${task_year})`,value: month},
+    }));
+  }
 
   const {
     goal_status:goal_status_all,goal_level:goal_level_all,years:task_years,months:task_months,status:task_status
   } = secondary;
 
-  const {id,task_month,task_year,name: task_name,prizeAmount,percentage,result,status,dailyTime,goal} = data;
-  const {title: goal_name,start_date,end_date,status: goal_status,difficulty,importance} = goal;
+  const {id,task_month,task_year,name: task_name,prizeAmount,percentage,result,status,dailyTime,goal_detail,goal,month} = data;
+  const {title: goal_name,start_date,end_date,status: goal_status,difficulty,importance} = goal_detail;
 
   const goalStatusMap = createMapLabelData(goal_status_all,[3,1,0])
   const goalLevelMap  = createMapLabelData(goal_level_all,[3,1,0])
@@ -185,7 +193,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       
       
       <TableCell align="right">
-        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} />
+        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} onEditButtonClick={onEditButtonClick} />
       </TableCell>
     </TableRow>
   );

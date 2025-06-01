@@ -38,6 +38,25 @@ export type SingleTaskFormStateInterface = {
   priority: string; // DONE
 };
 
+
+export type TaskFormStateInterface = {
+  id: number;
+  status: string;
+  name: string; 
+  tag: string; 
+
+  goal:number;
+  month:number;
+  result: number;
+  percentage: number;
+  prizeAmount: number;
+  dailyTime: number;
+
+  description : string; 
+  prizeDetail : string; 
+  resultDescription : string; 
+};
+
 export type ActivityFormIntialStateInterface = {
   id: number;
   consumeWaterInLiters: number;
