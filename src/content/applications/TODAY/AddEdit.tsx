@@ -5,7 +5,7 @@ import {
 import { useState,useEffect,useCallback,useRef } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { useNavigate,useParams }    from 'react-router-dom';
+import { useNavigate,useParams,useLocation }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 
 import {TodayFormIntialStateInterface as FormIntialState}  from "../../../utility/function/defaultData"
@@ -25,8 +25,8 @@ import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utili
 
 const CollapsibleForm = () => {
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
-  const  {setTable}               = usePage();
-
+  const  {setTable}              = usePage();
+  const location                = useLocation()
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const isFirstRender = useRef(true);
@@ -46,6 +46,16 @@ const CollapsibleForm = () => {
     setPageRedirect(false);
     handleSave()
   }
+
+  // This is important, and should be existed in every page that has edit functionality
+  useEffect(() => {
+    const isAddPage = location.pathname.split("/").pop() === 'add';
+    if (!(Number(edit_page_id) >0) || Number(edit_page_id) !== parseInt(edit_page_id, 10) ) {
+
+      if(!isAddPage)
+        navigate("..", { replace: true });
+    }
+  }, [navigate,edit_page_id]);
 
   useEffect(() => {
       if (isFirstRender.current) {

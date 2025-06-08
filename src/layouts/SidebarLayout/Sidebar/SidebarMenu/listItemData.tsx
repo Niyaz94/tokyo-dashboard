@@ -59,7 +59,6 @@ const slideBarItems: Record<string, SlideBarSection> = {
         showSubHeader: true,
         children: [
           {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Types',    link: '/management/expense/types',       icon: <TableChartTwoToneIcon />},
           {title: 'Expense Details',  link: '/management/expense',             icon: <TableChartTwoToneIcon />},
           {title: 'Currency',         link: '/management/currency',            icon: <TableChartTwoToneIcon />},
           {title: 'Expense Reports',  link: '/management/expense/reports',     icon: <TableChartTwoToneIcon />},
@@ -80,8 +79,6 @@ const slideBarItems: Record<string, SlideBarSection> = {
         showSubHeader: true,
         children: [
           {title: 'Goals',link: '/goals/goals',icon: <EmojiEventsIcon />},
-          {title: 'Months',link: '/goals/months',icon: <TableChartTwoToneIcon />},
-          {title: 'One-Time Task Types',link: '/goals/single_task/types',icon: <TableChartTwoToneIcon />},
           {title: 'One-Time Tasks',link: '/goals/single_task',icon: <AssignmentIcon />},
           {title: 'Tasks',link: '/goals/task',icon: <AddTaskIcon />},
           {title: 'Tasks Progress',link: '/goals/task_progress',icon: <ChecklistIcon />},
@@ -93,7 +90,16 @@ const slideBarItems: Record<string, SlideBarSection> = {
         children: [
           {title: 'Question',link: '/improvment/question',icon: <TableChartTwoToneIcon />},
           {title: 'Idea',link: '/improvment/idea',icon: <TableChartTwoToneIcon />},
-          {title: 'Idea Types',link: '/improvment/idea/status',icon: <TableChartTwoToneIcon />},
+        ],
+      },
+      secondaryPages: {
+        title: 'Secondary Pages',
+        showSubHeader: true,
+        children: [
+          {title: 'Idea Type',          link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
+          {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Type',       link:  '/management/expense/types',   icon: <TableChartTwoToneIcon />},
+          {title: 'Months Type',        link: '/goals/months',                icon: <TableChartTwoToneIcon />},
         ],
       },
       accounts: {
