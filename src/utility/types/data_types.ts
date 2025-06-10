@@ -276,3 +276,13 @@ export interface SingleTaskUniqueInterface {
   status:string[];
   priority:string[];
 }
+
+export interface SingleTaskTypeSingleSampleInterface {
+  id: number;
+  description: string;
+  name: string;
+  total_completed: number;
+  total_inprogress: number;
+  total_notstarted: number;
+  total_others: number;
+}

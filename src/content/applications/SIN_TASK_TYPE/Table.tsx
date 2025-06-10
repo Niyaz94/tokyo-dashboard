@@ -21,12 +21,11 @@ import {setPage,setLimit}             from '../../../store/slice/tablePagination
 
 const DataTable = () => {
 
-  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'expense')[0]);
+  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'singleTaskType')[0]);
   const dispatch        = useDispatch();
 
-  const { table: tableData,setTable,secondary } = useTaskStatus();
+  const { table: tableData,setTable } = useTaskStatus();
 
-  const { type:expense_types} = secondary;
 
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
@@ -92,18 +91,18 @@ const DataTable = () => {
   };
   // when the user change the table page
   const handlePageChange = (event: any, newPage: number): void => {
-    dispatch(setPage({ name: 'expense', page: newPage }));
+    dispatch(setPage({ name: 'singleTaskType', page: newPage }));
   };
   // change table pagination length
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setLimit({  name: 'expense', limit: parseInt(event.target.value) }));
+    dispatch(setLimit({  name: 'singleTaskType', limit: parseInt(event.target.value) }));
   };
 
   const selectedSomePageData = selectedTableData.length > 0 && selectedTableData.length < tableData.length;
   const selectedAllPageData  = selectedTableData.length === tableData.length;
 
   const deleteTableRow = async (id) => {
-    await deleteData(`notes/expense/${id}/`);
+    await deleteData(`schedule/stask_type/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
@@ -138,7 +137,7 @@ const DataTable = () => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {["all",...expense_types.map((row) => row[1])].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
+                  {/* {["all",...expense_types.map((row) => row[1])].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))} */}
                 </Select>
               </FormControl>
             </Box>
@@ -153,9 +152,13 @@ const DataTable = () => {
               <TableCell padding="checkbox">
                 <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
               </TableCell>
-              <TableCell align='center'>Date</TableCell>
-              <TableCell align='center'>Expense Type</TableCell>
-              <TableCell align='center'>Amount</TableCell>
+              <TableCell align='center'>Name</TableCell>
+
+              <TableCell align='center'>TT Completed</TableCell>
+              <TableCell align='center'>TT Inprogress</TableCell>
+              <TableCell align='center'>TT Not Started</TableCell>
+              <TableCell align='center'>TT Others</TableCell>
+
               <TableCell align="center">Note</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>

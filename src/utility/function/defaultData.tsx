@@ -87,6 +87,12 @@ export const ExpenseFormIntialState = {
   type: 0
 };
 
+export const SingleTaskTypeFormIntialState = {
+  id: 0,
+  name: "",
+  description: '{}'
+};
+
 
 
 export const TodayFormIntialStateInterface = {
@@ -99,6 +105,7 @@ export const TodayFormIntialStateInterface = {
   isSuccessfulDay: false,
   dailyNotes: '{}',
   whatToDoBetter: '{}',
+  dailyThink: '{}',
   usefulTimeInMinutes: 0,
   wastedTimeInMinutes: 0,
   successRate: 50

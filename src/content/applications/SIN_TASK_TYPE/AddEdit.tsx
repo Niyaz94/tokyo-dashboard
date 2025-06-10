@@ -6,17 +6,11 @@ import Grid from '@mui/material/Grid2';
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
 import MultiButton                  from "../../../components/Form/MultiButton"
-import {ExpenseFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
-
-import { useSelector }              from 'react-redux';
-import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
-import { StatusCase1 as ActivityStatus }   from '../../../utility/function/data';
+import {SingleTaskTypeFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
 
-import { RootState }                    from '../../../store/Reducer';
-import { ExpenseFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import { SingleTaskTypeFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 import {useTaskStatus as usePage}                  from '../../../store/context/taskStatusContext';
 
 import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
@@ -25,26 +19,20 @@ import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utili
 const CollapsibleForm = () => {
 
 
-  const  {setTable,secondary}               = usePage();
-  const { type:expense_types, currency:currency_types } = secondary;
-  
-  // console.log("expense_types",expense_types)
-  const expenseTypeMap = expense_types.map((row) => ({"label":row[1],"value":row[0]}));
-  const currencyTypeMap = currency_types.map((row) => ({"label":row[1],"value":row[0]}));
+  const  {setTable}               = usePage();
 
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(FormIntialState);
-  const dailyData               = useSelector((state: RootState) => state.daily.data);
 
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/expense/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`schedule/stask_type/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/management/expense'))
+    handleSave().then(()=>navigate('/goals/sin_task_types'))
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -53,19 +41,29 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[data,...prev]:prev);
+      setTable(prev => success ?[{
+        ...data, 
+        total_completed: 0, 
+        total_inprogress: 0, 
+        total_notstarted: 0, 
+        total_others: 0
+      },...prev]:prev);
   }, [response]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      console.log("editResponse",data)
-      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
+      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
+        ...item,
+        name:data["name"],
+        description:data["description"]
+      }:item),data]:prev);
   }, [editResponse]);
 
 
   useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
       setFormData({...fetchEditData});
+      // console.log("fetchEditData",formData.description)
     }
   }, [fetchEditData]);
 
@@ -76,10 +74,10 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`notes/expense/${edit_page_id}/`, formData);
+      await editData(`schedule/stask_type/${edit_page_id}/`, formData);
     }else{
       console.log("formData",formData)
-      await postData("notes/expense/", dataToBeSent);
+      await postData("schedule/stask_type/", dataToBeSent);
     }
     
   };
@@ -97,60 +95,22 @@ const CollapsibleForm = () => {
           >
             <Grid container spacing={2}>
 
-              <Grid size={6}>
-                <StaticAutocomplete
-                  label="Select Expense Type"
-                  options={expenseTypeMap}
-                  defaultValue={expenseTypeMap.filter(({label,value}) => value == Number(formData.type))[0]}
-                  formKey="type"
-                  onChange={handleFormChange}
-                />
-              </Grid>
-
-              <Grid size={6}>
-                <StaticAutocomplete
-                  label="Select Currency Type"
-                  defaultValue={currencyTypeMap.filter((item) => item.value === formData.currency)[0]}
-                  options={currencyTypeMap}
-                  formKey="currency"
-                  onChange={handleFormChange}
-                />
-              </Grid>
               
-              <Grid size={6} >
-                <CustomDatePicker
-                  label="Date"
-                  value={formData.date}
-                  placeholder=""
-                  onChange={(newValue) => handleFormChange('date', newValue )}
-                />
-              </Grid>
-
-              <Grid size={6}>
+              <Grid size={12} sx={{paddingTop: "10px"}}>
                 <TextField
-                  label={'Expense Amount'}
-                  variant="outlined"
-                  required={true}
+                  label="Type Name"
+                  value={formData.name}
+                  onChange={(e) => handleFormChange('name', e.target.value)}
                   fullWidth
-                  type="number"
-                  value={formData.amount}
-                  onChange={(e) =>
-                    handleFormChange('amount', e.target.value)
-                  }
-                  margin="dense"
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    htmlInput: { max: 10000, min: 0, step: 1 }
-                  }}
                 />
               </Grid>
               
               <Grid size={12}>
-                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Notes"/>
+                <LexicalEditor value={formData.description} onChange={handleFormChange} formKey="description" label="Type Description"/>
               </Grid> 
 
               <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/management/expense'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/sin_task_types'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}

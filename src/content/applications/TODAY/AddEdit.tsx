@@ -236,6 +236,12 @@ const CollapsibleForm = () => {
               </Grid> 
 
               <Grid size={12}>
+                <LexicalEditor value={formData.dailyThink} onChange={handleFormChange} formKey="dailyThink" label="TYDW?"/>
+              </Grid> 
+
+              
+
+              <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/personal/today'}/>
                 <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>

@@ -10,8 +10,11 @@ export const tablePaginationInit: tablePaginationInterface[] = [
   { name: "sleep"  ,page: 0, limit: 10 },
   { name: "taskStatus"  ,page: 0, limit: 10 },
   { name: "singleTask"  ,page: 0, limit: 10 },
+  { name: "singleTaskType"  ,page: 0, limit: 10 },
+  { name: "expenseType"  ,page: 0, limit: 10 },
   { name: "task"  ,page: 0, limit: 10 },
   { name: "goal"  ,page: 0, limit: 10 },
+
 ]
 export const bookInitialState: BookState = {
   books: [

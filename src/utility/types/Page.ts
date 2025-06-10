@@ -81,6 +81,12 @@ export type ExpenseFormIntialStateInterface = {
   type: number;
 };
 
+export type SingleTaskTypeFormIntialStateInterface = {
+  id: number;
+  name: string;
+  description: string;
+};
+
 export type TodayFormIntialStateInterface = {
   id: number;
   date: string;
@@ -91,6 +97,7 @@ export type TodayFormIntialStateInterface = {
   isSuccessfulDay: boolean;
   dailyNotes: string;
   whatToDoBetter: string;
+  dailyThink: string;
   usefulTimeInMinutes: number;
   wastedTimeInMinutes: number;
   successRate: number;

@@ -44,6 +44,8 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
 
 const LexicalEditorWrapper= ({onChange, value,formKey,label}) => {
 
+  // console.log("LexicalEditorWrapper",formKey,value);
+
   return (
     <Box sx={{ width: "100%",  margin: "auto" }}>
       <Typography variant="h4" sx={{ color: 'text.secondary' }}>
