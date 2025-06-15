@@ -90,7 +90,7 @@ export const ExpenseFormIntialState = {
 export const SingleTaskTypeFormIntialState = {
   id: 0,
   name: "",
-  description: '{}'
+  description: '{"root":{"children":[],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
 };
 
 

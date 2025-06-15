@@ -286,3 +286,22 @@ export interface SingleTaskTypeSingleSampleInterface {
   total_notstarted: number;
   total_others: number;
 }
+
+
+export interface ExpenseTypeSSInterface {
+  id: number;
+  note: string;
+  name: string;
+
+  total: number;
+  older_total: number;
+  last_month_total: number;
+  current_month_total: number;
+  two_months_ago_total: number;
+
+  older_count: number;
+  total_count: number;
+  last_month_count : number;
+  current_month_count : number;
+  two_months_ago_count: number;
+}

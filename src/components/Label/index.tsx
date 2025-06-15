@@ -7,18 +7,25 @@ interface LabelProps {
   tooltip?:string;
   color?:| 'primary'| 'black'| 'secondary'| 'error'| 'warning'| 'success'| 'info';
   children?: ReactNode;
+  fontSize?: number; // in pixels
+  isTransparent?: boolean;
+
 }
 
-const LabelWrapper = styled('span')(
-  ({ theme }) => {
+interface LabelWrapperProps {
+  fontSize?: number; // in pixels
+  isTransparent?: boolean;
+}
+
+const LabelWrapper = styled('span')<LabelWrapperProps>(
+  ({ theme,fontSize,isTransparent }) => {
     return `
       background-color: ${theme.colors.alpha.black[5]};
       padding: ${theme.spacing(0.5, 1)};
-      font-size: ${theme.typography.pxToRem(13)};
+      font-size: ${theme.typography.pxToRem(fontSize)};
       border-radius: ${theme.general.borderRadius};
       display: inline-flex;
       align-items: center;
-      font-size: ${theme.typography.pxToRem(14)};
       justify-content: center;
       gap: ${theme.spacing(1)}; 
       // text-transform: capitalize;
@@ -26,44 +33,43 @@ const LabelWrapper = styled('span')(
       
       &.MuiLabel {
         &-primary {
-          background-color: ${theme.colors.primary.lighter};
+          background-color: ${isTransparent? "transparent": theme.colors.primary.lighter};
           color: ${theme.palette.primary.main}
         }
         &-black {
-          background-color: ${theme.colors.alpha.black[100]};
+          background-color: ${isTransparent? "transparent": theme.colors.alpha.black[100]};
           color: ${theme.colors.alpha.white[100]};
         }
         &-secondary {
-          background-color: ${theme.colors.secondary.lighter};
+          background-color: ${isTransparent? "transparent": theme.colors.secondary.lighter};
           color: ${theme.palette.secondary.main}
         }
         &-success {
-          background-color: ${theme.colors.success.lighter};
+          background-color: ${isTransparent? "transparent": theme.colors.success.lighter};
           color: ${theme.palette.success.main}
         }  
         &-warning {
-          background-color: ${theme.colors.warning.lighter};
+          background-color: ${isTransparent? "transparent": theme.colors.warning.lighter};
           color: ${theme.palette.warning.main}
         }       
         &-error {
-          background-color: ${theme.colors.error.lighter};
+          background-color: ${isTransparent? "transparent": theme.colors.error.lighter};
           color: ${theme.palette.error.main}
         }
         &-info {
-          background-color: ${theme.colors.info.lighter};
+          background-color: ${isTransparent? "transparent": theme.colors.info.lighter};
           color: ${theme.palette.info.main}
         }
-
         
       }
 `
   }
 );
 
-const Label: FC<LabelProps> = ({className,color = 'secondary',tooltip='',children,...rest}) => {
+const Label: FC<LabelProps> = ({className,fontSize=13,isTransparent=false,color = 'secondary',tooltip='',children,...rest}) => {
   return (
     <Tooltip title={tooltip}>
-      <LabelWrapper className={'MuiLabel-' + color} {...rest}>
+      <LabelWrapper className={'MuiLabel-' + color} isTransparent={isTransparent} fontSize={fontSize} {...rest}>
         {children}
       </LabelWrapper>
     </Tooltip>

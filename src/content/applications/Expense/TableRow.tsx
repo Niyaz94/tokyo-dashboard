@@ -60,10 +60,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: getTextWithIcon(
-              `${amount.toString()} ${currency_name} `,
-              <MonetizationOnIcon />,'secondary'
-            ),
+            text: getTextWithIcon(`${amount.toString()} ${currency_name} `,<MonetizationOnIcon />,'secondary'),
             styleType: 1
           },
         ]}

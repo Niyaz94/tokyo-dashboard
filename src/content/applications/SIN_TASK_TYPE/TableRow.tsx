@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
+import {labelWithColor} from '../../../utility/function/main';
 
 
 
@@ -37,22 +38,27 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:total_completed,styleType: 1},]}
+        prop={[{text:
+          
+          labelWithColor(`${total_completed}`, 'success', 'Total Tasks Completed',"",18,true)
+          ,styleType: 1},]}
       />
 
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:total_inprogress,styleType: 1},]}
+        prop={[{text:labelWithColor(`${total_inprogress}`, 'info', 'Total Inprogress Tasks',"",18,true),styleType: 1},]}
       />
 
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:total_notstarted,styleType: 1},]}
+        prop={[{text:labelWithColor(`${total_notstarted}`, 'error', 'Total Not Started Tasks',"",18,true),styleType: 1},]}
+
       />
 
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:total_others,styleType: 1},]}
+        prop={[{text:labelWithColor(`${total_others}`, 'warning', 'Total Other Tasks',"",18,true),styleType: 1},]}
+
       />
 
       <TableCusCell

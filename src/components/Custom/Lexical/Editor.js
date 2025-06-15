@@ -22,15 +22,29 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
+    // console.log("1::SaveLoadPlugin useEffect");
     if (value) {
+      // console.log("2::SaveLoadPlugin useEffect");
       editor.update(() => {
+        // console.log("3::SaveLoadPlugin useEffect",value);
+
         const editorState = editor.parseEditorState(JSON.parse(value));
+
+
+        //editorState.read(() => {
+        //  console.log(getEditorState(editorState),$getRoot().isEmpty())
+        //});
         editor.setEditorState(editorState);
         editor.focus();
 
       });
     }
   }, [editor, value]);
+
+  const getEditorState = (editorState) => ({
+    text: $getRoot().getTextContent(false),
+    stateJson: JSON.stringify(editorState)
+  });
 
   return (
     <OnChangePlugin

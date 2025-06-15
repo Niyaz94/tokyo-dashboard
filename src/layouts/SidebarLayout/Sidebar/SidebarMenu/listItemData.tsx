@@ -98,7 +98,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
         children: [
           {title: 'Idea Type',          link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
           {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Type',       link:  '/management/expense/types',   icon: <TableChartTwoToneIcon />},
+          {title: 'Expense Type',       link:  '/goals/expense_type',   icon: <TableChartTwoToneIcon />},
           {title: 'Months Type',        link: '/goals/months',                icon: <TableChartTwoToneIcon />},
         ],
       },
