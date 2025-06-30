@@ -61,6 +61,25 @@ export const TaskFormIntialState = {
   resultDescription : '{}' 
 };
 
+export const GoalFormIntialState = {
+  id: 0,
+
+  title: '',
+  prizeAmount: 0,
+  importanceLevel: '',
+  difficultyLevel: '',
+  currentStatus: '',
+
+  startDate: dayjs().format('YYYY-MM-DD'),
+  endDate: dayjs().format('YYYY-MM-DD'),
+
+
+  goalDetail : '{}', 
+  planToAchieved : '{}', 
+  goalResult : '{}' ,
+  prizeDetail : '{}' 
+};
+
 
 
 export const ActivityFormIntialState = {

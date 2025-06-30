@@ -145,7 +145,7 @@ const routes: RouteObject[] = [
       {path: 'single_task/*',element: <SINGLE_TASK />},
       {path: 'sin_task_types/*',element: <SIN_TASK_TYPE />},
       {path: 'expense_type/*',element: <EXPENSE_TASK />},
-      {path: 'goals',element: <GOAL />},
+      {path: 'goals/*',element: <GOAL />},
       {path: 'task_progress/*',element: <TASK_STATUS />},
       // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},
       // {path: 'task_progress/:id',element: <TASK_STATUS_AddEdit   />},

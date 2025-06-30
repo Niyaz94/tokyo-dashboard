@@ -57,6 +57,23 @@ export type TaskFormStateInterface = {
   resultDescription : string; 
 };
 
+export type GoalFormStateInterface = {
+  id: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  prizeAmount: number;
+
+  importanceLevel: string;
+  difficultyLevel: string; 
+  currentStatus: string; 
+
+  goalDetail : string; 
+  planToAchieved : string; 
+  goalResult : string; 
+  prizeDetail : string; 
+}; 
+
 export type ActivityFormIntialStateInterface = {
   id: number;
   consumeWaterInLiters: number;

@@ -112,13 +112,9 @@ export interface GoalSampleInterface {
   currentStatus:level4Status;
 }
 
-export interface GoalRecordInterface {
-  className?: string;
-  data: GoalSampleInterface[];
-  unique:{
+export interface GoalUniqueInterface {
     goal_status:level4Status[];
     goal_level:level5Status[];
-  }
 }
 
 
@@ -145,9 +141,7 @@ export interface TaskRowSampleInterface {
   }
 }
 
-export interface TaskUniqueInterface {
-    goal_status:level4Status[];
-    goal_level:level5Status[];
+export interface TaskUniqueInterface extends GoalUniqueInterface {
     years:string[];
     months:string[];
 }
