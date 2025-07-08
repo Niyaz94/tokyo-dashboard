@@ -116,7 +116,7 @@ const CollapsibleForm = () => {
 
   return (
       <Card>
-        <CardHeader title="Input Fields" />
+        <CardHeader title="Today Form" />
         <Divider />
         <CardContent>
           <Box component="form" noValidate autoComplete="off"
