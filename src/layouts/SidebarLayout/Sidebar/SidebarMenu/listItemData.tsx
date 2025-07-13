@@ -23,6 +23,8 @@ import AssignmentIcon               from '@mui/icons-material/Assignment';
 import EmojiEventsIcon              from '@mui/icons-material/EmojiEvents';
 import AddTaskIcon                  from '@mui/icons-material/AddTask';
 import ChecklistIcon                from '@mui/icons-material/Checklist';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 import { ReactElement } from 'react';
 
@@ -34,21 +36,21 @@ interface SlideBarItem {
 
 interface SlideBarSection {
   title: string;
-  showSubHeader: boolean;
+  isCollapse: boolean;
   children: SlideBarItem[];
 }
 
 const slideBarItems: Record<string, SlideBarSection> = {
     overview: {
         title: 'Overview',
-        showSubHeader: false,
+        isCollapse: false,
         children: [
           {title: 'Overview',link: '/overview',icon: <DesignServicesTwoToneIcon />}
         ],
       },
       dashboards: {
         title: 'Dashboards',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Cryptocurrency',link: '/dashboards/crypto',icon: <BrightnessLowTwoToneIcon />},
           {title: 'Messenger',link: '/dashboards/messenger',icon: <MmsTwoToneIcon />},
@@ -56,7 +58,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       moneyManagement: {
         title: 'Money Management',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
           {title: 'Expense Details',  link: '/management/expense',             icon: <TableChartTwoToneIcon />},
@@ -66,7 +68,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       myDailyLife: {
         title: 'My Daily Life',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Today',link: '/personal/today',icon: <TableChartTwoToneIcon />,},
           {title: 'Activity',link: '/personal/activity',icon: <DirectionsRunIcon />},
@@ -76,7 +78,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       lifeGoals: {
         title: 'Life Goals',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Goals',link: '/goals/goals',icon: <EmojiEventsIcon />},
           {title: 'One-Time Tasks',link: '/goals/single_task',icon: <AssignmentIcon />},
@@ -86,15 +88,23 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       personalImprovment: {
         title: 'Personal Improvment',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Question',link: '/improvment/question',icon: <TableChartTwoToneIcon />},
           {title: 'Idea',link: '/improvment/idea',icon: <TableChartTwoToneIcon />},
         ],
       },
+      Reports: {
+        title: 'Reports',
+        isCollapse: true,
+        children: [
+          {title: 'Monthly Success',link: '/personal/today',icon: <MilitaryTechIcon />,},
+          {title: 'Monthly Expense',link: '/personal/activity',icon: <ShoppingBasketIcon />},
+        ],
+      },
       secondaryPages: {
         title: 'Secondary Pages',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Idea Type',          link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
           {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
@@ -104,7 +114,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       accounts: {
         title: 'Accounts',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'User Profile',link: '/management/profile/details',icon: <AccountCircleTwoToneIcon />},
           {title: 'Account Settings',link: '/management/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
@@ -112,7 +122,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       components: {
         title: 'Components',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Buttons',link: '/components/buttons',icon: <BallotTwoToneIcon />},
           {title: 'Modals',link: '/components/modals',icon: <BeachAccessTwoToneIcon />,},
@@ -127,7 +137,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       },
       extraPages: {
         title: 'Extra Pages',
-        showSubHeader: true,
+        isCollapse: true,
         children: [
           {title: 'Error 404',link: '/status/404',icon: <CheckBoxTwoToneIcon />},
           {title: 'Error 500',link: '/status/500',icon: <CameraFrontTwoToneIcon />},
