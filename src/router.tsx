@@ -33,8 +33,9 @@ const SleepAdd      = Loader(lazy(() => import('src/content/applications/SLEEP/A
 const SleepEdit     = Loader(lazy(() => import('src/content/applications/SLEEP/AddEdit')));
 // const AddSleep      = Loader(lazy(() => import('src/content/applications/Sleep/AddSleep')));
 const Activity      = Loader(lazy(() => import('src/content/applications/ACTIVITY')));
-const Today      = Loader(lazy(() => import('src/content/applications/TODAY')));
+const Today         = Loader(lazy(() => import('src/content/applications/TODAY')));
 const Tomorrow      = Loader(lazy(() => import('src/content/applications/TOMORROW')));
+const Topic         = Loader(lazy(() => import('src/content/applications/TOPIC')));
 
 const SINGLE_TASK   = Loader(lazy(() => import('src/content/applications/SINGLE_TASK')));
 const TASK          = Loader(lazy(() => import('src/content/applications/TASK')));
@@ -87,8 +88,7 @@ const routes: RouteObject[] = [
       },
       {path: '*',element: <Status404 />}
     ]
-  },
-  {
+  },{
     path: 'dashboards',
     element: <SidebarLayout />,
     children: [
@@ -96,8 +96,7 @@ const routes: RouteObject[] = [
       {path: 'crypto',element: <Crypto />},
       {path: 'messenger',element: <Messenger />}
     ]
-  },
-  {
+  },{
     path: 'management',
     element: <SidebarLayout />,
     children: [
@@ -113,8 +112,7 @@ const routes: RouteObject[] = [
         ]
       }
     ]
-  },
-  {
+  },{
     path: 'personal',
     element: <SidebarLayout />,
     children: [
@@ -133,11 +131,8 @@ const routes: RouteObject[] = [
           // { path: 'add', element: <AddSleep /> }, // Route: /personal/sleep/add
         // ]
       },
-
-
-      
     ]
-  }, {
+  },{
     path: 'goals',
     element: <SidebarLayout />,
     children: [
@@ -150,6 +145,14 @@ const routes: RouteObject[] = [
       // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},
       // {path: 'task_progress/:id',element: <TASK_STATUS_AddEdit   />},
       {path: 'task/*',element: <TASK />}, 
+    ]
+  },{
+    path: 'improvment',
+    element: <SidebarLayout />,
+    children: [
+      {path: 'question/*',element: <Topic />},
+      {path: 'idea/*',element: <Topic />},
+      {path: 'topic/*',element: <Topic />},
     ]
   },{
     path: '/components',

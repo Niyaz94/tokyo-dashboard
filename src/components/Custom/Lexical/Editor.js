@@ -56,19 +56,19 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
 
 }
 
-const LexicalEditorWrapper= ({onChange, value,formKey,label}) => {
+const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => {
 
   // console.log("LexicalEditorWrapper",formKey,value);
 
   return (
-    <Box sx={{ width: "100%",  margin: "auto" }}>
+    <Box sx={{ width: "100%", margin: "auto" }}>
       <Typography variant="h4" sx={{ color: 'text.secondary' }}>
         {label}
         </Typography>
       <LexicalComposer initialConfig={lexicalEditorConfig(formKey)}>
         <LexicalEditorTopBar />
         <Divider />
-        <Box sx={{ position: "relative", background: "white",border: "1px solid #eee",borderRadius: "8px"}}>
+        <Box sx={{ position: "relative",  background: "white",border: "1px solid #eee",borderRadius: "8px"}}>
           <RichTextPlugin 
             contentEditable={<MuiContentEditable />}
             placeholder={<Box sx={placeHolderSx}>Enter some text...</Box>}

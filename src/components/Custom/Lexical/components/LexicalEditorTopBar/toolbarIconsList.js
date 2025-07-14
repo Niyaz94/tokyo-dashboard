@@ -19,7 +19,7 @@ import ImageIcon from "@mui/icons-material/Image";
 export const eventTypes = {
   paragraph: "paragraph",
   h1: "h1",
-  // h2: "h2",
+  h2: "h2",
   ul: "ul",
   ol: "ol",
   quote: "quote",
@@ -48,24 +48,24 @@ const pluginsList = [
     Icon: FormatHeader1,
     event: eventTypes.h1,
   },
-  // {
-  //   id: 3,
-  //   Icon: FormatHeader2,
-  //   event: eventTypes.h2,
-  // },
   {
     id: 3,
+    Icon: FormatHeader2,
+    event: eventTypes.h2,
+  },
+  {
+    id: 5,
     Icon: FormatListBulletedIcon,
     event: eventTypes.ul,
   },
 
   {
-    id: 4,
+    id: 6,
     Icon: FormatListNumberedIcon,
     event: eventTypes.ol,
   },
   {
-    id: 5,
+    id: 7,
     Icon: FormatQuoteIcon,
     event: eventTypes.quote,
   },
@@ -76,7 +76,7 @@ const pluginsList = [
   //   event: eventTypes.formatCode,
   // },
   {
-    id: 6,
+    id: 8,
     Icon: UndoOutlinedIcon,
     event: eventTypes.formatUndo,
   },
@@ -86,12 +86,12 @@ const pluginsList = [
     event: eventTypes.formatRedo,
   },
   {
-    id: 8,
+    id: 9,
     Icon: FormatBoldOutlinedIcon,
     event: eventTypes.formatBold,
   },
   {
-    id: 9,
+    id: 10,
     Icon: FormatItalicOutlinedIcon,
     event: eventTypes.formatItalic,
   },
@@ -111,23 +111,23 @@ const pluginsList = [
     // event: eventTypes.insertImage,
   // },
   {
-    id: 10,
+    id: 11,
     Icon: InsertLinkOutlinedIcon,
     event: eventTypes.formatInsertLink,
   },
   {
-    id: 11,
+    id: 12,
     Icon: FormatAlignLeftOutlinedIcon,
     event: eventTypes.formatAlignLeft,
   },
 
   {
-    id: 12,
+    id: 13,
     Icon: FormatAlignJustifyOutlinedIcon,
     event: eventTypes.formatAlignCenter,
   },
   {
-    id: 13,
+    id: 14,
     Icon: FormatAlignRightOutlinedIcon,
     event: eventTypes.formatAlignRight,
   },

@@ -126,4 +126,12 @@ export type TomorrowFormIntialStateInterface = {
   hasPlan: boolean;
   tomorrowNotes: string;
   daily: number;
-};     
+};  
+
+export type TopicFormIntialStateInterface = {
+  id: number;
+  date: string;
+  notes: string;
+  status: string;
+  title: string;
+};  

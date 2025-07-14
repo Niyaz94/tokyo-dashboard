@@ -6,6 +6,18 @@ import HourglassEmptyIcon                   from '@mui/icons-material/HourglassE
 import TrendingDownIcon                     from '@mui/icons-material/TrendingDown';
 
 
+export const filterTopicStatusOptions = [
+    {id: 'all',name: 'All'},
+    {id: 'achieved',name: 'Achieved'},
+    {id: 'postponed',name: 'Postponed'},
+    {id: 'inprogress',name: 'In Progress'},
+    {id: 'completed',name: 'Completed'},
+    {id: 'half_completed',name: 'Half Completed'},
+    {id: 'not_started',name: 'Not Started'},
+    {id: 'failed',name: 'Failed'},
+    {id: 'followup',name: 'Follow Up'},
+];
+
 export const filterStatusOptions = [
     {id: 'all',name: 'All'},
     {id: 'VERY_LOW',name: 'Very Low'},

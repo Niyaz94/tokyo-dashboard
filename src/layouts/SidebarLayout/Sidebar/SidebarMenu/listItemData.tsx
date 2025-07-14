@@ -23,8 +23,9 @@ import AssignmentIcon               from '@mui/icons-material/Assignment';
 import EmojiEventsIcon              from '@mui/icons-material/EmojiEvents';
 import AddTaskIcon                  from '@mui/icons-material/AddTask';
 import ChecklistIcon                from '@mui/icons-material/Checklist';
-import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import MilitaryTechIcon             from '@mui/icons-material/MilitaryTech';
+import ShoppingBasketIcon           from '@mui/icons-material/ShoppingBasket';
+import {Topic,TipsAndUpdates,QuestionMark}                      from '@mui/icons-material';
 
 import { ReactElement } from 'react';
 
@@ -90,8 +91,9 @@ const slideBarItems: Record<string, SlideBarSection> = {
         title: 'Personal Improvment',
         isCollapse: true,
         children: [
-          {title: 'Question',link: '/improvment/question',icon: <TableChartTwoToneIcon />},
-          {title: 'Idea',link: '/improvment/idea',icon: <TableChartTwoToneIcon />},
+          {title: 'Question',link: '/improvment/question',icon: <QuestionMark />},
+          {title: 'Idea',link: '/improvment/idea',icon: <TipsAndUpdates />},
+          {title: 'Topic',link: '/improvment/topic',icon: <Topic />},
         ],
       },
       Reports: {

@@ -216,6 +216,14 @@ export interface RecentTomorrowTableInterface {
   data: TomorrowSingleSampleInterface[];
 }
 
+export interface TopicSingleSampleInterface {
+  id: string;
+  date: string;
+  title: string;
+  updated_at: string;
+  stutus: level3Status;
+}
+
 
 export interface DailySingleSampleInterface {
   id: number;

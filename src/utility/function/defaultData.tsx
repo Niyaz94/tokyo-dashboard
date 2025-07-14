@@ -138,3 +138,11 @@ export const TomorrowFormIntialStateInterface = {
   tomorrowNotes: '{}'
 };
 
+export const TopicFormIntialStateInterface = {
+  id: 0,
+  date: dayjs().format('YYYY-MM-DD'),
+  notes: '{}',
+  status: '',
+  title: '',
+};
+

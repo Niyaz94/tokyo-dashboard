@@ -100,16 +100,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 sx={{ justifyContent: 'center', alignItems: 'center' }}
                 spacing={1}
               >
-                {labelWithColor(
-                  `SP: ${percentage}%`,
-                  'info',
-                  'Success Percentage'
-                )}
-                {labelWithColor(
-                  `AP: ${result}%`,
-                  'success',
-                  'Achieved Percentage'
-                )}
+                {labelWithColor(`SP: ${percentage}%`,'info','Success Percentage')}
+                {labelWithColor(`AP: ${result}%`,'success','Achieved Percentage')}
               </Stack>
             ),
             styleType: 2
