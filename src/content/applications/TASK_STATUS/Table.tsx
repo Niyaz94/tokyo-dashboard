@@ -1,7 +1,7 @@
 import { useCallback, ChangeEvent, useState, useEffect } from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
-  TableContainer,Select,MenuItem,Typography,CardHeader,Button
+  TableContainer,Typography,CardHeader,Button
 } from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
@@ -75,7 +75,6 @@ const DataTable = () => {
       value = 'all'; 
     }
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
-    console.log(filters);
   },[]);
 
 

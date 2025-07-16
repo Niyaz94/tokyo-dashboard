@@ -9,13 +9,14 @@ import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import {labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,capitalizeFirstLetterOfWords} from '../../../utility/function/main';
-import { useTaskStatus } from '../../../store/context/taskStatusContext';
+import { usePaginationContext } from '../../../store/context/paginationContext';
+
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const {id,date,amount,note,currency_name,expense_type} = data;
-  const { secondary } = useTaskStatus();
+  const { secondary } = usePaginationContext();
   const { type:expense_types, currency:currency_types } = secondary;
   const expenseTypeMap = createMapLabelData(expense_types.map((row) => row[1]));
   const currencyTypeMap = createMapLabelData(currency_types.map((row) => row[1]));

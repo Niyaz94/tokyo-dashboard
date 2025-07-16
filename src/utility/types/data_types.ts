@@ -146,6 +146,11 @@ export interface TaskUniqueInterface extends GoalUniqueInterface {
     months:string[];
 }
 
+export interface ExpenseUniqueInterface {
+    type:string[];
+    currency:string[];
+}
+
 export interface TaskStatusRowSampleInterface {
   id: string;
   date: string;

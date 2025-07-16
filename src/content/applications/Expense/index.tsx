@@ -3,22 +3,29 @@ import useFetch, {FetchData}          from '../../../utility/customHook/useGetAP
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { Routes, Route }              from "react-router-dom";
-import {TaskStatusProvider}           from '../../../store/context/taskStatusContext';
+import {PaginationProvider}           from '../../../store/context/paginationContext';
 
-import { RecentExpenseTableInterface} from 'src/utility/types/data_types';
+import { 
+  ExpenseSingleSampleInterface,
+  ExpenseUniqueInterface,PaginationTableDataInterface
+} from 'src/utility/types/data_types';
 
 
 export default () =>{
 
-  const { data,success}: FetchData<RecentExpenseTableInterface> = useFetch <RecentExpenseTableInterface>('notes/expense',{data:[],unique:{}});
-  const {data:tableData,unique} = data;
+  const { data,success}: FetchData<PaginationTableDataInterface<ExpenseSingleSampleInterface>> = useFetch <PaginationTableDataInterface<ExpenseSingleSampleInterface>>('notes/expense',{results:[],count:0,next:null,previous:null});
+  const {results,count,next,previous} = data;
+
+  const { data:unique_data,success:unque_success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('notes/expense/unique',{
+    type:[],currency:[]
+  });
 
   if (!success) {
     return <p>Loading...</p>;
   }
 
   return (
-    <TaskStatusProvider tableData={tableData} secondaryData={unique}>
+    <PaginationProvider tableData={results} secondaryData={unique_data} paginData={{count: count, next: next, previous: previous}}>
       <Template templateTitle="Managment - Expense">
         <Routes>
           <Route path=""    element={<PageTable />} />
@@ -26,7 +33,7 @@ export default () =>{
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>
       </Template>
-    </TaskStatusProvider>
+    </PaginationProvider>
 
   );
 }

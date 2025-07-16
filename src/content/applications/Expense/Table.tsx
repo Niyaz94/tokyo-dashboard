@@ -1,16 +1,17 @@
-import { FC, ChangeEvent, useState, useEffect } from 'react';
+import { useCallback, ChangeEvent, useState, useEffect } from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
   TableContainer,Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
-import {applyPagination,applyFilters} from '../../../utility/function/main';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
-import { useTaskStatus } from '../../../store/context/taskStatusContext';
-import {TaskStatusRowSampleInterface as SingleSampleInterface,Filters} from 'src/utility/types/data_types';
+import {axiosGetData} from '../../../utility/Axios'
+import { usePaginationContext } from '../../../store/context/paginationContext';
+
+import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
 
 
 import { useSelector,useDispatch }    from 'react-redux';
@@ -24,18 +25,19 @@ const DataTable = () => {
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'expense')[0]);
   const dispatch        = useDispatch();
 
-  const { table: tableData,setTable,secondary } = useTaskStatus();
-
+  const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const { type:expense_types} = secondary;
-
   const navigate = useNavigate();
   const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
 
   // it contains the ids of selected rows
   const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  const [filters, setFilters] = useState<Filters>({ status: null });
-  const [filteredPageData, setFilteredPageData] = useState<SingleSampleInterface[]>([]);
-  const [paginatedPageData, setPaginatedPageData] = useState<SingleSampleInterface[]>([]);
+  // const [filters, setFilters] = useState<Filters>({ status: null });
+  const [filters, setFilters] = useState<{expenseType:string,startDate:string,endDate:string}>({ 
+    expenseType: "all" ,
+    startDate: null,
+    endDate: null
+  });
 
   const selectedBulkActions = selectedTableData.length > 0;
 
@@ -49,17 +51,26 @@ const DataTable = () => {
     }
   };
 
-  useEffect(() => {
-    setFilteredPageData(
-      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'expense_type')
-    );
-  }, [tableData, filters]);
+
 
   useEffect(() => {
-    const newPaginatedData = applyPagination<SingleSampleInterface>(filteredPageData,page,limit);
-    setPaginatedPageData(newPaginatedData);
-  }, [filteredPageData, page, limit]);
 
+      let extremParams = '';
+      if (filters.startDate) {
+        extremParams += `&startDate=${filters.startDate}`;
+      }
+      if (filters.endDate) {
+        extremParams += `&endDate=${filters.endDate}`;
+      }
+      if (filters.expenseType && filters.expenseType !== 'all') {
+        extremParams += `&expenseTypeId=${filters.expenseType}`;
+      }
+      axiosGetData(`notes/expense/?page=${page+1}&page_size=${limit}${extremParams}`).then((res) => {
+        const {results,count,next,previous} = res.data;
+        setTable(results);
+        setPagination({count: count, next: next, previous: previous});
+      });
+    }, [ page, limit,filters]);
 
   // It uses for controlling filter selection in the left top cornor of the table
   //The list of all options in filter selection in the left top cornor of the table
@@ -80,6 +91,17 @@ const DataTable = () => {
       event.target.checked ? tableData.map(({ id }) => id) : []
     );
   };
+
+  const handleFormChange = useCallback((key, value) => {
+
+    console.log(key, value);
+    if ( ['expenseType'].includes(key) && value === null) {
+      value = 'all'; 
+    }
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  },[]);
+
+
   // it [add/remove] row ids to [selectedTableData] variable when the user [select/deselect] row
   const handleSelectOnePageData = (event: ChangeEvent<HTMLInputElement>,pageId: string): void => {
     if (!selectedTableData.includes(pageId)) {
@@ -128,19 +150,50 @@ const DataTable = () => {
             </Box>
           }
           action={
-            <Box width={300} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Button
-                variant="outlined" color="primary" onClick={() => navigate('add')}
-                sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
-              >
-                Insert
-              </Button>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {["all",...expense_types.map((row) => row[1])].map((name) => (<MenuItem key={name} value={name}>{name.replace(/_/gi, " ").toUpperCase()}</MenuItem>))}
-                </Select>
-              </FormControl>
+            <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
+              <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center'}}>
+
+                
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <CustomDatePicker
+                    pickerFullWidth={false}
+                    label="Start Date"
+                    value={null}
+                    placeholder=""
+                    onChange={(newValue) => handleFormChange('startDate', newValue )}
+                  />
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                  <CustomDatePicker
+                    pickerFullWidth={false}
+                    label="End Date"
+                    value={null}
+                    placeholder=""
+                    onChange={(newValue) => handleFormChange('endDate', newValue )}
+                  />
+                  
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 250}}>
+                  <StaticAutocomplete
+                    label="Status"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.expenseType,label: expense_types.find((row) => row[0] === filters.expenseType)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...expense_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="expenseType"
+                    onChange={handleFormChange}
+                  />
+                </FormControl>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => navigate('add')}
+                  sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
+                >
+                  Insert
+                </Button>
+              </Box>
             </Box>
           }
         />
@@ -161,7 +214,7 @@ const DataTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedPageData.map((row) => {
+            {tableData.map((row) => {
               return (
                 <CustomTableRow
                   data={row} isDataSelected={selectedTableData.includes(row.id)}
@@ -173,7 +226,7 @@ const DataTable = () => {
         </Table>
       </TableContainer>
       <CustomPagination
-        count={filteredPageData.length}
+        count={pagination.count}
         page={page}
         rowsPerPage={limit}
         onPageChange={handlePageChange}
