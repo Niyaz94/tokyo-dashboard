@@ -17,3 +17,14 @@ export  const columnsExpense:Column[] = [
     { label: 'Note', align: 'center' },
     { label: 'Actions', align: 'center' }
 ];
+
+export  const columnsTask:Column[] = [
+    { label: 'Task Date', align: 'center' },
+    { label: 'Goal Detail', align: 'center' },
+    { label: 'Task Detail', align: 'center' },
+    { label: 'Prize', align: 'center' },
+    { label: 'Status', align: 'center' },
+    { label: 'Actions', align: 'right' }
+];
+
+

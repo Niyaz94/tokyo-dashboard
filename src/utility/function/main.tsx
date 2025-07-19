@@ -153,5 +153,3 @@ export const goalSearch = async (query) => {
   const {data} = await res;
   return  data ?? [];
 }
-
-

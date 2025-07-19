@@ -12,7 +12,7 @@ export default () =>{
   const {results,count,next,previous} = data;
 
   const { data:unique_data,success:unque_success}: FetchData<TaskUniqueInterface> = useFetch <TaskUniqueInterface>('schedule/task/unique',{
-    months:[],years:[], goal_status:[], goal_level:[]
+    months:{},years:[], goal_status:[], goal_level:[]
   });
 
   if (!success) {

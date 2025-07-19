@@ -1,157 +1,86 @@
-import { FC, ChangeEvent, useState, useEffect } from 'react';
-import {
-  Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
-  TableContainer,Select,MenuItem,Typography,CardHeader,Button
-} from '@mui/material';
+import {useEffect } from 'react';
+import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
-import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
 import { usePaginationContext } from '../../../store/context/paginationContext';
-
-import { useSelector,useDispatch }    from 'react-redux';
-import { RootState }                  from '../../../store/Reducer';
-import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 import {axiosGetData} from '../../../utility/Axios'
-import { SelectChangeEvent } from "@mui/material";
+import {StaticAutocomplete}       from '../../../components/Form';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
+import {SelectableTable} from '../../../components/Table/SelectableTable';
+import { columnsTask as columns } from '../../../utility/function/tableColumn';
 
 
 const DataTable = () => {
-  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'task')[0]);
-  const dispatch        = useDispatch();
+
+  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const {
     goal_status,goal_level,years:task_years,months:task_months,status:task_status
   } = secondary;
 
   const navigate = useNavigate();
-  const {deleteData} = useDeleteAPI();
+  const {deleteTableRow} = useDeleteAPI();
+  const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
-  // it contains the ids of selected rows
-  const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  const [filters, setFilters] = useState<{status:string,year:string,month:string}>({ 
-    status: "ALL" ,
-    year: "ALL",
-    month: "ALL"
-  });
-  const selectedBulkActions = selectedTableData.length > 0;
-
-  const handleSelectOneData = (
-    event: ChangeEvent<HTMLInputElement>,
-    id: string
-  ): void => {
-    if (!selectedTableData.includes(id)) {
-      setSelectedTableData((prevSelected) => [...prevSelected, id]);
-    } else {
-      setSelectedTableData((prevSelected) =>
-        prevSelected.filter((singleId) => singleId !== id)
-      );
-    }
-  };
+  const {filters,handleFilterChange,filterQuery} = useTableFilters({status: "ALL" ,year: "ALL",month: "ALL"});
+  const taskMonthFilter=Object.entries(task_months).map(([key, value])=>[key,value]) as [string, string][]
 
   useEffect(() => {
-    axiosGetData(`schedule/task/?month=${filters.month}&year=${filters.year}&status=${filters.status.toLowerCase()}&page=${page+1}&page_size=${limit}`).then((res) => {
+    axiosGetData(`schedule/task/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
       setTable(results);
       setPagination({count: count, next: next, previous: previous});
     });
   }, [ page, limit,filters]);
-
-
-  // It uses for controlling filter selection in the left top cornor of the table
-  //The list of all options in filter selection in the left top cornor of the table
-
-  //The action handler for filter selection in the left top cornor of the table
-  const handleTableFilter = (e: SelectChangeEvent<string>,filterType:string): void => {
-    let value = 'ALL';
-    if (e.target.value !== 'ALL') {
-      value = e.target.value;
-    }
-    setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
-  };
-  // The checkbox inside the [table header] which either make all rows [selected/unselected]
-  const handleSelectAllPageData = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedTableData(
-      event.target.checked ? tableData.map(({ id }) => id) : []
-    );
-  };
-  // when the user change the table page
-  const handlePageChange = (event: any, newPage: number): void => {
-    const direction = newPage > page ? 'next' : 'previous'; // To know the direction of page change
-    dispatch(setPage({ name: 'task', page: newPage }));
-  };
-  // change table pagination length
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setLimit({ name: 'task', limit: parseInt(event.target.value) }));
-  };
-
-  // it will be [true] if some but not all rows are selected
-  const selectedSomePageData =
-    selectedTableData.length > 0 && selectedTableData.length < tableData.length;
-  // It will be [true] if all rows are selected
-  const selectedAllPageData = selectedTableData.length === tableData.length;
-
-  const deleteTableRow = async (id) => {
-    await deleteData(`schedule/task/${id}/`);
-    setTable((prev) => prev.filter((row) => row.id !== id));
-  };
-
   return (
     <Card>
-      <Box p={2}>
-        {/* <TableFilter /> */}
-        {/* <TableFilter onFilterChange={(filters) => console.log(filters)} /> */}
-      </Box>
-      {/* When user select a row or more this panel will open */}
-      {selectedBulkActions && (
+      {selectedIds.length>0 && (
         <Box flex={1} p={2}>
           <BulkActions />
         </Box>
       )}
-      {/* When user does not select any rows this panel will open (default one) */}
-      {!selectedBulkActions && (
+      {selectedIds.length<1 && (
         <CardHeader
           title={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <Typography variant="h6">Recent Orders</Typography>
             </Box>
           }
-          
           action={
             <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
               <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center' }}>
                 <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <InputLabel>Year</InputLabel>
-                  <Select value={filters.year || 'ALL'} onChange={(event)=>(handleTableFilter(event,"year"))} label="Year" autoWidth>
-                    {["ALL", ...task_years].map((name) => (
-                      <MenuItem key={name} value={name}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <StaticAutocomplete
+                    label="Task Year"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.year,label: task_years.map((row)=>[row,row.toString()]).find((row) => row[0] === filters.year)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...task_years.map((row)=>[row,row.toString()])].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="year"
+                    onChange={handleFilterChange}
+                  />
                 </FormControl>
                 <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <InputLabel>Month</InputLabel>
-                  <Select value={filters.month || 'ALL'} onChange={(event)=>(handleTableFilter(event,"month"))} label="Month" autoWidth>
-                    {["ALL", ...Object.keys(task_months)].map((key) => (
-                      <MenuItem key={key} value={key}>
-                        {key=="ALL"?"ALL":task_months[key]}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <StaticAutocomplete
+                    label="Task Month"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.month,label: taskMonthFilter.find((row) => row[0] === filters.month)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...taskMonthFilter].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="month"
+                    onChange={handleFilterChange}
+                  />
                 </FormControl>
                 <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <InputLabel>Status</InputLabel>
-                  <Select value={filters.status || 'ALL'} onChange={(event)=>(handleTableFilter(event,"status"))} label="Status" autoWidth>
-                    {["ALL", ...task_status].map((name) => (
-                      <MenuItem key={name} value={name}>
-                        {name.replace(/_/gi, " ").toUpperCase()}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  {/* The filtering is different from other, remember that if you created template for that */}
+                  <StaticAutocomplete
+                    label="Task Status"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.status,label: task_status.find((row) => row.toLowerCase() === filters.status)?.replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...task_status.map((row)=>[row.toLowerCase(),row])].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="status"
+                    onChange={handleFilterChange}
+                  />
                 </FormControl>
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
@@ -165,38 +94,21 @@ const DataTable = () => {
                 </Button>
               </Box>
             </Box>
-
           }
         />
       )}
       <Divider />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
-              </TableCell>
-              <TableCell align='center'>Task Date</TableCell>
-              <TableCell align='center'>Goal Detail</TableCell>
-              <TableCell align='center'>Task Detail</TableCell>
-              <TableCell align="center">Prize</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData.map((row) => {
-              return (
-                <CustomTableRow
-                  data={row} isDataSelected={selectedTableData.includes(row.id)}
-                  handleSelectOneData={handleSelectOneData} onDeleteRow={deleteTableRow}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <SelectableTable
+        data={tableData} columns={columns} selectedIds={selectedIds}
+        onSelectAll={handleSelectAll}
+        onSelectOne={handleSelectOne}
+        renderRow={(row) => (
+          <CustomTableRow
+            key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"schedule/task",setTable)}
+          />
+        )}
+      />
       <CustomPagination
         count={pagination.count}
         page={page}

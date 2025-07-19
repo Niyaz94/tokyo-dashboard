@@ -23,7 +23,7 @@ const DataTable = () => {
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const { type:expense_types} = secondary;
   const navigate = useNavigate();
-  const {deleteData} = useDeleteAPI();
+  const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
   useEffect(() => {
@@ -33,11 +33,6 @@ const DataTable = () => {
         setPagination({count: count, next: next, previous: previous});
       });
   }, [ page, limit,filters]);
-
-  const deleteTableRow = async (id) => {
-    await deleteData(`notes/expense/${id}/`);
-    setTable((prev) => prev.filter((row) => row.id !== id));
-  };
 
   return (
     <Card>
@@ -108,7 +103,7 @@ const DataTable = () => {
         renderRow={(row) => (
           <CustomTableRow
             key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-            handleSelectOneData={handleSelectOne} onDeleteRow={deleteTableRow}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"notes/expense",setTable)}
           />
         )}
       />

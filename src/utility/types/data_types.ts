@@ -143,7 +143,7 @@ export interface TaskRowSampleInterface {
 
 export interface TaskUniqueInterface extends GoalUniqueInterface {
     years:string[];
-    months:string[];
+    months:Record<number, string> ;
 }
 
 export interface ExpenseUniqueInterface {

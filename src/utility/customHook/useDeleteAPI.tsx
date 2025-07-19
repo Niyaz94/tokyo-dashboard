@@ -26,7 +26,6 @@ const useDeleteAPI = () => {
       }
 
       const data = await res.json();
-      console.log("Data:", data);
       setResponse({ success: true, data });
     } catch (err: any) {
       setError(err.message || "Something went wrong");
@@ -37,7 +36,12 @@ const useDeleteAPI = () => {
     return response;
   };
 
-  return { response, loading, error, deleteData };
+  const deleteTableRow = async (id,path,setTable) => {
+    await deleteData(`${path}/${id}/`);
+    setTable((prev) => prev.filter((row) => row.id !== id));
+  };
+
+  return { response, loading, error, deleteData,deleteTableRow };
 };
 
 export default useDeleteAPI;
