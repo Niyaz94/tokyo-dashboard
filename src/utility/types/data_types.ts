@@ -312,3 +312,9 @@ export interface ExpenseTypeSSInterface {
   current_month_count : number;
   two_months_ago_count: number;
 }
+
+export interface Column {
+  label: string;
+  align?: 'left' | 'right' | 'center';
+  key?: string; // optional: for auto-rendering if needed
+}
