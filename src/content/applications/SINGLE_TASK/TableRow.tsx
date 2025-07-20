@@ -10,7 +10,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import {
   getStatusIcon,
   labelWithColor,
-  getDayAbbreviation,
+  getDayAbbreviation,getDeepText
 } from '../../../utility/function/main';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
@@ -25,9 +25,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   // const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
   // const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail;
 
-  const theme = useTheme();
   const {id,date,type_name,note,title,priority,status,deadline} = data;
-  const note_text = JSON.parse(note)
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -53,8 +51,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         [{text:labelWithColor(taskTypeNameMap[type_name].text,taskTypeNameMap[type_name].color),styleType:1},]
       } />
       <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={[
-          {text: title,styleType:1},
-          {text: note_text ? note_text["root"]["children"][0]["children"][0].text:"No text found",styleType:2}
+          {text: title,styleType:1},{text: getDeepText(note),styleType:2}
       ]} />
        <TableCusCell cellProps={{align:"center"}} prop={
         [{text: getStatusIcon(priority.toUpperCase(),<CampaignIcon />),styleType:1}]
@@ -62,9 +59,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       <TableCusCell cellProps={{align:"center"}} prop={
         [{text:labelWithColor(taskStatusMap[status.toUpperCase()].text,taskStatusMap[status.toUpperCase()].color),styleType:1},]
       } />
-      
-      
-      
       
       <TableCell align="right">
         <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} />

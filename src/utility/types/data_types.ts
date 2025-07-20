@@ -229,6 +229,13 @@ export interface TopicSingleSampleInterface {
   stutus: level3Status;
 }
 
+export interface RecipeSingleSampleInterface {
+  id: string;
+  date: string;
+  title: string;
+  updated_at: string;
+  delicious: level5Status;
+}
 
 export interface DailySingleSampleInterface {
   id: number;

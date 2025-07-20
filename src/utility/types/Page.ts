@@ -135,3 +135,11 @@ export type TopicFormIntialStateInterface = {
   status: string;
   title: string;
 };  
+
+export type RecipeFormIntialStateInterface = {
+  id: number;
+  date: string;
+  notes: string;
+  delicious: string;
+  title: string;
+};  

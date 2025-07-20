@@ -153,3 +153,8 @@ export const goalSearch = async (query) => {
   const {data} = await res;
   return  data ?? [];
 }
+
+export const getDeepText=(obj: any): string =>{
+  const note=JSON.parse(obj)
+  return note?.root?.children?.[0]?.children?.[0]?.text ?? 'No text found';
+}

@@ -34,7 +34,6 @@ const CollapsibleForm = () => {
   const singleTaskType         = createSelectMap(single_task_type,"object")
   const memSingleTaskType      = useMemo(() => singleTaskType, []);
 
-
   const singleTaskStatus        = createSelectMap(single_task_status,"type3")
   const memSingleTaskStatus     = useMemo(() => singleTaskStatus, []);
 

@@ -146,3 +146,10 @@ export const TopicFormIntialStateInterface = {
   title: '',
 };
 
+export const RecipeFormIntialStateInterface = {
+  id: 0,
+  date: dayjs().format('YYYY-MM-DD'),
+  notes: '{}',
+  delicious: '',
+  title: '',
+};

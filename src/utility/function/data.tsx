@@ -49,3 +49,10 @@ export  const StatusCase2 = [
     { value: 'HIGH', label: 'High' },
 ];
 
+
+export  const filterFoodRecipeDelicious = [
+    { id: 'less', name: 'Less' },
+    { id: 'normal', name: 'Normal' },
+    { id: 'very', name: 'Very' },
+];
+

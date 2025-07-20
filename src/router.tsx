@@ -45,6 +45,7 @@ const TASK_STATUS   = Loader(lazy(() => import('src/content/applications/TASK_ST
 
 const SIN_TASK_TYPE = Loader(lazy(() => import('src/content/applications/SIN_TASK_TYPE')));
 const EXPENSE_TASK  = Loader(lazy(() => import('src/content/applications/EXPENSE_TASK')));
+const RECIPE  = Loader(lazy(() => import('src/content/applications/RECIPE')));
 
 
 // 
@@ -116,21 +117,10 @@ const routes: RouteObject[] = [
     path: 'personal',
     element: <SidebarLayout />,
     children: [
-      // {path: '',element: <Navigate to="transactions" replace />},
-      // {path: 'sleep',element: <Sleep />},
-      // {path: 'sleep/add',element: <SleepAdd />},
-      // {path: 'sleep/:id',element: <SleepEdit   />},
-
       {path: 'sleep/*',element: <Sleep />},
       {path: 'today/*',element: <Today />},
-      {path: 'tomorrow/*',element: <Tomorrow />},
-      
-      {path: 'activity/*',element: <Activity />,
-      
-        // children: [
-          // { path: 'add', element: <AddSleep /> }, // Route: /personal/sleep/add
-        // ]
-      },
+      {path: 'tomorrow/*',element: <Tomorrow />}, 
+      {path: 'activity/*',element: <Activity />},
     ]
   },{
     path: 'goals',
@@ -153,6 +143,12 @@ const routes: RouteObject[] = [
       {path: 'question/*',element: <Topic />},
       {path: 'idea/*',element: <Topic />},
       {path: 'topic/*',element: <Topic />},
+    ]
+  },{
+    path: 'extra',
+    element: <SidebarLayout />,
+    children: [
+      {path: 'foodrecipe/*',element: <RECIPE />},
     ]
   },{
     path: '/components',

@@ -27,4 +27,10 @@ export  const columnsTask:Column[] = [
     { label: 'Actions', align: 'right' }
 ];
 
-
+export  const columnsRecipe:Column[] = [
+    { label: 'Date', align: 'left' },
+    { label: 'Title', align: 'center' },
+    { label: 'Delicious Level', align: 'center' },
+    { label: 'Last Update', align: 'center' },
+    { label: 'Actions', align: 'right' }
+];

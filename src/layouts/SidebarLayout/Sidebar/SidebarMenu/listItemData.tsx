@@ -25,7 +25,11 @@ import AddTaskIcon                  from '@mui/icons-material/AddTask';
 import ChecklistIcon                from '@mui/icons-material/Checklist';
 import MilitaryTechIcon             from '@mui/icons-material/MilitaryTech';
 import ShoppingBasketIcon           from '@mui/icons-material/ShoppingBasket';
-import {Topic,TipsAndUpdates,QuestionMark}                      from '@mui/icons-material';
+import {
+  Topic,TipsAndUpdates,QuestionMark,ShoppingCartCheckout,AddShoppingCart,TakeoutDining,RamenDining,Password,LightMode,
+  HourglassEmpty,Input,Filter7
+} from '@mui/icons-material';
+
 
 import { ReactElement } from 'react';
 
@@ -42,111 +46,111 @@ interface SlideBarSection {
 }
 
 const slideBarItems: Record<string, SlideBarSection> = {
-    overview: {
-        title: 'Overview',
-        isCollapse: false,
-        children: [
-          {title: 'Overview',link: '/overview',icon: <DesignServicesTwoToneIcon />}
-        ],
-      },
-      dashboards: {
-        title: 'Dashboards',
-        isCollapse: true,
-        children: [
-          {title: 'Cryptocurrency',link: '/dashboards/crypto',icon: <BrightnessLowTwoToneIcon />},
-          {title: 'Messenger',link: '/dashboards/messenger',icon: <MmsTwoToneIcon />},
-        ],
-      },
-      moneyManagement: {
-        title: 'Money Management',
-        isCollapse: true,
-        children: [
-          {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Details',  link: '/management/expense',             icon: <TableChartTwoToneIcon />},
-          {title: 'Currency',         link: '/management/currency',            icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Reports',  link: '/management/expense/reports',     icon: <TableChartTwoToneIcon />},
-        ],
-      },
-      myDailyLife: {
-        title: 'My Daily Life',
-        isCollapse: true,
-        children: [
-          {title: 'Today',link: '/personal/today',icon: <TableChartTwoToneIcon />,},
-          {title: 'Activity',link: '/personal/activity',icon: <DirectionsRunIcon />},
-          {title: 'Sleep',link: '/personal/sleep',icon: <BedtimeIcon />},
-          {title: 'Tomorrow',link: '/personal/tomorrow',icon: <TableChartTwoToneIcon />},
-        ],
-      },
-      lifeGoals: {
-        title: 'Life Goals',
-        isCollapse: true,
-        children: [
-          {title: 'Goals',link: '/goals/goals',icon: <EmojiEventsIcon />},
-          {title: 'One-Time Tasks',link: '/goals/single_task',icon: <AssignmentIcon />},
-          {title: 'Tasks',link: '/goals/task',icon: <AddTaskIcon />},
-          {title: 'Tasks Progress',link: '/goals/task_progress',icon: <ChecklistIcon />},
-        ],
-      },
-      personalImprovment: {
-        title: 'Personal Improvment',
-        isCollapse: true,
-        children: [
-          {title: 'Question',link: '/improvment/question',icon: <QuestionMark />},
-          {title: 'Idea',link: '/improvment/idea',icon: <TipsAndUpdates />},
-          {title: 'Topic',link: '/improvment/topic',icon: <Topic />},
-        ],
-      },
-      Reports: {
-        title: 'Reports',
-        isCollapse: true,
-        children: [
-          {title: 'Monthly Success',link: '/personal/today',icon: <MilitaryTechIcon />,},
-          {title: 'Monthly Expense',link: '/personal/activity',icon: <ShoppingBasketIcon />},
-        ],
-      },
-      secondaryPages: {
-        title: 'Secondary Pages',
-        isCollapse: true,
-        children: [
-          {title: 'Idea Type',          link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
-          {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
-          {title: 'Expense Type',       link:  '/goals/expense_type',   icon: <TableChartTwoToneIcon />},
-          {title: 'Months Type',        link: '/goals/months',                icon: <TableChartTwoToneIcon />},
-        ],
-      },
-      accounts: {
-        title: 'Accounts',
-        isCollapse: true,
-        children: [
-          {title: 'User Profile',link: '/management/profile/details',icon: <AccountCircleTwoToneIcon />},
-          {title: 'Account Settings',link: '/management/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
-        ],
-      },
-      components: {
-        title: 'Components',
-        isCollapse: true,
-        children: [
-          {title: 'Buttons',link: '/components/buttons',icon: <BallotTwoToneIcon />},
-          {title: 'Modals',link: '/components/modals',icon: <BeachAccessTwoToneIcon />,},
-          {title: 'Accordions',link: '/components/accordions',icon: <EmojiEventsTwoToneIcon />,},
-          {title: 'Tabs',link: '/components/tabs',icon: <FilterVintageTwoToneIcon />},
-          {title: 'Badges',link: '/components/badges',icon: <HowToVoteTwoToneIcon />},
-          {title: 'Tooltips',link: '/components/tooltips',icon: <LocalPharmacyTwoToneIcon />},
-          {title: 'Avatars',link: '/components/avatars',icon: <RedeemTwoToneIcon />,},
-          {title: 'Cards',link: '/components/cards',icon: <SettingsTwoToneIcon />},
-          {title: 'Forms',link: '/components/forms',icon: <TrafficTwoToneIcon />},
-        ],
-      },
-      extraPages: {
-        title: 'Extra Pages',
-        isCollapse: true,
-        children: [
-          {title: 'Error 404',link: '/status/404',icon: <CheckBoxTwoToneIcon />},
-          {title: 'Error 500',link: '/status/500',icon: <CameraFrontTwoToneIcon />},
-          {title: 'Coming Soon',link: '/status/coming-soon',icon: <ChromeReaderModeTwoToneIcon />},
-          {title: 'Maintenance',link: '/status/maintenance',icon: <WorkspacePremiumTwoToneIcon />}
-        ],
-      }
+  overview: {
+    title: 'Overview',
+    isCollapse: false,
+    children: [
+      {title: '+Overview',link: '/overview',icon: <DesignServicesTwoToneIcon />}
+    ],
+  },
+  moneyManagement: {
+    title: 'Money Management',
+    isCollapse: true,
+    children: [
+      {title: 'Expense', link: '/management/expense',  icon: <ShoppingCartCheckout />},
+      {title: '+Income',  link: '/management/income',  icon: <AddShoppingCart />},
+      {title: '+Currency', link: '/management/currency', icon: <TableChartTwoToneIcon />},
+    ],
+  },
+  myDailyLife: {
+    title: 'Daily Life',
+    isCollapse: true,
+    children: [
+      {title: 'Today',link: '/personal/today',icon: <LightMode />,},
+      {title: 'Activity',link: '/personal/activity',icon: <DirectionsRunIcon />},
+      {title: 'Sleep',link: '/personal/sleep',icon: <BedtimeIcon />},
+      {title: 'Tomorrow',link: '/personal/tomorrow',icon: <HourglassEmpty />},
+    ],
+  },
+  lifeGoals: {
+    title: 'Task Management',
+    isCollapse: true,
+    children: [
+      {title: 'Goals',link: '/goals/goals',icon: <EmojiEventsIcon />},
+      {title: 'One-Time Tasks',link: '/goals/single_task',icon: <AssignmentIcon />},
+      {title: 'Tasks',link: '/goals/task',icon: <AddTaskIcon />},
+      {title: 'Tasks Progress',link: '/goals/task_progress',icon: <ChecklistIcon />},
+      {title: '+Weekly Plan',link: '/extra/foodplan',icon: <Filter7 />},
+    ],
+  },
+  personalImprovment: {
+    title: 'Personal Improvment',
+    isCollapse: true,
+    children: [
+      {title: '+Question',link: '/improvment/question',icon: <QuestionMark />},
+      {title: '+Idea',link: '/improvment/idea',icon: <TipsAndUpdates />},
+      {title: 'Topic',link: '/improvment/topic',icon: <Topic />},
+    ],
+  },
+  Reports: {
+    title: 'Reports',
+    isCollapse: true,
+    children: [
+      {title: 'Monthly Success',link: '/personal/today',icon: <MilitaryTechIcon />,},
+      {title: 'Monthly Expense',link: '/personal/activity',icon: <ShoppingBasketIcon />},
+    ],
+  },
+  secondaryPages: {
+    title: 'Secondary Pages',
+    isCollapse: true,
+    children: [
+      {title: '+Idea Type',         link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
+      {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
+      {title: 'Expense Type',       link:  '/goals/expense_type',   icon: <TableChartTwoToneIcon />},
+      {title: '+Months Type',       link: '/goals/months',                icon: <TableChartTwoToneIcon />},
+    ],
+  },
+  extraPages: {
+    title: 'Extra Pages',
+    isCollapse: true,
+    children: [
+        {title: 'Food Recipe',link: '/extra/foodrecipe',icon: <TakeoutDining />},
+    ],
+  },
+  accounts: {
+    title: 'Accounts',
+    isCollapse: true,
+    children: [
+      {title: '+User Profile',link: '/management/profile/details',icon: <AccountCircleTwoToneIcon />},
+      {title: '+Account Settings',link: '/management/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
+      {title: '+Password Settings',link: '/management/profile/password',icon: <Password />},
+      {title: '+Log ',link: '/management/profile/password',icon: <Input />}
+    ],
+  },
+  components: {
+    title: 'Components',
+    isCollapse: true,
+    children: [
+      {title: 'User Profile',link: '/management/profile/details',icon: <AccountCircleTwoToneIcon />},
+      {title: 'Account Settings',link: '/management/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
+      {title: 'Cryptocurrency',link: '/dashboards/crypto',icon: <BrightnessLowTwoToneIcon />},
+      {title: 'Messenger',link: '/dashboards/messenger',icon: <MmsTwoToneIcon />},
+      {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
+      {title: 'Buttons',link: '/components/buttons',icon: <BallotTwoToneIcon />},
+      {title: 'Modals',link: '/components/modals',icon: <BeachAccessTwoToneIcon />,},
+      {title: 'Accordions',link: '/components/accordions',icon: <EmojiEventsTwoToneIcon />,},
+      {title: 'Tabs',link: '/components/tabs',icon: <FilterVintageTwoToneIcon />},
+      {title: 'Badges',link: '/components/badges',icon: <HowToVoteTwoToneIcon />},
+      {title: 'Tooltips',link: '/components/tooltips',icon: <LocalPharmacyTwoToneIcon />},
+      {title: 'Avatars',link: '/components/avatars',icon: <RedeemTwoToneIcon />,},
+      {title: 'Cards',link: '/components/cards',icon: <SettingsTwoToneIcon />},
+      {title: 'Forms',link: '/components/forms',icon: <TrafficTwoToneIcon />},
+      {title: 'Error 404',link: '/status/404',icon: <CheckBoxTwoToneIcon />},
+      {title: 'Error 500',link: '/status/500',icon: <CameraFrontTwoToneIcon />},
+      {title: 'Coming Soon',link: '/status/coming-soon',icon: <ChromeReaderModeTwoToneIcon />},
+      {title: 'Maintenance',link: '/status/maintenance',icon: <WorkspacePremiumTwoToneIcon />}
+    ],
+  }
 };
 
 export default slideBarItems;
