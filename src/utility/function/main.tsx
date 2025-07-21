@@ -84,7 +84,7 @@ export const applyPagination = <T,> (data: T[], page: number, limit: number): T[
 export const applyFilters = <T,F> (data: T[],filters: F,field:string): T[] => {
   return data.filter((row) => {
     let matches = true;
-    if (filters["status"] && row[`${field}`] !== filters["status"]) {
+    if (filters[field] && row[`${field}`] !== filters[field]) {
       matches = false;
     }
     return matches;

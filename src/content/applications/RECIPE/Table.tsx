@@ -1,61 +1,27 @@
-import { ChangeEvent, useState, useEffect } from 'react';
 import {
-  Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
-  TableContainer,Select,MenuItem,Typography,CardHeader,Button
+  Divider,Box,FormControl,Card,Typography,CardHeader,Button
 } from '@mui/material';
 import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
-import {applyPagination,applyFilters} from '../../../utility/function/main';
-import { filterFoodRecipeDelicious } from '../../../utility/function/data';
+import { FoodRecipeDelicious } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import { usePageContext } from '../../../store/context/pageContext';
-import {TopicSingleSampleInterface as SingleSampleInterface,Filters} from 'src/utility/types/data_types';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
+import {RecipeSingleSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useStaticTableFilters} from '../../../utility/customHook';
 
-
-
-
-import {SelectableTable} from '../../../components/Table/SelectableTable';
-import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
+import {SelectableTable}          from '../../../components/Table/SelectableTable';
+import {StaticAutocomplete}       from '../../../components/Form';
 import {columnsRecipe as columns} from '../../../utility/function/tableColumn';
 
-
 const DataTable = () => {
-
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('recipe');
-  
-
   const { table: tableData,setTable } = usePageContext();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
-
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
-
-  const [filters, setFilters] = useState<Filters>({ status: null });
-  const [filteredPageData, setFilteredPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
-
-  useEffect(() => {
-    setFilteredPageData(applyFilters<SingleSampleInterface, Filters>(tableData,filters,'delicious'));
-  }, [tableData, filters]);
-
-  useEffect(() => {
-    const newPaginatedData = applyPagination<SingleSampleInterface>(filteredPageData,page,limit);
-    // setPaginatedPageData(newPaginatedData);
-  }, [filteredPageData, page, limit]);
-
-
-  //The action handler for filter selection in the left top cornor of the table
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-    if (e.target.value !== 'all') {
-      value = e.target.value;
-    }
-    setFilters((prevFilters) => ({ ...prevFilters, status: value }));
-  };
-
+  const {filters,handleFilterChange}    = useTableFilters({delicious: "all"});
+  const { paginatedData, filteredData } = useStaticTableFilters<SingleSampleInterface>(tableData,filters,page,limit);
   return (
     <Card>
       {selectedIds.length>0 && (
@@ -79,10 +45,14 @@ const DataTable = () => {
                 Insert
               </Button>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {filterFoodRecipeDelicious.map(({ id, name }) => (<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                </Select>
+                <StaticAutocomplete
+                    label="Status"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.delicious,label: FoodRecipeDelicious.find((row) => row === filters.delicious)?.replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...FoodRecipeDelicious.map((row)=>[row,row])].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="delicious"
+                    onChange={handleFilterChange}
+                />
               </FormControl>
             </Box>
           }
@@ -91,7 +61,7 @@ const DataTable = () => {
       <Divider />
 
       <SelectableTable
-        data={tableData} columns={columns} selectedIds={selectedIds}
+        data={paginatedData} columns={columns} selectedIds={selectedIds}
         onSelectAll={handleSelectAll}
         onSelectOne={handleSelectOne}
         renderRow={(row) => (
@@ -102,7 +72,7 @@ const DataTable = () => {
         )}
       />
       <CustomPagination
-        count={filteredPageData.length}
+        count={filteredData.length}
         page={page}
         rowsPerPage={limit}
         onPageChange={handlePageChange}

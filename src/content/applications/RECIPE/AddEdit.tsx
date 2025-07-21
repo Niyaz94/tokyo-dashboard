@@ -2,8 +2,8 @@ import { useState,useEffect,useCallback,useRef,useMemo } from 'react';
 import { useNavigate,useParams }    from 'react-router-dom';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { filterFoodRecipeDelicious } from '../../../utility/function/data';
-import {createSelectMap}                from '../../../utility/function/main';
+import { FoodRecipeDelicious }  from '../../../utility/function/data';
+import {createSelectMap}              from '../../../utility/function/main';
 
 
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
@@ -31,7 +31,7 @@ const CollapsibleForm = () => {
   const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
 
 
-  const recipe_status_map         = createSelectMap(filterFoodRecipeDelicious.map(row=>row["id"]),"array")
+  const recipe_status_map         = createSelectMap(FoodRecipeDelicious,"array")
   const mem_recipe_status_map     = useMemo(() => recipe_status_map, []);
 
   

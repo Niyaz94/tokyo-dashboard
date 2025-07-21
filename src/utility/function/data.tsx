@@ -50,9 +50,5 @@ export  const StatusCase2 = [
 ];
 
 
-export  const filterFoodRecipeDelicious = [
-    { id: 'less', name: 'Less' },
-    { id: 'normal', name: 'Normal' },
-    { id: 'very', name: 'Very' },
-];
+export  const FoodRecipeDelicious = ['less','normal','very'];
 

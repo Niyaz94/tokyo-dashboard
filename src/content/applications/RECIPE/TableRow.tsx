@@ -4,12 +4,12 @@ import {Checkbox,TableCell,TableRow,Stack} from '@mui/material';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import {labelWithColor,createMapLabelData,getDayAbbreviation} from '../../../utility/function/main';
-import { filterFoodRecipeDelicious } from '../../../utility/function/data';
+import { FoodRecipeDelicious } from '../../../utility/function/data';
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const recipeStatusMap = createMapLabelData(filterFoodRecipeDelicious.map((row) => row["id"]));
+  const recipeStatusMap = createMapLabelData(FoodRecipeDelicious);
 
   const {id,date,title,delicious,updated_at} = data;
 
