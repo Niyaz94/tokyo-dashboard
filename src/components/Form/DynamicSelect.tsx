@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import { CircularProgress, FormControl, InputLabel } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { CircularProgress, FormControl } from '@mui/material';
 import useFetch, {FetchData}  from '../../utility/customHook/useGetAPI';
 
 

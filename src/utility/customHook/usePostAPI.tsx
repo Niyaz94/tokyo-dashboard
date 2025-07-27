@@ -26,8 +26,13 @@ const usePostAPI =() => {
       if(bodyType==="FORM"){
         preData = new FormData();
         for (const key in body){
-          if(key.startsWith("file")){
-            preData.append(key, body[key][0]);
+          if(key.startsWith("img")){
+            if(Array.isArray(body[key])){
+              console.log("array of images")
+              body[key].forEach((img) => preData.append(key.split("_")[1], img));
+            }else
+              console.log("single image")
+              preData.append(key, body[key]);
           }else if(key.startsWith("date")){
             // if date and time is needed
             //preData.append(key, new Date(formData[key as keyof FORM_TYPE]).toLocaleString("en-CA",{hour12: false}).replace(",",""));
@@ -37,11 +42,20 @@ const usePostAPI =() => {
           }
         }
       }
-      const requestOptions: RequestInit = {
+
+      let headers = {
+
+      };
+      if (bodyType==="JSON")  
+        headers= {
+            'Content-Type': 'application/json'
+        }
+
+      // console.log(preData)
+        
+      const requestOptions = {
         method: "POST",
-        headers: {
-            'Content-Type': bodyType==="JSON"?'application/json':'multipart/form-data',
-        }, 
+        headers,
         body: preData
       };
       const res = await fetch(`http://127.0.0.1:8000/${url}`, requestOptions);

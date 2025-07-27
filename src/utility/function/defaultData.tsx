@@ -144,6 +144,7 @@ export const TopicFormIntialStateInterface = {
   notes: '{}',
   status: '',
   title: '',
+  img_image: []
 };
 
 export const RecipeFormIntialStateInterface = {

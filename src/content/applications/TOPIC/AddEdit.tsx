@@ -8,7 +8,9 @@ import {createSelectMap}                from '../../../utility/function/main';
 
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 
-import {CustomSnackbar,MultiButton,CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
+import {
+  CustomSnackbar,MultiButton,CustomDatePicker,StaticAutocomplete,FileUpload
+}       from '../../../components/Form';
 
 import {TomorrowSingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 import { usePostAPI, useEditAPI, useFetch, FetchData,useSnackbar }  from "../../../utility/customHook";
@@ -54,7 +56,7 @@ const CollapsibleForm = () => {
     if (edit_page_id) {
       await editData(`notes/topic/${edit_page_id}/`, formData);
     }else{
-      await postData("notes/topic/", dataToBeSent);
+      await postData("notes/topic/", dataToBeSent,"FORM");
     }
   };
 
@@ -148,7 +150,22 @@ const CollapsibleForm = () => {
                 
               <Grid size={12}>
                 <LexicalEditor value={formData.notes} onChange={handleFormChange} formKey="notes" label="Detail" height="750px"/>
-              </Grid>  
+              </Grid> 
+
+              <Grid size={12}>
+                <FileUpload
+                  label="Profile Picture"
+                  multiple={false}
+                  initialImages={[
+                    //'https://cdn.britannica.com/31/183231-050-8D8EB720/Carli-Lloyd-penalty-goal-semifinal-match-Germany-2015.jpg',
+                    'https://www.usatoday.com/gcdn/authoring/authoring-images/2025/05/31/USAT/83971169007-catarina-macario-uswnt-china-may-31.jpg?crop=3672,2066,x0,y191&width=3200&height=1801&format=pjpg&auto=webp'
+                  ]} // Edit case
+                  onChange={(files) => {
+                    return handleFormChange('img_image', files )
+                    // setFormData({ ...formData, images: files })
+                  }}
+                />
+              </Grid>   
               <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/improvment/topic'}/>
                 <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>

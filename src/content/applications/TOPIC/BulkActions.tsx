@@ -16,7 +16,7 @@ const ButtonError = styled(Button)(
     `
 );
 
-function BulkActions() {
+function BulkActions({deletefun}) {
   const [onMenuOpen, menuOpen]  = useState<boolean>(false);
   const moreRef                 = useRef<HTMLButtonElement | null>(null);
 
@@ -28,7 +28,9 @@ function BulkActions() {
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center">
           <Typography variant="h5" color="text.secondary">Bulk actions:</Typography>
-          <ButtonError sx={{ ml: 1 }} startIcon={<DeleteTwoToneIcon />} variant="contained">Delete</ButtonError>
+          <ButtonError sx={{ ml: 1 }} startIcon={<DeleteTwoToneIcon />} variant="contained" onClick={()=> deletefun()}>
+          Delete
+          </ButtonError>
         </Box>
         <IconButton color="primary" onClick={openMenu} ref={moreRef} sx={{ ml: 2, p: 1 }}>
           <MoreVertTwoToneIcon />

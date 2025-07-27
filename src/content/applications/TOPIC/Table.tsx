@@ -111,6 +111,11 @@ const DataTable = () => {
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
+  const deleteSelectedRows = async () => {
+    console.log(selectedTableData)
+  }
+  
+
   return (
     <Card>
       <Box p={2}>
@@ -120,7 +125,7 @@ const DataTable = () => {
       {/* When user select a row or more this panel will open */}
       {selectedBulkActions && (
         <Box flex={1} p={2}>
-          <BulkActions />
+          <BulkActions deletefun={deleteSelectedRows} />
         </Box>
       )}
       {/* When user does not select any rows this panel will open (default one) */}

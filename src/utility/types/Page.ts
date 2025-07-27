@@ -134,6 +134,7 @@ export type TopicFormIntialStateInterface = {
   notes: string;
   status: string;
   title: string;
+  img_image: File[];
 };  
 
 export type RecipeFormIntialStateInterface = {
