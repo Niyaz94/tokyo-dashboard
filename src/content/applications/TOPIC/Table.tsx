@@ -1,135 +1,45 @@
-import { ChangeEvent, useState, useEffect } from 'react';
-import {
-  Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
-  TableContainer,Select,MenuItem,Typography,CardHeader,Button
-} from '@mui/material';
-import BulkActions from './BulkActions';
+import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
+import BulkActions from '../../../components/Table/TableHeaderMultiActions';
 import CustomPagination from '../../../components/Table/Pagination';
-import {applyPagination,applyFilters,applyFilterValue} from '../../../utility/function/main';
-import { filterTopicStatusOptions } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
-import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
 import { usePageContext } from '../../../store/context/pageContext';
-import {TopicSingleSampleInterface as SingleSampleInterface,Filters} from 'src/utility/types/data_types';
+import {TopicSingleSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useStaticTableFilters} from '../../../utility/customHook';
+import {columnsTopic as columns} from '../../../utility/function/tableColumn';
+import {SelectableTable}          from '../../../components/Table/SelectableTable';
+import {StaticAutocomplete}       from '../../../components/Form';
+import { filterTopicStatusOptions } from '../../../utility/function/data';
 
-import { useSelector,useDispatch }    from 'react-redux';
-import { RootState }                  from '../../../store/Reducer';
-import {setPage,setLimit}             from '../../../store/slice/tablePagination';
 
 
 const DataTable = () => {
 
-  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'topic')[0]);
-  const dispatch        = useDispatch();
+  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('recipe');
 
   const { table: tableData,setTable } = usePageContext();
+
+  const {selectedIds,setSelectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
+
   const navigate = useNavigate();
-  const {response: deleteRowResponse,loading,error,deleteData} = useDeleteAPI();
-
-  // it contains the ids of selected rows
-  const [selectedTableData, setSelectedTableData] = useState<string[]>([]);
-  // it let you know if any rows have been selected
-  const [filters, setFilters] = useState<Filters>({ status: null });
-  const [filteredPageData, setFilteredPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
-  const [paginatedPageData, setPaginatedPageData] = useState<
-    SingleSampleInterface[]
-  >([]);
-
-  const selectedBulkActions = selectedTableData.length > 0;
-
-  const handleSelectOneData = (
-    event: ChangeEvent<HTMLInputElement>,
-    id: string
-  ): void => {
-    if (!selectedTableData.includes(id)) {
-      setSelectedTableData((prevSelected) => [...prevSelected, id]);
-    } else {
-      setSelectedTableData((prevSelected) =>
-        prevSelected.filter((singleId) => singleId !== id)
-      );
-    }
-  };
-
-  useEffect(() => {
-    setFilteredPageData(
-      //???
-      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'status')
-    );
-  }, [tableData, filters]);
-
-  useEffect(() => {
-    const newPaginatedData = applyPagination<SingleSampleInterface>(filteredPageData,page,limit);
-    setPaginatedPageData(newPaginatedData);
-  }, [filteredPageData, page, limit]);
-
-
-  // It uses for controlling filter selection in the left top cornor of the table
-  //The list of all options in filter selection in the left top cornor of the table
-
-  //The action handler for filter selection in the left top cornor of the table
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-    if (e.target.value !== 'all') {
-      value = e.target.value;
-    }
-    setFilters((prevFilters) => ({ ...prevFilters, status: value }));
-  };
-  // The checkbox inside the [table header] which either make all rows [selected/unselected]
-  const handleSelectAllPageData = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedTableData(
-      event.target.checked ? tableData.map(({ id }) => id) : []
-    );
-  };
-  // it [add/remove] row ids to [selectedTableData] variable when the user [select/deselect] row
-  const handleSelectOnePageData = (event: ChangeEvent<HTMLInputElement>,pageId: string): void => {
-    if (!selectedTableData.includes(pageId)) {
-      setSelectedTableData((prevSelected) => [...prevSelected, pageId]);
-    } else {
-      setSelectedTableData((prevSelected) =>
-        prevSelected.filter((id) => id !== pageId)
-      );
-    }
-  };
-  const handlePageChange = (event: any, newPage: number): void => {
-    dispatch(setPage({ name: 'topic', page: newPage }));
-  };
-  // change table pagination length
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setLimit({  name: 'topic', limit: parseInt(event.target.value) }));
-  };
-
-  const selectedSomePageData = selectedTableData.length > 0 && selectedTableData.length < tableData.length;
-  const selectedAllPageData  = selectedTableData.length === tableData.length;
-
-  const deleteTableRow = async (id) => {
-    await deleteData(`notes/topic/${id}/`);
-    setTable((prev) => prev.filter((row) => row.id !== id));
-  };
+  const {deleteTableRow,deleteTableMultiRow} = useDeleteAPI();
+  const {filters,handleFilterChange}    = useTableFilters({status: "all"});
+  const { paginatedData, filteredData } = useStaticTableFilters<SingleSampleInterface>(tableData,filters,page,limit);
 
   const deleteSelectedRows = async () => {
-    console.log(selectedTableData)
+    deleteTableMultiRow(selectedIds,"notes/topic/multi_delete/",setTable)
+    setSelectedIds([]);
   }
-  
 
   return (
     <Card>
-      <Box p={2}>
-        {/* <TableFilter /> */}
-        {/* <TableFilter onFilterChange={(filters) => console.log(filters)} /> */}
-      </Box>
-      {/* When user select a row or more this panel will open */}
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
+      
+      {selectedIds.length>0 && (
+        <Box flex={1} p={3}>
           <BulkActions deletefun={deleteSelectedRows} />
         </Box>
       )}
-      {/* When user does not select any rows this panel will open (default one) */}
-      {!selectedBulkActions && (
+      {selectedIds.length<1 && (
         <CardHeader
           title={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -144,45 +54,35 @@ const DataTable = () => {
               >
                 Insert
               </Button>
+
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label="Status" autoWidth>
-                  {filterTopicStatusOptions.map(({ id, name }) => (<MenuItem key={id} value={id}>{name}</MenuItem>))}
-                </Select>
+                <StaticAutocomplete
+                    label="Status"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.status,label: filterTopicStatusOptions.find((row) => row.id === filters.status)?.name.replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={filterTopicStatusOptions.map((row) => ({value: row.id, label: row.name.toUpperCase()}))}
+                    formKey="status"
+                    onChange={handleFilterChange}
+                />
               </FormControl>
             </Box>
           }
         />
       )}
       <Divider />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
-              </TableCell>
-              <TableCell align='left'>Date</TableCell>
-              <TableCell align='center'>Title</TableCell>
-              <TableCell align='center'>Status</TableCell>
-              <TableCell align="center">Last Update</TableCell>
-              <TableCell align="center">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedPageData.map((row) => {
-              return (
-                <CustomTableRow key={row.id}
-                  data={row} isDataSelected={selectedTableData.includes(row.id)}
-                  handleSelectOneData={handleSelectOneData} onDeleteRow={deleteTableRow}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <SelectableTable
+        data={paginatedData} columns={columns} selectedIds={selectedIds}
+        onSelectAll={handleSelectAll}
+        onSelectOne={handleSelectOne}
+        renderRow={(row) => (
+          <CustomTableRow
+            key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"notes/topic",setTable)}
+          />
+        )}
+      />
       <CustomPagination
-        count={filteredPageData.length}
+        count={filteredData.length}
         page={page}
         rowsPerPage={limit}
         onPageChange={handlePageChange}

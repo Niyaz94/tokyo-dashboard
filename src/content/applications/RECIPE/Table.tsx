@@ -1,7 +1,7 @@
 import {
   Divider,Box,FormControl,Card,Typography,CardHeader,Button
 } from '@mui/material';
-import BulkActions from './BulkActions';
+import BulkActions from '../../../components/Table/TableHeaderMultiActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import { FoodRecipeDelicious } from '../../../utility/function/data';
 import CustomTableRow from './TableRow';
@@ -22,11 +22,12 @@ const DataTable = () => {
   const {deleteTableRow} = useDeleteAPI();
   const {filters,handleFilterChange}    = useTableFilters({delicious: "all"});
   const { paginatedData, filteredData } = useStaticTableFilters<SingleSampleInterface>(tableData,filters,page,limit);
+  
   return (
     <Card>
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>
-          <BulkActions />
+          {/* <BulkActions /> */}
         </Box>
       )}
       {selectedIds.length<1 && (

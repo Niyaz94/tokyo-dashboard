@@ -3,7 +3,7 @@ import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
   TableContainer,Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
-import BulkActions from './BulkActions';
+import BulkActions from '../../../components/Table/TableHeaderMultiActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
@@ -106,7 +106,7 @@ const DataTable = () => {
       {/* When user select a row or more this panel will open */}
       {selectedBulkActions && (
         <Box flex={1} p={2}>
-          <BulkActions />
+          {/* <BulkActions /> */}
         </Box>
       )}
       {/* When user does not select any rows this panel will open (default one) */}

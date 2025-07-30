@@ -11,7 +11,7 @@ const useDeleteAPI = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const deleteData = async (url: string) => {
+  const deleteData = async (url: string, body?:any) => {
     setLoading(true);
     setResponse(null);
     setError("");
@@ -19,6 +19,7 @@ const useDeleteAPI = () => {
     try {
       const res = await fetch(`http://127.0.0.1:8000/${url}`, {
         method: "DELETE",
+        body: body ? body : null,
       });
 
       if (!res.ok) {
@@ -41,7 +42,17 @@ const useDeleteAPI = () => {
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
-  return { response, loading, error, deleteData,deleteTableRow };
+  const deleteTableMultiRow = async (ids,path,setTable) => {
+
+    let preData = new FormData();
+    if(Array.isArray(ids)){
+      ids.forEach((img) => preData.append("ids", img));
+    }
+    await deleteData(`${path}`,preData);
+    setTable((prev) => prev.filter((row) =>  !ids.includes(row.id)));
+  };
+
+  return { response, loading, error, deleteData,deleteTableRow,deleteTableMultiRow};
 };
 
 export default useDeleteAPI;

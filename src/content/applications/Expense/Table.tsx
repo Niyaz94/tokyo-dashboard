@@ -3,7 +3,7 @@ import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/ma
 import { useNavigate } from 'react-router-dom';
 
 
-import BulkActions from './BulkActions';
+// import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
@@ -36,7 +36,7 @@ const DataTable = () => {
     <Card>
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>
-          <BulkActions />
+          {/* <BulkActions /> */}
         </Box>
       )}
       {selectedIds.length<1 && (

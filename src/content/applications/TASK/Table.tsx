@@ -1,6 +1,6 @@
 import {useEffect } from 'react';
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
-import BulkActions from './BulkActions';
+import BulkActions from '../../../components/Table/TableHeaderMultiActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ const DataTable = () => {
     <Card>
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>
-          <BulkActions />
+          {/* <BulkActions /> */}
         </Box>
       )}
       {selectedIds.length<1 && (

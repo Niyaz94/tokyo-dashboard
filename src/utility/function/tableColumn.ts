@@ -34,3 +34,11 @@ export  const columnsRecipe:Column[] = [
     { label: 'Last Update', align: 'center' },
     { label: 'Actions', align: 'right' }
 ];
+
+export  const columnsTopic:Column[] = [
+    { label: 'Date', align: 'left' },
+    { label: 'Title', align: 'center' },
+    { label: 'Status', align: 'center' },
+    { label: 'Last Update', align: 'center' },
+    { label: 'Actions', align: 'right' }
+];

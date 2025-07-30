@@ -4,7 +4,7 @@ import {
   Select,MenuItem,Typography,useTheme,CardHeader,Button
 } from '@mui/material';
 import {SleepRowSampleInterface, Filters }   from 'src/utility/types/data_types';
-import BulkActions                                        from './BulkActions';
+// import BulkActions                                        from './BulkActions';
 import CustomPagination                                   from '../../../components/Table/Pagination';
 import { applyPagination,applyFilters,applyFilterValue }  from '../../../utility/function/main';
 import { filterStatusOptions }                            from '../../../utility/function/data';
@@ -107,7 +107,7 @@ const DataTable = () => {
         {/* <TableFilter onFilterChange={(filters) => console.log(filters)} /> */}
       </Box>
       {/* When user select a row or more this panel will open */}
-      {selectedBulkActions && (<Box flex={1} p={2}><BulkActions /></Box>)}
+      {/* {selectedBulkActions && (<Box flex={1} p={2}><BulkActions /></Box>)} */}
       {/* When user does not select any rows this panel will open (default one) */}
       {!selectedBulkActions && (
         <CardHeader 

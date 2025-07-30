@@ -28,10 +28,8 @@ const usePostAPI =() => {
         for (const key in body){
           if(key.startsWith("img")){
             if(Array.isArray(body[key])){
-              console.log("array of images")
               body[key].forEach((img) => preData.append(key.split("_")[1], img));
             }else
-              console.log("single image")
               preData.append(key, body[key]);
           }else if(key.startsWith("date")){
             // if date and time is needed
