@@ -96,8 +96,8 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Reports',
     isCollapse: true,
     children: [
-      {title: 'Monthly Success',link: '/personal/today',icon: <MilitaryTechIcon />,},
-      {title: 'Monthly Expense',link: '/personal/activity',icon: <ShoppingBasketIcon />},
+      {title: 'Monthly Success',link: '/report/monthly_success',icon: <MilitaryTechIcon />,},
+      {title: 'Monthly Expense',link: '/report/monthly_expense',icon: <ShoppingBasketIcon />},
     ],
   },
   secondaryPages: {

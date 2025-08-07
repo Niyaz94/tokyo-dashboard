@@ -20,17 +20,22 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
 }) => {
     
     const [inputValue, setInputValue] = useState('');
-    const [selectValue, setSelectValue] = useState(defaultValue || {
-        value: null,
-        label: ''
-    } as dailySingleInterface);
+
+    // const [selectValue, setSelectValue] = useState(defaultValue || {value: null,label: ''} as dailySingleInterface);
+    const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue || []) : (defaultValue || null));
+
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [debouncedValue, setDebouncedValue] = useState('');
 
 
     useEffect(() => {
-        onChange(formKey,selectValue.value);
+        // onChange(formKey,selectValue.value);
+        if (multiple) {
+          onChange(formKey, selectValue.map((v: dailySingleInterface) => v.value));
+        } else {
+          onChange(formKey, selectValue?.value ?? null);
+        }
     }, [selectValue]);
 
     useEffect(() => {
@@ -63,8 +68,8 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
         return () => {
           active = false;
         };
-      }, [debouncedValue]);
-      //[debouncedValue, fetchOptions] -> I don't know if this is correct or not, but it works fine
+    }, [debouncedValue]);
+    //[debouncedValue, fetchOptions] -> I don't know if this is correct or not, but it works fine
 
     
 
@@ -83,14 +88,22 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
                 }
             }}
             // defaultValue={defaultValue}
-            value={selectValue.label ? selectValue: null}
+            value={selectValue}
+            // value={selectValue.label ? selectValue: null}
             disabled={disabled}
             // disableClearable
             onChange={(e, newValue,reason, details) => {
-                const value = newValue?.value ?? null;  
-                const label = newValue?.label ?? '';
-                // console.log(value,label)
-                setSelectValue({value,label});
+                if (multiple) {
+                    setSelectValue(newValue || []);
+                } else {
+                    const value = newValue?.value ?? null;
+                    const label = newValue?.label ?? '';
+                    setSelectValue(value ? { value, label } : null);
+                }
+                // const value = newValue?.value ?? null;  
+                // const label = newValue?.label ?? '';
+                // // console.log(value,label)
+                // setSelectValue({value,label});
             }}
             autoHighlight
             getOptionLabel={(option) => {

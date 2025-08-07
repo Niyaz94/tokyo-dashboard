@@ -36,6 +36,7 @@ export type SingleTaskFormStateInterface = {
   note: string; // DONE
   title: string; // DONE
   priority: string; // DONE
+  numPriority: number; // DONE
 };
 
 
@@ -134,7 +135,7 @@ export type TopicFormIntialStateInterface = {
   notes: string;
   status: string;
   title: string;
-  img_image: File[];
+  image: File[];
 };  
 
 export type RecipeFormIntialStateInterface = {

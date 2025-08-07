@@ -39,6 +39,7 @@ export const SingleTaskFormIntialState = {
   note: '{}',
   title: '',
   priority: '',
+  numPriority: 0,
 };
 
 
@@ -144,7 +145,7 @@ export const TopicFormIntialStateInterface = {
   notes: '{}',
   status: '',
   title: '',
-  img_image: []
+  image: []
 };
 
 export const RecipeFormIntialStateInterface = {

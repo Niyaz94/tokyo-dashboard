@@ -2,7 +2,7 @@ import {
   usePostAPI, useEditAPI, useFetch, FetchData 
 }         from "../../../utility/customHook";
 
-import React, { useState,useEffect,useCallback,useMemo, use } from 'react';
+import { useState,useEffect,useCallback,useMemo } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -60,6 +60,8 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
+      console.log("fetchEditData",success,data);
+
       setTable(prev => success ?[...prev.map((item:SingleTaskRowSampleInterface) => item.id === data.id?data:item),data]:prev);
   }, [editResponse]);
 
@@ -100,7 +102,7 @@ const CollapsibleForm = () => {
           >
             <Grid container spacing={2}>
 
-              <Grid size={6}>
+              <Grid size={4}>
                 <CustomDatePicker
                   label="Deadline"
                   value={formData.deadline}
@@ -109,7 +111,7 @@ const CollapsibleForm = () => {
                   onChange={(newValue) => handleFormChange('deadline', newValue )}
                 />
               </Grid>
-              <Grid size={6} sx={{paddingTop: "10px"}}>
+              <Grid size={4} sx={{paddingTop: "10px"}}>
                 <TextField
                   label="Task Name"
                   value={formData.title}
@@ -117,7 +119,23 @@ const CollapsibleForm = () => {
                   fullWidth
                 />
               </Grid>
-              
+              <Grid size={4}>
+                  <TextField
+                    label={'Priority by Number'}
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    value={formData.numPriority}
+                    onChange={(e) =>
+                      handleFormChange('numPriority', e.target.value)
+                    }
+                    slotProps={{
+                      inputLabel: { shrink: true },
+                      htmlInput: { max: 100, min: 0, step: 1 }
+                    }}
+                  />
+              </Grid>
+  
               <Grid size={4}>
                 <StaticAutocomplete
                   label="Task Type"

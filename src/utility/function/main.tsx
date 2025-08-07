@@ -154,6 +154,12 @@ export const goalSearch = async (query) => {
   return  data ?? [];
 }
 
+export const taskSearch = async (query) => {
+  const res = axiosGetData(`schedule/task/query_task/?query=${query}`);
+  const {data} = await res;
+  return  data ?? [];
+}
+
 export const getDeepText=(obj: any): string =>{
   const note=JSON.parse(obj)
   return note?.root?.children?.[0]?.children?.[0]?.text ?? 'No text found';
