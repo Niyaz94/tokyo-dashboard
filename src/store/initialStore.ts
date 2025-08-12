@@ -1,4 +1,7 @@
-import { AuthState, BookState, tableState,tablePaginationInterface,CartState,titleState,dailyInitialStateInterface} from '../utility/types/typeStore';
+import { 
+  AuthState, BookState, tableState,tablePaginationInterface,CartState,titleState,dailyInitialStateInterface,
+  tableHeaderFilterInterface
+} from '../utility/types/typeStore';
 
 
 
@@ -56,4 +59,9 @@ export const tableInitialState :tableState = {
 export const dailyInitialState:dailyInitialStateInterface = {
   data: [],
   loading: 'idle',
+}
+
+export const tableHeaderFilter:tableHeaderFilterInterface = {
+  "singleTask":{status: "all" ,type: "all",priority: "all"},
+  "taskStatus": {start_date: null ,end_date: null,status: "all",tag: "all"},
 }

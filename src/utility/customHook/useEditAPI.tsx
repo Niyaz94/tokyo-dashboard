@@ -10,6 +10,8 @@ const useEditAPI = () => {
   const [response, setResponse] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [success,  setSuccess]  = useState<boolean>(false);
+  
 
   const editData = async (url: string, body: any, method: "PUT" | "PATCH" = "PUT") => {
     setLoading(true);
@@ -31,6 +33,7 @@ const useEditAPI = () => {
 
       const data = await res.json();
       setResponse({ success: true, data });
+      setSuccess(true);
     } catch (err: any) {
       setError(err.message || "Something went wrong");
       setResponse({ success: false, error: err.message });
@@ -39,7 +42,7 @@ const useEditAPI = () => {
     }
   };
 
-  return { response, loading, error, editData };
+  return { success,response, loading, error, editData };
 };
 
 export default useEditAPI;

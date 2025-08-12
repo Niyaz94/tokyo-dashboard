@@ -71,3 +71,7 @@ export interface dailyInitialStateInterface {
     data: dailySingleInterface[];
     loading: 'idle' | 'pending' | 'succeeded' | 'failed';
 }
+
+export interface tableHeaderFilterInterface{
+    [key: string]:Record<string, string|number|null>
+}

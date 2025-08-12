@@ -27,6 +27,15 @@ export  const columnsTask:Column[] = [
     { label: 'Actions', align: 'right' }
 ];
 
+export  const columnsSingleTask:Column[] = [
+    { label: 'Date', align: 'center' },
+    { label: 'Task Type', align: 'center' },
+    { label: 'Title', align: 'center' },
+    { label: 'Priority', align: 'center' },
+    { label: 'Status', align: 'center' },
+    { label: 'Actions', align: 'right' }
+];
+
 export  const columnsRecipe:Column[] = [
     { label: 'Date', align: 'left' },
     { label: 'Title', align: 'center' },

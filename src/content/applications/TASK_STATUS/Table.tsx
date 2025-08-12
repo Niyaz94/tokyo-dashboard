@@ -1,10 +1,9 @@
 import {useEffect } from 'react';
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
-import BulkActions from '../../../components/Table/TableHeaderMultiActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useTableGlobalFilters} from '../../../utility/customHook';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
 import {axiosGetData} from '../../../utility/Axios'
@@ -12,6 +11,7 @@ import {axiosGetData} from '../../../utility/Axios'
 import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
 import {SelectableTable} from '../../../components/Table/SelectableTable';
 import {columnsTaskStatus as columns} from '../../../utility/function/tableColumn';
+import { f } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
 
 const DataTable = () => {
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
@@ -22,12 +22,7 @@ const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('taskStatus');
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
-  const {filters,handleFilterChange,filterQuery} = useTableFilters({
-    start_date: null ,
-    end_date: null,
-    status: "all",
-    tag: "all"
-  });
+  const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("taskStatus");
 
   useEffect(() => {    
     axiosGetData(`schedule/task_status/plist/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
@@ -64,7 +59,7 @@ const DataTable = () => {
                   <CustomDatePicker
                     pickerFullWidth={false}
                     label="Start Date"
-                    value={null}
+                    value={filters.start_date.toString() || null}
                     placeholder=""
                     onChange={(newValue) => handleFilterChange('start_date', newValue )}
                   />
@@ -73,7 +68,7 @@ const DataTable = () => {
                   <CustomDatePicker
                     pickerFullWidth={false}
                     label="End Date"
-                    value={null}
+                    value={filters.end_date.toString() || null}
                     placeholder=""
                     onChange={(newValue) => handleFilterChange('end_date', newValue )}
                   />
@@ -83,7 +78,7 @@ const DataTable = () => {
                   <StaticAutocomplete
                     label="Status"
                     showValueInLabel={false}
-                    defaultValue={{value:filters.status,label: filters.status.toUpperCase()}}
+                    defaultValue={{value:filters.status,label: filters.status.toString().toUpperCase()}}
                     options={["all",...task_status].map((name) => ({value: name, label: name.replace(/_/gi, " ").toUpperCase()}))}
                     formKey="status"
                     onChange={handleFilterChange}
@@ -93,7 +88,7 @@ const DataTable = () => {
                   <StaticAutocomplete
                     label="Tags"
                     showValueInLabel={false}
-                    defaultValue={{value:filters.tag,label: filters.tag.toUpperCase()}}
+                    defaultValue={{value:filters.tag,label: filters.tag.toString().toUpperCase()}}
                     options={["all",...task_tags].map((name) => ({value: name, label: name.replace(/_/gi, " ").toUpperCase()}))}
                     formKey="tag"
                     onChange={handleFilterChange}

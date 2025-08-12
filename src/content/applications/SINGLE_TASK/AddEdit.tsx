@@ -43,10 +43,15 @@ const CollapsibleForm = () => {
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<SingleTaskFormStateInterface>  = useFetch <SingleTaskFormStateInterface>(edit_page_id ?`schedule/stask/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
-  const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
+  const { response:editResponse, loading:editLoading, error:editError,success:successEdit, editData}        = useEditAPI();
 
-  const saveReturn=()=>{
-    handleSave().then(()=>navigate('/goals/single_task'))
+  const saveReturn=()=>{    
+      handleSave().then(()=>{
+        //if (success || successEdit) 
+          navigate('/goals/single_task')
+        // else
+          // console.log("Error saving data");
+    })
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -55,14 +60,13 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[data,...prev]:prev);
+      //setTable(prev => success ?[data,...prev]:prev);
   }, [response]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      console.log("fetchEditData",success,data);
 
-      setTable(prev => success ?[...prev.map((item:SingleTaskRowSampleInterface) => item.id === data.id?data:item),data]:prev);
+      //setTable(prev => success ?[...prev.map((item:SingleTaskRowSampleInterface) => item.id === data.id?data:item),data]:prev);
   }, [editResponse]);
 
 

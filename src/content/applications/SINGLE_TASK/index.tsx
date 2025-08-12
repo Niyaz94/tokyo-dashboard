@@ -17,7 +17,7 @@ export default () =>{
 
   const { data:unique_data,success:unque_success}: FetchData<SingleTaskUniqueInterface> = useFetch <SingleTaskUniqueInterface>('schedule/stask/unique',{priority:[],status:[],type:[]});
 
-  if (!success) {
+  if (!success || !unque_success) {
     return <p>Loading...</p>;
   }
 

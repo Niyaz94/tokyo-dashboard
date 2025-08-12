@@ -161,6 +161,10 @@ export const taskSearch = async (query) => {
 }
 
 export const getDeepText=(obj: any): string =>{
-  const note=JSON.parse(obj)
-  return note?.root?.children?.[0]?.children?.[0]?.text ?? 'No text found';
+  try {
+    const note=JSON.parse(obj)
+    return note?.root?.children?.[0]?.children?.[0]?.text ?? 'No text found';
+  } catch (e) {
+    return 'No text found';
+  }
 }

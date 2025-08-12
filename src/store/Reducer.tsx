@@ -1,15 +1,17 @@
 import { combineReducers,ThunkAction,Action} from '@reduxjs/toolkit';
 
 import tablePaginationReducer from './slice/tablePagination';
-import tableReducer   from './slice/table';
-import bookReducer    from './slice/book';
-import cartReducer    from './slice/cart';
-import titleReducer   from './slice/title';
-import loginSlice     from './slice/login';
-import dailySlice     from './slice/daily';
+import tableReducer           from './slice/table';
+import bookReducer            from './slice/book';
+import cartReducer            from './slice/cart';
+import titleReducer           from './slice/title';
+import loginSlice             from './slice/login';
+import dailySlice             from './slice/daily';
+import tableFilterSlice       from './slice/tableFilter'
 
 const rootReducer = combineReducers({
   tablePagination :tablePaginationReducer,
+  tableFilter :tableFilterSlice,
   table   :tableReducer,
   books   :bookReducer,
   cart    :cartReducer,

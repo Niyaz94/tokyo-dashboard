@@ -8,3 +8,5 @@ export type { FetchData }           from "./useGetAPI";
 export { useTableSelection } from "./useTableSelection";
 export { useTableFilters } from "./useTableFilters";
 export {useStaticTableFilters} from "./useStaticTableFilters"
+
+export {useTableGlobalFilters} from "./useTableGlobalFilters"

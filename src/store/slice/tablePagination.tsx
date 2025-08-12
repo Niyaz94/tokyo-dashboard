@@ -7,7 +7,6 @@ const tablePaginationSlice = createSlice({
   initialState:tablePaginationInit,
   reducers: {
     setPage: (state,action: PayloadAction<{ name: string; page: number }>) => {
-
       const item = state.find((item) => item.name === action.payload.name);
       if (item) {
         item.page = action.payload.page;

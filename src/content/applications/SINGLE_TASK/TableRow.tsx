@@ -1,4 +1,4 @@
-import { Checkbox, TableCell, TableRow, Stack,useTheme } from '@mui/material';
+import { Checkbox, TableCell, TableRow, Stack } from '@mui/material';
 import { ChangeEvent } from 'react';
 import TableCusCell from '../../../components/Table/Cell';
 import ButtonTable from '../../../components/Form/ButtonTable';
@@ -16,10 +16,11 @@ import {
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const { secondary } = usePaginationContext();
-  const { status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
+  const { status:single_task_status,type:single_task_type } = secondary;
 
   const taskStatusMap = createMapLabelData(single_task_status);
   const taskTypeNameMap = createMapLabelData(single_task_type.map((item) => item[1]));
+
 
   const numPriorityMap ={
     90:"error",
@@ -33,10 +34,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
     10:"quinary",
     0:"default"
   }
-
-
-  // const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
-  // const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail;
 
   const {id,date,type_name,note,title,priority,status,deadline,numPriority} = data;
 
@@ -78,7 +75,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       ]} />
 
       <TableCusCell cellProps={{align:"center"}} prop={
-        [{text:labelWithColor(taskStatusMap[status.toUpperCase()]?.text ?? "Not Found",taskStatusMap[status.toUpperCase()]?.color  ?? "error"),styleType:1},]
+        [{text:labelWithColor(taskStatusMap[status]?.text ?? "Not Found",taskStatusMap[status]?.color  ?? "error"),styleType:1},]
       } />
       
       <TableCell align="right">

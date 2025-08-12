@@ -233,3 +233,4 @@ export interface BUTTON_TYPE {
     className?:string;
     localAction?:(e: React.MouseEvent,parameter: string) => void;
 }
+

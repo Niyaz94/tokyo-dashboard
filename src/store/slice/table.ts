@@ -3,8 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../Reducer';
 import {tableInitialState} from "../initialStore"
 
-import {resetAll} from "../Actions"
-
 
 const tableSlice = createSlice({
   name: 'table',
