@@ -12,13 +12,12 @@ import CustomDatePicker             from '../../../components/Form/CustomDatePic
 import MultiButton                  from "../../../components/Form/MultiButton"
 import {SingleTaskFormIntialState}  from "../../../utility/function/defaultData"
 
-import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
+import {StaticAutocomplete2 as StaticAutocomplete}           from '../../../components/Form';
 
 import { SingleTaskFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';
 
 import {createSelectMap}                from '../../../utility/function/main';
-import {SingleTaskRowSampleInterface} from 'src/utility/types/data_types';
 import dayjs                           from "dayjs";
 
 
@@ -74,9 +73,10 @@ const CollapsibleForm = () => {
     if (Object.keys(fetchEditData).length > 0) {
       setFormData({...fetchEditData});
     }
-  }, [fetchEditData]);
+  }, [editReturnSuccess]);
 
   const handleFormChange = useCallback((key, value) => {
+    console.log("handleFormChange",key,value);
     if (key === 'date') {
       value = dayjs(value).format('YYYY-MM-DD');
     }
@@ -95,6 +95,13 @@ const CollapsibleForm = () => {
   const cleanForm = () => {
     setFormData(SingleTaskFormIntialState)
   };
+
+
+  console.log(memSingleTaskType.reduce((all,item) =>{
+    if (formData.type_ids.includes(item.label))
+      return [...all,item];
+    return all;
+  },[]))
 
   return (
       <Card>
@@ -140,17 +147,7 @@ const CollapsibleForm = () => {
                   />
               </Grid>
   
-              <Grid size={4}>
-                <StaticAutocomplete
-                  label="Task Type"
-                  options={memSingleTaskType}
-                  defaultValue={memSingleTaskType.filter((item) => item.value === formData.type)[0]}
-                  formKey="type"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                />
-              </Grid>
-              <Grid size={4}>
+              <Grid size={6}>
                 <StaticAutocomplete
                   label="Task Status"
                   options={memSingleTaskStatus}
@@ -160,7 +157,7 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>  
-              <Grid size={4}>
+              <Grid size={6}>
                 <StaticAutocomplete
                   label="Priority"
                   options={memSingleTaskPriority}
@@ -170,6 +167,22 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>  
+
+              <Grid size={12}>
+                <StaticAutocomplete
+                  label="Single Task Type"
+                  multiple={true}
+                  options={memSingleTaskType}
+                  defaultValue={memSingleTaskType.reduce((all,item) =>{
+                    if (formData.type_ids.includes(item.value))
+                      return [...all,item];
+                    return all;
+                  },[])}
+                  formKey="type_ids"
+                  showValueInLabel={false}
+                  onChange={handleFormChange}
+                />
+              </Grid>
             
               <Grid size={12}>
                 <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Note"/>

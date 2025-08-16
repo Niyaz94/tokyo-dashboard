@@ -1,5 +1,5 @@
 import { $getRoot, $getSelection,$getTextContent } from "lexical";
-import { useEffect,useState } from "react";
+import { use, useEffect,useState } from "react";
 
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -58,7 +58,14 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
 
 const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => {
 
-  // console.log("LexicalEditorWrapper",formKey,value);
+
+  const [defaultValue, setDefaultValue] = useState(value);
+
+  useEffect(() => {
+    if (value !== defaultValue) {
+      setDefaultValue(value);
+    }
+  }, [value]);
 
   return (
     <Box sx={{ width: "100%", margin: "auto" }}>
@@ -76,7 +83,7 @@ const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => 
           />
           {/* <OnChangePlugin onChange={onChange} /> */}
 
-          <SaveLoadPlugin onChange={onChange} value={value} formKey={formKey} />
+          <SaveLoadPlugin onChange={onChange} value={defaultValue} formKey={formKey} />
           <HistoryPlugin />
           {/* <TreeViewPlugin /> */}
           <ListPlugin />

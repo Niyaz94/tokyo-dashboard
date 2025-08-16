@@ -30,7 +30,7 @@ export type TaskStatusFormStateInterface = {
 
 export type SingleTaskFormStateInterface = {
   id: number;
-  type:number;
+  type_ids	:number[],
   deadline: string | null; // DONE
   status: string;
   note: string; // DONE

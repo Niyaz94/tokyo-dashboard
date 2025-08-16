@@ -1,6 +1,7 @@
 import dayjs                  from 'dayjs';
 import { SleepFormStateInterface } from '../../utility/types/Page';
 import { n } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
+import { string } from 'prop-types';
 
 
 export const sleepFormIntialState:SleepFormStateInterface = {
@@ -33,7 +34,7 @@ export const TaskStatusFormIntialState = {
 
 export const SingleTaskFormIntialState = {
   id: 0,
-  type:0,
+  type_ids	:[],
   deadline: dayjs().format('YYYY-MM-DD'),
   status: '',
   note: '{}',

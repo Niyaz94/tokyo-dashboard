@@ -35,7 +35,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
     0:"default"
   }
 
-  const {id,date,type_name,note,title,priority,status,deadline,numPriority} = data;
+  const {id,date,type_name,note,title,priority,status,deadline,numPriority,type_names} = data;
 
 
   return (
@@ -58,9 +58,17 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             {labelWithColor(deadline?deadline:"Not Available","warning")}
           </Stack>,styleType:2}
       ]} />
-      <TableCusCell cellProps={{align:"center"}} prop={
-        [{text:labelWithColor(taskTypeNameMap[type_name]?.text ?? "Not Found", taskTypeNameMap[type_name]?.color ?? "error"),styleType:1},]
-      } />
+      <TableCusCell
+        cellProps={{ align: 'center' }}
+        prop={[
+          {
+            text: (<Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' ,flexWrap: 'wrap',rowGap:"3px",columnGap:"2px"}} spacing={1}> 
+            {type_names.map((type_name)=>labelWithColor(`${taskTypeNameMap[type_name]?.text ?? "Not Found"}`,taskTypeNameMap[type_name]?.color ?? "error",'Single Task Type Name'))}
+            </Stack>),
+            styleType: 1
+          }
+        ]}
+      />
       <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={[
           {text: title,styleType:1},{text: getDeepText(note),styleType:2}
       ]} />

@@ -21,15 +21,15 @@ const LabelWrapper = styled('span')<LabelWrapperProps>(
   ({ theme,fontSize,isTransparent }) => {
     return `
       background-color: ${theme.colors.alpha.black[5]};
-      padding: ${theme.spacing(0.5, 1)};
+      padding: ${theme.spacing(1, 1)};
       font-size: ${theme.typography.pxToRem(fontSize)};
       border-radius: ${theme.general.borderRadius};
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: ${theme.spacing(1)}; 
-      // text-transform: capitalize;
-      max-height: ${theme.spacing(3)};
+      text-transform: capitalize;
+      // max-height: ${theme.spacing(4)};
       
       &.MuiLabel {
         &-primary {
@@ -68,7 +68,7 @@ const LabelWrapper = styled('span')<LabelWrapperProps>(
 
 const Label: FC<LabelProps> = ({className,fontSize=13,isTransparent=false,color = 'secondary',tooltip='',children,...rest}) => {
   return (
-    <Tooltip title={tooltip}>
+    <Tooltip title={tooltip} sx={{fontSize: '0.8rem'}} placement="top">
       <LabelWrapper className={'MuiLabel-' + color} isTransparent={isTransparent} fontSize={fontSize} {...rest}>
         {children}
       </LabelWrapper>
