@@ -1,4 +1,4 @@
-import React,{useCallback}                  from "react";
+import React,{useState,useEffect}           from "react";
 import { Autocomplete, TextField,Box }      from "@mui/material";
 import { dailySingleInterface }             from '../../utility/types/typeStore';
 
@@ -17,22 +17,41 @@ interface CustomAutocompleteProps {
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     label,options,formKey,multiple = false,onChange,defaultValue = null,disabled = false,showValueInLabel=true
 }) => {
-    // console.log("CustomAutocomplete",formKey); //Do not remove this line, it relates to the rerendering issue.
+
+    const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
+
+    useEffect(() => {
+      setSelectValue(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
+    }, [defaultValue, multiple]);
+
+    
     return (
         <Autocomplete
             sx={{paddingTop: "10px"}}
             id={`${formKey}-autocomplete`}
             multiple={multiple}
             options={options}
-            defaultValue={options.filter((item) => item.value === defaultValue)[0] || null}
-            value={defaultValue || null}
+            // defaultValue={selectValue }
+            value={selectValue }
             disabled={disabled}
             // disableClearable
             onChange={(e, newValue,reason, details) => {
-
-                const value = newValue?.value ?? null;  
-                // const label = newValue?.label ?? formKey;
-                onChange(formKey,value);
+                if (multiple) {
+                    const isAllLastItemSelected: boolean = newValue.length > 0 && newValue[newValue.length-1].value === 'all';
+                    if (isAllLastItemSelected) {
+                        newValue = newValue.filter((item) => item.value !== 'all');
+                    }
+                    const uniqueValues = [
+                        ...(isAllLastItemSelected ? ['all'] :  new Set(newValue.map(row => row.value)))
+                    ];
+                    onChange(formKey,uniqueValues || []);
+                    setSelectValue(newValue || []);
+                } else {
+                    const value = newValue?.value ?? null;
+                    const label = newValue?.label ?? '';
+                    onChange(formKey,value ? value : null);
+                    setSelectValue(value ? { value, label } : null);
+                }
             }}
             autoHighlight
             getOptionLabel={(option) => option.label}

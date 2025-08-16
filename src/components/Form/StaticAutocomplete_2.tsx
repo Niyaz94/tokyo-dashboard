@@ -1,4 +1,4 @@
-import React,{useState,useEffect}           from "react";
+import React,{useCallback}                  from "react";
 import { Autocomplete, TextField,Box }      from "@mui/material";
 import { dailySingleInterface }             from '../../utility/types/typeStore';
 
@@ -17,34 +17,22 @@ interface CustomAutocompleteProps {
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     label,options,formKey,multiple = false,onChange,defaultValue = null,disabled = false,showValueInLabel=true
 }) => {
-
-    const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
-
-    useEffect(() => {
-      setSelectValue(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
-    }, [defaultValue, multiple]);
-
-    
+    // console.log("CustomAutocomplete",formKey); //Do not remove this line, it relates to the rerendering issue.
     return (
         <Autocomplete
             sx={{paddingTop: "10px"}}
             id={`${formKey}-autocomplete`}
             multiple={multiple}
             options={options}
-            // defaultValue={selectValue }
-            value={selectValue }
+            defaultValue={options.filter((item) => item.value === defaultValue)[0] || null}
+            value={defaultValue || null}
             disabled={disabled}
             // disableClearable
             onChange={(e, newValue,reason, details) => {
-                if (multiple) {
-                    onChange(formKey,newValue.map(row=>row.value) || []);
-                    setSelectValue(newValue || []);
-                } else {
-                    const value = newValue?.value ?? null;
-                    const label = newValue?.label ?? '';
-                    onChange(formKey,value ? value : null);
-                    setSelectValue(value ? { value, label } : null);
-                }
+
+                const value = newValue?.value ?? null;  
+                // const label = newValue?.label ?? formKey;
+                onChange(formKey,value);
             }}
             autoHighlight
             getOptionLabel={(option) => option.label}

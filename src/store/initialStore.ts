@@ -62,6 +62,6 @@ export const dailyInitialState:dailyInitialStateInterface = {
 }
 
 export const tableHeaderFilter:tableHeaderFilterInterface = {
-  "singleTask":{status: "all" ,type: "all",priority: "all"},
+  "singleTask":{status: ["all"] ,type: "all",priority: "all"},
   "taskStatus": {start_date: null ,end_date: null,status: "all",tag: "all"},
 }

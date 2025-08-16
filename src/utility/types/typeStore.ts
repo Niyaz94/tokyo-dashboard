@@ -73,5 +73,5 @@ export interface dailyInitialStateInterface {
 }
 
 export interface tableHeaderFilterInterface{
-    [key: string]:Record<string, string|number|null>
+    [key: string]:Record<string, string|number|null| string[]>
 }

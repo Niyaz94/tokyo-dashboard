@@ -62,6 +62,7 @@ const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => 
   const [defaultValue, setDefaultValue] = useState(value);
 
   useEffect(() => {
+    console.log("LexicalEditorWrapper useEffect", value);
     if (value !== defaultValue) {
       setDefaultValue(value);
     }

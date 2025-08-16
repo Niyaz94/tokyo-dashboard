@@ -2,7 +2,7 @@ import {
   usePostAPI, useEditAPI, useFetch, FetchData 
 }         from "../../../utility/customHook";
 
-import { useState,useEffect,useCallback,useMemo } from 'react';
+import { useState,useEffect,useCallback,useMemo, use } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -12,7 +12,7 @@ import CustomDatePicker             from '../../../components/Form/CustomDatePic
 import MultiButton                  from "../../../components/Form/MultiButton"
 import {SingleTaskFormIntialState}  from "../../../utility/function/defaultData"
 
-import {StaticAutocomplete2 as StaticAutocomplete}           from '../../../components/Form';
+import {StaticAutocomplete}           from '../../../components/Form';
 
 import { SingleTaskFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';
@@ -23,7 +23,7 @@ import dayjs                           from "dayjs";
 
 const CollapsibleForm = () => {
 
-  const  {secondary,table,setTable}              = usePaginationContext();
+  const  {secondary}              = usePaginationContext();
 
   const { status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
 
@@ -39,18 +39,16 @@ const CollapsibleForm = () => {
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(SingleTaskFormIntialState);
+  const [isNavigation, setIsNavigation] = useState(false);
+  const [isReturnButton, setIsReturnButton] = useState(false);
 
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<SingleTaskFormStateInterface>  = useFetch <SingleTaskFormStateInterface>(edit_page_id ?`schedule/stask/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError,success:successEdit, editData}        = useEditAPI();
 
   const saveReturn=()=>{    
-      handleSave().then(()=>{
-        //if (success || successEdit) 
-          navigate('/goals/single_task')
-        // else
-          // console.log("Error saving data");
-    })
+    setIsReturnButton(true);
+    handleSave()
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -58,9 +56,20 @@ const CollapsibleForm = () => {
   }
 
   useEffect(() => {
+    if ((success || successEdit) && isReturnButton) 
+      setIsNavigation(true);
+  }, [success , successEdit]);
+
+  useEffect(() => {
       const {success,data}=response || {success:false,data:null};
       //setTable(prev => success ?[data,...prev]:prev);
   }, [response]);
+
+  useEffect(() => {
+      if (isNavigation) {
+        navigate('/goals/single_task');
+      }
+  }, [isNavigation]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
@@ -76,7 +85,6 @@ const CollapsibleForm = () => {
   }, [editReturnSuccess]);
 
   const handleFormChange = useCallback((key, value) => {
-    console.log("handleFormChange",key,value);
     if (key === 'date') {
       value = dayjs(value).format('YYYY-MM-DD');
     }
@@ -85,6 +93,7 @@ const CollapsibleForm = () => {
   
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
+    setIsNavigation(false);
     if (edit_page_id) {
       await editData(`schedule/stask/${edit_page_id}/`, formData);
     }else{
@@ -96,12 +105,6 @@ const CollapsibleForm = () => {
     setFormData(SingleTaskFormIntialState)
   };
 
-
-  console.log(memSingleTaskType.reduce((all,item) =>{
-    if (formData.type_ids.includes(item.label))
-      return [...all,item];
-    return all;
-  },[]))
 
   return (
       <Card>
@@ -130,7 +133,7 @@ const CollapsibleForm = () => {
                   fullWidth
                 />
               </Grid>
-              <Grid size={4}>
+              <Grid size={4} sx={{paddingTop: "10px"}}>
                   <TextField
                     label={'Priority by Number'}
                     variant="outlined"

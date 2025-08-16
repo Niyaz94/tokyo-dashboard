@@ -7,7 +7,7 @@ import { usePaginationContext } from '../../../store/context/paginationContext';
 import {axiosGetData} from '../../../utility/Axios'
 import {StaticAutocomplete}       from '../../../components/Form';
 import {
-  useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useTableGlobalFilters
+  useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters
 } from '../../../utility/customHook';
 import {SelectableTable} from '../../../components/Table/SelectableTable';
 import { columnsSingleTask as columns } from '../../../utility/function/tableColumn';
@@ -58,11 +58,23 @@ const DataTable = () => {
                     onChange={handleFilterChange}
                   />
                 </FormControl>
-                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                <FormControl variant="outlined" sx={{ minWidth: 200,maxWidth: 400 }}>
                   <StaticAutocomplete
                     label="Status"
+                    multiple={true}
                     showValueInLabel={false}
-                    defaultValue={{value:filters.status,label: single_task_status.map((row)=>[row,row.toString()]).find((row) => row[0] === filters.status)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    
+                    defaultValue={ 
+                      (Array.isArray(filters.status) && filters.status.length > 0) &&
+                      filters.status.map((row: string) => ({
+                        value: row,
+                        label:
+                          single_task_status.find((item: string) => item === row)
+                            ?.toString()
+                            .replace(/_/gi, " ")
+                            .toUpperCase() || "ALL"
+                      })) || []
+                    }
                     options={
                       ["all",...single_task_status].map(row => ({value: row, label: row.replace(/_/gi, " ").toUpperCase()}))}
                     formKey="status"

@@ -20,10 +20,21 @@ const tableFilterSlice = createSlice({
         state[filterName] = {};
       }
 
+      // console.log("Redux",state[filterName], filterName, filterKey, filterValue);
+
+      // let tempValue:any = filterValue;
+      // if (Array.isArray(filterValue)){
+        // tempValue = [
+          // ...state[filterName][filterKey] as string[], // Ensure we are merging with existing values
+          // ...filterValue
+        // ]
+      // }
+
       // ✅ Create a new object so the change is detected properly
       state[filterName] = {
         ...state[filterName],
-        [filterKey]: filterValue,
+        [filterKey]: filterValue
+        // (Array.isArray(filterValue) ? ...filterValue : filterValue),
       };
     },
     resetFilters: (state, action: PayloadAction<{ filterName: string }>) => {

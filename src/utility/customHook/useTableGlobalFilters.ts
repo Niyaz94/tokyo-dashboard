@@ -13,11 +13,21 @@ export const useTableGlobalFilters = (tableFilterKey: string) => {
   // const [filters, setFilters] = useState<T>(initialFilters);
 
   const handleFilterChange = useCallback((key: string, value: any) => {
+
     
     if (value === null && typeof filters[key] === 'string') {
       value = 'all';
     }
-    // setFilters((prev) => ({...prev,[key]: value,}));
+    if(Array.isArray(value) ) {
+      console.log("I'm array",value);
+      // && ( value.includes('all'))
+      if (value[-1]=== 'all') {
+        value = ['all'];
+      }else{
+        value = value.filter((item) => item !== 'all');
+      }
+    }
+
     dispatch(setFilters({filterName: tableFilterKey, filterKey: key, filterValue: value}));
     
   }, [filters]);
@@ -31,7 +41,7 @@ const filterQuery = useMemo(() => {
             //   .replace(/^tf/, '')        
           .replace(/^[A-Z]/, (m) => m.toLowerCase()); // Lowercase first char
 
-        queryParts.push(`${mappedKey}=${encodeURIComponent(value)}`);
+        queryParts.push(`${mappedKey}=${encodeURIComponent(Array.isArray(value) ? value.join(',') : value)}`);
       }
     });
 
