@@ -24,6 +24,9 @@ import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utili
 
 
 const CollapsibleForm = () => {
+
+  console.log("CollapsibleForm");
+
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
   const  {setTable}              = usePage();
   const location                = useLocation()
@@ -99,7 +102,7 @@ const CollapsibleForm = () => {
   const handleFormChange = useCallback((key, value) => {
     setFormData((prev) => ({...prev,[key]: value}));
   },[]);
-  
+
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {

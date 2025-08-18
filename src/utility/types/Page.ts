@@ -37,6 +37,8 @@ export type SingleTaskFormStateInterface = {
   title: string; // DONE
   priority: string; // DONE
   numPriority: number; // DONE
+  expectedSpendingTime:number;
+  spendingTime:number;
 };
 
 

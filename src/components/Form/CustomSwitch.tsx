@@ -28,10 +28,9 @@ const CustomizedSwitch:FC<CustomSwitchInterface>= React.memo(({value,label,onCha
             <FormControlLabel 
                 control={
                     <Switch 
-                        size="medium" 
-                        color="success" 
-                        checked={value}
-                        defaultChecked={value} 
+                        size="medium" color="success" 
+                        checked={value} 
+                        // defaultChecked={value} 
                         onChange={handleChange}
                         classes={{ root: classes.root }}
                     />

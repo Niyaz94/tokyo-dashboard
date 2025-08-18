@@ -149,6 +149,41 @@ const CollapsibleForm = () => {
                     }}
                   />
               </Grid>
+                    
+              <Grid size={6} sx={{paddingTop: "10px"}}>
+                  <TextField
+                    label={'Expected Spending Time (in minutes)'}
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    value={formData.expectedSpendingTime}
+                    onChange={(e) =>
+                      handleFormChange('expectedSpendingTime', e.target.value)
+                    }
+                    slotProps={{
+                      inputLabel: { shrink: true },
+                      htmlInput: { max: 100, min: 0, step: 1 }
+                    }}
+                  />
+              </Grid>
+              <Grid size={6} sx={{paddingTop: "10px"}}>
+                  <TextField
+                    label={'Spending Time (in minutes)'}
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    value={formData.spendingTime}
+                    onChange={(e) =>
+                      handleFormChange('spendingTime', e.target.value)
+                    }
+                    slotProps={{
+                      inputLabel: { shrink: true },
+                      htmlInput: { max: 100, min: 0, step: 1 }
+                    }}
+                  />
+              </Grid>
+
+              
   
               <Grid size={6}>
                 <StaticAutocomplete

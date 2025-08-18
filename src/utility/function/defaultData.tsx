@@ -41,6 +41,8 @@ export const SingleTaskFormIntialState = {
   title: '',
   priority: '',
   numPriority: 0,
+  expectedSpendingTime:0,
+  spendingTime:0
 };
 
 

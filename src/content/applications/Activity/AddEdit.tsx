@@ -22,14 +22,16 @@ import {
 
 import {dailySearch}                    from "../../../utility/function/main"
 
-const CollapsibleForm = () => {
+const ActivityInsertUpdateComponent = () => {
+
+  console.log("CollapsibleForm");
+
   
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
   
   const navigate                  = useNavigate();
   const { id:edit_page_id }       = useParams();
   const isFirstRender = useRef(true);
-  
 
   const  {setTable,pageDefault}   = usePage();
   const [formData, setFormData]   = useState(FormIntialState);
@@ -237,7 +239,7 @@ const CollapsibleForm = () => {
               <Grid size={12}>
                 <CustomSwitch 
                   value={formData.isGoingGym}
-                  onChange={useCallback((newValue) => handleFormChange('isGoingGym', newValue),[])}
+                  onChange={(newValue) => handleFormChange('isGoingGym', newValue)}
                   label="Is Going Gym"
                 />
               </Grid>  
@@ -258,4 +260,4 @@ const CollapsibleForm = () => {
       </Card>
   );
 };
-export default CollapsibleForm;
+export default ActivityInsertUpdateComponent;
