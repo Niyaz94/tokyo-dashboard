@@ -323,5 +323,6 @@ export interface ExpenseTypeSSInterface {
 export interface Column {
   label: string;
   align?: 'left' | 'right' | 'center';
+  id:string;
   key?: string; // optional: for auto-rendering if needed
 }

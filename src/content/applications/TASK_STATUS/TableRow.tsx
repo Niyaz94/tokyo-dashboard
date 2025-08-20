@@ -10,7 +10,7 @@ import {
   labelWithColor,
   getTextWithIcon,
   getDayAbbreviation,
-  capitalizeFirstLetterOfWords
+  capitalizeFirstLetterOfWords,getDeepText
 } from '../../../utility/function/main';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
@@ -23,7 +23,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
   const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail;
 
-  const note_text = JSON.parse(note)
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -80,7 +79,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
         child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' ,height: 100,overflowY: 'auto'}}
-        prop={[{ text: note_text["root"]["children"][0]["children"][0].text, styleType: 2 }]}
+        prop={[{ text: getDeepText(note), styleType: 2 }]}
       />
       <TableCusCell
         cellProps={{ align: 'center' }}

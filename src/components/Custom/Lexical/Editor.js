@@ -37,7 +37,7 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
         editor.setEditorState(editorState);
         editor.focus();
 
-      });
+      }, {discrete: true});
     }
   }, [editor, value]);
 
@@ -58,16 +58,16 @@ const SaveLoadPlugin = ({ onChange, value,formKey }) => {
 
 const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => {
 
-  // console.log("LexicalEditorWrapper",formKey,value,label,onChange);
+  // // console.log("LexicalEditorWrapper",formKey,value,label,onChange);
 
-  const [defaultValue, setDefaultValue] = useState(value);
+  // const [defaultValue, setDefaultValue] = useState(value);
 
-  useEffect(() => {
-    // console.log("LexicalEditorWrapper useEffect", value);
-    if (value !== defaultValue) {
-      setDefaultValue(value);
-    }
-  }, [value]);
+  // useEffect(() => {
+  //   // console.log("LexicalEditorWrapper useEffect", value);
+  //   if (value !== defaultValue) {
+  //     setDefaultValue(value);
+  //   }
+  // }, [value]);
 
   return (
     <Box sx={{ width: "100%", margin: "auto" }}>
@@ -85,7 +85,7 @@ const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => 
           />
           {/* <OnChangePlugin onChange={onChange} /> */}
 
-          <SaveLoadPlugin onChange={onChange} value={defaultValue} formKey={formKey} />
+          <SaveLoadPlugin onChange={onChange} value={value} formKey={formKey} />
           <HistoryPlugin />
           {/* <TreeViewPlugin /> */}
           <ListPlugin />

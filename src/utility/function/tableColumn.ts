@@ -2,52 +2,52 @@ import {Column} from '../../utility/types/data_types';
 
 
 export const columnsTaskStatus:Column[] = [
-    { label: 'Progress Date', align: 'center' },
-    { label: 'Task Detail', align: 'center' },
-    { label: 'Note', align: 'center' },
-    { label: 'Prize', align: 'center' },
-    { label: 'Progress Status', align: 'center' },
-    { label: 'Actions', align: 'right' }
+    { id:"",label: 'Progress Date', align: 'center' },
+    { id:"",label: 'Task Detail', align: 'center' },
+    { id:"",label: 'Note', align: 'center' },
+    { id:"",label: 'Prize', align: 'center' },
+    { id:"",label: 'Progress Status', align: 'center' },
+    { id:"",label: 'Actions', align: 'right' }
 ];
 
 export  const columnsExpense:Column[] = [
-    { label: 'Date', align: 'center' },
-    { label: 'Expense Type', align: 'center' },
-    { label: 'Amount', align: 'center' },
-    { label: 'Note', align: 'center' },
-    { label: 'Actions', align: 'center' }
+    { id:"",label: 'Date', align: 'center' },
+    { id:"",label: 'Expense Type', align: 'center' },
+    { id:"",label: 'Amount', align: 'center' },
+    { id:"",label: 'Note', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
 ];
 
 export  const columnsTask:Column[] = [
-    { label: 'Task Date', align: 'center' },
-    { label: 'Goal Detail', align: 'center' },
-    { label: 'Task Detail', align: 'center' },
-    { label: 'Prize', align: 'center' },
-    { label: 'Status', align: 'center' },
-    { label: 'Actions', align: 'right' }
+    { id:"",label: 'Task Date', align: 'center' },
+    { id:"",label: 'Goal Detail', align: 'center' },
+    { id:"",label: 'Task Detail', align: 'center' },
+    { id:"",label: 'Prize', align: 'center' },
+    { id:"",label: 'Status', align: 'center' },
+    { id:"",label: 'Actions', align: 'right' }
 ];
 
 export  const columnsSingleTask:Column[] = [
-    { label: 'Date', align: 'center' },
-    { label: 'Task Type', align: 'center' },
-    { label: 'Title', align: 'center' },
-    { label: 'Priority', align: 'center' },
-    { label: 'Status', align: 'center' },
-    { label: 'Actions', align: 'right' }
+    { id:"deadline",label: 'Date', align: 'center' },
+    { id:"",label: 'Task Type', align: 'center' },
+    { id:"title",label: 'Title', align: 'center' },
+    { id:"numPriority",label: 'Priority', align: 'center' },
+    { id:"status",label: 'Status', align: 'center' },
+    { id:"actions",label: 'Actions', align: 'right' }
 ];
 
 export  const columnsRecipe:Column[] = [
-    { label: 'Date', align: 'left' },
-    { label: 'Title', align: 'center' },
-    { label: 'Delicious Level', align: 'center' },
-    { label: 'Last Update', align: 'center' },
-    { label: 'Actions', align: 'right' }
+    { id:"",label: 'Date', align: 'left' },
+    { id:"",label: 'Title', align: 'center' },
+    { id:"",label: 'Delicious Level', align: 'center' },
+    { id:"",label: 'Last Update', align: 'center' },
+    { id:"",label: 'Actions', align: 'right' }
 ];
 
 export  const columnsTopic:Column[] = [
-    { label: 'Date', align: 'left' },
-    { label: 'Title', align: 'center' },
-    { label: 'Status', align: 'center' },
-    { label: 'Last Update', align: 'center' },
-    { label: 'Actions', align: 'right' }
+    { id:"",label: 'Date', align: 'left' },
+    { id:"",label: 'Title', align: 'center' },
+    { id:"",label: 'Status', align: 'center' },
+    { id:"",label: 'Last Update', align: 'center' },
+    { id:"",label: 'Actions', align: 'right' }
 ];

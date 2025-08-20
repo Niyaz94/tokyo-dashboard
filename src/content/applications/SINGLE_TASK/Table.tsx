@@ -1,4 +1,4 @@
-import {useEffect } from 'react';
+import {useEffect,useState } from 'react';
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
@@ -23,13 +23,19 @@ const DataTable = () => {
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("singleTask");
 
+  const [orderColumn, setOrderColumn] = useState<string>('');
+
+  const onTableHeaderClick = (columnId, order) => {
+    setOrderColumn(`columnId=${columnId}&orderBy=${order}&`);
+  }
+
   useEffect(() => {
-    axiosGetData(`schedule/stask/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
+    axiosGetData(`schedule/stask/?${filterQuery}${orderColumn}page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
       setTable(results);
       setPagination({count: count, next: next, previous: previous});
     });
-  }, [ page, limit,filters]);
+  }, [ page, limit,filters,orderColumn]);
 
   return (
     <Card>
@@ -69,11 +75,8 @@ const DataTable = () => {
                       filters.status.map((row: string) => ({
                         value: row,
                         label:
-                          single_task_status.find((item: string) => item === row)
-                            ?.toString()
-                            .replace(/_/gi, " ")
-                            .toUpperCase() || "ALL"
-                      })) || []
+                          single_task_status.find((item: string) => item === row)?.toString().replace(/_/gi, " ").toUpperCase() || "ALL"
+                      })) || [{value: "all", label: "ALL"}]
                     }
                     options={
                       ["all",...single_task_status].map(row => ({value: row, label: row.replace(/_/gi, " ").toUpperCase()}))}
@@ -111,6 +114,7 @@ const DataTable = () => {
         data={tableData} columns={columns} selectedIds={selectedIds}
         onSelectAll={handleSelectAll}
         onSelectOne={handleSelectOne}
+        onTableHeaderClick={onTableHeaderClick}
         renderRow={(row) => (
           <CustomTableRow
             key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}

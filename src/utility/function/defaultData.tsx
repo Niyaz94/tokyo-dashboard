@@ -35,7 +35,7 @@ export const TaskStatusFormIntialState = {
 export const SingleTaskFormIntialState = {
   id: 0,
   type_ids	:[],
-  deadline: dayjs().format('YYYY-MM-DD'),
+  deadline: dayjs().endOf('month').format('YYYY-MM-DD'),
   status: '',
   note: '{}',
   title: '',

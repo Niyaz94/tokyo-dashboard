@@ -35,7 +35,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
     0:"default"
   }
 
-  const {id,date,type_name,note,title,priority,status,deadline,numPriority,type_names} = data;
+  const {id,date,type_name,note,title,priority,status,deadline,numPriority,type_names,spendingTime,expectedSpendingTime} = data;
 
 
   return (
@@ -83,7 +83,12 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       ]} />
 
       <TableCusCell cellProps={{align:"center"}} prop={
-        [{text:labelWithColor(taskStatusMap[status]?.text ?? "Not Found",taskStatusMap[status]?.color  ?? "error"),styleType:1},]
+        [{text:labelWithColor(taskStatusMap[status]?.text ?? "Not Found",taskStatusMap[status]?.color  ?? "error"),styleType:1},
+        {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
+            {labelWithColor(expectedSpendingTime, "secondary", 'Expected Spending Time')}
+            {labelWithColor(spendingTime, "primary", 'Spending Time')}
+        </Stack>,styleType:2}
+      ]
       } />
       
       <TableCell align="right">
