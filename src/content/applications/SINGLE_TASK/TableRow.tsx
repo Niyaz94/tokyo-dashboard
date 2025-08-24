@@ -23,15 +23,13 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
 
   const numPriorityMap ={
-    90:"error",
-    80:"warning",
-    70:"info",
-    60:"success",
-    50:"primary",
-    40:"secondary",
-    30:"tertiary",
-    20:"quaternary",
-    10:"quinary",
+    400:"error",
+    350:"warning",
+    300:"info",
+    250:"success",
+    200:"primary",
+    150:"secondary",
+    100:"tertiary",
     0:"default"
   }
 

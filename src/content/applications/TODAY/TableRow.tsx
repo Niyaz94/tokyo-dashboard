@@ -21,6 +21,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import MusicOffIcon from '@mui/icons-material/MusicOff';
 
 import {getStatusIcon,getStatusLabel,labelWithColor,labelColorByNumber,getDayAbbreviation,getTimeDifferenceInMinutes} from '../../../utility/function/main';
 
@@ -28,7 +30,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const {
     id,date,isBusyDay, isSuccessfulDay,successRate, activity, sleep, 
-    worryingLevel, infoConsumptionLevel, usefulTimeInMinutes, wastedTimeInMinutes, isMeditation
+    worryingLevel, infoConsumptionLevel, usefulTimeInMinutes, wastedTimeInMinutes, isMeditation,isListenToMusic
   } = data;
 
   const {isGoingGym, weight, mbNumber} = activity || {isGoingGym:false,weight:70,mbNumber:0};
@@ -80,12 +82,10 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           },
           {
             text: (
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'center', alignItems: 'center' }}
-                spacing={1}
-              >
+              <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>
                 {getStatusIcon(worryingLevel,<SentimentVeryDissatisfiedIcon />,true)}
+                {isListenToMusic ? labelWithColor(<MusicNoteIcon sx={{ fontSize: '1.6rem', color: 'error.main' }}/>,'error',"Listening to Music") 
+                : labelWithColor(<MusicOffIcon sx={{ fontSize: '1.6rem', color: 'success.main' }}/>,'success',"Not Listening to Music")}
               </Stack>
             ),
             styleType: 2
@@ -102,8 +102,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           {
             text: (
               <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>
-                {labelWithColor(`${(usefulTimeInMinutes /3).toFixed(2)} %`, 'success', 'Useful Time')}
-                {labelWithColor(`${(wastedTimeInMinutes/3).toFixed(2)} %`, 'error', 'Wasted Time')}
+                {labelWithColor(`${usefulTimeInMinutes} MIN`, 'success', 'Useful Time in Minutes')}
+                {labelWithColor(`${wastedTimeInMinutes} MIN`, 'error', 'Wasted Time in Minutes')}
               </Stack>
             ),
             styleType: 2

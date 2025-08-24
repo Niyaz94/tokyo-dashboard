@@ -209,25 +209,32 @@ const CollapsibleForm = () => {
                 />
               </Grid>
               
-              <Grid size={4}>
+              <Grid size={3}>
                 <CustomSwitch 
                   value={formData.isBusyDay}
                   onChange={useCallback((newValue) => handleFormChange('isBusyDay', newValue),[])}
                   label="Is Busy Day"
                 />
               </Grid>  
-              <Grid size={4}>
+              <Grid size={3}>
                 <CustomSwitch 
                   value={formData.isMeditation}
                   onChange={useCallback((newValue) => handleFormChange('isMeditation', newValue),[])}
                   label="Is Meditation"
                 />
               </Grid>
-              <Grid size={4}>
+              <Grid size={3}>
                 <CustomSwitch 
                   value={formData.isSuccessfulDay}
                   onChange={useCallback((newValue) => handleFormChange('isSuccessfulDay', newValue),[])}
                   label="Is Successful Day"
+                />
+              </Grid>
+              <Grid size={3}>
+                <CustomSwitch 
+                  value={formData.isListenToMusic}
+                  onChange={useCallback((newValue) => handleFormChange('isListenToMusic', newValue),[])}
+                  label="Is Listen To Music"
                 />
               </Grid>
             

@@ -121,6 +121,7 @@ export type TodayFormIntialStateInterface = {
   usefulTimeInMinutes: number;
   wastedTimeInMinutes: number;
   successRate: number;
+  isListenToMusic: boolean;
 };
 
 export type TomorrowFormIntialStateInterface = {

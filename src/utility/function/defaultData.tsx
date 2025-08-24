@@ -126,6 +126,7 @@ export const TodayFormIntialStateInterface = {
   isBusyDay: false,
   isMeditation: false,
   isSuccessfulDay: false,
+  isListenToMusic: false,
   dailyNotes: '{}',
   whatToDoBetter: '{}',
   dailyThink: '{}',

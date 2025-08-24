@@ -160,6 +160,7 @@ const DataTable = () => {
               <TableCell align='center'>Activity Level</TableCell>
               <TableCell align='center'>Gym</TableCell>
               <TableCell align="center">Activity</TableCell>
+              <TableCell align="center">MM</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>

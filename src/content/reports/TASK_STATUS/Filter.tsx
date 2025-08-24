@@ -6,6 +6,8 @@ import {
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import {taskSearch}                from '../../../utility/function/main';
+import { Stack, Button } from '@mui/material';
+
 
 
 const DataTable = () => {
@@ -22,6 +24,11 @@ const DataTable = () => {
   const handleFormChange = ((key, value) => {
     setFormData((prev) => ({...prev,[key]: value}));
   });
+
+  const sent_report_request = () => {
+    // Logic to send the report request
+    console.log("Report request sent with data:", formData);
+  }
   
   
   return (
@@ -54,7 +61,7 @@ const DataTable = () => {
               </Grid>
               <Grid size={6} sx={{paddingTop: "10px"}}>
                 <TextField
-                  label="Title"
+                  label="Task Tag"
                   value={formData.tag}
                   onChange={(e) => handleFormChange('tag', e.target.value)}
                   fullWidth
@@ -62,11 +69,12 @@ const DataTable = () => {
               </Grid>  
               <Grid size={6}>
                 <DynamicAutocomplete
-                  label="Select The Task"
+                  label="Select The Task Names"
                   multiple={true}
                   // defaultValue={[]}
                   fetchOptions={taskSearch}
                   formKey="ids"
+                  showValueInLabel={false}
                   onChange={handleFormChange}
                 />
               </Grid>
@@ -74,7 +82,24 @@ const DataTable = () => {
 
               
               <Grid size={12}>
-                
+                <Stack spacing={2} direction="row-reverse">
+                    <Button
+                      variant="outlined"
+                      color="success"
+                      onClick={()=>{}}
+                      sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none'}}
+                    >
+                      Print Report
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="info"
+                      onClick={sent_report_request}
+                      sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none'}}
+                    >
+                      Show Report
+                    </Button>
+                  </Stack>
               </Grid>
             </Grid>           
           </Box>

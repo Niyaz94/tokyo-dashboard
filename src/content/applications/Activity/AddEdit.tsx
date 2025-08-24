@@ -83,7 +83,7 @@ const ActivityInsertUpdateComponent = () => {
       } catch (error) {
         showSnackbar('Network error. Please try again.', 'error');
       } 
-    }, [response,editResponse]);
+  }, [response,editResponse]);
 
 
   useEffect(() => {

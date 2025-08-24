@@ -14,11 +14,13 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import {getStatusIcon,labelWithColor,labelColorByNumber,getDayAbbreviation} from '../../../utility/function/main';
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const {setPageDefault}         = usePage();
-  const {id,date,daily,success,worrying,activityLevel,eatingLevel,is_busy,consumeWaterInLiter,weight,SleepState,minBurnCalories,isGoingGym,is_meditation} = data;
+  const {id,date,daily,success,worrying,activityLevel,eatingLevel,is_busy,consumeWaterInLiter,weight,SleepState,minBurnCalories,isGoingGym,is_meditation,mbNumber,mbSpendingTime} = data;
 
   const onEditButtonClick = () => {
     setPageDefault(prev => ({...prev, date:{label:date,value: daily}}));
@@ -126,6 +128,23 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 {is_meditation
                   ? labelWithColor(<SelfImprovementIcon />, 'success')
                   : labelWithColor(<RemoveCircleOutlineIcon />, 'error')}
+              </Stack>
+            ),
+            styleType: 2
+          }
+        ]}
+      />
+      <TableCusCell
+        cellProps={{ align: 'center' }}
+        prop={[
+          {
+            text: labelWithColor(<FavoriteBorderIcon />,mbNumber>0?'error':'info',"MB",mbNumber),
+            styleType: 1
+          },
+          {
+            text: (
+              <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>     
+                {labelWithColor(`${mbSpendingTime} MIN`,'primary','MM Spending Time')}
               </Stack>
             ),
             styleType: 2
