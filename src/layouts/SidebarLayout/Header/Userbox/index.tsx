@@ -7,7 +7,7 @@ import {
   Box,
   Button,
   Divider,
-  Hidden,
+  // Hidden,
   lighten,
   List,
   ListItem,
@@ -80,7 +80,7 @@ function HeaderUserbox() {
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
-        <Hidden mdDown>
+        {/* <Hidden mdDown>
           <UserBoxText>
             <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
             <UserBoxDescription variant="body2">
@@ -90,7 +90,7 @@ function HeaderUserbox() {
         </Hidden>
         <Hidden smDown>
           <ExpandMoreTwoToneIcon sx={{ ml: 1 }} />
-        </Hidden>
+        </Hidden> */}
       </UserBoxButton>
       <Popover
         anchorEl={ref.current}

@@ -1,5 +1,7 @@
 import { FC }          from 'react';
-import {Container,Grid2 as Grid } from '@mui/material';
+import {Container } from '@mui/material';
+import Grid from '@mui/material/Grid';
+
 import { Helmet }                 from 'react-helmet-async';
 import Footer                     from 'src/components/Footer';
 import { TemplatePropsInterface } from 'src/utility/types/data_types';

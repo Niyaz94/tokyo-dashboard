@@ -24,7 +24,8 @@ function Addresses() {
       alignItems="stretch"
       spacing={3}
     >
-      <Grid item xs={12} sm={6}>
+      {/* <Grid item xs={12} sm={6}> */}
+      <Grid>
         <Card>
           <CardHeader
             title="Delivery Addresses"
@@ -54,7 +55,8 @@ function Addresses() {
           </Box>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      {/* <Grid item xs={12} sm={6}> */}
+      <Grid >
         <Card>
           <CardHeader
             title="Shipping Addresses"

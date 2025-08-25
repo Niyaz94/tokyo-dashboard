@@ -10,7 +10,7 @@ function PageHeader() {
 
   return (
     <Grid container alignItems="center">
-      <Grid item>
+      <Grid >
         <Avatar
           sx={{
             mr: 2,
@@ -22,7 +22,7 @@ function PageHeader() {
           src={user.avatar}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <Typography variant="h3" component="h3" gutterBottom>
           Welcome, {user.name}!
         </Typography>

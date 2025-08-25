@@ -6,10 +6,10 @@ import { Container, Tabs, Tab, Grid } from '@mui/material';
 import Footer from 'src/components/Footer';
 import { styled } from '@mui/material/styles';
 
-import ActivityTab from './ActivityTab';
-import EditProfileTab from './EditProfileTab';
-import NotificationsTab from './NotificationsTab';
-import SecurityTab from './SecurityTab';
+// import ActivityTab from './ActivityTab';
+// import EditProfileTab from './EditProfileTab';
+// import NotificationsTab from './NotificationsTab';
+// import SecurityTab from './SecurityTab';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -49,7 +49,7 @@ function ManagementUserSettings() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
+          <Grid size={{xs:12}}>
             <TabsWrapper
               onChange={handleTabsChange}
               value={currentTab}
@@ -63,11 +63,11 @@ function ManagementUserSettings() {
               ))}
             </TabsWrapper>
           </Grid>
-          <Grid item xs={12}>
-            {currentTab === 'activity' && <ActivityTab />}
-            {currentTab === 'edit_profile' && <EditProfileTab />}
-            {currentTab === 'notifications' && <NotificationsTab />}
-            {currentTab === 'security' && <SecurityTab />}
+          <Grid size={{xs:12}}>
+            {/* {currentTab === 'activity' && <ActivityTab />} */}
+            {/* {currentTab === 'edit_profile' && <EditProfileTab />} */}
+            {/* {currentTab === 'notifications' && <NotificationsTab />} */}
+            {/* {currentTab === 'security' && <SecurityTab />} */}
           </Grid>
         </Grid>
       </Container>

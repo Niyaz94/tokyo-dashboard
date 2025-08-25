@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Button, Grid2 as Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
+
 
 import { styled } from '@mui/material/styles';
 import ImageIcon from '@mui/icons-material/Image';

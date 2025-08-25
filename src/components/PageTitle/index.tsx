@@ -22,13 +22,13 @@ const PageTitle: FC<PageTitleProps> = ({
       alignItems="center"
       {...rest}
     >
-      <Grid item>
+      <Grid >
         <Typography variant="h3" component="h3" gutterBottom>
           {heading}
         </Typography>
         <Typography variant="subtitle2">{subHeading}</Typography>
       </Grid>
-      <Grid item>
+      <Grid >
         <Button
           href={docs}
           target="_blank"

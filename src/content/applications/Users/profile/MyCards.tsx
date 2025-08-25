@@ -101,7 +101,8 @@ function MyCards() {
       <Divider />
       <Box p={3}>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}> */}
+          <Grid >
             <CardCc sx={{ px: 2, pt: 2, pb: 1 }}>
               <Box display="flex" alignItems="center">
                 <CardLogo
@@ -147,7 +148,8 @@ function MyCards() {
               </Box>
             </CardCc>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}> */}
+          <Grid >
             <CardCc sx={{ px: 2, pt: 2, pb: 1 }}>
               <Box display="flex" alignItems="center">
                 <CardLogo
@@ -193,7 +195,8 @@ function MyCards() {
               </Box>
             </CardCc>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}> */}
+          <Grid >
             <Tooltip arrow title="Click to add a new card">
               <CardAddAction>
                 <CardActionArea sx={{ px: 1 }}>

@@ -130,7 +130,7 @@ function AccountBalance() {
   return (
     <Card>
       <Grid spacing={0} container>
-        <Grid item xs={12} md={6}>
+        <Grid size={{xs:12,md:6}}>
           <Box p={4}>
             <Typography
               sx={{
@@ -175,20 +175,20 @@ function AccountBalance() {
               </Box>
             </Box>
             <Grid container spacing={3}>
-              <Grid sm item>
+              {/* <Grid sm>
                 <Button fullWidth variant="outlined">
                   Send
                 </Button>
               </Grid>
-              <Grid sm item>
+              <Grid sm>
                 <Button fullWidth variant="contained">
                   Receive
                 </Button>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
         </Grid>
-        <Grid
+        {/* <Grid
           sx={{
             position: 'relative'
           }}
@@ -326,7 +326,7 @@ function AccountBalance() {
               </Grid>
             </Grid>
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Card>
   );

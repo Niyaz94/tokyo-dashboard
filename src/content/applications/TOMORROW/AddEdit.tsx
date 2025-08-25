@@ -1,7 +1,9 @@
 import React, { useState,useEffect,useCallback,useRef } from 'react';
 import { useNavigate,useParams }    from 'react-router-dom';
 import {Card,CardHeader,CardContent,Divider,Box} from '@mui/material';
-import Grid from '@mui/material/Grid2';
+// import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
+
 
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 

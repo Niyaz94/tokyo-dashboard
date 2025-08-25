@@ -19,7 +19,7 @@ import {
   DialogContent,
   DialogTitle,
   Slide,
-  Hidden
+  // Hidden
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { TransitionProps } from '@mui/material/transitions';
@@ -150,7 +150,7 @@ function HeaderSearch() {
             <Divider sx={{ my: 1 }} />
             <List disablePadding>
               <ListItem >
-                <Hidden smDown>
+                {/* <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
                       sx={{
@@ -161,7 +161,7 @@ function HeaderSearch() {
                       <FindInPageTwoToneIcon />
                     </Avatar>
                   </ListItemAvatar>
-                </Hidden>
+                </Hidden> */}
                 <Box flex="1">
                   <Box display="flex" justifyContent="space-between">
                     <Link
@@ -189,7 +189,7 @@ function HeaderSearch() {
               </ListItem>
               <Divider sx={{ my: 1 }} component="li" />
               <ListItem>
-                <Hidden smDown>
+                {/* <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
                       sx={{
@@ -200,7 +200,7 @@ function HeaderSearch() {
                       <FindInPageTwoToneIcon />
                     </Avatar>
                   </ListItemAvatar>
-                </Hidden>
+                </Hidden> */}
                 <Box flex="1">
                   <Box display="flex" justifyContent="space-between">
                     <Link
@@ -227,7 +227,7 @@ function HeaderSearch() {
               </ListItem>
               <Divider sx={{ my: 1 }} component="li" />
               <ListItem >
-                <Hidden smDown>
+                {/* <Hidden smDown>
                   <ListItemAvatar>
                     <Avatar
                       sx={{
@@ -238,7 +238,7 @@ function HeaderSearch() {
                       <FindInPageTwoToneIcon />
                     </Avatar>
                   </ListItemAvatar>
-                </Hidden>
+                </Hidden> */}
                 <Box flex="1">
                   <Box display="flex" justifyContent="space-between">
                     <Link

@@ -2,7 +2,9 @@ import { usePostAPI, useEditAPI, useFetch, FetchData,useSnackbar } from "../../.
 
 import React, { useState,useEffect,useCallback,useRef} from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-import Grid from '@mui/material/Grid2';
+// import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
+
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';

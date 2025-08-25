@@ -1,37 +1,64 @@
 
-import { useState,useCallback} from 'react'
+import { useState,useCallback, useEffect} from 'react'
 import {
   DynamicAutocomplete,CustomDatePicker
 }       from '../../../components/Form';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
+
 import {taskSearch}                from '../../../utility/function/main';
 import { Stack, Button } from '@mui/material';
+import {axiosGetData} from '../../../utility/Axios'
+import dayjs                  from 'dayjs';
+import MultiplePieCharts from '../../../components/CHART/PIE';
+
+
 
 
 
 const DataTable = () => {
 
   const FormIntialState ={
-    startDate: null,
-    endDate: null,
+    startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
     tag: '',
     ids:[]
   }
 
   const [formData, setFormData] = useState(FormIntialState);
+  const [result, setResult] = useState({});
+
 
   const handleFormChange = ((key, value) => {
     setFormData((prev) => ({...prev,[key]: value}));
   });
 
   const sent_report_request = () => {
-    // Logic to send the report request
-    console.log("Report request sent with data:", formData);
+    let param="";
+    for(const [key,value] of Object.entries(formData)){
+      if(value!=null && value!=''){
+        if(Array.isArray(value)){
+          if(value.length>0)
+            value.forEach((val)=>{param+=`${key}=${val}&`;})
+        }else{
+          param+=`${key}=${value}&`;
+        }
+      }
+    }
+    if(param.endsWith('&')){
+      param=`?${param.slice(0,-1)}`;
+    }
+    axiosGetData(`http://127.0.0.1:8000/reports/tasks/${param}`).then((res) => {
+      setResult(res.data);
+    });
   }
+
+  useEffect(() => {
+    console.log("Report Data:",result);
+  }, [result]);
   
   
-  return (
+  return (<>
     <Card>
         <CardHeader title="Monthly Success" />
         <Divider />
@@ -104,7 +131,14 @@ const DataTable = () => {
             </Grid>           
           </Box>
         </CardContent>
-      </Card>
-  );
+    </Card>
+    <Card>
+        <CardHeader title="Task Status Overview" />
+        <Divider />
+        <CardContent>
+          { <MultiplePieCharts />}
+        </CardContent>
+    </Card>
+  </>);
 };
 export default DataTable;
