@@ -102,7 +102,7 @@ const DataTable = () => {
   const selectedAllPageData  = selectedTableData.length === tableData.length;
 
   const deleteTableRow = async (id) => {
-    await deleteData(`notes/expense_type/${id}/`);
+    await deleteData(`money/category/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 

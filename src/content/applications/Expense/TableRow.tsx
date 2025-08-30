@@ -8,21 +8,20 @@ import {
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import {labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,capitalizeFirstLetterOfWords} from '../../../utility/function/main';
+import {labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,capitalizeFirstLetterOfWords,getDeepText} from '../../../utility/function/main';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const {id,date,amount,note,currency_name,expense_type} = data;
+  const {id,date,amount,note,currency_name,expense_category} = data;
   const { secondary } = usePaginationContext();
   const { type:expense_types, currency:currency_types } = secondary;
   const expenseTypeMap = createMapLabelData(expense_types.map((row) => row[1]));
   const currencyTypeMap = createMapLabelData(currency_types.map((row) => row[1]));
 
   // There are some samples that extracting note does not work for them, fix them in the future
-  const note_text = JSON.parse(note)
 
 
   return (
@@ -45,7 +44,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(expenseTypeMap[expense_type].text)}`,expenseTypeMap[expense_type].color,'Expense Type'
+              `${capitalizeFirstLetterOfWords(expenseTypeMap[expense_category].text)}`,expenseTypeMap[expense_category].color,'Expense Type'
             ),
             styleType: 1
           },
@@ -70,7 +69,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
         child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
-        prop={[{ text: note_text["root"]["children"][0]["children"][0].text, styleType: 2 }]}
+        prop={[{ text: getDeepText(note), styleType: 2 }]}
       />
       <TableCell align="right">
         <ButtonTable id={id} text="This Expense" onDeleteRow={onDeleteRow} />

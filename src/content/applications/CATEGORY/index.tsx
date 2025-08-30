@@ -10,7 +10,7 @@ import { ExpenseTypeSSInterface} from 'src/utility/types/data_types';
 
 export default () =>{
 
-  const { data,success}: FetchData<ExpenseTypeSSInterface[]> = useFetch <ExpenseTypeSSInterface[]>('notes/expense_type',[]);
+  const { data,success}: FetchData<ExpenseTypeSSInterface[]> = useFetch <ExpenseTypeSSInterface[]>('money/category',[]);
 
   if (!success) {
     return <p>Loading...</p>;
@@ -18,7 +18,7 @@ export default () =>{
 
   return (
     <TaskStatusProvider tableData={data} secondaryData={{}}>
-      <Template templateTitle="Single Task Type Page">
+      <Template templateTitle="Category Page">
         <Routes>
           <Route path=""    element={<PageTable />} />
           <Route path="add" element={ <AddEdit/>} />

@@ -12,6 +12,11 @@ export default API;
 
 
 export const axiosGetData = async (URL:string) => {
-  const res = await API.get(URL);
-  return res;
+  try{
+    const res = await API.get(URL);
+    return res;
+  }catch(e){
+    console.log("Error:",e);
+    return {data:{}};
+  }
 };

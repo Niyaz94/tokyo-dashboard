@@ -29,12 +29,12 @@ const CollapsibleForm = () => {
   const [formData, setFormData] = useState(FormIntialState);
 
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/expense_type/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`money/category/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/goals/expense_type'))
+    handleSave().then(()=>navigate('/goals/category'))
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -76,10 +76,10 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`notes/expense_type/${edit_page_id}/`, formData);
+      await editData(`money/category/${edit_page_id}/`, formData);
     }else{
       console.log("formData",formData)
-      await postData("notes/expense_type/", dataToBeSent);
+      await postData("money/category/", dataToBeSent);
     }
     
   };
@@ -112,7 +112,7 @@ const CollapsibleForm = () => {
               </Grid> 
 
               <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/expense_type'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/category'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}

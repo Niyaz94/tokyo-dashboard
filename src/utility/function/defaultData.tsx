@@ -107,7 +107,7 @@ export const ExpenseFormIntialState = {
   amount: 0,
   note: '{}',
   currency: 0,
-  type: 0
+  category: 0
 };
 
 export const SingleTaskTypeFormIntialState = {

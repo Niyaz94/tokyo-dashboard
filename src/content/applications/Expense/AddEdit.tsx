@@ -41,7 +41,7 @@ const CollapsibleForm = () => {
   const dailyData               = useSelector((state: RootState) => state.daily.data);
 
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/expense/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`money/expense/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
@@ -78,10 +78,10 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`notes/expense/${edit_page_id}/`, formData);
+      await editData(`money/expense/${edit_page_id}/`, formData);
     }else{
       console.log("formData",formData)
-      await postData("notes/expense/", dataToBeSent);
+      await postData("money/expense/", dataToBeSent);
     }
     
   };
@@ -103,8 +103,8 @@ const CollapsibleForm = () => {
                 <StaticAutocomplete
                   label="Select Expense Type"
                   options={expenseTypeMap}
-                  defaultValue={expenseTypeMap.filter(({label,value}) => value == Number(formData.type))[0]}
-                  formKey="type"
+                  defaultValue={expenseTypeMap.filter(({label,value}) => value == Number(formData.category))[0]}
+                  formKey="category"
                   onChange={handleFormChange}
                 />
               </Grid>

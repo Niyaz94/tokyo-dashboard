@@ -9,7 +9,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
-import {labelWithColor,getTextWithIcon} from '../../../utility/function/main';
+import {labelWithColor,getTextWithIcon,getDeepText} from '../../../utility/function/main';
 
 
 
@@ -20,7 +20,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
 
   // There are some samples that extracting note does not work for them, fix them in the future
-  const note_text = JSON.parse(note)
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -83,7 +82,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
         child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
-        prop={[{ text: (Object.keys(note_text).length>0 ? note_text["root"]["children"][0]["children"][0].text:""), styleType: 2 }]}
+        prop={[{ text: getDeepText(note), styleType: 2 }]}
       />
       <TableCell align="right">
         <ButtonTable id={id} text="This Expense Type" onDeleteRow={onDeleteRow} />

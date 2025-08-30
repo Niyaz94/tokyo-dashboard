@@ -98,7 +98,7 @@ export type ExpenseFormIntialStateInterface = {
   amount: number;
   note: string;
   currency: number;
-  type: number;
+  category: number;
 };
 
 export type SingleTaskTypeFormIntialStateInterface = {

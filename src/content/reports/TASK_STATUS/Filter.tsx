@@ -51,11 +51,8 @@ const DataTable = () => {
     axiosGetData(`http://127.0.0.1:8000/reports/tasks/${param}`).then((res) => {
       setResult(res.data);
     });
+    
   }
-
-  useEffect(() => {
-    console.log("Report Data:",result);
-  }, [result]);
   
   
   return (<>
@@ -136,7 +133,7 @@ const DataTable = () => {
         <CardHeader title="Task Status Overview" />
         <Divider />
         <CardContent>
-          { <MultiplePieCharts />}
+          { <MultiplePieCharts data={result} />}
         </CardContent>
     </Card>
   </>);

@@ -13,10 +13,10 @@ import {
 
 export default () =>{
 
-  const { data,success}: FetchData<PaginationTableDataInterface<ExpenseSingleSampleInterface>> = useFetch <PaginationTableDataInterface<ExpenseSingleSampleInterface>>('notes/expense',{results:[],count:0,next:null,previous:null});
+  const { data,success}: FetchData<PaginationTableDataInterface<ExpenseSingleSampleInterface>> = useFetch <PaginationTableDataInterface<ExpenseSingleSampleInterface>>('money/expense',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
-  const { data:unique_data,success:unque_success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('notes/expense/unique',{
+  const { data:unique_data,success:unque_success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('money/expense/unique',{
     type:[],currency:[]
   });
 

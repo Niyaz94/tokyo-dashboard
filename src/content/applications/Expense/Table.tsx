@@ -25,7 +25,7 @@ const DataTable = () => {
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
   useEffect(() => {
-      axiosGetData(`notes/expense/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
+      axiosGetData(`money/expense/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
         const {results,count,next,previous} = res.data;
         setTable(results);
         setPagination({count: count, next: next, previous: previous});
@@ -101,7 +101,7 @@ const DataTable = () => {
         renderRow={(row) => (
           <CustomTableRow
             key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"notes/expense",setTable)}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"money/expense",setTable)}
           />
         )}
       />
