@@ -14,7 +14,7 @@ interface SelectableTableProps<T> {
   onTableHeaderClick?: (columnId:string,order:string) => void;
 }
 
-export const SelectableTable = <T extends { id: string }>({data,columns,selectedIds,onSelectAll,onSelectOne,renderRow,onTableHeaderClick}: SelectableTableProps<T>) => {
+const SelectableTable = <T extends { id: string }>({data,columns,selectedIds,onSelectAll,onSelectOne,renderRow,onTableHeaderClick}: SelectableTableProps<T>) => {
   const allSelected = selectedIds.length === data.length && data.length > 0;
   const someSelected = selectedIds.length > 0 && selectedIds.length < data.length;
 
@@ -75,3 +75,5 @@ export const SelectableTable = <T extends { id: string }>({data,columns,selected
     </TableContainer>
   );
 };
+
+export default SelectableTable;

@@ -1,13 +1,12 @@
 import {useEffect } from 'react';
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
-import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {axiosGetData} from '../../../utility/Axios'
 import {StaticAutocomplete}       from '../../../components/Form';
 import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
-import {SelectableTable} from '../../../components/Table/SelectableTable';
+import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} from '../../../components/Table';
 import { columnsTask as columns } from '../../../utility/function/tableColumn';
 
 const DataTable = () => {

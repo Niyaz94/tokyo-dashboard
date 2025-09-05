@@ -1,15 +1,14 @@
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
 import BulkActions from '../../../components/Table/TableHeaderMultiActions';
-import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import { usePageContext } from '../../../store/context/pageContext';
 import {TopicSingleSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
 import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useStaticTableFilters} from '../../../utility/customHook';
 import {columnsTopic as columns} from '../../../utility/function/tableColumn';
-import {SelectableTable}          from '../../../components/Table/SelectableTable';
 import {StaticAutocomplete}       from '../../../components/Form';
 import { filterTopicStatusOptions } from '../../../utility/function/data';
+import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} from '../../../components/Table';
 
 
 

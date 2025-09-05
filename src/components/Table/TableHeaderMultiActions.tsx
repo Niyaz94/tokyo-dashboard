@@ -6,16 +6,20 @@ import DeleteTwoToneIcon    from '@mui/icons-material/DeleteTwoTone';
 import MoreVertTwoToneIcon  from '@mui/icons-material/MoreVertTwoTone';
 import EditIcon             from '@mui/icons-material/Edit';
 import ConfirmDialog        from '../Custom/Dialog/ConfirmDialog';
+import { useNavigate } from 'react-router-dom';
 
 
-function TableHeaderMultiActions({deletefun}) {
+
+function TableHeaderMultiActions({deletefun,ids=[]}) {
   const [onMenuOpen, menuOpen]  = useState<boolean>(false);
   const moreRef                 = useRef<HTMLButtonElement | null>(null);
   const [openDeleteConfirmDialog, setOpenDeleteConfirmDialog] = useState(false);
 
-
+  const navigate = useNavigate();
   const openMenu = (): void => {menuOpen(true);};
   const closeMenu = (): void => {menuOpen(false);};
+
+  console.log("Selected IDS in Multi Action:",JSON.stringify(ids));
 
   return (
     <>
@@ -44,7 +48,8 @@ function TableHeaderMultiActions({deletefun}) {
 
           <Tooltip title={`Edit Selected Rows`} arrow>
           <Button
-                variant="outlined" color="primary" onClick={()=> console.log("Edit selected")}
+                variant="outlined" color="primary" 
+                onClick={()=> navigate(`0`,{state:{ids:ids}})}
                 startIcon={<EditIcon />}
                 sx={{fontSize: '1rem',ml:1,padding: '10px 32px',borderRadius: '10px', borderWidth:"2px", textTransform: 'none',boxShadow: 3}}
             >

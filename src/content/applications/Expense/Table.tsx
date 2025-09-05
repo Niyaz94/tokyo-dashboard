@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 
 // import BulkActions from './BulkActions';
-import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
 import {axiosGetData} from '../../../utility/Axios'
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
-import {SelectableTable} from '../../../components/Table/SelectableTable';
+import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} from '../../../components/Table';
+
 import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
 import {columnsExpense as columns} from '../../../utility/function/tableColumn';
 

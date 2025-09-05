@@ -8,7 +8,7 @@ import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid';
 
 
-import { useNavigate,useParams }    from 'react-router-dom';
+import { useNavigate,useParams,useLocation }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 import {MultiButton,CustomSnackbar,CustomSwitch,CustomDatePicker}                  from "../../../components/Form"
 import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
@@ -18,7 +18,7 @@ import StaticAutocomplete           from '../../../components/Form/StaticAutocom
 import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';
 
-import {createSelectMap}                from '../../../utility/function/main';
+import {createSelectMap,getDeepText}                from '../../../utility/function/main';
 import {TaskStatusRowSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
 import dayjs                           from "dayjs";
 
@@ -37,11 +37,19 @@ const CollapsibleForm = () => {
   const mem_task_status_map     = useMemo(() => task_status_map, []);
 
   const navigate                = useNavigate();
-  const { id:edit_page_id }     = useParams();
+
+  const {id:edit_page_id} = useParams<{ id?: string;}>();
+  const { state } = useLocation();
+
+
+  const ids = state?.ids && edit_page_id==="0" ? state.ids :[];
+
+
+
   const isFirstRender = useRef(true);
   const [formData, setFormData] = useState(TaskStatusFormIntialState);
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_page_id ?`schedule/task_status/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<TaskStatusFormStateInterface>  = useFetch <TaskStatusFormStateInterface>(edit_page_id && edit_page_id!="0"?`schedule/task_status/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
@@ -104,7 +112,25 @@ const CollapsibleForm = () => {
   
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
-    if (edit_page_id) {
+
+    if(ids.length>0){
+      for(const [key,value] of Object.entries(formData)){
+        if(key==="note"){
+
+          const note=JSON.parse(value as string)?.root?.children?.[0]?.children ??[];
+          if(note.length==0)
+            delete dataToBeSent[key as keyof TaskStatusFormStateInterface];
+        }else if(value===TaskStatusFormIntialState[key as keyof TaskStatusFormStateInterface]){
+          delete dataToBeSent[key as keyof TaskStatusFormStateInterface];
+        }
+      }
+
+      if(Object.keys(dataToBeSent).length>0){
+        dataToBeSent["ids"]= ids;
+        await editData("schedule/task_status/bulk-update/", dataToBeSent);
+      }
+      
+    }else if(edit_page_id) {
       await editData(`schedule/task_status/${edit_page_id}/`, formData);
     }else{
       await postData("schedule/task_status/", dataToBeSent);

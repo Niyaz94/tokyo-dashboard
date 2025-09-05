@@ -25,6 +25,7 @@ export default () =>{
           {/* <Route path=""    element={<PageTable tableData={tableData} />} /> */}
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
+          {/* <Route path=":ids" element={<AddEdit />} /> */}
         </Routes>
       </Template>
     </PaginationProvider>

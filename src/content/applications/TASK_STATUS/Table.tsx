@@ -1,17 +1,17 @@
 import {useEffect } from 'react';
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
-import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useTableGlobalFilters} from '../../../utility/customHook';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
 import {axiosGetData} from '../../../utility/Axios'
 
 import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
-import {SelectableTable} from '../../../components/Table/SelectableTable';
+
+import {SelectableTable,TablePagination,TableHeaderButton} from '../../../components/Table';
+
 import {columnsTaskStatus as columns} from '../../../utility/function/tableColumn';
-import { f } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
 
 const DataTable = () => {
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
@@ -42,7 +42,7 @@ const DataTable = () => {
     <Card>
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>
-          {/* <BulkActions /> */}
+          <TableHeaderButton deletefun={()=>{}} ids={selectedIds} />
         </Box>
       )}
       {selectedIds.length<1 && (
@@ -121,7 +121,7 @@ const DataTable = () => {
           />
         )}
       />
-      <CustomPagination
+      <TablePagination
         count={pagination.count}
         page={page}
         rowsPerPage={limit}
