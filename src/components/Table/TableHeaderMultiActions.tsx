@@ -19,7 +19,6 @@ function TableHeaderMultiActions({deletefun,ids=[]}) {
   const openMenu = (): void => {menuOpen(true);};
   const closeMenu = (): void => {menuOpen(false);};
 
-  console.log("Selected IDS in Multi Action:",JSON.stringify(ids));
 
   return (
     <>

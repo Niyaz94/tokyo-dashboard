@@ -21,7 +21,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const taskStatusMap = createMapLabelData(task_status, [3, 0, 2, 4]);
   const taskMap = createMapLabelData(['active', 'inactive', 'archive'],[3, 2, 4]);
   const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
-  const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail;
+  const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail ;
 
 
   return (

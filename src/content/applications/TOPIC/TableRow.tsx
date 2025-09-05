@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react';
 
 import {Checkbox,TableCell,TableRow,Stack} from '@mui/material';
-import Label from 'src/components/Label';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import {labelWithColor,createMapLabelData,getDayAbbreviation} from '../../../utility/function/main';

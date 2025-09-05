@@ -73,7 +73,7 @@ const CollapsibleForm = () => {
       const editSuccess = editResponse?.success;
   
       if (postSuccess && response?.data) {
-        setTable(prev => [response.data, ...prev]);
+        setTable(prev => [...response.data, ...prev]);
       }
   
       if (editSuccess && editResponse?.data) {
@@ -183,6 +183,7 @@ const CollapsibleForm = () => {
                   options={mem_task_name_map}
                   defaultValue={mem_task_name_map.filter((item) => item.value === formData.task)[0]}
                   formKey="task"
+                  multiple={edit_page_id || ids.length>0?false:true}
                   showValueInLabel={false}
                   onChange={handleFormChange}
                 />

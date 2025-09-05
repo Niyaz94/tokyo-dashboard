@@ -18,10 +18,10 @@ const DataTable = () => {
 
   const { _, task_status,task_tags } = secondary;
   const navigate = useNavigate();
-  const {deleteData} = useDeleteAPI();
+  const {deleteData,deleteTableMultiRow} = useDeleteAPI();
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('taskStatus');
-  const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
+  const {selectedIds,setSelectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("taskStatus");
 
   useEffect(() => {    
@@ -37,12 +37,16 @@ const DataTable = () => {
     await deleteData(`schedule/task_status/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
+    const deleteSelectedRows = async () => {
+    deleteTableMultiRow(selectedIds,"schedule/task_status/bulk_delete/",setTable)
+    setSelectedIds([]);
+  }
 
   return (
     <Card>
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>
-          <TableHeaderButton deletefun={()=>{}} ids={selectedIds} />
+          <TableHeaderButton deletefun={deleteSelectedRows} ids={selectedIds} />
         </Box>
       )}
       {selectedIds.length<1 && (
