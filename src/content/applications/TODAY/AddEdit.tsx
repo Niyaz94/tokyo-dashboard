@@ -15,7 +15,7 @@ import {TodayFormIntialStateInterface as FormIntialState}  from "../../../utilit
 import { StatusCase1,StatusCase2  }   from '../../../utility/function/data';
 
 import {
-  CustomSwitch,StaticAutocomplete,MultiButton,CustomDatePicker,CustomSnackbar
+  CustomSwitch,StaticAutocomplete,MultiButton,CustomDatePicker,CustomSnackbar,ThreeStateButton
 }       from '../../../components/Form';
 
 
@@ -226,10 +226,17 @@ const CollapsibleForm = () => {
                 />
               </Grid>
               <Grid size={3}>
-                <CustomSwitch 
+                {/* <CustomSwitch 
                   value={formData.isSuccessfulDay}
                   onChange={useCallback((newValue) => handleFormChange('isSuccessfulDay', newValue),[])}
                   label="Is Successful Day"
+                /> */}
+
+                <ThreeStateButton 
+                  label="Success Status" 
+                  onChange={useCallback((newValue) => handleFormChange('successStatus', newValue),[])}
+                  buttonValue={{"on":"success","off":"failure","auto":"neutral"}}
+                  defaultValue={formData.successStatus}
                 />
               </Grid>
               <Grid size={3}>

@@ -116,6 +116,13 @@ export const SingleTaskTypeFormIntialState = {
   description: '{"root":{"children":[],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
 };
 
+export const CategoryTypeFormIntialState = {
+  id: 0,
+  name: "",
+  category:"expense",
+  note: ''
+};
+
 
 
 export const TodayFormIntialStateInterface = {
@@ -125,7 +132,8 @@ export const TodayFormIntialStateInterface = {
   infoConsumptionLevel: '',
   isBusyDay: false,
   isMeditation: false,
-  isSuccessfulDay: false,
+  // isSuccessfulDay: false,
+  successStatus: "neutral",
   isListenToMusic: false,
   dailyNotes: '{}',
   whatToDoBetter: '{}',

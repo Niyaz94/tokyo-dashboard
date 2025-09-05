@@ -3,7 +3,7 @@ import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
   TableContainer,Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
-import BulkActions from '../../../components/Table/TableHeaderMultiActions';
+// import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import {applyPagination,applyFilters} from '../../../utility/function/main';
 import CustomTableRow from './TableRow';
@@ -21,7 +21,7 @@ import {setPage,setLimit}             from '../../../store/slice/tablePagination
 
 const DataTable = () => {
 
-  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'expenseType')[0]);
+  const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'currency')[0]);
   const dispatch        = useDispatch();
 
   const { table: tableData,setTable } = useTaskStatus();
@@ -50,7 +50,7 @@ const DataTable = () => {
 
   useEffect(() => {
     setFilteredPageData(
-      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'expense_type')
+      applyFilters<SingleSampleInterface, Filters>(tableData,filters,'name')
     );
   }, [tableData, filters]);
 
@@ -91,18 +91,18 @@ const DataTable = () => {
   };
   // when the user change the table page
   const handlePageChange = (event: any, newPage: number): void => {
-    dispatch(setPage({ name: 'expenseType', page: newPage }));
+    dispatch(setPage({ name: 'currency', page: newPage }));
   };
   // change table pagination length
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    dispatch(setLimit({  name: 'expenseType', limit: parseInt(event.target.value) }));
+    dispatch(setLimit({  name: 'currency', limit: parseInt(event.target.value) }));
   };
 
   const selectedSomePageData = selectedTableData.length > 0 && selectedTableData.length < tableData.length;
   const selectedAllPageData  = selectedTableData.length === tableData.length;
 
   const deleteTableRow = async (id) => {
-    await deleteData(`money/category/${id}/`);
+    await deleteData(`money/currency/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
@@ -154,12 +154,12 @@ const DataTable = () => {
               </TableCell>
               <TableCell align='center'>Name</TableCell>
 
-              <TableCell align='center'>Current Month Total</TableCell>
-              <TableCell align='center'>Last Month Total</TableCell>
-              <TableCell align='center'>Two Months Ago Total</TableCell>
-              <TableCell align='center'>Older Total</TableCell>
-              <TableCell align='center'>Total</TableCell>
-              <TableCell align="center">Category</TableCell>
+              {/* <TableCell align='center'>TT Completed</TableCell>
+              <TableCell align='center'>TT Inprogress</TableCell>
+              <TableCell align='center'>TT Not Started</TableCell>
+              <TableCell align='center'>TT Others</TableCell> */}
+
+              <TableCell align="center">Note</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>

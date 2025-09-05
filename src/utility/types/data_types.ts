@@ -301,6 +301,12 @@ export interface SingleTaskTypeSingleSampleInterface {
   total_others: number;
 }
 
+export interface CurrencyeSingleSampleInterface {
+  id: number;
+  note: string;
+  name: string;
+}
+
 
 export interface ExpenseTypeSSInterface {
   id: number;

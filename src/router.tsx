@@ -23,6 +23,7 @@ const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 const Messenger     = Loader(lazy(() => import('src/content/applications/Messenger')));
 const Transactions  = Loader(lazy(() => import('src/content/applications/Transactions')));
 const Expense       = Loader(lazy(() => import('src/content/applications/EXPENSE')));
+const CURRENCY      = Loader(lazy(() => import('src/content/applications/CURRENCY')));
 const UserProfile   = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/settings')));
 
@@ -107,6 +108,9 @@ const routes: RouteObject[] = [
       {path: '',element: <Navigate to="transactions" replace />},
       // {path: 'transactions',element: <Transactions />},
       {path: 'expense/*',element: <Expense />},
+      {path: 'currency/*',element: <CURRENCY />},
+
+      
       // {
       //   path: 'profile',
       //   children: [

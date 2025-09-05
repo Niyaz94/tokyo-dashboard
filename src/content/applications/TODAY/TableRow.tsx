@@ -23,13 +23,15 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
+
 
 import {getStatusIcon,getStatusLabel,labelWithColor,labelColorByNumber,getDayAbbreviation,getTimeDifferenceInMinutes} from '../../../utility/function/main';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const {
-    id,date,isBusyDay, isSuccessfulDay,successRate, activity, sleep, 
+    id,date,isBusyDay,successStatus,successRate, activity, sleep, 
     worryingLevel, infoConsumptionLevel, usefulTimeInMinutes, wastedTimeInMinutes, isMeditation,isListenToMusic
   } = data;
 
@@ -59,7 +61,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 <Label color={isBusyDay ? 'primary' : 'warning'}>
                   {isBusyDay ? 'B' : 'N'}
                 </Label>
-                {isSuccessfulDay
+                {successStatus==='neutral' ? labelWithColor(<SentimentNeutralIcon />, 'secondary')
+                  : successStatus==='success'
                   ? labelWithColor(<ThumbUpOffAltIcon />, 'success')
                   : labelWithColor(<ThumbDownOffAltIcon />, 'error')} 
                 <Label color={labelColorByNumber(successRate)}>

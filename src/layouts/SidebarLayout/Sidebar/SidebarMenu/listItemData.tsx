@@ -59,7 +59,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     children: [
       {title: 'Expense', link: '/management/expense',  icon: <ShoppingCartCheckout />},
       {title: '+Income',  link: '/management/income',  icon: <AddShoppingCart />},
-      {title: '+Currency', link: '/management/currency', icon: <TableChartTwoToneIcon />},
+      {title: 'Currency', link: '/management/currency', icon: <TableChartTwoToneIcon />},
     ],
   },
   myDailyLife: {

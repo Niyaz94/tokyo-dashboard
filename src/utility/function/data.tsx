@@ -50,5 +50,17 @@ export  const StatusCase2 = [
 ];
 
 
+export const CategoryType = [
+    { color:"success",value: 'income', label: 'Income'},
+    { color:"warning",value: 'expense', label: 'Expense'},
+    { color:"secondary",value: 'loan', label: 'Loan'},
+    { color:"error",value: 'borrowing', label: 'Borrowing'},
+    { color:"black",value: 'exchange', label: 'Exchange'},
+    { color:"primary",value: 'investment', label: 'Investment'},
+    { color:"info",value: 'savings', label: 'Savings'}
+]
+
+
+
 export  const FoodRecipeDelicious = ['less','normal','very'];
 

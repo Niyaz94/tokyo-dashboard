@@ -9,18 +9,16 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
-import {labelWithColor,getTextWithIcon} from '../../../utility/function/main';
-import { CategoryType }   from '../../../utility/function/data';
+import {labelWithColor,getTextWithIcon,getDeepText} from '../../../utility/function/main';
 
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
 
-  const {id,name,category,current_month_total,current_month_count,last_month_total,last_month_count,two_months_ago_total,older_total,total,two_months_ago_count, older_count, total_count} = data;
+  const {id,name,note,current_month_total,current_month_count,last_month_total,last_month_count,two_months_ago_total,older_total,total,two_months_ago_count, older_count, total_count} = data;
 
 
-  const { label = category, color = "black" } = CategoryType.find((row) => row.value === category) || {};
   // There are some samples that extracting note does not work for them, fix them in the future
 
   return (
@@ -84,7 +82,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
         child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
-        prop={[{ text: labelWithColor(label,color,'Transaction Type'), styleType: 2 }]}
+        prop={[{ text: getDeepText(note), styleType: 2 }]}
       />
       <TableCell align="right">
         <ButtonTable id={id} text="This Expense Type" onDeleteRow={onDeleteRow} />

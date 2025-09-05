@@ -107,6 +107,13 @@ export type SingleTaskTypeFormIntialStateInterface = {
   description: string;
 };
 
+export type CategoryTypeFormIntialStateInterface = {
+  id: number;
+  name: string;
+  note: string;
+  category: string;
+};
+
 export type TodayFormIntialStateInterface = {
   id: number;
   date: string;
@@ -114,7 +121,8 @@ export type TodayFormIntialStateInterface = {
   infoConsumptionLevel: string;
   isBusyDay: boolean;
   isMeditation: boolean;
-  isSuccessfulDay: boolean;
+  // isSuccessfulDay: boolean;
+  successStatus: string;
   dailyNotes: string;
   whatToDoBetter: string;
   dailyThink: string;

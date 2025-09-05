@@ -19,6 +19,9 @@ export const tablePaginationInit: tablePaginationInterface[] = [
   { name: "goal"  ,page: 0, limit: 10 },
   { name: "topic"  ,page: 0, limit: 10 },
   { name: "recipe"  ,page: 0, limit: 10 },
+  { name: "currency"  ,page: 0, limit: 10 },
+
+
 
 ]
 export const bookInitialState: BookState = {

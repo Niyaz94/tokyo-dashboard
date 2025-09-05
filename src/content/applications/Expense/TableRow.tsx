@@ -21,6 +21,10 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const expenseTypeMap = createMapLabelData(expense_types.map((row) => row[1]));
   const currencyTypeMap = createMapLabelData(currency_types.map((row) => row[1]));
 
+  console.log("expenseTypeMap",expense_types)
+
+  const {text:textExpenseType,color:colorExpenseType}= expenseTypeMap[expense_category] || {text:expense_category,color:'black'};
+
   // There are some samples that extracting note does not work for them, fix them in the future
 
 
@@ -44,7 +48,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(expenseTypeMap[expense_category].text)}`,expenseTypeMap[expense_category].color,'Expense Type'
+              `${capitalizeFirstLetterOfWords(textExpenseType)}`,colorExpenseType,'Expense Type'
             ),
             styleType: 1
           },

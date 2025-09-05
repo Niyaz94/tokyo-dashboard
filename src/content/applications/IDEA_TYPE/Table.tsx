@@ -159,7 +159,7 @@ const DataTable = () => {
               <TableCell align='center'>Two Months Ago Total</TableCell>
               <TableCell align='center'>Older Total</TableCell>
               <TableCell align='center'>Total</TableCell>
-              <TableCell align="center">Category</TableCell>
+              <TableCell align="center">Note</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>
