@@ -114,6 +114,13 @@ export type CategoryTypeFormIntialStateInterface = {
   category: string;
 };
 
+export type CurrencyFormIntialStateInterface = {
+  id: number;
+  name: string;
+  note: string;
+  category: string;
+};
+
 export type TodayFormIntialStateInterface = {
   id: number;
   date: string;

@@ -20,6 +20,9 @@ export const tablePaginationInit: tablePaginationInterface[] = [
   { name: "topic"  ,page: 0, limit: 10 },
   { name: "recipe"  ,page: 0, limit: 10 },
   { name: "currency"  ,page: 0, limit: 10 },
+  { name: "income"  ,page: 0, limit: 10 },
+  { name: "limit"  ,page: 0, limit: 10 },
+  { name: "repeat"  ,page: 0, limit: 10 },
 
 
 

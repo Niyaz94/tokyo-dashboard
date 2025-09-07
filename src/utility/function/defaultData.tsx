@@ -123,6 +123,11 @@ export const CategoryTypeFormIntialState = {
   note: ''
 };
 
+export const CurrencyFormIntialState = {
+  id: 0,
+  name: "",
+  note: ''
+};
 
 
 export const TodayFormIntialStateInterface = {

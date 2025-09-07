@@ -46,7 +46,7 @@ const CollapsibleForm = () => {
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/transactions/expense'))
+    handleSave().then(()=>navigate('/transactions/income'))
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -152,7 +152,7 @@ const CollapsibleForm = () => {
               </Grid> 
 
               <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/transactions/expense'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/transactions/income'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}

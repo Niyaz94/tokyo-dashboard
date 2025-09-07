@@ -1,21 +1,19 @@
 import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../utility/customHook";
 
-import React, { useState,useEffect,useCallback } from 'react';
+import { useState,useEffect,useCallback } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-// import Grid from '@mui/material/Grid2';
 import Grid from '@mui/material/Grid';
 
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 import MultiButton                  from "../../../components/Form/MultiButton"
-import {SingleTaskTypeFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
+import {CurrencyFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
 
-import { SingleTaskTypeFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import {CurrencyFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 import {useTaskStatus as usePage}                  from '../../../store/context/taskStatusContext';
 
-import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
 
 const CollapsibleForm = () => {
@@ -34,7 +32,7 @@ const CollapsibleForm = () => {
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/goals/sin_task_types'))
+    handleSave().then(()=>navigate('/transactions/currency'))
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -54,11 +52,11 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
-        ...item,
-        name:data["name"],
-        description:data["description"]
-      }:item),data]:prev);
+      // setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
+        // ...item,
+        // name:data["name"],
+        // description:data["description"]
+      // }:item),data]:prev);
   }, [editResponse]);
 
 
@@ -108,11 +106,11 @@ const CollapsibleForm = () => {
               </Grid>
               
               <Grid size={12}>
-                <LexicalEditor value={formData.description} onChange={handleFormChange} formKey="description" label="Type Description"/>
+                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Currency Description"/>
               </Grid> 
 
               <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/sin_task_types'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/transactions/currency'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}

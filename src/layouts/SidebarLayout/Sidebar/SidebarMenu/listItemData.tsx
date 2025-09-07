@@ -25,6 +25,8 @@ import AddTaskIcon                  from '@mui/icons-material/AddTask';
 import ChecklistIcon                from '@mui/icons-material/Checklist';
 import MilitaryTechIcon             from '@mui/icons-material/MilitaryTech';
 import ShoppingBasketIcon           from '@mui/icons-material/ShoppingBasket';
+import Replay30Icon from '@mui/icons-material/Replay30';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import {
   Topic,TipsAndUpdates,QuestionMark,ShoppingCartCheckout,AddShoppingCart,TakeoutDining,RamenDining,Password,LightMode,
   HourglassEmpty,Input,Filter7
@@ -57,9 +59,15 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Money Management',
     isCollapse: true,
     children: [
-      {title: 'Expense', link: '/management/expense',  icon: <ShoppingCartCheckout />},
-      {title: '+Income',  link: '/management/income',  icon: <AddShoppingCart />},
-      {title: 'Currency', link: '/management/currency', icon: <TableChartTwoToneIcon />},
+      {title: 'Expense',                link: '/transactions/expense',    icon: <ShoppingCartCheckout />},
+      {title: '+Income',                link: '/transactions/income',     icon: <AddShoppingCart />},
+      {title: 'Currency',               link: '/transactions/currency',   icon: <TableChartTwoToneIcon />},
+      {title: 'Category',               link:  '/transactions/category',  icon: <TableChartTwoToneIcon />},
+      {title: '+Repeated Transaction',  link: '/transactions/repeat',     icon: <Replay30Icon />},
+      {title: '+Expense Limitations',   link: '/transactions/limit',      icon: <PriceCheckIcon />},
+
+
+      // 
     ],
   },
   myDailyLife: {
@@ -106,7 +114,6 @@ const slideBarItems: Record<string, SlideBarSection> = {
     children: [
       {title: '+Idea Type',         link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
       {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
-      {title: 'Category',           link:  '/goals/category',   icon: <TableChartTwoToneIcon />},
       {title: '+Months Type',       link: '/goals/months',                icon: <TableChartTwoToneIcon />},
     ],
   },

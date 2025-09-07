@@ -26,7 +26,7 @@ export default () =>{
 
   return (
     <PaginationProvider tableData={results} secondaryData={unique_data} paginData={{count: count, next: next, previous: previous}}>
-      <Template templateTitle="Transactions - Expense">
+      <Template templateTitle="Transaction - Income">
         <Routes>
           <Route path=""    element={<PageTable />} />
           <Route path="add" element={ <AddEdit/>} />

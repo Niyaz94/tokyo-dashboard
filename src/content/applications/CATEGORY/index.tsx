@@ -18,7 +18,7 @@ export default () =>{
 
   return (
     <TaskStatusProvider tableData={data} secondaryData={{}}>
-      <Template templateTitle="Category Page">
+      <Template templateTitle="Transactions - Category ">
         <Routes>
           <Route path=""    element={<PageTable />} />
           <Route path="add" element={ <AddEdit/>} />

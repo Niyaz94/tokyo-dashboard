@@ -24,6 +24,13 @@ const Messenger     = Loader(lazy(() => import('src/content/applications/Messeng
 const Transactions  = Loader(lazy(() => import('src/content/applications/Transactions')));
 const Expense       = Loader(lazy(() => import('src/content/applications/EXPENSE')));
 const CURRENCY      = Loader(lazy(() => import('src/content/applications/CURRENCY')));
+const INCOME        = Loader(lazy(() => import('src/content/applications/INCOME')));
+const LIMIT         = Loader(lazy(() => import('src/content/applications/LIMIT')));
+const REPEAT        = Loader(lazy(() => import('src/content/applications/REPEAT')));
+// const AddExpense    = Loader(lazy(() => import('src/content/applications/Expense/AddEdit')));
+// const EditExpense   = Loader(lazy(() => import('src/content/applications/Expense/AddEdit')));
+// const AddIncome     = Loader(lazy(() => import('src/content/applications/Income/AddEdit')));
+// const EditIncome    = Loader(lazy(() => import('src/content/applications/Income/AddEdit')));
 const UserProfile   = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/settings')));
 
@@ -102,13 +109,18 @@ const routes: RouteObject[] = [
     ]
   },
   {
-    path: 'management',
+    path: 'transactions',
     element: <SidebarLayout />,
     children: [
       {path: '',element: <Navigate to="transactions" replace />},
       // {path: 'transactions',element: <Transactions />},
       {path: 'expense/*',element: <Expense />},
       {path: 'currency/*',element: <CURRENCY />},
+      {path: 'income/*',element: <INCOME />},
+      {path: 'limit/*',element: <LIMIT />},
+      {path: 'repeat/*',element: <REPEAT />},
+      {path: 'category/*',element: <CATEGORY />},
+
 
       
       // {
@@ -137,7 +149,6 @@ const routes: RouteObject[] = [
       // {path: '',element: <Navigate to="transactions" replace />},
       {path: 'single_task/*',element: <SINGLE_TASK />},
       {path: 'sin_task_types/*',element: <SIN_TASK_TYPE />},
-      {path: 'category/*',element: <CATEGORY />},
       {path: 'goals/*',element: <GOAL />},
       {path: 'task_progress/*',element: <TASK_STATUS />},
       // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},
