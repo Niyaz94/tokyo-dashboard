@@ -12,20 +12,26 @@ import { usePaginationContext } from '../../../store/context/paginationContext';
 import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} from '../../../components/Table';
 
 import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
-import {columnsExpense as columns} from '../../../utility/function/tableColumn';
+import {columnsLimit as columns} from '../../../utility/function/tableColumn';
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('limit');
-  const {filters,handleFilterChange,filterQuery} = useTableFilters({startDate: null ,endDate: null,expenseTypeId: "all"});
+  const {filters,handleFilterChange,filterQuery} = useTableFilters({
+    year: "all" ,
+    month: "all",
+    currencyId: "all",
+    typeId: "all",
+    
+  });
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  const { type:expense_types} = secondary;
+  const { type:unique_types,currency:unique_currencies,years:unique_years,months:unique_months} = secondary;
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
   useEffect(() => {
-      axiosGetData(`money/expense/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
+      axiosGetData(`money/limit/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
         const {results,count,next,previous} = res.data;
         setTable(results);
         setPagination({count: count, next: next, previous: previous});
@@ -49,32 +55,44 @@ const DataTable = () => {
           action={
             <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
               <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center'}}>         
-                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <CustomDatePicker
-                    pickerFullWidth={false}
-                    label="Start Date"
-                    value={null}
-                    placeholder=""
-                    onChange={(newValue) => handleFilterChange('startDate', newValue )}
-                  />
-                </FormControl>
-                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <CustomDatePicker
-                    pickerFullWidth={false}
-                    label="End Date"
-                    value={null}
-                    placeholder=""
-                    onChange={(newValue) => handleFilterChange('endDate', newValue )}
-                  />
-                  
-                </FormControl>
-                <FormControl variant="outlined" sx={{ minWidth: 250}}>
+                
+                <FormControl variant="outlined" sx={{ minWidth: 200}}>
                   <StaticAutocomplete
-                    label="Status"
+                    label="Year"
                     showValueInLabel={false}
-                    defaultValue={{value:filters.expenseTypeId,label: expense_types.find((row) => row[0] === filters.expenseTypeId)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
-                    options={[["all","ALL"],...expense_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
-                    formKey="expenseTypeId"
+                    defaultValue={{value:filters.year,label: unique_years.find((row) => row === filters.year)?.toString() || "ALL"}}
+                    options={[0,...unique_years].map((row) => ({value: row, label: row==0?"ALL":row.toString()}))}
+                    formKey="year"
+                    onChange={handleFilterChange}
+                  />
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200}}>
+                  <StaticAutocomplete
+                    label="Month"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.month,label: unique_months.find((row) => row[0] === filters.month)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...unique_months].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="month"
+                    onChange={handleFilterChange}
+                  />
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200}}>
+                  <StaticAutocomplete
+                    label="Currency"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.currencyId,label: unique_currencies.find((row) => row[0] === filters.currencyId)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...unique_currencies].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="currencyId"
+                    onChange={handleFilterChange}
+                  />
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200}}>
+                  <StaticAutocomplete
+                    label="Type"
+                    showValueInLabel={false}
+                    defaultValue={{value:filters.typeId,label: unique_types.find((row) => row[0] === filters.typeId)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[["all","ALL"],...unique_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    formKey="typeId"
                     onChange={handleFilterChange}
                   />
                 </FormControl>
@@ -101,7 +119,7 @@ const DataTable = () => {
         renderRow={(row) => (
           <CustomTableRow
             key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"money/expense",setTable)}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"money/limit",setTable)}
           />
         )}
       />

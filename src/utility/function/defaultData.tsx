@@ -1,7 +1,5 @@
 import dayjs                  from 'dayjs';
 import { SleepFormStateInterface } from '../../utility/types/Page';
-import { n } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
-import { string } from 'prop-types';
 
 
 export const sleepFormIntialState:SleepFormStateInterface = {
@@ -108,6 +106,11 @@ export const ExpenseFormIntialState = {
   note: '{}',
   currency: 0,
   category: 0
+};
+
+export const limitFormIntialState = {
+  ...ExpenseFormIntialState,
+  default: false
 };
 
 export const SingleTaskTypeFormIntialState = {

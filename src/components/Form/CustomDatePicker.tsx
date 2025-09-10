@@ -13,8 +13,9 @@ interface CustomDatePickerInterface {
     value: Dayjs | string | null;
     onChange: (newValue: Dayjs | string | null) => void;
     pickerFullWidth?: boolean;
+    pickerWithoutDay?: boolean;
 }
-const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onChange,placeholder="Please fill this field",pickerFullWidth=true}) => {
+const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onChange,placeholder="Please fill this field",pickerFullWidth=true,pickerWithoutDay=false}) => {
 
   const [cleared, setCleared] = React.useState<boolean>(false);
 
@@ -43,6 +44,8 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']} sx={{paddingTop: "10px"}}>
         <DatePicker 
+          views={['month' ,'year',  ...(pickerWithoutDay? []:['day' as const]) ]}
+          // format={pickerWithoutDay? "MM/YYYY":"DD/MM/YYYY"}
           label={label} 
           onChange={(date)=>{onChange(currentValueFormat(date))}}
           value={(typeof value==='string'?dayjs(value,"YYYY-MM-DD"):value)}

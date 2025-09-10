@@ -2,26 +2,24 @@ import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../ut
 
 import React, { useState,useEffect,useCallback } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-// import Grid from '@mui/material/Grid2';
 import Grid from '@mui/material/Grid';
 
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
-import MultiButton                  from "../../../components/Form/MultiButton"
-import {ExpenseFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
+import {CustomDatePicker,CustomSwitch,MultiButton}             from '../../../components/Form';
+
+import { LimitFormIntialStateInterface }  from '../../../utility/types/Page';
+import {limitFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
 import { useSelector }              from 'react-redux';
 import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 
 
+
 import { RootState }                    from '../../../store/Reducer';
-import { ExpenseFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
 
-
-import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
 
 const CollapsibleForm = () => {
@@ -41,7 +39,7 @@ const CollapsibleForm = () => {
   const dailyData               = useSelector((state: RootState) => state.daily.data);
 
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`money/expense/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<LimitFormIntialStateInterface>  = useFetch <LimitFormIntialStateInterface>(edit_page_id ?`money/limit/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
@@ -60,8 +58,7 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      console.log("editResponse",data)
-      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
+      // setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?data:item),data]:prev);
   }, [editResponse]);
 
 
@@ -78,10 +75,10 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`money/expense/${edit_page_id}/`, formData);
+      await editData(`money/limit/${edit_page_id}/`, formData);
     }else{
       console.log("formData",formData)
-      await postData("money/expense/", dataToBeSent);
+      await postData("money/limit/", dataToBeSent);
     }
     
   };
@@ -91,7 +88,8 @@ const CollapsibleForm = () => {
 
   return (
       <Card>
-        <CardHeader title="Input Fields" />
+        <CardHeader title={`${edit_page_id?'Edit':'Insert'} Limit`} slotProps={{ title: { fontSize:'48px',color: 'primary', } }}
+        />
         <Divider />
         <CardContent>
           <Box component="form" noValidate autoComplete="off"
@@ -111,7 +109,7 @@ const CollapsibleForm = () => {
 
               <Grid size={6}>
                 <StaticAutocomplete
-                  label="Select Currency Type"
+                  label="Select Money Currency"
                   defaultValue={currencyTypeMap.filter((item) => item.value === formData.currency)[0]}
                   options={currencyTypeMap}
                   formKey="currency"
@@ -122,6 +120,7 @@ const CollapsibleForm = () => {
               <Grid size={6} >
                 <CustomDatePicker
                   label="Date"
+                  pickerWithoutDay={true}
                   value={formData.date}
                   placeholder=""
                   onChange={(newValue) => handleFormChange('date', newValue )}
@@ -130,7 +129,7 @@ const CollapsibleForm = () => {
 
               <Grid size={6}>
                 <TextField
-                  label={'Expense Amount'}
+                  label={'Max Amount'}
                   variant="outlined"
                   required={true}
                   fullWidth
@@ -147,6 +146,15 @@ const CollapsibleForm = () => {
                 />
               </Grid>
               
+
+              <Grid size={12}>
+                <CustomSwitch 
+                  value={formData.default}
+                  onChange={(newValue) => handleFormChange('default', newValue)}
+                  label="Set as Default Limit"
+                />
+              </Grid> 
+
               <Grid size={12}>
                 <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Notes"/>
               </Grid> 

@@ -168,3 +168,9 @@ export const getDeepText=(obj: any): string =>{
     return 'No text found';
   }
 }
+
+export const getMonthName = (monthNumber: number): string => {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+  return date.toLocaleString('default', { month: 'long' });
+}

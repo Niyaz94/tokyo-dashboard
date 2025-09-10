@@ -101,6 +101,10 @@ export type ExpenseFormIntialStateInterface = {
   category: number;
 };
 
+export interface LimitFormIntialStateInterface extends ExpenseFormIntialStateInterface{
+  default: boolean;
+}
+
 export type SingleTaskTypeFormIntialStateInterface = {
   id: number;
   name: string;
