@@ -58,6 +58,8 @@ const RECIPE  = Loader(lazy(() => import('src/content/applications/RECIPE')));
 
 const TASK_STATUS_REPORT  = Loader(lazy(() => import('src/content/reports/TASK_STATUS')));
 
+const MONTHLY_EXPENSE  = Loader(lazy(() => import('src/content/reports/MONTHLY_EXPENSE')));
+
 // 
 
 
@@ -190,7 +192,9 @@ const routes: RouteObject[] = [
     path: 'report',
     element: <SidebarLayout />,
     children: [
-      {path: 'monthly_success',element: <TASK_STATUS_REPORT />}
+      {path: 'monthly_success',element: <TASK_STATUS_REPORT />},
+      {path: 'monthly_expense',element:<MONTHLY_EXPENSE />}
+
     ]
   }
 ];
