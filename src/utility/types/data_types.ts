@@ -146,10 +146,7 @@ export interface TaskUniqueInterface extends GoalUniqueInterface {
     months:Record<number, string> ;
 }
 
-export interface ExpenseUniqueInterface {
-    type:string[];
-    currency:string[];
-}
+
 
 export interface TaskStatusRowSampleInterface {
   id: string;
@@ -267,22 +264,25 @@ export interface RecentDailyTableInterface {
 }
 
 
-export interface ExpenseUniqueInterface {
+
+export interface TransactionUniqueInterface {
   type:string[];
   currency:string[];
 }
-export interface ExpenseSingleSampleInterface {
+export interface TransactionSingleSampleInterface {
   id: string;
   date: string;
   note: string;
   amount: number;
-  expense_type:string;
   deadline:string;
 }
 
-export interface RecentExpenseTableInterface {
-  data: ExpenseSingleSampleInterface[];
-  unique:ExpenseUniqueInterface;
+
+export interface ExpenseSingleSampleInterface extends TransactionSingleSampleInterface {
+  expense_type:string;
+}
+export interface IncomeSingleSampleInterface extends TransactionSingleSampleInterface {
+  category_name:string;
 }
 
 export interface SingleTaskUniqueInterface {

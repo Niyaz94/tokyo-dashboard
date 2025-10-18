@@ -6,17 +6,17 @@ import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
 
 import { 
-  ExpenseSingleSampleInterface,
-  ExpenseUniqueInterface,PaginationTableDataInterface
+  IncomeSingleSampleInterface,
+  TransactionUniqueInterface,PaginationTableDataInterface
 } from 'src/utility/types/data_types';
 
 
 export default () =>{
 
-  const { data,success}: FetchData<PaginationTableDataInterface<ExpenseSingleSampleInterface>> = useFetch <PaginationTableDataInterface<ExpenseSingleSampleInterface>>('money/expense',{results:[],count:0,next:null,previous:null});
+  const { data,success}: FetchData<PaginationTableDataInterface<IncomeSingleSampleInterface>> = useFetch <PaginationTableDataInterface<IncomeSingleSampleInterface>>('money/income',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
-  const { data:unique_data,success:unque_success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('money/expense/unique',{
+  const { data:unique_data,success:unque_success}: FetchData<TransactionUniqueInterface> = useFetch <TransactionUniqueInterface>('money/income/unique',{
     type:[],currency:[]
   });
 

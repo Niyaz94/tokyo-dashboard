@@ -8,16 +8,15 @@ import Grid from '@mui/material/Grid';
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
-import MultiButton                  from "../../../components/Form/MultiButton"
-import {ExpenseFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
+import {MultiButton,CustomSwitch,CustomDatePicker}                  from "../../../components/Form"
+import {IncomeFormIntialState}  from "../../../utility/function/defaultData"
 
 import { useSelector }              from 'react-redux';
 import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
 
 
 import { RootState }                    from '../../../store/Reducer';
-import { ExpenseFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import {IncomeFormIntialStateInterface } from '../../../utility/types/Page';
 import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
 
 
@@ -37,11 +36,11 @@ const CollapsibleForm = () => {
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
-  const [formData, setFormData] = useState(FormIntialState);
+  const [formData, setFormData] = useState(IncomeFormIntialState);
   const dailyData               = useSelector((state: RootState) => state.daily.data);
 
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`money/expense/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<IncomeFormIntialStateInterface>  = useFetch <IncomeFormIntialStateInterface>(edit_page_id ?`money/income/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
@@ -78,20 +77,20 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`money/expense/${edit_page_id}/`, formData);
+      await editData(`money/income/${edit_page_id}/`, formData);
     }else{
       console.log("formData",formData)
-      await postData("money/expense/", dataToBeSent);
+      await postData("money/income/", dataToBeSent);
     }
     
   };
   const cleanForm = () => {
-    setFormData(FormIntialState)
+    setFormData(IncomeFormIntialState)
   };
 
   return (
       <Card>
-        <CardHeader title="Input Fields" />
+        <CardHeader title="Income Form" />
         <Divider />
         <CardContent>
           <Box component="form" noValidate autoComplete="off"
@@ -101,7 +100,7 @@ const CollapsibleForm = () => {
 
               <Grid size={6}>
                 <StaticAutocomplete
-                  label="Select Expense Type"
+                  label="Select Income Type"
                   options={expenseTypeMap}
                   defaultValue={expenseTypeMap.filter(({label,value}) => value == Number(formData.category))[0]}
                   formKey="category"
@@ -130,7 +129,7 @@ const CollapsibleForm = () => {
 
               <Grid size={6}>
                 <TextField
-                  label={'Expense Amount'}
+                  label={'Income Amount'}
                   variant="outlined"
                   required={true}
                   fullWidth
@@ -146,6 +145,13 @@ const CollapsibleForm = () => {
                   }}
                 />
               </Grid>
+              <Grid size={12}>
+                <CustomSwitch 
+                  value={formData.consider}
+                  onChange={(newValue) => handleFormChange('consider', newValue)}
+                  label="Do you want to consider this income?"
+                />
+              </Grid>  
               
               <Grid size={12}>
                 <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Notes"/>

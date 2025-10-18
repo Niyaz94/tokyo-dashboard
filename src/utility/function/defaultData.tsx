@@ -99,7 +99,7 @@ export const ActivityFormIntialState = {
   weight: 0,
 };
 
-export const ExpenseFormIntialState = {
+export const TransactionFormIntialState = {
   id: 0,
   date: dayjs().format('YYYY-MM-DD'),
   amount: 0,
@@ -108,8 +108,18 @@ export const ExpenseFormIntialState = {
   category: 0
 };
 
+export const ExpenseFormIntialState = {
+  ...TransactionFormIntialState,
+  consider: false
+};
+
+export const IncomeFormIntialState = {
+  ...TransactionFormIntialState,
+  consider: false
+};
+
 export const limitFormIntialState = {
-  ...ExpenseFormIntialState,
+  ...TransactionFormIntialState,
   default: false
 };
 

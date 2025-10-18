@@ -1,5 +1,5 @@
 
-import dayjs                     from 'dayjs';
+import dayjs, { extend }                     from 'dayjs';
 
 export type SleepFormStateInterface = {
   id: number;
@@ -92,7 +92,7 @@ export type ActivityFormIntialStateInterface = {
   weight: number;
 };
 
-export type ExpenseFormIntialStateInterface = {
+export type TransactionFormIntialStateInterface = {
   id: number;
   date: string;
   amount: number;
@@ -101,8 +101,15 @@ export type ExpenseFormIntialStateInterface = {
   category: number;
 };
 
-export interface LimitFormIntialStateInterface extends ExpenseFormIntialStateInterface{
+export interface LimitFormIntialStateInterface extends TransactionFormIntialStateInterface{
   default: boolean;
+}
+
+export interface ExpenseFormIntialStateInterface extends TransactionFormIntialStateInterface{
+  consider: boolean;
+}
+export interface IncomeFormIntialStateInterface extends TransactionFormIntialStateInterface{
+  consider: boolean;
 }
 
 export type SingleTaskTypeFormIntialStateInterface = {

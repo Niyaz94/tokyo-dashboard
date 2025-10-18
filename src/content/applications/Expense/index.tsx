@@ -7,7 +7,7 @@ import {PaginationProvider}           from '../../../store/context/paginationCon
 
 import { 
   ExpenseSingleSampleInterface,
-  ExpenseUniqueInterface,PaginationTableDataInterface
+  TransactionUniqueInterface as ExpenseUniqueInterface,PaginationTableDataInterface
 } from 'src/utility/types/data_types';
 
 

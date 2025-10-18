@@ -60,7 +60,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Expense',                link: '/transactions/expense',    icon: <ShoppingCartCheckout />},
-      {title: '+Income',                link: '/transactions/income',     icon: <AddShoppingCart />},
+      {title: 'Income',                link: '/transactions/income',     icon: <AddShoppingCart />},
       {title: 'Currency',               link: '/transactions/currency',   icon: <TableChartTwoToneIcon />},
       {title: 'Category',               link:  '/transactions/category',  icon: <TableChartTwoToneIcon />},
       {title: '+Repeated Transaction',  link: '/transactions/repeat',     icon: <Replay30Icon />},

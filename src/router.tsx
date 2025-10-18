@@ -52,6 +52,7 @@ const TASK_STATUS   = Loader(lazy(() => import('src/content/applications/TASK_ST
 
 
 const SIN_TASK_TYPE = Loader(lazy(() => import('src/content/applications/SIN_TASK_TYPE')));
+const TASK_MONTH = Loader(lazy(() => import('src/content/applications/TASK_MONTH')));
 const CATEGORY  = Loader(lazy(() => import('src/content/applications/CATEGORY')));
 const RECIPE  = Loader(lazy(() => import('src/content/applications/RECIPE')));
 
@@ -151,6 +152,9 @@ const routes: RouteObject[] = [
       // {path: '',element: <Navigate to="transactions" replace />},
       {path: 'single_task/*',element: <SINGLE_TASK />},
       {path: 'sin_task_types/*',element: <SIN_TASK_TYPE />},
+      {path: 'months/*',element: <TASK_MONTH />},
+
+      
       {path: 'goals/*',element: <GOAL />},
       {path: 'task_progress/*',element: <TASK_STATUS />},
       // {path: 'task_progress/add',element: <TASK_STATUS_AddEdit />},
