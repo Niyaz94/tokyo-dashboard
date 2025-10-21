@@ -12,7 +12,8 @@ import {labelWithColor,getDeepText} from '../../../utility/function/main';
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
 
-  const {id,name,description,total_completed,total_inprogress,total_notstarted,total_others} = data;
+  const {id,year,name,task_number,completed_task_number,uncompleted_task_number,halfcompleted_task_number,inapplicable_task_number} = data;
+
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -27,39 +28,47 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         />
       </TableCell>
       <TableCusCell
-        prop={[{ text: `${name} `, styleType: 1 }]}
+        cellProps={{ align: 'center' }}
+        prop={[
+          { text: labelWithColor(name,'secondary',"Task's Month"), styleType: 1 },
+          { text: labelWithColor(year,'success',"Task's Year"), styleType: 2 },
+          
+        ]}
+      />
+
+      <TableCusCell
+        cellProps={{ align: 'center' }}
+        prop={[{text:
+          
+          labelWithColor(`${task_number}`, 'primary', 'Total Tasks Completed',"",18,true)
+          ,styleType: 1},]}
       />
       
       <TableCusCell
         cellProps={{ align: 'center' }}
         prop={[{text:
           
-          labelWithColor(`${total_completed}`, 'success', 'Total Tasks Completed',"",18,true)
+          labelWithColor(`${completed_task_number}`, 'success', 'Total Tasks Completed',"",18,true)
           ,styleType: 1},]}
       />
 
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:labelWithColor(`${total_inprogress}`, 'info', 'Total Inprogress Tasks',"",18,true),styleType: 1},]}
+        prop={[{text:labelWithColor(`${uncompleted_task_number}`, 'info', 'Total Inprogress Tasks',"",18,true),styleType: 1},]}
       />
 
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:labelWithColor(`${total_notstarted}`, 'error', 'Total Not Started Tasks',"",18,true),styleType: 1},]}
+        prop={[{text:labelWithColor(`${halfcompleted_task_number}`, 'error', 'Total Not Started Tasks',"",18,true),styleType: 1},]}
 
       />
       <TableCusCell
         cellProps={{ align: 'center' }}
-        prop={[{text:labelWithColor(`${total_others}`, 'warning', 'Total Other Tasks',"",18,true),styleType: 1},]}
+        prop={[{text:labelWithColor(`${inapplicable_task_number}`, 'warning', 'Total Other Tasks',"",18,true),styleType: 1},]}
       />
-      <TableCusCell
-        cellProps={{ align: 'center' }}
-        sx={{ width: '20%' }}
-        child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
-        prop={[{ text: getDeepText(description), styleType: 2 }]}
-      />
+      
       <TableCell align="right">
-        <ButtonTable id={id} text="This Expense" onDeleteRow={onDeleteRow} />
+        <ButtonTable id={id} text="This Month" onDeleteRow={onDeleteRow} />
       </TableCell>
     </TableRow>
   );

@@ -118,6 +118,12 @@ export type SingleTaskTypeFormIntialStateInterface = {
   description: string;
 };
 
+export type TaskMonthFormIntialStateInterface = {
+  id: number;
+  name: string;
+  year: string;
+};
+
 export type CategoryTypeFormIntialStateInterface = {
   id: number;
   name: string;

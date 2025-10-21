@@ -70,8 +70,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 {labelWithColor(
                   yearlMap[task_year].text,
                   yearlMap[task_year].color,
-                  "Task's Year"
-                )}
+                  "Task's Year")}
                 {labelWithColor(dailyTime, 'warning', 'Dedicated Time Per Day')}
               </Stack>
             ),

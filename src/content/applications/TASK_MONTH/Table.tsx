@@ -1,9 +1,8 @@
 import { FC, ChangeEvent, useState, useEffect } from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
-  TableContainer,Select,MenuItem,Typography,CardHeader,Button
+  TableContainer,Select,Typography,CardHeader,Button
 } from '@mui/material';
-// import BulkActions from './BulkActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import {applyPagination,applyFilters} from '../../../utility/function/main';
 import CustomTableRow from './TableRow';
@@ -20,7 +19,7 @@ import {setPage,setLimit}             from '../../../store/slice/tablePagination
 
 
 const DataTable = () => {
-
+  // TODO: change the type
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'singleTaskType')[0]);
   const dispatch        = useDispatch();
 
@@ -102,7 +101,7 @@ const DataTable = () => {
   const selectedAllPageData  = selectedTableData.length === tableData.length;
 
   const deleteTableRow = async (id) => {
-    await deleteData(`schedule/stask_type/${id}/`);
+    await deleteData(`schedule/month/${id}/`);
     setTable((prev) => prev.filter((row) => row.id !== id));
   };
 
@@ -152,14 +151,12 @@ const DataTable = () => {
               <TableCell padding="checkbox">
                 <Checkbox color="primary" checked={selectedAllPageData} indeterminate={selectedSomePageData} onChange={handleSelectAllPageData}/>
               </TableCell>
-              <TableCell align='center'>Name</TableCell>
-
-              <TableCell align='center'>TT Completed</TableCell>
-              <TableCell align='center'>TT Inprogress</TableCell>
-              <TableCell align='center'>TT Not Started</TableCell>
-              <TableCell align='center'>TT Others</TableCell>
-
-              <TableCell align="center">Note</TableCell>
+              <TableCell align='center'>Date</TableCell>
+              <TableCell align='center'>Total Task</TableCell>
+              <TableCell align='center'>Completed</TableCell>
+              <TableCell align='center'>Uncompleted</TableCell>
+              <TableCell align='center'>Half Completed</TableCell>
+              <TableCell align='center'>Inapplicable</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
           </TableHead>

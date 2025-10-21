@@ -120,7 +120,8 @@ const CollapsibleForm = () => {
               <Grid size={6} >
                 <CustomDatePicker
                   label="Date"
-                  pickerWithoutDay={true}
+                  pickerType="monthYear"
+                  // pickerWithoutDay={true}
                   value={formData.date}
                   placeholder=""
                   onChange={(newValue) => handleFormChange('date', newValue )}

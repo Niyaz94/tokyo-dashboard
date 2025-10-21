@@ -128,6 +128,11 @@ export const SingleTaskTypeFormIntialState = {
   name: "",
   description: '{"root":{"children":[],"direction":null,"format":"","indent":0,"type":"root","version":1}}'
 };
+export const TaskMonthFormIntialState = {
+  id: 0,
+  name: "",
+  year: dayjs().format('YYYY')
+};
 
 export const CategoryTypeFormIntialState = {
   id: 0,

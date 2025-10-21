@@ -301,6 +301,17 @@ export interface SingleTaskTypeSingleSampleInterface {
   total_others: number;
 }
 
+export interface TaskMonthSampleInterface {
+  id: number;
+  task_number: number;
+  completed_task_number: number;
+  uncompleted_task_number: number;
+  halfcompleted_task_number: number;
+  inapplicable_task_number: number;
+  name: string;
+  year: number;
+}
+
 export interface CurrencyeSingleSampleInterface {
   id: number;
   note: string;

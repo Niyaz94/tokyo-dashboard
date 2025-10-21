@@ -2,39 +2,36 @@ import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../ut
 
 import React, { useState,useEffect,useCallback } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-// import Grid from '@mui/material/Grid2';
 import Grid from '@mui/material/Grid';
 
 
 import { useNavigate,useParams }    from 'react-router-dom';
-import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import MultiButton                  from "../../../components/Form/MultiButton"
-import {SingleTaskTypeFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
+import {TaskMonthFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
 
-import { SingleTaskTypeFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import { TaskMonthFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 import {useTaskStatus as usePage}                  from '../../../store/context/taskStatusContext';
 
-import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 
+
+import {MultiButton,CustomDatePicker}       from '../../../components/Form';
 
 const CollapsibleForm = () => {
 
 
   const  {setTable}               = usePage();
 
-
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
   const [formData, setFormData] = useState(FormIntialState);
 
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`schedule/stask_type/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`schedule/month/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
 
   const saveReturn=()=>{
-    handleSave().then(()=>navigate('/goals/sin_task_types'))
+    handleSave().then(()=>navigate('/goals/months'))
   }
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
@@ -43,29 +40,28 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[{
-        ...data, 
-        total_completed: 0, 
-        total_inprogress: 0, 
-        total_notstarted: 0, 
-        total_others: 0
-      },...prev]:prev);
+      // setTable(prev => success ?[{
+      //   ...data, 
+      //   total_completed: 0, 
+      //   total_inprogress: 0, 
+      //   total_notstarted: 0, 
+      //   total_others: 0
+      // },...prev]:prev);
   }, [response]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
-        ...item,
-        name:data["name"],
-        description:data["description"]
-      }:item),data]:prev);
+      // setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
+      //   ...item,
+      //   name:data["name"],
+      //   description:data["description"]
+      // }:item),data]:prev);
   }, [editResponse]);
 
 
   useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
       setFormData({...fetchEditData});
-      // console.log("fetchEditData",formData.description)
     }
   }, [fetchEditData]);
 
@@ -76,10 +72,10 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`schedule/stask_type/${edit_page_id}/`, formData);
+      await editData(`schedule/month/${edit_page_id}/`, formData);
     }else{
       console.log("formData",formData)
-      await postData("schedule/stask_type/", dataToBeSent);
+      await postData("schedule/month/", dataToBeSent);
     }
     
   };
@@ -98,21 +94,29 @@ const CollapsibleForm = () => {
             <Grid container spacing={2}>
 
               
-              <Grid size={12} sx={{paddingTop: "10px"}}>
-                <TextField
-                  label="Type Name"
+              <Grid size={6} sx={{paddingTop: "10px"}}>
+                <CustomDatePicker
+                  label="Task Month"
                   value={formData.name}
-                  onChange={(e) => handleFormChange('name', e.target.value)}
-                  fullWidth
+                  // value={formData.date}
+                  pickerType="monthOnly"
+                  placeholder=""
+                  onChange={(newValue) => handleFormChange('name', newValue )}
+                />
+              </Grid>
+              <Grid size={6} sx={{paddingTop: "10px"}}>
+                <CustomDatePicker
+                  label="Task Year"
+                  value={formData.year}
+                  // value={formData.date}
+                  pickerType="yearOnly"
+                  placeholder=""
+                  onChange={(newValue) => handleFormChange('year', newValue )}
                 />
               </Grid>
               
               <Grid size={12}>
-                <LexicalEditor value={formData.description} onChange={handleFormChange} formKey="description" label="Type Description"/>
-              </Grid> 
-
-              <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/sin_task_types'}/>
+                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/months'}/>
               </Grid>
             </Grid>
             {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}

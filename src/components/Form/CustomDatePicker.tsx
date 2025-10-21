@@ -13,11 +13,22 @@ interface CustomDatePickerInterface {
     value: Dayjs | string | null;
     onChange: (newValue: Dayjs | string | null) => void;
     pickerFullWidth?: boolean;
-    pickerWithoutDay?: boolean;
+    pickerType?: string;
 }
-const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onChange,placeholder="Please fill this field",pickerFullWidth=true,pickerWithoutDay=false}) => {
+const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onChange,placeholder="Please fill this field",pickerFullWidth=true,pickerType="default"}) => {
 
   const [cleared, setCleared] = React.useState<boolean>(false);
+
+  let pickerTypeOptions=[];
+  if (pickerType==="default"){
+    pickerTypeOptions=['month','year','day']
+  }else if (pickerType==="monthYear"){
+    pickerTypeOptions=['month','year']
+  }else if (pickerType==="yearOnly"){
+    pickerTypeOptions=['year']
+  }else if (pickerType==="monthOnly"){
+    pickerTypeOptions=['month']
+  }
 
   React.useEffect(() => {
     if (cleared) {
@@ -44,7 +55,8 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']} sx={{paddingTop: "10px"}}>
         <DatePicker 
-          views={['month' ,'year',  ...(pickerWithoutDay? []:['day' as const]) ]}
+          // views={['month' ,'year',  ...(pickerWithoutDay? []:['day' as const]) ]}
+          views={pickerTypeOptions as any}
           // format={pickerWithoutDay? "MM/YYYY":"DD/MM/YYYY"}
           label={label} 
           onChange={(date)=>{onChange(currentValueFormat(date))}}

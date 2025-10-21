@@ -27,8 +27,6 @@ import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utili
 
 const CollapsibleForm = () => {
 
-  console.log("CollapsibleForm");
-
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
   const  {setTable}              = usePage();
   const location                = useLocation()
