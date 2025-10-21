@@ -135,7 +135,8 @@ export type CurrencyFormIntialStateInterface = {
   id: number;
   name: string;
   note: string;
-  category: string;
+  startDay: number;
+  maxAmount: number;
 };
 
 export type TodayFormIntialStateInterface = {

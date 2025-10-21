@@ -1,4 +1,5 @@
 import { ReactNode }          from 'react';
+import { an } from 'react-router/dist/development/route-data-Cw8htKcF';
 
 
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
@@ -268,6 +269,7 @@ export interface RecentDailyTableInterface {
 export interface TransactionUniqueInterface {
   type:string[];
   currency:string[];
+  currency_details: any[];
 }
 export interface TransactionSingleSampleInterface {
   id: string;

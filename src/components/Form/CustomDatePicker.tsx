@@ -28,6 +28,8 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
     pickerTypeOptions=['year']
   }else if (pickerType==="monthOnly"){
     pickerTypeOptions=['month']
+  }else if (pickerType==="dayOnly"){
+    pickerTypeOptions=['day']
   }
 
   React.useEffect(() => {

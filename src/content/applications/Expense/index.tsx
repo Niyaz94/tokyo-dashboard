@@ -17,7 +17,9 @@ export default () =>{
   const {results,count,next,previous} = data;
 
   const { data:unique_data,success:unque_success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('money/expense/unique',{
-    type:[],currency:[]
+    type:[],
+    currency:[],
+    currency_details:[]
   });
 
   if (!success) {

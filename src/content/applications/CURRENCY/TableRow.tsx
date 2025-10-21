@@ -12,7 +12,7 @@ import {labelWithColor,getDeepText} from '../../../utility/function/main';
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
 
-  const {id,name,note} = data;
+  const {id,name,note,startDay,maxAmount} = data;
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -30,15 +30,22 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[{ text: `${name} `, styleType: 1 }]}
       />
       
-      {/* <TableCusCell
+       <TableCusCell
         cellProps={{ align: 'center' }}
         prop={[{text:
           
-          labelWithColor(`${total_completed}`, 'success', 'Total Tasks Completed',"",18,true)
+          labelWithColor(`${startDay}`, 'error', 'Start Day of Expense Cycle',"",18,false)
+          ,styleType: 1},]}
+      />
+      <TableCusCell
+        cellProps={{ align: 'center' }}
+        prop={[{text:
+          
+          labelWithColor(`${maxAmount}`, 'info', 'Maximum Expense Amount for this month',"",18,false)
           ,styleType: 1},]}
       />
 
-      <TableCusCell
+      {/*<TableCusCell
         cellProps={{ align: 'center' }}
         prop={[{text:labelWithColor(`${total_inprogress}`, 'info', 'Total Inprogress Tasks',"",18,true),styleType: 1},]}
       />

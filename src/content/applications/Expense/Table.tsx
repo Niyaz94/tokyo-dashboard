@@ -13,13 +13,15 @@ import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} f
 
 import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
 import {columnsExpense as columns} from '../../../utility/function/tableColumn';
+import CurrencyPanel from './currencyPanel';
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
   const {filters,handleFilterChange,filterQuery} = useTableFilters({startDate: null ,endDate: null,expenseTypeId: "all"});
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  const { type:expense_types} = secondary;
+  const { type:expense_types,currency_detail} = secondary;
+
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
@@ -32,7 +34,13 @@ const DataTable = () => {
       });
   }, [ page, limit,filters]);
 
+
   return (
+    <>
+    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'left', my: 1, backgroundColor: '#ffffff', padding: 2, borderRadius: 2}}>
+      {currency_detail && <CurrencyPanel data={currency_detail} />}
+    </Box>
+
     <Card>
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>
@@ -113,6 +121,8 @@ const DataTable = () => {
         onRowsPerPageChange={handleLimitChange}
       />
     </Card>
+    </>
+    
   );
 };
 export default DataTable;

@@ -7,12 +7,12 @@ import Grid from '@mui/material/Grid';
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import MultiButton                  from "../../../components/Form/MultiButton"
 import {CurrencyFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
 
 import {CurrencyFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 import {useTaskStatus as usePage}                  from '../../../store/context/taskStatusContext';
+import {MultiButton}       from '../../../components/Form';
 
 
 
@@ -41,29 +41,18 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=response || {success:false,data:null};
-      setTable(prev => success ?[{
-        ...data, 
-        total_completed: 0, 
-        total_inprogress: 0, 
-        total_notstarted: 0, 
-        total_others: 0
-      },...prev]:prev);
+      setTable(prev => success ?[data,...prev]:prev);
   }, [response]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      // setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
-        // ...item,
-        // name:data["name"],
-        // description:data["description"]
-      // }:item),data]:prev);
+      setTable(prev => success ?prev.map((item) =>item.id === data.id ? data : item):prev);
   }, [editResponse]);
 
 
   useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
       setFormData({...fetchEditData});
-      // console.log("fetchEditData",formData.description)
     }
   }, [fetchEditData]);
 
@@ -96,7 +85,7 @@ const CollapsibleForm = () => {
             <Grid container spacing={2}>
 
               
-              <Grid size={12} sx={{paddingTop: "10px"}}>
+              <Grid size={4} sx={{paddingTop: '8px'}}>
                 <TextField
                   label="Type Name"
                   value={formData.name}
@@ -104,9 +93,47 @@ const CollapsibleForm = () => {
                   fullWidth
                 />
               </Grid>
+              <Grid size={4} sx={{}}>
+                <TextField
+                  label={'Start Day of Expense Cycle'}
+                  variant="outlined"
+                  required={true}
+                  fullWidth
+                  type="number"
+                  value={formData.startDay}
+                  onChange={(e) =>
+                    handleFormChange('startDay', e.target.value)
+                  }
+                  margin="dense"
+                  slotProps={{
+                    inputLabel: { shrink: true },
+                    htmlInput: { max: 31, min: 0, step: 1 }
+                  }}
+                />
+              </Grid>
+
+              <Grid size={4}>
+                <TextField
+                  label={'Maximum Expense Amount'}
+                  variant="outlined"
+                  required={true}
+                  fullWidth
+                  type="number"
+                  value={formData.maxAmount}
+                  onChange={(e) =>
+                    handleFormChange('maxAmount', e.target.value)
+                  }
+                  margin="dense"
+                  slotProps={{
+                    inputLabel: { shrink: true },
+                    htmlInput: { max: 1000000, min: 0, step: 1 }
+                  }}
+                />
+              </Grid>
+
               
               <Grid size={12}>
-                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Currency Description"/>
+                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Note"/>
               </Grid> 
 
               <Grid size={12}>

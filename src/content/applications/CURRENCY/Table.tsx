@@ -159,6 +159,8 @@ const DataTable = () => {
               <TableCell align='center'>TT Not Started</TableCell>
               <TableCell align='center'>TT Others</TableCell> */}
 
+              <TableCell align="center">Start Day of Cycle</TableCell>
+              <TableCell align="center">Max Amount</TableCell>
               <TableCell align="center">Note</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>

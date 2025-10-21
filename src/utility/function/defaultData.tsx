@@ -1,5 +1,6 @@
 import dayjs                  from 'dayjs';
 import { SleepFormStateInterface } from '../../utility/types/Page';
+import { max } from 'date-fns';
 
 
 export const sleepFormIntialState:SleepFormStateInterface = {
@@ -144,7 +145,9 @@ export const CategoryTypeFormIntialState = {
 export const CurrencyFormIntialState = {
   id: 0,
   name: "",
-  note: ''
+  note: '',
+  startDay: 1,
+  maxAmount: 0
 };
 
 
