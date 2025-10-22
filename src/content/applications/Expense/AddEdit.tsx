@@ -6,12 +6,10 @@ import Grid from '@mui/material/Grid';
 
 import { useNavigate,useParams }    from 'react-router-dom';
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
-import MultiButton                  from "../../../components/Form/MultiButton"
 import {ExpenseFormIntialState as FormIntialState}  from "../../../utility/function/defaultData"
 
 import { useSelector }              from 'react-redux';
-import StaticAutocomplete           from '../../../components/Form/StaticAutocomplete';
+import {StaticAutocomplete,CustomSwitch,MultiButton,CustomDatePicker}           from '../../../components/Form';
 import CustomAlert                  from '../../../components/Custom/Alert';
 
 import {axiosGetData} from '../../../utility/Axios'
@@ -19,6 +17,7 @@ import {axiosGetData} from '../../../utility/Axios'
 import { RootState }                    from '../../../store/Reducer';
 import { ExpenseFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
+import { ExpenseType }   from '../../../utility/function/data';
 
 
 import {ActivitySingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
@@ -176,6 +175,45 @@ const CollapsibleForm = () => {
                   }}
                 />
               </Grid>
+              
+              <Grid size={6}>
+                <StaticAutocomplete
+                  label="Spending Type"
+                  defaultValue={ExpenseType.filter((item) => item.value === formData.spendingType)[0]}
+                  options={ExpenseType}
+                  formKey="spendingType"
+                  onChange={handleFormChange}
+                  showValueInLabel={false}
+                />
+              </Grid>
+
+              <Grid size={6}>
+                <TextField
+                  label={'Wasted Amount'}
+                  variant="outlined"
+                  required={true}
+                  fullWidth
+                  type="number"
+                  value={formData.wastedAmount}
+                  onChange={(e) =>
+                    handleFormChange('wastedAmount', e.target.value)
+                  }
+                  margin="dense"
+                  slotProps={{
+                    inputLabel: { shrink: true },
+                    htmlInput: { max: 1000000, min: 0, step: 1 }
+                  }}
+                />
+              </Grid>
+
+              <Grid size={12}>
+                <CustomSwitch 
+                  value={formData.consider}
+                  onChange={(newValue) => handleFormChange('consider', newValue)}
+                  label="Consider in the Savings Calculation"
+                />
+              </Grid>  
+              
               
               <Grid size={12}>
                 <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Notes"/>

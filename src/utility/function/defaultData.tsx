@@ -111,7 +111,9 @@ export const TransactionFormIntialState = {
 
 export const ExpenseFormIntialState = {
   ...TransactionFormIntialState,
-  consider: false
+  consider: false,
+  wastedAmount: 0,
+  spendingType: 'necessity'
 };
 
 export const IncomeFormIntialState = {

@@ -49,6 +49,14 @@ export  const StatusCase2 = [
     { value: 'HIGH', label: 'High' },
 ];
 
+export  const ExpenseType = [
+    { value: 'necessity', label: 'Necessity' },
+    { value: 'stupidity', label: 'Stupidity' },
+    { value: 'unnecessary', label: 'Unnecessary' },
+    { value: 'luxury', label: 'Luxury' },
+];
+
+
 
 export const CategoryType = [
     { color:"success",value: 'income', label: 'Income'},

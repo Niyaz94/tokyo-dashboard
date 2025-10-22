@@ -107,6 +107,8 @@ export interface LimitFormIntialStateInterface extends TransactionFormIntialStat
 
 export interface ExpenseFormIntialStateInterface extends TransactionFormIntialStateInterface{
   consider: boolean;
+  wastedAmount: number;
+  spendingType: string;
 }
 export interface IncomeFormIntialStateInterface extends TransactionFormIntialStateInterface{
   consider: boolean;
