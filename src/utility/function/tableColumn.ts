@@ -43,6 +43,14 @@ export  const columnsSleep:Column[] = [
     { id:"",label: 'Actions', align: 'center' }
 ];
 
+export  const columnsTomorrow:Column[] = [
+    { id:"",label: 'Date', align: 'center' },
+    { id:"",label: 'Meditation', align: 'center' },
+    { id:"",label: 'Activity', align: 'center' },
+    { id:"",label: 'Plan', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
+
 
 
 export  const columnsLimit:Column[] = [

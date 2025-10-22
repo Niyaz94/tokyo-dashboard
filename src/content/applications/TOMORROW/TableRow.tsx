@@ -11,7 +11,7 @@ import BeenhereIcon from '@mui/icons-material/Beenhere';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import LockClockIcon from '@mui/icons-material/LockClock';
 import {labelWithColor,labelColorByNumber,getDayAbbreviation} from '../../../utility/function/main';
-import {usePageContext as usePage}      from '../../../store/context/pageContext';
+import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
