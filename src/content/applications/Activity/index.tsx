@@ -3,30 +3,31 @@ import useFetch, {FetchData}          from '../../../utility/customHook/useGetAP
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { Routes, Route }              from "react-router-dom";
-import {PageProvider}             from '../../../store/context/pageContext';
-import { RecentActivityTableInterface} from 'src/utility/types/data_types';
+import {PaginationProvider}           from '../../../store/context/paginationContext';
+import { RecentActivityTableInterface,PaginationTableDataInterface} from 'src/utility/types/data_types';
 
 
 export default () =>{
 
-  const { data,success}: FetchData<RecentActivityTableInterface> = useFetch <RecentActivityTableInterface>('notes/activity',{data:[]});
+
+
+  const { data,success}: FetchData<PaginationTableDataInterface<RecentActivityTableInterface>> = useFetch <PaginationTableDataInterface<RecentActivityTableInterface>>('notes/activity',{results:[],count:0,next:null,previous:null});
+  const {results,count,next,previous} = data;
 
   if (!success) {
     return <p>Loading...</p>;
   }
 
   return (
-    <PageProvider tableData={data} pageDefaultData={{}}>
-      <Template templateTitle="Perosnal - Activity">
+    <PaginationProvider tableData={results} secondaryData={{}} paginData={{count: count, next: next, previous: previous}}>
+      <Template templateTitle="Personal - Activity">
         <Routes>
           <Route path=""    element={<PageTable />} />
-          {/* <Route path=""    element={<PageTable tableData={tableData} />} /> */}
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>
       </Template>
-    </PageProvider>
-
+    </PaginationProvider>
   );
 }
 

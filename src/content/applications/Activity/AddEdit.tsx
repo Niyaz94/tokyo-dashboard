@@ -26,7 +26,6 @@ import {dailySearch}                    from "../../../utility/function/main"
 
 const ActivityInsertUpdateComponent = () => {
 
-
   
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
   

@@ -17,6 +17,16 @@ export  const columnsExpense:Column[] = [
     { id:"",label: 'Note', align: 'center' },
     { id:"",label: 'Actions', align: 'center' }
 ];
+export  const columnsToday:Column[] = [
+    { id:"",label: 'Date', align: 'center' },
+    { id:"",label: 'Meditation', align: 'center' },
+    { id:"",label: 'Time Managment', align: 'center' },
+    { id:"",label: 'Sleep', align: 'center' },
+    { id:"",label: 'Activity', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
+
+
 export  const columnsLimit:Column[] = [
     { id:"",label: 'Year', align: 'center' },
     { id:"",label: 'Month', align: 'center' },
