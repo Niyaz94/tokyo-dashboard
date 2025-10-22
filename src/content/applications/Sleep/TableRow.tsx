@@ -6,13 +6,13 @@ import {Checkbox,TableCell,TableRow,Stack}  from '@mui/material';
 import Label                                from 'src/components/Label';
 import TableCusCell                         from '../../../components/Table/Cell';
 import ButtonTable                          from "../../../components/Form/ButtonTable"       
-import {usePageContext as usePage}      from '../../../store/context/pageContext';
+import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import NoFoodIcon from '@mui/icons-material/NoFood';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 
-function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDeleteRow}) {
+function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   
     const {
       id,date,daily,success,worrying,isSleepControl,activity_level,morningFeeling,is_busy,bedTime,approxFellSleepTime,
@@ -30,11 +30,11 @@ function CustomTableRow({data,isSleepDataelected,handleSelectOneSleepData,onDele
     const wastedTime=getTimeDifferenceInMinutes(bedTime.slice(0,5),approxFellSleepTime.slice(0,5))
 
   return (
-    <TableRow hover  key={id}  selected={isSleepDataelected}>
+    <TableRow hover  key={id}  selected={isDataSelected}>
       <TableCell padding="checkbox">
         <Checkbox
-          color="primary" checked={isSleepDataelected} value={isSleepDataelected}
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>handleSelectOneSleepData(event, id)} 
+          color="primary" checked={isDataSelected} value={isDataSelected}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>handleSelectOneData(event, id)} 
         />
       </TableCell>
       <TableCusCell prop={[{text:`${date} (${getDayAbbreviation(date)})`,styleType:1},{text:<Stack direction="row" spacing={1}>

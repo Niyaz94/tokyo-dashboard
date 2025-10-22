@@ -35,6 +35,15 @@ export  const columnsActivity:Column[] = [
     { id:"",label: 'Actions', align: 'center' }
 ];
 
+export  const columnsSleep:Column[] = [
+    { id:"",label: 'Date', align: 'center' },
+    { id:"",label: 'Morning Feeling', align: 'center' },
+    { id:"",label: 'Sleep State', align: 'center' },
+    { id:"",label: 'Activity', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
+
+
 
 export  const columnsLimit:Column[] = [
     { id:"",label: 'Year', align: 'center' },

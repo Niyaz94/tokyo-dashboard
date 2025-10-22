@@ -15,7 +15,7 @@ import {columnsActivity as columns} from '../../../utility/function/tableColumn'
 
 const DataTable = () => {
 
-  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
+  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('activity');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
 
   const navigate = useNavigate();
