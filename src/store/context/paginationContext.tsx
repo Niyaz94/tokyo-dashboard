@@ -19,7 +19,7 @@ export const PaginationProvider  = ({ children,tableData, secondaryData,paginDat
 export const usePaginationContext = () => {
     const context = useContext(PaginationContext);
     if (!context) {
-      throw new Error("TaskStatus must be used within an TaskStatusProvider");
+      throw new Error("The page must be used within an PaginationProvider");
     }
     return context;
 };

@@ -26,6 +26,15 @@ export  const columnsToday:Column[] = [
     { id:"",label: 'Actions', align: 'center' }
 ];
 
+export  const columnsActivity:Column[] = [
+    { id:"",label: 'Date', align: 'center' },
+    { id:"",label: 'Activity Level', align: 'center' },
+    { id:"",label: 'Gym', align: 'center' },
+    { id:"",label: 'Activity', align: 'center' },
+    { id:"",label: 'MM', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
+
 
 export  const columnsLimit:Column[] = [
     { id:"",label: 'Year', align: 'center' },

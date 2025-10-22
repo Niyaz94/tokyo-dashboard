@@ -9,8 +9,6 @@ import { RecentActivityTableInterface,PaginationTableDataInterface} from 'src/ut
 
 export default () =>{
 
-
-
   const { data,success}: FetchData<PaginationTableDataInterface<RecentActivityTableInterface>> = useFetch <PaginationTableDataInterface<RecentActivityTableInterface>>('notes/activity',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
