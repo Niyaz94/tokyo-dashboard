@@ -1,17 +1,17 @@
 import { useAddEditPage}         from "../../../utility/customHook";
 import {FormLayout,FieldRenderer}       from '../../../components/Form';
 import { todayFormFields } from "./config";
-import {TodayFormIntialStateInterface as FormIntialState}  from "../../../utility/function/defaultData"
+import {todayFormIntialState}  from "../../../utility/function/defaultData"
+import { TodayFormIntialStateInterface } from "../../../utility/types/Page";
 
-const TodayAddEdit = () => {
-  const {
-    formData, handleFormChange, handleSave, setPageRedirect,
-    open, message, severity, closeSnackbar, isEdit
-  } = useAddEditPage({
+const TodayAddEdit =  ()  => {
+
+  const {formData, handleFormChange, handleSave, setPageRedirect,open, message, severity, closeSnackbar, isEdit
+  } = useAddEditPage<TodayFormIntialStateInterface>({
     fetchUrl: (id) => `notes/daily/${id}`,
     postUrl: "notes/daily/",
     editUrl: (id) => `notes/daily/${id}/`,
-    initialState: FormIntialState,
+    initialState: todayFormIntialState,
     onSuccessRedirect: "/personal/today"
   });
 

@@ -1,9 +1,11 @@
 // components/FieldRenderer.tsx
 import { TextField, Grid } from "@mui/material";
-import { CustomSwitch, StaticAutocomplete,ThreeStateButton,CustomDatePicker } from "./index";
+import { CustomSwitch,DynamicAutocomplete,TimePickers, StaticAutocomplete,ThreeStateButton,CustomDatePicker } from "./index";
 import LexicalEditor from "../Custom/Lexical/Editor";
+import dayjs                  from 'dayjs';
 
-export const FieldRenderer = ({ field, formData, handleFormChange }: any) => {
+
+export const FieldRenderer = ({ field, formData, handleFormChange,isEdit }: any) => {
   const value = formData[field.key];
   switch (field.type) {
     case "number":
@@ -67,6 +69,18 @@ export const FieldRenderer = ({ field, formData, handleFormChange }: any) => {
           />
         </Grid>
       );
+    case "d_autocomplete":
+      return (
+        <Grid size={field.size}>
+          {(value || !isEdit) && <DynamicAutocomplete
+            label={field.label}
+            defaultValue={value}
+            fetchOptions={field.optionfun}
+            formKey={field.key}
+            onChange={handleFormChange}
+          />}
+        </Grid>
+      );
     case "date":
         return (
             <Grid size={field.size}>
@@ -76,6 +90,16 @@ export const FieldRenderer = ({ field, formData, handleFormChange }: any) => {
                    placeholder={field.label}
                    onChange={(newValue) => handleFormChange(field.key, newValue )}
                  />
+            </Grid>
+        );
+    case "time":
+        return (
+            <Grid size={field.size}>
+                <TimePickers
+                  label={field.label}
+                  value={value?dayjs(value, 'HH:mm:ss'):value}
+                  onChange={(newValue) =>handleFormChange(field.key, newValue)}
+                />
             </Grid>
         );
     case "editor":

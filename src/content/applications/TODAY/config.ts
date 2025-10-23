@@ -9,10 +9,12 @@ export const todayFormFields = [
     { size:4, type: "number", key: "wastedTimeInMinutes", label: "Wasted Time In Minutes",min:0 ,max:600,required:true},
     { size:4, type: "number", key: "successRate", label: "Success Rate (%)",min:0 ,max:100,required:true},  
 
-    { size:3,type: "switch", key: "isBusyDay", label: "Is Busy Day" },
-    { size:3,type: "switch", key: "isMeditation", label: "Is Meditation" },
-    { size:3,type: "threeStateSwitch", key: "successStatus", label: "Success Status"},
-    { size:3,type: "switch", key: "isListenToMusic", label: "Is Listen To Music" },
+    { size:4,type: "switch", key: "isBusyDay", label: "Is Busy Day" },
+    { size:4,type: "switch", key: "isMeditation", label: "Is Meditation" },
+    { size:4,type: "threeStateSwitch", key: "successStatus", label: "Success Status"},
+
+    { size:6,type: "switch", key: "isListenToMusic", label: "Is Listen To Music" },
+    { size:6,type: "switch", key: "beingGrateful", label: "Being Grateful"},
 
     { size:6,  type: "editor", key: "dailyNotes", label: "Daily Notes" },
     { size:6,  type: "editor", key: "whatToDoBetter", label: "What To Do Better" },

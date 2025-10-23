@@ -153,7 +153,7 @@ export const CurrencyFormIntialState = {
 };
 
 
-export const TodayFormIntialStateInterface = {
+export const todayFormIntialState = {
   id: 0,
   date: dayjs().format('YYYY-MM-DD'),
   worryingLevel: '',
@@ -168,7 +168,8 @@ export const TodayFormIntialStateInterface = {
   dailyThink: '{}',
   usefulTimeInMinutes: 0,
   wastedTimeInMinutes: 0,
-  successRate: 50
+  successRate: 50,
+  beingGrateful: false
 };
 
 export const TomorrowFormIntialStateInterface = {

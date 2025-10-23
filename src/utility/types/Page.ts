@@ -157,6 +157,7 @@ export type TodayFormIntialStateInterface = {
   wastedTimeInMinutes: number;
   successRate: number;
   isListenToMusic: boolean;
+  beingGrateful: boolean;
 };
 
 export type TomorrowFormIntialStateInterface = {
