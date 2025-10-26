@@ -22,7 +22,6 @@ export const SidebarProvider: FC<Props> = ({ children }) => {
   };
 
   const closeSidebar = () => {
-    console.log('closeSidebar');
     setSidebarToggle(false);
   };
 

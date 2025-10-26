@@ -128,21 +128,19 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Accounts',
     isCollapse: true,
     children: [
-      {title: '+User Profile',link: '/management/profile/details',icon: <AccountCircleTwoToneIcon />},
-      {title: '+Account Settings',link: '/management/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
-      {title: '+Password Settings',link: '/management/profile/password',icon: <Password />},
-      {title: '+Log ',link: '/management/profile/password',icon: <Input />}
+      {title: '+User Profile',link: '/profile/details',icon: <AccountCircleTwoToneIcon />},
+      {title: '+Account Settings',link: '/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
+      {title: '+Password Settings',link: '/profile/password',icon: <Password />},
+      {title: '+Log ',link: '/profile/log',icon: <Input />}
     ],
   },
   components: {
     title: 'Components',
     isCollapse: true,
     children: [
-      {title: 'User Profile',link: '/management/profile/details',icon: <AccountCircleTwoToneIcon />},
-      {title: 'Account Settings',link: '/management/profile/settings',icon: <DisplaySettingsTwoToneIcon />},
-      {title: 'Cryptocurrency',link: '/dashboards/crypto',icon: <BrightnessLowTwoToneIcon />},
-      {title: 'Messenger',link: '/dashboards/messenger',icon: <MmsTwoToneIcon />},
-      {title: 'Transactions List',link: '/management/transactions',   icon: <TableChartTwoToneIcon />},
+      {title: 'Cryptocurrency',link: '/components/crypto',icon: <BrightnessLowTwoToneIcon />},
+      {title: 'Messenger',link: '/components/messenger',icon: <MmsTwoToneIcon />},
+      {title: 'Transactions List',link: '/components/transactions',   icon: <TableChartTwoToneIcon />},
       {title: 'Buttons',link: '/components/buttons',icon: <BallotTwoToneIcon />},
       {title: 'Modals',link: '/components/modals',icon: <BeachAccessTwoToneIcon />,},
       {title: 'Accordions',link: '/components/accordions',icon: <EmojiEventsTwoToneIcon />,},

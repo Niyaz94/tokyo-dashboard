@@ -22,59 +22,49 @@ const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 // Applications
 const Messenger     = Loader(lazy(() => import('src/content/applications/Messenger')));
 const Transactions  = Loader(lazy(() => import('src/content/applications/Transactions')));
-const Expense       = Loader(lazy(() => import('src/content/applications/EXPENSE')));
-const CURRENCY      = Loader(lazy(() => import('src/content/applications/CURRENCY')));
-const INCOME        = Loader(lazy(() => import('src/content/applications/INCOME')));
-const LIMIT         = Loader(lazy(() => import('src/content/applications/LIMIT')));
-const REPEAT        = Loader(lazy(() => import('src/content/applications/REPEAT')));
-// const AddExpense    = Loader(lazy(() => import('src/content/applications/Expense/AddEdit')));
-// const EditExpense   = Loader(lazy(() => import('src/content/applications/Expense/AddEdit')));
-// const AddIncome     = Loader(lazy(() => import('src/content/applications/Income/AddEdit')));
-// const EditIncome    = Loader(lazy(() => import('src/content/applications/Income/AddEdit')));
+const Expense       = Loader(lazy(() => import('src/content/money/EXPENSE')));
+const CURRENCY      = Loader(lazy(() => import('src/content/money/CURRENCY')));
+const INCOME        = Loader(lazy(() => import('src/content/money/INCOME')));
+const LIMIT         = Loader(lazy(() => import('src/content/money/LIMIT')));
+const REPEAT        = Loader(lazy(() => import('src/content/money/REPEAT')));
 const UserProfile   = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/settings')));
 
 
 // Daily Life
-const Sleep         = Loader(lazy(() => import('src/content/applications/SLEEP')));
-const SleepAdd      = Loader(lazy(() => import('src/content/applications/SLEEP/AddEdit')));
-const SleepEdit     = Loader(lazy(() => import('src/content/applications/SLEEP/AddEdit')));
-// const AddSleep      = Loader(lazy(() => import('src/content/applications/Sleep/AddSleep')));
-const Activity      = Loader(lazy(() => import('src/content/applications/ACTIVITY')));
-const Today         = Loader(lazy(() => import('src/content/applications/TODAY')));
-const Tomorrow      = Loader(lazy(() => import('src/content/applications/TOMORROW')));
-const Topic         = Loader(lazy(() => import('src/content/applications/TOPIC')));
+const Sleep         = Loader(lazy(() => import('src/content/daily/SLEEP')));
+const Activity      = Loader(lazy(() => import('src/content/daily/ACTIVITY')));
+const Today         = Loader(lazy(() => import('src/content/daily/TODAY')));
+const Tomorrow      = Loader(lazy(() => import('src/content/daily/TOMORROW')));
+const Topic         = Loader(lazy(() => import('src/content/improvment/TOPIC')));
 
-const SINGLE_TASK   = Loader(lazy(() => import('src/content/applications/SINGLE_TASK')));
-const TASK          = Loader(lazy(() => import('src/content/applications/TASK')));
-const GOAL          = Loader(lazy(() => import('src/content/applications/GOAL')));
-const TASK_STATUS   = Loader(lazy(() => import('src/content/applications/TASK_STATUS')));
+const SINGLE_TASK   = Loader(lazy(() => import('src/content/task/SINGLE_TASK')));
+const TASK          = Loader(lazy(() => import('src/content/task/TASK')));
+const GOAL          = Loader(lazy(() => import('src/content/task/GOAL')));
+const TASK_STATUS   = Loader(lazy(() => import('src/content/task/TASK_STATUS')));
 
 
-const SIN_TASK_TYPE = Loader(lazy(() => import('src/content/applications/SIN_TASK_TYPE')));
-const TASK_MONTH = Loader(lazy(() => import('src/content/applications/TASK_MONTH')));
-const CATEGORY  = Loader(lazy(() => import('src/content/applications/CATEGORY')));
-const RECIPE  = Loader(lazy(() => import('src/content/applications/RECIPE')));
+const SIN_TASK_TYPE = Loader(lazy(() => import('src/content/task/SIN_TASK_TYPE')));
+const TASK_MONTH = Loader(lazy(() => import('src/content/task/TASK_MONTH')));
+const CATEGORY  = Loader(lazy(() => import('src/content/money/CATEGORY')));
+const RECIPE  = Loader(lazy(() => import('src/content/extra/RECIPE')));
 
 
 const TASK_STATUS_REPORT  = Loader(lazy(() => import('src/content/reports/TASK_STATUS')));
 
 const MONTHLY_EXPENSE  = Loader(lazy(() => import('src/content/reports/MONTHLY_EXPENSE')));
 
-// 
-
-
 
 // Components
-// const Buttons     = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
-// const Modals      = Loader(lazy(() => import('src/content/pages/Components/Modals')));
-// const Accordions  = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
-// const Tabs        = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
-// const Badges      = Loader(lazy(() => import('src/content/pages/Components/Badges')));
-// const Tooltips    = Loader(lazy(() => import('src/content/pages/Components/Tooltips')));
-// const Avatars     = Loader(lazy(() => import('src/content/pages/Components/Avatars')));
-// const Cards       = Loader(lazy(() => import('src/content/pages/Components/Cards')));
-// const Forms       = Loader(lazy(() => import('src/content/pages/Components/Forms')));
+const Buttons     = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
+const Modals      = Loader(lazy(() => import('src/content/pages/Components/Modals')));
+const Accordions  = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
+const Tabs        = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
+const Badges      = Loader(lazy(() => import('src/content/pages/Components/Badges')));
+const Tooltips    = Loader(lazy(() => import('src/content/pages/Components/Tooltips')));
+const Avatars     = Loader(lazy(() => import('src/content/pages/Components/Avatars')));
+const Cards       = Loader(lazy(() => import('src/content/pages/Components/Cards')));
+const Forms       = Loader(lazy(() => import('src/content/pages/Components/Forms')));
 
 // Status
 const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));
@@ -88,27 +78,27 @@ const routes: RouteObject[] = [
     path: '',
     element: <BaseLayout />,
     children: [
-      {path: '/',element: <Overview />},
+      {path: '/',element: <SidebarLayout />},
       {path: 'overview',element: <Navigate to="/" replace />},
       {
         path: 'status',
         children: [
           {path: '',element: <Navigate to="404" replace />},
           {path: '404',element: <Status404 />},
-          // {path: '500',element: <Status500 />},
           {path: 'maintenance',element: <StatusMaintenance />},
           {path: 'coming-soon',element: <StatusComingSoon />}
         ]
       },
       {path: '*',element: <Status404 />}
     ]
-  },{
-    path: 'dashboards',
+  },
+  {
+    path: 'profile',
     element: <SidebarLayout />,
     children: [
-      {path: '',element: <Navigate to="crypto" replace />},
-      {path: 'crypto',element: <Crypto />},
-      {path: 'messenger',element: <Messenger />}
+      {path: '',element: <Navigate to="details" replace />},
+      {path: 'details/*',element: <UserProfile />},
+      {path: 'settings/*',element: <UserSettings />}
     ]
   },
   {
@@ -116,24 +106,12 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {path: '',element: <Navigate to="transactions" replace />},
-      // {path: 'transactions',element: <Transactions />},
       {path: 'expense/*',element: <Expense />},
       {path: 'currency/*',element: <CURRENCY />},
       {path: 'income/*',element: <INCOME />},
       {path: 'limit/*',element: <LIMIT />},
       {path: 'repeat/*',element: <REPEAT />},
       {path: 'category/*',element: <CATEGORY />},
-
-
-      
-      // {
-      //   path: 'profile',
-      //   children: [
-      //     {path: '',element: <Navigate to="details" replace />},
-      //     {path: 'details',element: <UserProfile />},
-      //     {path: 'settings',element: <UserSettings />}
-      //   ]
-      // }
     ]
   },
   {
@@ -176,22 +154,25 @@ const routes: RouteObject[] = [
       {path: 'foodrecipe/*',element: <RECIPE />},
     ]
   },
-  // {
-  //   path: '/components',
-  //   element: <SidebarLayout />,
-  //   children: [
-  //     {path: '',element: <Navigate to="buttons" replace />},
-  //     {path: 'buttons',element: <Buttons />},
-  //     {path: 'modals',element: <Modals />},
-  //     {path: 'accordions',element: <Accordions />},
-  //     {path: 'tabs',element: <Tabs />},
-  //     {path: 'badges',element: <Badges />},
-  //     {path: 'tooltips',element: <Tooltips />},
-  //     {path: 'avatars',element: <Avatars />},
-  //     {path: 'cards',element: <Cards />},
-  //     {path: 'forms',element: <Forms />}
-  //   ]
-  // },
+  {
+    path: '/components',
+    element: <SidebarLayout />,
+    children: [
+      {path: '',element: <Navigate to="buttons" replace />},
+      {path: 'crypto',element: <Crypto />},
+      {path: 'messenger',element: <Messenger />},
+      {path: 'transactions',element: <Transactions />},
+      {path: 'buttons',element: <Buttons />},
+      {path: 'modals',element: <Modals />},
+      {path: 'accordions',element: <Accordions />},
+      {path: 'tabs',element: <Tabs />},
+      {path: 'badges',element: <Badges />},
+      {path: 'tooltips',element: <Tooltips />},
+      {path: 'avatars',element: <Avatars />},
+      {path: 'cards',element: <Cards />},
+      {path: 'forms',element: <Forms />}
+    ]
+  },
   {
     path: 'report',
     element: <SidebarLayout />,

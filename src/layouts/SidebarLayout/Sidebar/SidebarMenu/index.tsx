@@ -255,7 +255,9 @@ function SidebarMenu() {
 
   const { closeSidebar } = useContext(SidebarContext);
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+
   const toggleMenu = (key: string) => {
+    // console.log('Toggling menu:', openMenus);
     setOpenMenus((prev) => ({
       ...prev,
       [key]: !prev[key]
@@ -268,20 +270,22 @@ function SidebarMenu() {
       const isOpen = openMenus[key] || false;
       return <List component="div" key={key}>
           { item.isCollapse && <>
-            <ListItemButton onClick={() => toggleMenu(key)} sx={{ '&:hover': { backgroundColor: `${alpha(theme.colors.alpha.trueWhite[100], 0.06)}` } }}>
+            <ListItemButton 
+              onClick={() => toggleMenu(key)} 
+              sx={{ 
+                '&:hover': { backgroundColor: `${alpha(theme.colors.alpha.trueWhite[100], 0.06)}` } ,
+                // ...(openMenus[key] && {
+                  // backgroundColor: alpha(theme.colors.alpha.trueWhite[100], 0.06),
+                // })
+
+            }}>
               {<ListSubheader component="div" disableSticky>{item.title}</ListSubheader>}
               {isOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
               <SubMenuWrapper>
                 <List component="div" disablePadding>
-                  {item.children.map((item, index) =>  <CustomListItem 
-                        key={`${key}_${index}`} 
-                        action={closeSidebar} 
-                        icon={item.icon} 
-                        text={item.title} 
-                        link={item.link} 
-                    />
+                  {item.children.map((item, index) =>  <CustomListItem key={`${key}_${index}`} action={closeSidebar} icon={item.icon} text={item.title} link={item.link} />
                   )}
                 </List>
               </SubMenuWrapper>
