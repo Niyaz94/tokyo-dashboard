@@ -13,7 +13,7 @@ const usePostAPI =() => {
   const [error,      setError]  = useState<string>('');
 
 
-  const postData = async (url:string,body:any,bodyType:string="JSON") => {
+  const postData = async (url:string,body:any,bodyType:string="JSON",successState=201) => {
     setLoading(true);
     setSuccess(false);
 
@@ -60,7 +60,7 @@ const usePostAPI =() => {
       const post_response = await res.json();
 
       //res.statusText
-      if (res.status===201) {
+      if (res.status===successState) {
         setResponse({ success: true, data:post_response });
         setSuccess(true);
       } else {

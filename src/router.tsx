@@ -71,6 +71,8 @@ const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')
 // const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')));
 const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
 const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
+const LOGIN = Loader(lazy(() => import('src/content/user/LOGIN')));
+const REGISTER = Loader(lazy(() => import('src/content/user/REGISTER')));
 
 
 const routes: RouteObject[] = [
@@ -78,7 +80,10 @@ const routes: RouteObject[] = [
     path: '',
     element: <BaseLayout />,
     children: [
-      {path: '/',element: <SidebarLayout />},
+      {path: '/',element: <LOGIN />},
+      {path: '/dashboard',element: <SidebarLayout />},
+      {path: '/login',element: <LOGIN />},
+      {path: '/register',element: <REGISTER />},
       {path: 'overview',element: <Navigate to="/" replace />},
       {
         path: 'status',
