@@ -21,6 +21,7 @@ export interface tablePaginationInterface {
     name: string;
     page: number;
     limit: number;
+    filter?: { field: string; order: 'asc' | 'desc'};
 }
 
 

@@ -13,7 +13,7 @@ import { columnsSingleTask as columns } from '../../../utility/function/tableCol
 
 
 const DataTable = () => {
-  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('singleTask');
+  const { page, limit, fieldName,order,handlePageChange, handleLimitChange,handleFilterHeaderChange } = useTablePaginationHandlers('singleTask');
 
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const {status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
@@ -22,19 +22,17 @@ const DataTable = () => {
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("singleTask");
 
-  const [orderColumn, setOrderColumn] = useState<string>('');
-
   const onTableHeaderClick = (columnId, order) => {
-    setOrderColumn(`columnId=${columnId}&orderBy=${order}&`);
+    handleFilterHeaderChange(columnId, order);
   }
 
   useEffect(() => {
-    axiosGetData(`schedule/stask/?${filterQuery}${orderColumn}page=${page+1}&page_size=${limit}`).then((res) => {
+    axiosGetData(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
       setTable(results);
       setPagination({count: count, next: next, previous: previous});
     });
-  }, [ page, limit,filters,orderColumn]);
+  }, [ page, limit,filters,fieldName,order]);
 
   return (
     <Card>

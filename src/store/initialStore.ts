@@ -7,23 +7,23 @@ import dayjs                  from 'dayjs';
 
 
 export const tablePaginationInit: tablePaginationInterface[] = [
-  { name: "expense",page: 0, limit: 10 },
-  { name: "today",page: 0, limit: 10 },
-  { name: "tomorrow",page: 0, limit: 10 },
-  { name: "activity",page: 0, limit: 10 },
-  { name: "sleep"  ,page: 0, limit: 10 },
-  { name: "taskStatus"  ,page: 0, limit: 10 },
-  { name: "singleTask"  ,page: 0, limit: 10 },
-  { name: "singleTaskType"  ,page: 0, limit: 10 },
-  { name: "expenseType"  ,page: 0, limit: 10 },
-  { name: "task"  ,page: 0, limit: 10 },
-  { name: "goal"  ,page: 0, limit: 10 },
-  { name: "topic"  ,page: 0, limit: 10 },
-  { name: "recipe"  ,page: 0, limit: 10 },
-  { name: "currency"  ,page: 0, limit: 10 },
-  { name: "income"  ,page: 0, limit: 10 },
-  { name: "limit"  ,page: 0, limit: 10 },
-  { name: "repeat"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "expense",page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "today",page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "tomorrow",page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "activity",page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "sleep"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "taskStatus"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "singleTask"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "singleTaskType"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "expenseType"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "task"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "goal"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "topic"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "recipe"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "currency"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "income"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "limit"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "repeat"  ,page: 0, limit: 10 },
 
 
 
@@ -73,5 +73,6 @@ export const tableHeaderFilter:tableHeaderFilterInterface = {
   "taskStatus": {
     start_date: dayjs().startOf('month').format('YYYY-MM-DD') ,
     end_date: dayjs().endOf('month').format('YYYY-MM-DD'),
-    status: "all",tag: "all"},
+    status: "all",tag: "all"
+  },
 }
