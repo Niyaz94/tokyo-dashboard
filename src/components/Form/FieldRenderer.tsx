@@ -5,7 +5,7 @@ import LexicalEditor from "../Custom/Lexical/Editor";
 import dayjs                  from 'dayjs';
 
 
-export const FieldRenderer = ({ field, formData, handleFormChange,isEdit }: any) => {
+export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }: any) => {
   const value = formData[field.key];
   switch (field.type) {
     case "number":
@@ -42,7 +42,7 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit }: any)
     case "switch":
       return (
         <Grid size={field.size}>
-          <CustomSwitch value={value} label={field.label} onChange={v => handleFormChange(field.key, v)} />
+          <CustomSwitch value={value} label={field.label} onChange={v => handleFormChange(field.key, v)}  />
         </Grid>
       );
     case "threeStateSwitch":
@@ -53,6 +53,7 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit }: any)
                 onChange={v => handleFormChange(field.key, v)}
                 buttonValue={{"on":"success","off":"failure","auto":"neutral"}}
                 defaultValue={value}
+                
 
             />
         </Grid>
@@ -66,6 +67,7 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit }: any)
             formKey={field.key}
             defaultValue={field.options.find((o: any) => o.value === value)}
             onChange={handleFormChange}
+            error={error[0].replace(/['"]+/g, '')}
           />
         </Grid>
       );

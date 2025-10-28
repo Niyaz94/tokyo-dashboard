@@ -10,12 +10,14 @@ const usePostAPI =() => {
   const [response, setResponse] = useState<ApiResponse | null>(null);
   const [loading,  setLoading]  = useState<boolean>(true);
   const [success,  setSuccess]  = useState<boolean>(false);
-  const [error,      setError]  = useState<string>('');
+  const [error, setError] = useState<{message:string,errors:Record<string,any>}>({message:"",errors:{}});
 
 
   const postData = async (url:string,body:any,bodyType:string="JSON",successState=201) => {
     setLoading(true);
     setSuccess(false);
+    setError({message:"",errors:{}});
+
 
     try {
       let preData;
@@ -48,8 +50,6 @@ const usePostAPI =() => {
         headers= {
             'Content-Type': 'application/json'
         }
-
-      // console.log(preData)
         
       const requestOptions = {
         method: "POST",
@@ -64,10 +64,15 @@ const usePostAPI =() => {
         setResponse({ success: true, data:post_response });
         setSuccess(true);
       } else {
-        throw new Error(post_response.error || 'Failed to fetch');
+        // throw new Error(post_response.message || 'Failed to fetch');
+        throw new Error(
+          post_response.message || 'Failed to fetch',
+          {cause: { errors: post_response.errors || {} }}
+        );
       }
     } catch (err:any) {
-      setError(err.message || 'Something went wrong');
+      // setError(err.message || 'Something went wrong');
+      setError({message: err.message || "Something went wrong", errors: err.cause.errors || {}});
       setResponse({ success: false, error: err.message });
     } finally {
       setLoading(false);

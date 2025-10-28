@@ -25,6 +25,7 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   const { editData, response: editResponse, error: editError } = useEditAPI();
 
   const [formData, setFormData] = useState<T>(initialState);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [pageRedirect, setPageRedirect] = useState(false);
 
   const handleFormChange = useCallback(
@@ -56,9 +57,13 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
         if (pageRedirect && onSuccessRedirect) navigate(onSuccessRedirect);
       }, 1500);
     } else if (postError || editError) {
-      showSnackbar(postError || editError, "error");
+      showSnackbar(postError.message || editError.message, "error");
+
+      const firstNonEmpty = (...objs: any[]) =>objs.find(obj => obj && Object.keys(obj).length > 0) || {};
+
+      setFormErrors(firstNonEmpty(postError?.errors, editError?.errors));
     }
   }, [response, editResponse, postError, editError]);
 
-  return {formData,setFormData,handleFormChange,handleSave,open,message,severity,closeSnackbar,setPageRedirect,isEdit,};
+  return {formData,formErrors,setFormData,handleFormChange,handleSave,open,message,severity,closeSnackbar,setPageRedirect,isEdit,};
 }

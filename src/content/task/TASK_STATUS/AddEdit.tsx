@@ -82,7 +82,9 @@ const CollapsibleForm = () => {
         ));
       }
       try {
-        const errorMessage = post_api_error || editError;
+        // const errorMessage = post_api_error || editError;
+        const errorMessage = post_api_error.message || editError.message;
+
         const success = postSuccess || editSuccess;
         const successMessage = postSuccess ? 'Submitted successfully!' : editSuccess ? 'Edited successfully!' : null;
   

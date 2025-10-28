@@ -140,11 +140,11 @@ const CollapsibleForm = () => {
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/transactions/currency'}/>
               </Grid>
             </Grid>
-            {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
+            {/* {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
             {success && <p style={{ color: "green" }}>Success! Data submitted.</p>}
             {response && response.data && (
               <pre>Response: {JSON.stringify(response.data, null, 2)}</pre>
-            )}
+            )} */}
           </Box>
         </CardContent>
       </Card>

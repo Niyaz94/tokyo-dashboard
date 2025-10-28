@@ -1,21 +1,26 @@
 import React,{FC} from 'react';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import { makeStyles } from "@mui/styles";
 
+import {
+  FormGroup,
+  FormControl,
+  FormControlLabel,
+  Switch,
+  FormHelperText,
+} from "@mui/material";
 
 interface CustomSwitchInterface {
     label: string;
     value: boolean | null;
     onChange: (newValue: boolean | null) => void;
+    error?: string;
 }
 const useStyles = makeStyles({
   root: {
     // background:"#000"
   },
 });
-const CustomizedSwitch:FC<CustomSwitchInterface>= React.memo(({value,label,onChange}) => {
+const CustomizedSwitch:FC<CustomSwitchInterface>= React.memo(({value,label,onChange,error}) => {
     // value=true
     const classes = useStyles();
 
@@ -24,20 +29,37 @@ const CustomizedSwitch:FC<CustomSwitchInterface>= React.memo(({value,label,onCha
         onChange(event.target.checked);
     };
     return (
-        <FormGroup>
-            <FormControlLabel 
-                control={
-                    <Switch 
-                        size="medium" color="success" 
-                        checked={value} 
-                        // defaultChecked={value} 
-                        onChange={handleChange}
-                        classes={{ root: classes.root }}
-                    />
-                } 
-                label={label}  
+        // <FormGroup>
+        //     <FormControlLabel 
+        //         control={
+        //             <Switch 
+        //                 size="medium" color="success" 
+        //                 checked={value} 
+        //                 // defaultChecked={value} 
+        //                 onChange={handleChange}
+        //                 classes={{ root: classes.root }}
+        //             />
+        //         } 
+        //         label={label}  
+        //     />
+        // </FormGroup>
+    <FormControl component="fieldset" error={Boolean(error)}>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              size="medium"
+              color="success"
+              checked={!!value}
+              onChange={handleChange}
+              classes={{ root: classes.root }}
             />
-        </FormGroup>
+          }
+          label={label}
+        />
+      </FormGroup>
+      {error && <FormHelperText>{error}</FormHelperText>}
+    </FormControl>
     );
 })
 

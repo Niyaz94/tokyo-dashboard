@@ -6,7 +6,7 @@ import { TodayFormIntialStateInterface } from "../../../utility/types/Page";
 
 const TodayAddEdit =  ()  => {
 
-  const {formData, handleFormChange, handleSave, setPageRedirect,open, message, severity, closeSnackbar, isEdit
+  const {formData,formErrors, handleFormChange, handleSave, setPageRedirect,open, message, severity, closeSnackbar, isEdit
   } = useAddEditPage<TodayFormIntialStateInterface>({
     fetchUrl: (id) => `notes/daily/${id}`,
     postUrl: "notes/daily/",
@@ -28,7 +28,7 @@ const TodayAddEdit =  ()  => {
       snackbar={{ open, message, severity, onClose: closeSnackbar }}
     >
       {todayFormFields.map((field, i) => (
-        <FieldRenderer key={i} field={field} formData={formData} handleFormChange={handleFormChange} />
+        <FieldRenderer key={i} field={field} error={formErrors[field.key] || []} formData={formData} handleFormChange={handleFormChange} />
       ))}
     </FormLayout>
   );

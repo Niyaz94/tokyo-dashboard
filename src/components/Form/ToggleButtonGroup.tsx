@@ -34,7 +34,7 @@ interface ThreeStateSwitchProps {
 
 export default function ThreeStateSwitch({label,onChange,buttonValue={"on":"on","off":"off","auto":"auto"},defaultValue="auto"}: ThreeStateSwitchProps) {
 
-  console.log("ThreeStateSwitch",defaultValue);
+  // console.log("ThreeStateSwitch",defaultValue);
   // const [value, setValue] = useState<string | null>(defaultValue);
 
   const handleChange = (event: React.MouseEvent<HTMLElement>,newValue: string | null) => {
