@@ -23,6 +23,7 @@ const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 const Messenger     = Loader(lazy(() => import('src/content/applications/Messenger')));
 const Transactions  = Loader(lazy(() => import('src/content/applications/Transactions')));
 const Expense       = Loader(lazy(() => import('src/content/money/EXPENSE')));
+const LOAN          = Loader(lazy(() => import('src/content/money/LOAN')));
 const CURRENCY      = Loader(lazy(() => import('src/content/money/CURRENCY')));
 const INCOME        = Loader(lazy(() => import('src/content/money/INCOME')));
 const LIMIT         = Loader(lazy(() => import('src/content/money/LIMIT')));
@@ -112,6 +113,7 @@ const routes: RouteObject[] = [
     children: [
       {path: '',element: <Navigate to="transactions" replace />},
       {path: 'expense/*',element: <Expense />},
+      {path: 'loan/*',element: <LOAN />},
       {path: 'currency/*',element: <CURRENCY />},
       {path: 'income/*',element: <INCOME />},
       {path: 'limit/*',element: <LIMIT />},

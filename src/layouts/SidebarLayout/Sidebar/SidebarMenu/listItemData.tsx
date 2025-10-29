@@ -29,7 +29,7 @@ import Replay30Icon from '@mui/icons-material/Replay30';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import {
   Topic,TipsAndUpdates,QuestionMark,ShoppingCartCheckout,AddShoppingCart,TakeoutDining,RamenDining,Password,LightMode,
-  HourglassEmpty,Input,Filter7
+  HourglassEmpty,Input,Filter7,CardGiftcard
 } from '@mui/icons-material';
 
 
@@ -60,7 +60,8 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Expense',                link: '/transactions/expense',    icon: <ShoppingCartCheckout />},
-      {title: 'Income',                link: '/transactions/income',     icon: <AddShoppingCart />},
+      {title: 'Income',                 link: '/transactions/income',     icon: <AddShoppingCart />},
+      {title: 'Loan',                   link: '/transactions/loan',       icon: <CardGiftcard />},
       {title: 'Currency',               link: '/transactions/currency',   icon: <TableChartTwoToneIcon />},
       {title: 'Category',               link:  '/transactions/category',  icon: <TableChartTwoToneIcon />},
       {title: '+Repeated Transaction',  link: '/transactions/repeat',     icon: <Replay30Icon />},

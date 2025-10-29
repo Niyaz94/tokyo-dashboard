@@ -120,6 +120,11 @@ export const IncomeFormIntialState = {
   ...TransactionFormIntialState,
   consider: false
 };
+export const LoanFormIntialState = {
+  ...TransactionFormIntialState,
+  consider: false,
+  expectedReturnDate: dayjs().add(1,'year').format('YYYY-MM-DD')
+};
 
 export const limitFormIntialState = {
   ...TransactionFormIntialState,

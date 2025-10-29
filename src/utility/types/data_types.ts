@@ -287,6 +287,17 @@ export interface IncomeSingleSampleInterface extends TransactionSingleSampleInte
   category_name:string;
 }
 
+export interface IoanSingleSampleInterface {
+  category_name:string;
+  currency_name:string;
+  consider:boolean;
+  expectedReturnDate:string;
+  id: number;
+  date: string;
+  note: string;
+  amount: number;
+}
+
 export interface SingleTaskUniqueInterface {
   type:string[];
   status:string[];

@@ -67,7 +67,7 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
             formKey={field.key}
             defaultValue={field.options.find((o: any) => o.value === value)}
             onChange={handleFormChange}
-            error={error[0].replace(/['"]+/g, '')}
+            error={(error?.[0] || "").replace(/['"]+/g, '')}
           />
         </Grid>
       );

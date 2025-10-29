@@ -113,6 +113,10 @@ export interface ExpenseFormIntialStateInterface extends TransactionFormIntialSt
 export interface IncomeFormIntialStateInterface extends TransactionFormIntialStateInterface{
   consider: boolean;
 }
+export interface LoanFormIntialStateInterface extends TransactionFormIntialStateInterface{
+  consider: boolean;
+  expectedReturnDate: string;
+}
 
 export type SingleTaskTypeFormIntialStateInterface = {
   id: number;
