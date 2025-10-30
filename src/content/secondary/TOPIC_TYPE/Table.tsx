@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 const DataTable = () => {
 
-  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('recipe');
+  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('topicType');
   const { table: tableData,setTable } = usePageContext();
   const {selectedIds,setSelectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const navigate = useNavigate();

@@ -96,7 +96,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Personal Improvment',
     isCollapse: true,
     children: [
-      {title: '+Idea',link: '/improvment/idea',icon: <TipsAndUpdates />},
+      {title: 'Idea',link: '/improvment/idea',icon: <TipsAndUpdates />},
       {title: 'Topic',link: '/improvment/topic',icon: <Topic />},
     ],
   },

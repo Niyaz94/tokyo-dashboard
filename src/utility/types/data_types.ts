@@ -226,6 +226,15 @@ export interface TopicSingleSampleInterface {
   updated_at: string;
   stutus: level3Status;
 }
+export interface IdeaSingleSampleInterface {
+  id: string;
+  date: string;
+  name: string;
+  type_name: string;
+  successRate: number;
+  deadline: string;
+  stutus: level3Status;
+}
 export interface PageTypeSingleSampleInterface {
   id: string;
   name: string;

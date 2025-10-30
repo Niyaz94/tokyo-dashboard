@@ -183,6 +183,16 @@ export type TopicFormIntialStateInterface = {
   image: File[];
 
 };  
+export type IdeaFormIntialStateInterface = {
+  id: number;
+  deadline: string;
+  type: number | null;
+  status: string;
+  successRate: number;
+  name: string;
+  detail: string;
+  howToAchieved: string;
+};  
 
 export type PageTypeFormIntialStateInterface = {
   id: number;

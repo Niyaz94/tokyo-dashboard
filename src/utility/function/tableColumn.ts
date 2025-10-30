@@ -103,6 +103,13 @@ export  const columnsTopic:Column[] = [
     { id:"",label: 'Status', align: 'center' },
     { id:"",label: 'Actions', align: 'center' }
 ];
+export  const columnsIdea:Column[] = [
+    { id:"",label: 'Date', align: 'left' },
+    { id:"",label: 'Idea Type', align: 'center' },
+    { id:"",label: 'Idea', align: 'center' },
+    { id:"",label: 'Status', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
 export  const columnsPageType:Column[] = [
     { id:"",label: 'Topic Type', align: 'center' },
     { id:"",label: 'Last Update', align: 'center' },

@@ -18,6 +18,14 @@ export const filterTopicStatusOptions = [
     {id: 'followup',name: 'Follow Up'},
 ];
 
+export const filterIdeaStatusOptions = [
+    {id: 'all',name: 'All'},
+    {id: 'inprogress',name: 'In Progress'},
+    {id: 'half_implemented',name: 'Half Implemented'},
+    {id: 'implemented',name: 'Implemented'},
+    {id: 'not_started',name: 'Not Started'},
+];
+
 export const filterStatusOptions = [
     {id: 'all',name: 'All'},
     {id: 'VERY_LOW',name: 'Very Low'},

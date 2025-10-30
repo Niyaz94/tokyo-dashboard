@@ -196,6 +196,17 @@ export const TopicFormIntialState = {
   image: []
 };
 
+export const IdeaFormIntialState = {
+  id: 0,
+  deadline: dayjs().endOf('month').format('YYYY-MM-DD'),
+  type: null,
+  detail: '{}',
+  howToAchieved: '{}',
+  status: '',
+  name: '',
+  successRate: 0
+};
+
 export const PageTypeFormIntialState = {
   id: 0,
   name: '',
