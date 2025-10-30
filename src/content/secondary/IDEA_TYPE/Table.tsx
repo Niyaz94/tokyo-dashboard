@@ -23,7 +23,7 @@ const DataTable = () => {
   const { paginatedData, filteredData } = useStaticTableFilters<PageTypeSingleSampleInterface>(tableData,{},page,limit);
 
   const deleteSelectedRows = async () => {
-    deleteTableMultiRow(selectedIds,"notes/topic_type/multi_delete/",setTable)
+    deleteTableMultiRow(selectedIds,"schedule/idea_type/multi_delete/",setTable)
     setSelectedIds([]);
   }
   return (
@@ -43,7 +43,7 @@ const DataTable = () => {
           }
           action={
             <Box width={600} height={70} sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end' }}>
-              <Tooltip title="Add New Topic Type" sx={{fontSize: '0.8rem'}} placement="top">
+              <Tooltip title="Add New Idea Type" sx={{fontSize: '0.8rem'}} placement="top">
                 <Button
                   variant="outlined" color="primary" onClick={() => navigate('add',{state: { from: location.pathname } })}
                   sx={{padding: '10px',borderRadius: '20px 10px',textTransform: 'none',boxShadow: 3}}
@@ -63,7 +63,7 @@ const DataTable = () => {
         renderRow={(row) => (
           <CustomTableRow
             key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"notes/topic_type",setTable)}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"schedule/idea_type",setTable)}
           />
         )}
       />

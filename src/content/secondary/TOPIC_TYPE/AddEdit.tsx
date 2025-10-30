@@ -12,8 +12,8 @@ import {
 
 import {TomorrowSingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 import { usePostAPI, useEditAPI, useFetch, FetchData,useSnackbar }  from "../../../utility/customHook";
-import {TopicTypeFormIntialState}   from "../../../utility/function/defaultData"
-import {TopicTypeFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import {PageTypeFormIntialState}   from "../../../utility/function/defaultData"
+import {PageTypeFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
 
 
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
@@ -27,16 +27,14 @@ const CollapsibleForm = () => {
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
-  const [formData, setFormData] = useState(TopicTypeFormIntialState);
+  const [formData, setFormData] = useState(PageTypeFormIntialState);
 
 
 
   const location = useLocation();
-  const fromPath = location.state?.from || "/";
+  const fromPath =  location.state?.from;
 
   console.log("fromPath:", fromPath);
-
-
 
 
   
@@ -90,7 +88,7 @@ const CollapsibleForm = () => {
         showSnackbar(successMessage, 'success');
         setTimeout(() => {
           if(pageReDirect) 
-            navigate('/secondary/topic_type');
+            navigate(fromPath);
         }, 1500); 
       } else 
         showSnackbar(errorMessage, 'error');
@@ -112,7 +110,7 @@ const CollapsibleForm = () => {
   },[]); 
 
   const cleanForm = () => {
-    setFormData(TopicTypeFormIntialState)
+    setFormData(PageTypeFormIntialState)
   };
 
   return (
@@ -137,7 +135,12 @@ const CollapsibleForm = () => {
                 <LexicalEditor value={formData.notes} onChange={handleFormChange} formKey="notes" label="Detail" height="750px"/>
               </Grid> 
               <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/secondary/topic_type'}/>
+                <MultiButton 
+                  type={edit_page_id ?"edit":"insert"} 
+                  saveContinue={saveContinue} 
+                  saveReturn={saveReturn} 
+                  returnUrl={fromPath}
+                />
                 <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>
             </Grid>

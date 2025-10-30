@@ -12,69 +12,48 @@ const Loader = (Component) => (props) =>
       <Component {...props} />
     </Suspense>
   );
-
-// Pages
-const Overview = Loader(lazy(() => import('src/content/overview')));
-
-// Dashboards
-const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
-
-// Applications
-const Messenger     = Loader(lazy(() => import('src/content/applications/Messenger')));
-const Transactions  = Loader(lazy(() => import('src/content/applications/Transactions')));
-const Expense       = Loader(lazy(() => import('src/content/money/EXPENSE')));
-const LOAN          = Loader(lazy(() => import('src/content/money/LOAN')));
-const CURRENCY      = Loader(lazy(() => import('src/content/money/CURRENCY')));
-const INCOME        = Loader(lazy(() => import('src/content/money/INCOME')));
-const LIMIT         = Loader(lazy(() => import('src/content/money/LIMIT')));
-const REPEAT        = Loader(lazy(() => import('src/content/money/REPEAT')));
-const UserProfile   = Loader(lazy(() => import('src/content/applications/Users/profile')));
-const UserSettings  = Loader(lazy(() => import('src/content/applications/Users/settings')));
-
-
-// Daily Life
-const Sleep         = Loader(lazy(() => import('src/content/daily/SLEEP')));
-const Activity      = Loader(lazy(() => import('src/content/daily/ACTIVITY')));
-const Today         = Loader(lazy(() => import('src/content/daily/TODAY')));
-const Tomorrow      = Loader(lazy(() => import('src/content/daily/TOMORROW')));
-const Topic         = Loader(lazy(() => import('src/content/improvment/TOPIC')));
-const TOPIC_TYPE         = Loader(lazy(() => import('src/content/secondary/TOPIC_TYPE')));
-
-const SINGLE_TASK   = Loader(lazy(() => import('src/content/task/SINGLE_TASK')));
-const TASK          = Loader(lazy(() => import('src/content/task/TASK')));
-const GOAL          = Loader(lazy(() => import('src/content/task/GOAL')));
-const TASK_STATUS   = Loader(lazy(() => import('src/content/task/TASK_STATUS')));
-
-
-const SIN_TASK_TYPE = Loader(lazy(() => import('src/content/task/SIN_TASK_TYPE')));
-const TASK_MONTH = Loader(lazy(() => import('src/content/task/TASK_MONTH')));
-const CATEGORY  = Loader(lazy(() => import('src/content/money/CATEGORY')));
-const RECIPE  = Loader(lazy(() => import('src/content/extra/RECIPE')));
-
-
+const Crypto              = Loader(lazy(() => import('src/content/dashboards/Crypto')));
+const Messenger           = Loader(lazy(() => import('src/content/applications/Messenger')));
+const Transactions        = Loader(lazy(() => import('src/content/applications/Transactions')));
+const Expense             = Loader(lazy(() => import('src/content/money/EXPENSE')));
+const LOAN                = Loader(lazy(() => import('src/content/money/LOAN')));
+const CURRENCY            = Loader(lazy(() => import('src/content/money/CURRENCY')));
+const INCOME              = Loader(lazy(() => import('src/content/money/INCOME')));
+const LIMIT               = Loader(lazy(() => import('src/content/money/LIMIT')));
+const REPEAT              = Loader(lazy(() => import('src/content/money/REPEAT')));
+const UserProfile         = Loader(lazy(() => import('src/content/applications/Users/profile')));
+const UserSettings        = Loader(lazy(() => import('src/content/applications/Users/settings')));
+const Sleep               = Loader(lazy(() => import('src/content/daily/SLEEP')));
+const Activity            = Loader(lazy(() => import('src/content/daily/ACTIVITY')));
+const Today               = Loader(lazy(() => import('src/content/daily/TODAY')));
+const Tomorrow            = Loader(lazy(() => import('src/content/daily/TOMORROW')));
+const Topic               = Loader(lazy(() => import('src/content/improvment/TOPIC')));
+const TOPIC_TYPE          = Loader(lazy(() => import('src/content/secondary/TOPIC_TYPE')));
+const IDEA_TYPE           = Loader(lazy(() => import('src/content/secondary/IDEA_TYPE')));
+const SINGLE_TASK         = Loader(lazy(() => import('src/content/task/SINGLE_TASK')));
+const TASK                = Loader(lazy(() => import('src/content/task/TASK')));
+const GOAL                = Loader(lazy(() => import('src/content/task/GOAL')));
+const TASK_STATUS         = Loader(lazy(() => import('src/content/task/TASK_STATUS')));
+const SIN_TASK_TYPE       = Loader(lazy(() => import('src/content/task/SIN_TASK_TYPE')));
+const TASK_MONTH          = Loader(lazy(() => import('src/content/task/TASK_MONTH')));
+const CATEGORY            = Loader(lazy(() => import('src/content/money/CATEGORY')));
+const RECIPE              = Loader(lazy(() => import('src/content/extra/RECIPE')));
 const TASK_STATUS_REPORT  = Loader(lazy(() => import('src/content/reports/TASK_STATUS')));
-
-const MONTHLY_EXPENSE  = Loader(lazy(() => import('src/content/reports/MONTHLY_EXPENSE')));
-
-
-// Components
-const Buttons     = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
-const Modals      = Loader(lazy(() => import('src/content/pages/Components/Modals')));
-const Accordions  = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
-const Tabs        = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
-const Badges      = Loader(lazy(() => import('src/content/pages/Components/Badges')));
-const Tooltips    = Loader(lazy(() => import('src/content/pages/Components/Tooltips')));
-const Avatars     = Loader(lazy(() => import('src/content/pages/Components/Avatars')));
-const Cards       = Loader(lazy(() => import('src/content/pages/Components/Cards')));
-const Forms       = Loader(lazy(() => import('src/content/pages/Components/Forms')));
-
-// Status
-const Status404 = Loader(lazy(() => import('src/content/pages/Status/Status404')));
-// const Status500 = Loader(lazy(() => import('src/content/pages/Status/Status500')));
-const StatusComingSoon = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
-const StatusMaintenance = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
-const LOGIN = Loader(lazy(() => import('src/content/user/LOGIN')));
-const REGISTER = Loader(lazy(() => import('src/content/user/REGISTER')));
+const MONTHLY_EXPENSE     = Loader(lazy(() => import('src/content/reports/MONTHLY_EXPENSE')));
+const Buttons             = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
+const Modals              = Loader(lazy(() => import('src/content/pages/Components/Modals')));
+const Accordions          = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
+const Tabs                = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
+const Badges              = Loader(lazy(() => import('src/content/pages/Components/Badges')));
+const Tooltips            = Loader(lazy(() => import('src/content/pages/Components/Tooltips')));
+const Avatars             = Loader(lazy(() => import('src/content/pages/Components/Avatars')));
+const Cards               = Loader(lazy(() => import('src/content/pages/Components/Cards')));
+const Forms               = Loader(lazy(() => import('src/content/pages/Components/Forms')));
+const Status404           = Loader(lazy(() => import('src/content/pages/Status/Status404')));
+const StatusComingSoon    = Loader(lazy(() => import('src/content/pages/Status/ComingSoon')));
+const StatusMaintenance   = Loader(lazy(() => import('src/content/pages/Status/Maintenance')));
+const LOGIN               = Loader(lazy(() => import('src/content/user/LOGIN')));
+const REGISTER            = Loader(lazy(() => import('src/content/user/REGISTER')));
 
 
 const routes: RouteObject[] = [
@@ -151,7 +130,6 @@ const routes: RouteObject[] = [
     path: 'improvment',
     element: <SidebarLayout />,
     children: [
-      {path: 'question/*',element: <Topic />},
       {path: 'idea/*',element: <Topic />},
       {path: 'topic/*',element: <Topic />},
     ]
@@ -160,6 +138,7 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {path: 'topic_type/*',element: <TOPIC_TYPE />},
+      {path: 'idea_type/*',element: <IDEA_TYPE />},
     ]
   },{
     path: 'extra',

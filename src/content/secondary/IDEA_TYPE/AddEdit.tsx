@@ -1,21 +1,19 @@
 import { useState,useEffect,useCallback,useRef,useMemo } from 'react';
-import { useNavigate,useParams }    from 'react-router-dom';
+import { useNavigate,useParams,useLocation }    from 'react-router-dom';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { filterTopicStatusOptions } from '../../../utility/function/data';
-import {createSelectMap}                from '../../../utility/function/main';
 
 
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 
 import {
-  CustomSnackbar,MultiButton,CustomDatePicker,StaticAutocomplete,FileUpload
+  CustomSnackbar,MultiButton
 }       from '../../../components/Form';
 
 import {TomorrowSingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
 import { usePostAPI, useEditAPI, useFetch, FetchData,useSnackbar }  from "../../../utility/customHook";
-import {TopicFormIntialState}   from "../../../utility/function/defaultData"
-import {TopicFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
+import {PageTypeFormIntialState}   from "../../../utility/function/defaultData"
+import {PageTypeFormIntialStateInterface } from '../../../utility/types/Page';
 
 
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
@@ -24,24 +22,23 @@ import {usePageContext as usePage}      from '../../../store/context/pageContext
 const CollapsibleForm = () => {
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
 
-  const  {setTable,pageDefault,secondary} = usePage();
+  const  {setTable,pageDefault} = usePage();
 
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
-  const [formData, setFormData] = useState(TopicFormIntialState);
-
-  const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
-
-  const {type:topic_types} = secondary;
+  const [formData, setFormData] = useState(PageTypeFormIntialState);
 
 
 
-  const topic_status_map         = createSelectMap(filterTopicStatusOptions.map(row=>row["id"]),"array")
-  const mem_topic_status_map     = useMemo(() => topic_status_map, []);
+  const location = useLocation();
+  const fromPath =  location.state?.from;
+
+  console.log("fromPath:", fromPath);
+
 
   
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/topic/${edit_page_id}`: null,{});
+  const { data:fetchEditData,success:editReturnSuccess}: FetchData<PageTypeFormIntialStateInterface>  = useFetch <PageTypeFormIntialStateInterface>(edit_page_id ?`schedule/idea_type/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
   const isFirstRender = useRef(true);
@@ -57,9 +54,9 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`notes/topic/${edit_page_id}/`, formData);
+      await editData(`schedule/idea_type/${edit_page_id}/`, formData);
     }else{
-      await postData("notes/topic/", dataToBeSent,"FORM");
+      await postData("schedule/idea_type/", dataToBeSent,"FORM");
     }
   };
 
@@ -91,7 +88,7 @@ const CollapsibleForm = () => {
         showSnackbar(successMessage, 'success');
         setTimeout(() => {
           if(pageReDirect) 
-            navigate('/improvment/topic');
+            navigate(fromPath);
         }, 1500); 
       } else 
         showSnackbar(errorMessage, 'error');
@@ -113,80 +110,37 @@ const CollapsibleForm = () => {
   },[]); 
 
   const cleanForm = () => {
-    setFormData(TopicFormIntialState)
+    setFormData(PageTypeFormIntialState)
   };
 
   return (
       <Card>
-        <CardHeader title="Topics" />
+        <CardHeader title="Idea Type" />
         <Divider />
         <CardContent>
           <Box component="form" noValidate autoComplete="off"
             sx={{mt: 2,p: 2,display: 'flex',flexDirection: 'column',gap: 2,margin: '0 auto'}}
           >
             <Grid container spacing={2}>
-              <Grid size={4} sx={{paddingTop: "10px"}}>
+              <Grid size={12} sx={{paddingTop: "10px"}}>
                 <TextField
-                  label="Title"
-                  value={formData.title}
-                  onChange={(e) => handleFormChange('title', e.target.value)}
+                  label="name"
+                  value={formData.name}
+                  onChange={(e) => handleFormChange('name', e.target.value)}
                   fullWidth
                 />
               </Grid>  
-              <Grid size={4} >
-                <CustomDatePicker
-                  label="Date"
-                  value={formData.date}
-                  placeholder=""
-                  onChange={(newValue) => handleFormChange('date', newValue )}
-                />
-              </Grid>
-              <Grid size={4} >
-                <CustomDatePicker
-                  label="Deadline"
-                  value={formData.deadline}
-                  placeholder=""
-                  onChange={(newValue) => handleFormChange('deadline', newValue )}
-                />
-              </Grid>
-              <Grid size={6}>
-                <StaticAutocomplete
-                  label="Topic Status"
-                  options={mem_topic_status_map}
-                  defaultValue={mem_topic_status_map.filter((item) => item.value === formData.status)[0]}
-                  formKey="status"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                />
-              </Grid>
-              <Grid size={6}>
-                <StaticAutocomplete
-                  label="Topic Type"
-                  options={topic_types}
-                  defaultValue={topic_types.filter((item) => item.value === formData.type)[0]}
-                  formKey="type"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                  extraButton={true}
-                  buttonUrl={'/secondary/topic_type/add'}
-                />
-              </Grid>  
+              
               <Grid size={12}>
                 <LexicalEditor value={formData.notes} onChange={handleFormChange} formKey="notes" label="Detail" height="750px"/>
               </Grid> 
               <Grid size={12}>
-                <FileUpload
-                  label="Profile Picture"
-                  multiple={true}
-                  initialImages={formData.image.map((row)=>row.image)} // Edit case
-                  onChange={(files) => {
-                    return handleFormChange('image', files )
-                    // setFormData({ ...formData, images: files })
-                  }}
+                <MultiButton 
+                  type={edit_page_id ?"edit":"insert"} 
+                  saveContinue={saveContinue} 
+                  saveReturn={saveReturn} 
+                  returnUrl={fromPath}
                 />
-              </Grid>   
-              <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/improvment/topic'}/>
                 <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
               </Grid>
             </Grid>

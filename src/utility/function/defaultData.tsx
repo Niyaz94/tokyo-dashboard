@@ -196,7 +196,7 @@ export const TopicFormIntialState = {
   image: []
 };
 
-export const TopicTypeFormIntialState = {
+export const PageTypeFormIntialState = {
   id: 0,
   name: '',
   notes: '{}'

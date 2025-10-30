@@ -10,7 +10,7 @@ import { PageTypeSingleSampleInterface} from 'src/utility/types/data_types';
 
 export default () =>{
 
-  const { data,success}: FetchData<PageTypeSingleSampleInterface[]> = useFetch <PageTypeSingleSampleInterface[]>('notes/topic_type',[]);
+  const { data,success}: FetchData<PageTypeSingleSampleInterface[]> = useFetch <PageTypeSingleSampleInterface[]>('schedule/idea_type',[]);
 
    
   

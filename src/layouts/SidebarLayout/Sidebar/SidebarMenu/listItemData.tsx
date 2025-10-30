@@ -96,7 +96,6 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Personal Improvment',
     isCollapse: true,
     children: [
-      {title: '+Question',link: '/improvment/question',icon: <QuestionMark />},
       {title: '+Idea',link: '/improvment/idea',icon: <TipsAndUpdates />},
       {title: 'Topic',link: '/improvment/topic',icon: <Topic />},
     ],
@@ -114,7 +113,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Topic Type',         link: '/secondary/topic_type',      icon: <TableChartTwoToneIcon />},
-      {title: '+Idea Type',         link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
+      {title: 'Idea Type',         link: '/secondary/idea_type',        icon: <TableChartTwoToneIcon />},
       {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
       {title: '+Months Type',       link: '/goals/months',                icon: <TableChartTwoToneIcon />},
     ],

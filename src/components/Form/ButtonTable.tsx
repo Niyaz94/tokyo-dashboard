@@ -23,7 +23,7 @@ const ButtonTable = ({ id, text,onDeleteRow,onEditButtonClick=null}) => {
             if (typeof onEditButtonClick === 'function') {
               onEditButtonClick();
             }
-            navigate(`${id}`);
+            navigate(`${id}`,{state: { from: location.pathname } });
           }}  size="medium" 
           sx={{'&:hover': {background: theme.colors.primary.lighter},color: theme.palette.primary.main}} 
         >

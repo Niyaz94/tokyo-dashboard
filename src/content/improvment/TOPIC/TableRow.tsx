@@ -6,16 +6,23 @@ import TableCusCell from '../../../components/Table/Cell';
 import {labelWithColor,createMapLabelData,getDayAbbreviation} from '../../../utility/function/main';
 import { filterTopicStatusOptions } from '../../../utility/function/data';
 
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import dayjs                           from "dayjs";
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
 
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const {setPageDefault}         = usePage();
+
+  const  {secondary} = usePage();
+
+  const {type:topic_types} = secondary;
+
 
   const topicStatusMap = createMapLabelData(filterTopicStatusOptions.map((row) => row["id"]));
+  const topicTypeMap = createMapLabelData(topic_types.map((row) => row.label));
 
-  const {id,date,title,status,updated_at} = data;
+  const {id,date,title,status,type_name,deadline} = data;
 
   const onEditButtonClick = () => {
     // setPageDefault(prev => ({...prev, date:{label:date,value: daily}}));
@@ -33,9 +40,27 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           }
         />
       </TableCell>
+            <TableCusCell prop={
+        [
+          {text:`${date} (${getDayAbbreviation(date)})`,styleType:1},
+          {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
+            {labelWithColor(<EventAvailableIcon/>,"info")}
+
+            {labelWithColor(deadline?deadline:"Not Available",
+              ["completed","followup"].includes(status)?"primary": dayjs().format('YYYY-MM-DD')>deadline?"error":"success"
+              ,"Deadline")}
+          </Stack>,styleType:2}
+      ]} />
       <TableCusCell
+        cellProps={{ align: 'center' }}
         prop={[
-          { text: `${date} (${getDayAbbreviation(date)})`, styleType: 1 },
+          {
+            text: labelWithColor(
+              topicTypeMap[type_name]?.text || "N/A",
+              topicTypeMap[type_name]?.color || "default"
+            ),
+            styleType: 1
+          }
         ]}
       />
       <TableCusCell
@@ -57,14 +82,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             ),
             styleType: 1
           }
-        ]}
-      />
-      <TableCusCell
-        cellProps={{ align: 'center' }}
-        prop={[
-          {text: labelWithColor(`${updated_at.split("T")[0]}`,'info','Last Update')
-            
-            ,styleType: 1}
         ]}
       />
       <TableCell align="right">

@@ -59,8 +59,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             {labelWithColor(deadline?deadline:"Not Available",
               ["completed","followup"].includes(status)?"primary": dayjs().format('YYYY-MM-DD')>deadline?"error":"success"
               ,"Deadline")}
-
-            {/*  */}
           </Stack>,styleType:2}
       ]} />
       <TableCusCell

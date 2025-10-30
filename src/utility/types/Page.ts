@@ -184,7 +184,7 @@ export type TopicFormIntialStateInterface = {
 
 };  
 
-export type TopicTypeFormIntialStateInterface = {
+export type PageTypeFormIntialStateInterface = {
   id: number;
   notes: string;
   name: string;

@@ -98,8 +98,14 @@ export  const columnsRecipe:Column[] = [
 
 export  const columnsTopic:Column[] = [
     { id:"",label: 'Date', align: 'left' },
+    { id:"",label: 'Topic Type', align: 'center' },
     { id:"",label: 'Title', align: 'center' },
     { id:"",label: 'Status', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
+export  const columnsPageType:Column[] = [
+    { id:"",label: 'Topic Type', align: 'center' },
     { id:"",label: 'Last Update', align: 'center' },
-    { id:"",label: 'Actions', align: 'right' }
+    { id:"",label: 'Note', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
 ];
