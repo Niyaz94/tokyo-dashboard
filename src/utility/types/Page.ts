@@ -175,11 +175,20 @@ export type TomorrowFormIntialStateInterface = {
 export type TopicFormIntialStateInterface = {
   id: number;
   date: string;
+  deadline: string;
+  type: number | null;
   notes: string;
   status: string;
   title: string;
   image: File[];
+
 };  
+
+export type TopicTypeFormIntialStateInterface = {
+  id: number;
+  notes: string;
+  name: string;
+}; 
 
 export type RecipeFormIntialStateInterface = {
   id: number;

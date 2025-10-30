@@ -1,21 +1,21 @@
 import { useAddEditPage}         from "../../../utility/customHook";
 import {FormLayout,FieldRenderer}       from '../../../components/Form';
 import { loanFormFields } from "./config";
-import {todayFormIntialState}  from "../../../utility/function/defaultData"
-import { TodayFormIntialStateInterface } from "../../../utility/types/Page";
+import {LoanFormIntialState}  from "../../../utility/function/defaultData"
+import { LoanFormIntialStateInterface } from "../../../utility/types/Page";
 import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
 
-const TodayAddEdit =  ()  => {
+const AddEditComponent =  ()  => {
 
   const  {secondary}               = usePage();
   const { type:loanTypes, currency:currencyTypes } = secondary;
 
   const {formData,formErrors, handleFormChange, handleSave, setPageRedirect,open, message, severity, closeSnackbar, isEdit
-  } = useAddEditPage<TodayFormIntialStateInterface>({
+  } = useAddEditPage<LoanFormIntialStateInterface>({
     fetchUrl: (id) => `money/loan/${id}`,
     postUrl: "money/loan/",
     editUrl: (id) => `money/loan/${id}/`,
-    initialState: todayFormIntialState,
+    initialState: LoanFormIntialState,
     onSuccessRedirect: "/transactions/loan"
   });
 
@@ -24,7 +24,7 @@ const TodayAddEdit =  ()  => {
 
   return (
     <FormLayout
-      title="Today Form"
+      title="Loan Form"
       onSaveReturn={saveReturn}
       onSaveContinue={saveContinue}
       isEdit={isEdit}
@@ -43,4 +43,4 @@ const TodayAddEdit =  ()  => {
     </FormLayout>
   );
 };
-export default TodayAddEdit;
+export default AddEditComponent;

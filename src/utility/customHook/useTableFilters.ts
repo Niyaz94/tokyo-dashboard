@@ -17,11 +17,11 @@ const filterQuery = useMemo(() => {
     const queryParts: string[] = [];
 
     Object.entries(filters).forEach(([key, value]) => {
-      if (value !== null && value !== 'all') {
-        const mappedKey = key
-            //   .replace(/^tf/, '')        
-          .replace(/^[A-Z]/, (m) => m.toLowerCase()); // Lowercase first char
 
+      if(value && typeof value === 'object' && 'operator' in value && 'value' in value){
+        queryParts.push(`${key}__${value.operator}=${encodeURIComponent(value.value)}`);
+      }else if (value !== null && value !== 'all') {
+        const mappedKey = key.replace(/^[A-Z]/, (m) => m.toLowerCase()); // Lowercase first char
         queryParts.push(`${mappedKey}=${encodeURIComponent(value)}`);
       }
     });

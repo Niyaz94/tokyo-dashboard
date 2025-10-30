@@ -6,13 +6,15 @@ const PageContext          = createContext(null);
 // const AddEditContext          = createContext<TaskStatusContextInterface | undefined>(undefined);
 
 
-export const PageProvider  = ({ children,tableData,pageDefaultData={}}) => {
+export const PageProvider  = ({ children,tableData,secondaryData={},pageDefaultData={}}) => {
 
   const [table, setTable]             = useState(tableData || []);
   const [pageDefault, setPageDefault] = useState(pageDefaultData);
+  const [secondary, setSecondary]   = useState(secondaryData);
+
 
   return (
-    <PageContext.Provider value={{ table, setTable, pageDefault, setPageDefault }}>
+    <PageContext.Provider value={{ table, setTable, secondary, setSecondary,pageDefault, setPageDefault }}>
       {children}
     </PageContext.Provider>
   );

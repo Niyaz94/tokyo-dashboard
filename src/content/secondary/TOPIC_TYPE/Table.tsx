@@ -30,7 +30,7 @@ const DataTable = () => {
   const { paginatedData, filteredData } = useStaticTableFilters<SingleSampleInterface>(tableData,filters,page,limit);
 
   const deleteSelectedRows = async () => {
-    deleteTableMultiRow(selectedIds,"notes/topic/multi_delete/",setTable)
+    deleteTableMultiRow(selectedIds,"notes/topic_type/multi_delete/",setTable)
     setSelectedIds([]);
   }
 
@@ -52,18 +52,10 @@ const DataTable = () => {
           action={
             <Box width={600} height={70} sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'flex-end' }}>
               
-              <Tooltip title="Add New Topic Title" sx={{fontSize: '0.8rem'}} placement="top">
-                <Button
-                  variant="outlined" color="error" onClick={() => navigate('/secondary/topic_type/add',{state: { from: location.pathname } })}
-                  sx={{padding: '10px',borderRadius: '20px 10px',textTransform: 'none',boxShadow: 3}}
-                >
-                  <AddTaskIcon fontSize="large" sx={{marginRight:1}} />
-                </Button>
-              </Tooltip>
 
-              <Tooltip title="Add New Topic" sx={{fontSize: '0.8rem'}} placement="top">
+              <Tooltip title="Add New Topic Type" sx={{fontSize: '0.8rem'}} placement="top">
                 <Button
-                  variant="outlined" color="primary" onClick={() => navigate('add')}
+                  variant="outlined" color="primary" onClick={() => navigate('add',{state: { from: location.pathname } })}
                   sx={{padding: '10px',borderRadius: '20px 10px',textTransform: 'none',boxShadow: 3}}
                 >
                   <AddIcon fontSize="large" />
@@ -98,7 +90,7 @@ const DataTable = () => {
         renderRow={(row) => (
           <CustomTableRow
             key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"notes/topic",setTable)}
+            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"notes/topic_type",setTable)}
           />
         )}
       />

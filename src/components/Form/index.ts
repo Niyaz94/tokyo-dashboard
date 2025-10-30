@@ -13,4 +13,5 @@ export {default as FileUpload}              from './FileUpload';
 export {default as ThreeStateButton}            from './ToggleButtonGroup'
 export {FormLayout}             from './FormLayout';
 export {FieldRenderer}          from './FieldRenderer';
+export {default as FilterField}            from './FilterField';
 

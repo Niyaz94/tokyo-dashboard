@@ -68,7 +68,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: getTextWithIcon(`${amount.toString()} ${currency_name} `,<MonetizationOnIcon />,'secondary'),
+            text: getTextWithIcon(`${Number(amount).toLocaleString('en-US', {maximumFractionDigits:2})} ${currency_name} `,<MonetizationOnIcon />,'secondary'),
             styleType: 1
           },
           {

@@ -113,6 +113,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Secondary Pages',
     isCollapse: true,
     children: [
+      {title: 'Topic Type',         link: '/secondary/topic_type',      icon: <TableChartTwoToneIcon />},
       {title: '+Idea Type',         link: '/improvment/idea/status',      icon: <TableChartTwoToneIcon />},
       {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
       {title: '+Months Type',       link: '/goals/months',                icon: <TableChartTwoToneIcon />},

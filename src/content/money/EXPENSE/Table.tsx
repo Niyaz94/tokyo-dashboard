@@ -11,14 +11,19 @@ import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} f
 import {columnsExpense as columns} from '../../../utility/function/tableColumn';
 
 
-import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
+import {CustomDatePicker,StaticAutocomplete,FilterField}       from '../../../components/Form';
 import CurrencyPanel from './currencyPanel';
 
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
-  const {filters,handleFilterChange,filterQuery} = useTableFilters({startDate: null ,endDate: null,expenseTypeId: "all"});
+  const {filters,handleFilterChange,filterQuery} = useTableFilters({
+    startDate: null ,
+    endDate: null,
+    expenseTypeId: "all",
+    amount: { operator: "gt", value: 0 },
+  });
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const { type:expense_types,currency_detail} = secondary;
 
@@ -84,6 +89,14 @@ const DataTable = () => {
                     options={[["all","ALL"],...expense_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
                     formKey="expenseTypeId"
                     onChange={handleFilterChange}
+                  />
+                </FormControl>
+                <FormControl variant="outlined" sx={{ minWidth: 200, padding: "10px" }}>
+                  <FilterField
+                    label="Amount"
+                    defaultValue={filters.amount.value}
+                    defaultOperation={filters.amount.operator}
+                    onChange={(value) => handleFilterChange('amount', value)}
                   />
                 </FormControl>
               </Box>

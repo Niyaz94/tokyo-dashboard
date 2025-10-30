@@ -185,13 +185,21 @@ export const TomorrowFormIntialStateInterface = {
   tomorrowNotes: '{}'
 };
 
-export const TopicFormIntialStateInterface = {
+export const TopicFormIntialState = {
   id: 0,
   date: dayjs().format('YYYY-MM-DD'),
+  deadline: dayjs().endOf('month').format('YYYY-MM-DD'),
+  type: null,
   notes: '{}',
   status: '',
   title: '',
   image: []
+};
+
+export const TopicTypeFormIntialState = {
+  id: 0,
+  name: '',
+  notes: '{}'
 };
 
 export const RecipeFormIntialStateInterface = {

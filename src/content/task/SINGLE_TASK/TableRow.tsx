@@ -55,7 +55,10 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           {text:`${date} (${getDayAbbreviation(date)})`,styleType:1},
           {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
             {labelWithColor(<EventAvailableIcon/>,"info")}
-            {labelWithColor(deadline?deadline:"Not Available",dayjs().format('YYYY-MM-DD')>deadline?"error":"success","Deadline")}
+
+            {labelWithColor(deadline?deadline:"Not Available",
+              ["completed","followup"].includes(status)?"primary": dayjs().format('YYYY-MM-DD')>deadline?"error":"success"
+              ,"Deadline")}
 
             {/*  */}
           </Stack>,styleType:2}

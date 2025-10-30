@@ -10,18 +10,16 @@ import { TopicSingleSampleInterface} from 'src/utility/types/data_types';
 
 export default () =>{
 
-  const { data,success}: FetchData<TopicSingleSampleInterface[]> = useFetch <TopicSingleSampleInterface[]>('notes/topic',[]);
+  const { data,success}: FetchData<TopicSingleSampleInterface[]> = useFetch <TopicSingleSampleInterface[]>('notes/topic_type',[]);
 
-   const { data:unique_data,success:unque_success}: FetchData<{type:string[]}> = useFetch <{type:string[]}>('notes/topic/unique',{
-      type:[]
-    });
+   
   
-    if (!success || !unque_success) {
+    if (!success) {
       return <p>Loading...</p>;
     }
 
   return (
-    <PageProvider tableData={data} secondaryData={unique_data}>
+    <PageProvider tableData={data}>
       <Template templateTitle="Improvment - Topic">
         <Routes>
           <Route path=""    element={ <PageTable/>} />

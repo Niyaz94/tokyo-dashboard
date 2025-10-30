@@ -38,6 +38,7 @@ const Activity      = Loader(lazy(() => import('src/content/daily/ACTIVITY')));
 const Today         = Loader(lazy(() => import('src/content/daily/TODAY')));
 const Tomorrow      = Loader(lazy(() => import('src/content/daily/TOMORROW')));
 const Topic         = Loader(lazy(() => import('src/content/improvment/TOPIC')));
+const TOPIC_TYPE         = Loader(lazy(() => import('src/content/secondary/TOPIC_TYPE')));
 
 const SINGLE_TASK   = Loader(lazy(() => import('src/content/task/SINGLE_TASK')));
 const TASK          = Loader(lazy(() => import('src/content/task/TASK')));
@@ -153,6 +154,12 @@ const routes: RouteObject[] = [
       {path: 'question/*',element: <Topic />},
       {path: 'idea/*',element: <Topic />},
       {path: 'topic/*',element: <Topic />},
+    ]
+  },{
+    path: 'secondary',
+    element: <SidebarLayout />,
+    children: [
+      {path: 'topic_type/*',element: <TOPIC_TYPE />},
     ]
   },{
     path: 'extra',

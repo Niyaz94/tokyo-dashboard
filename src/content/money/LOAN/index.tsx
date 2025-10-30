@@ -20,7 +20,7 @@ export default () =>{
     type:[],currency:[]
   });
 
-  if (!success) {
+  if (!success || !unque_success) {
     return <p>Loading...</p>;
   }
 
