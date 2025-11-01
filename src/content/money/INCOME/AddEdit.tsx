@@ -29,9 +29,6 @@ const CollapsibleForm = () => {
   const  {setTable,secondary}               = usePage();
   const { type:expense_types, currency:currency_types } = secondary;
   
-  // console.log("expense_types",expense_types)
-  const expenseTypeMap = expense_types.map((row) => ({"label":row[1],"value":row[0]}));
-  const currencyTypeMap = currency_types.map((row) => ({"label":row[1],"value":row[0]}));
 
 
   const navigate                = useNavigate();
@@ -101,8 +98,8 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <StaticAutocomplete
                   label="Select Income Type"
-                  options={expenseTypeMap}
-                  defaultValue={expenseTypeMap.filter(({label,value}) => value == Number(formData.category))[0]}
+                  options={expense_types}
+                  defaultValue={expense_types.filter(({label,value}) => value == Number(formData.category))[0]}
                   formKey="category"
                   onChange={handleFormChange}
                 />
@@ -111,8 +108,8 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <StaticAutocomplete
                   label="Select Currency Type"
-                  defaultValue={currencyTypeMap.filter((item) => item.value === formData.currency)[0]}
-                  options={currencyTypeMap}
+                  defaultValue={currency_types.filter((item) => item.value === formData.currency)[0]}
+                  options={currency_types}
                   formKey="currency"
                   onChange={handleFormChange}
                 />

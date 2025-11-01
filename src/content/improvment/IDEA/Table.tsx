@@ -8,7 +8,7 @@ import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilter
 import {columnsIdea as columns} from '../../../utility/function/tableColumn';
 import {StaticAutocomplete}       from '../../../components/Form';
 import { filterIdeaStatusOptions } from '../../../utility/function/data';
-import {SelectableTable,TablePagination as CustomPagination} from '../../../components/Table';
+import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
 import AddIcon from '@mui/icons-material/Add';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import Tooltip from '@mui/material/Tooltip';
@@ -37,6 +37,11 @@ const DataTable = () => {
   return (
     <Card>
       
+      {/* <FilterPanel
+        filters={filters}
+        handleFilterChange={handleFilterChange}
+        filterIdeaStatusOptions={filterIdeaStatusOptions}
+      /> */}
       {selectedIds.length>0 && (
         <Box flex={1} p={3}>
           <BulkActions deletefun={deleteSelectedRows} />
@@ -70,7 +75,7 @@ const DataTable = () => {
                 </Button>
               </Tooltip>
               
-              <FormControl fullWidth variant="outlined" sx={{paddingBottom:1,width:150}}>
+              {/* <FormControl fullWidth variant="outlined" sx={{paddingBottom:1,width:150}}>
                 <StaticAutocomplete
                     label="Status"
                     showValueInLabel={false}
@@ -79,7 +84,7 @@ const DataTable = () => {
                     formKey="status"
                     onChange={handleFilterChange}
                 />
-              </FormControl>
+              </FormControl> */}
             </Box>
           }
         />

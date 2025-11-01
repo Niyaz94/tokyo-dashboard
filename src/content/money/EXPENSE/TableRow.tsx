@@ -18,8 +18,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const {id,date,amount,note,currency_name,expense_category} = data;
   const { secondary } = usePaginationContext();
   const { type:expense_types, currency:currency_types } = secondary;
-  const expenseTypeMap = createMapLabelData(expense_types.map((row) => row[1]));
-  const currencyTypeMap = createMapLabelData(currency_types.map((row) => row[1]));
+  const expenseTypeMap = createMapLabelData(expense_types.map(({label}) => label));
+  const currencyTypeMap = createMapLabelData(currency_types.map(({label}) => label));
 
   const {text:textExpenseType,color:colorExpenseType}= expenseTypeMap[expense_category] || {text:expense_category,color:'black'};
 

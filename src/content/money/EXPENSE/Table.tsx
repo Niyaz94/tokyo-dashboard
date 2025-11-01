@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
+import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -7,25 +7,28 @@ import CustomTableRow from './TableRow';
 import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
 import {axiosGetData} from '../../../utility/Axios'
 import { usePaginationContext } from '../../../store/context/paginationContext';
-import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} from '../../../components/Table';
+import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
 import {columnsExpense as columns} from '../../../utility/function/tableColumn';
 
 
-import {CustomDatePicker,StaticAutocomplete,FilterField}       from '../../../components/Form';
 import CurrencyPanel from './currencyPanel';
+import { expenseFormFields } from "./config";
+
 
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
   const {filters,handleFilterChange,filterQuery} = useTableFilters({
-    startDate: null ,
+    startDate: null,
     endDate: null,
-    expenseTypeId: "all",
+    expenseId: "all",
+    // expenseId: { value: "all" ,label:"ALL"},
+    currencyId: "all",
     amount: { operator: "gt", value: 0 },
   });
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  const { type:expense_types,currency_detail} = secondary;
+  const { type:expense_types,currency_detail,currency:expense_currency} = secondary;
 
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
@@ -47,10 +50,13 @@ const DataTable = () => {
     </Box>
 
     <Card>
+      <FilterPanel
+        filters={filters}
+        handleFilterChange={handleFilterChange}
+        filterFields={expenseFormFields({expense_types,expense_currency}).filter(({fieldType},i)=>fieldType=="filter")}
+      />
       {selectedIds.length>0 && (
-        <Box flex={1} p={2}>
-          {/* <BulkActions /> */}
-        </Box>
+        <Box flex={1} p={2}>        </Box>
       )}
       {selectedIds.length<1 && (
         <CardHeader
@@ -61,45 +67,6 @@ const DataTable = () => {
           }
           action={
             <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
-              <Box sx={{ display: 'flex', gap: 2, flexGrow: 1, justifyContent: 'center'}}>         
-                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <CustomDatePicker
-                    pickerFullWidth={false}
-                    label="Start Date"
-                    value={null}
-                    placeholder=""
-                    onChange={(newValue) => handleFilterChange('startDate', newValue )}
-                  />
-                </FormControl>
-                <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                  <CustomDatePicker
-                    pickerFullWidth={false}
-                    label="End Date"
-                    value={null}
-                    placeholder=""
-                    onChange={(newValue) => handleFilterChange('endDate', newValue )}
-                  />
-                  
-                </FormControl>
-                <FormControl variant="outlined" sx={{ minWidth: 250}}>
-                  <StaticAutocomplete
-                    label="Status"
-                    showValueInLabel={false}
-                    defaultValue={{value:filters.expenseTypeId,label: expense_types.find((row) => row[0] === filters.expenseTypeId)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
-                    options={[["all","ALL"],...expense_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
-                    formKey="expenseTypeId"
-                    onChange={handleFilterChange}
-                  />
-                </FormControl>
-                <FormControl variant="outlined" sx={{ minWidth: 200, padding: "10px" }}>
-                  <FilterField
-                    label="Amount"
-                    defaultValue={filters.amount.value}
-                    defaultOperation={filters.amount.operator}
-                    onChange={(value) => handleFilterChange('amount', value)}
-                  />
-                </FormControl>
-              </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button
                   variant="outlined"

@@ -28,11 +28,6 @@ const CollapsibleForm = () => {
 
   const  {setTable,secondary}               = usePage();
   const { type:expense_types, currency:currency_types } = secondary;
-  
-  // console.log("expense_types",expense_types)
-  const expenseTypeMap = expense_types.map((row) => ({"label":row[1],"value":row[0]}));
-  const currencyTypeMap = currency_types.map((row) => ({"label":row[1],"value":row[0]}));
-
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
@@ -99,11 +94,11 @@ const CollapsibleForm = () => {
         if(limit==null || limit==0){
             setAlertData({...alertData,openDefault:false})
         }else if (Number(remaining) <= 0){
-          setAlertData({title:"Limit Exceeded",message:`You have exceeded your limit for this category. You have used ${expense} out of ${limit} ${currencyTypeMap.filter((item) => item.value === formData.currency)[0]?.label || ""} for ${month}.`,severity:"error",openDefault:true})
+          setAlertData({title:"Limit Exceeded",message:`You have exceeded your limit for this category. You have used ${expense} out of ${limit} ${currency_types.filter((item) => item.value === formData.currency)[0]?.label || ""} for ${month}.`,severity:"error",openDefault:true})
         }else if (Number(remaining) <= (0.1 * Number(limit))){
-          setAlertData({title:"Warning",message:`You are close to your limit for this category. You have used ${expense} out of ${limit} ${currencyTypeMap.filter((item) => item.value === formData.currency)[0]?.label || ""} for ${month}.`,severity:"warning",openDefault:true})
+          setAlertData({title:"Warning",message:`You are close to your limit for this category. You have used ${expense} out of ${limit} ${currency_types.filter((item) => item.value === formData.currency)[0]?.label || ""} for ${month}.`,severity:"warning",openDefault:true})
         }else{
-          setAlertData({title:"Info",message:`You have used ${expense} out of ${limit} ${currencyTypeMap.filter((item) => item.value === formData.currency)[0]?.label || ""} for ${month}.`,severity:"info",openDefault:true})
+          setAlertData({title:"Info",message:`You have used ${expense} out of ${limit} ${currency_types.filter((item) => item.value === formData.currency)[0]?.label || ""} for ${month}.`,severity:"info",openDefault:true})
         }
       });
   }
@@ -129,8 +124,8 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <StaticAutocomplete
                   label="Select Expense Type"
-                  options={expenseTypeMap}
-                  defaultValue={expenseTypeMap.filter(({label,value}) => value == Number(formData.category))[0]}
+                  options={expense_types}
+                  defaultValue={expense_types.filter(({label,value}) => value == Number(formData.category))[0]}
                   formKey="category"
                   onChange={(key, value) => {
                     handleFormChange(key, value);   
@@ -141,8 +136,8 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <StaticAutocomplete
                   label="Select Currency Type"
-                  defaultValue={currencyTypeMap.filter((item) => item.value === formData.currency)[0]}
-                  options={currencyTypeMap}
+                  defaultValue={currency_types.filter((item) => item.value === formData.currency)[0]}
+                  options={currency_types}
                   formKey="currency"
                   onChange={handleFormChange}
                 />

@@ -53,7 +53,6 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
   }
 
   return (
-
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']} sx={{paddingTop: "10px"}}>
         <DatePicker 

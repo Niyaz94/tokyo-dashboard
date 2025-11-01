@@ -72,8 +72,8 @@ const DataTable = () => {
                   <StaticAutocomplete
                     label="Status"
                     showValueInLabel={false}
-                    defaultValue={{value:filters.expenseTypeId,label: expense_types.find((row) => row[0] === filters.expenseTypeId)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}}
-                    options={[["all","ALL"],...expense_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
+                    defaultValue={{value:filters.expenseTypeId,label: expense_types.find(({value,label}) => value === filters.expenseTypeId)?.label.replace(/_/gi, " ").toUpperCase() || "ALL"}}
+                    options={[{value:"all",label:"ALL"},...expense_types].map(({label,value}) => ({value, label: label.replace(/_/gi, " ").toUpperCase()}))}
                     formKey="expenseTypeId"
                     onChange={handleFilterChange}
                   />
