@@ -32,23 +32,23 @@
   .editor-list-ol {
     padding: 0;
     margin: 0;
-    margin-left: 16px;
+    margin-left: 12px;
   }
   
   .editor-list-ul {
     padding: 0;
     margin: 0;
-    margin-left: 16px;
+    margin-left: 12px;
   }
-  
+
   .editor-listitem {
-    margin: 8px 32px 8px 32px;
+    margin: 8px 32px 8px 12px;
   }
   
   .editor-nested-listitem {
-    list-style-type: none;
+    list-style-type: none !important;
   }
-  
+ 
   .editor-code {
     background-color: rgb(240, 242, 245);
     font-family: Menlo, Consolas, Monaco, monospace;

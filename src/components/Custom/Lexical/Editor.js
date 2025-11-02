@@ -15,8 +15,10 @@ import TreeViewPlugin from "./components/CustomPlugins/TreeViewPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import ImagesPlugin from "./components/CustomPlugins/ImagePlugin";
-import FloatingTextFormatToolbarPlugin from "./components/CustomPlugins/FloatingTextFormatPlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 
+import FloatingTextFormatToolbarPlugin from "./components/CustomPlugins/FloatingTextFormatPlugin";
+import "./style.css";
 
 const SaveLoadPlugin = ({ onChange, value,formKey }) => {
   const [editor] = useLexicalComposerContext();
@@ -90,6 +92,7 @@ const LexicalEditorWrapper= ({onChange, value,formKey,label,height="200px"}) => 
           {/* <TreeViewPlugin /> */}
           <ListPlugin />
           <LinkPlugin />
+          <TabIndentationPlugin />
           {/* <ImagesPlugin captionsEnabled={true} /> */}
           <FloatingTextFormatToolbarPlugin />
         </Box>

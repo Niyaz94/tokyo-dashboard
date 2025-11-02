@@ -45,62 +45,59 @@ const DataTable = () => {
 
   return (
     <>
-    <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'left', my: 1, backgroundColor: '#ffffff', padding: 2, borderRadius: 2}}>
-      {currency_detail && <CurrencyPanel data={currency_detail} />}
-    </Box>
-    <FilterPanel
-        filters={filters}
-        handleFilterChange={handleFilterChange}
-        filterFields={expenseFormFields({expense_category,expense_currency}).filter(({fieldType},i)=>fieldType=="filter")}
-    />
-    <Card>
-      
-      {selectedIds.length>0 && (
-        <Box flex={1} p={2}>        </Box>
-      )}
-      {selectedIds.length<1 && (
-        <CardHeader
-          title={
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Typography variant="h6">Recent Orders</Typography>
-            </Box>
-          }
-          action={
-            <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => navigate('add')}
-                  sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
-                >
-                  Insert
-                </Button>
+      <FilterPanel
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+          filterFields={expenseFormFields({expense_category,expense_currency}).filter(({fieldType},i)=>fieldType=="filter")}
+      />
+      <Card>
+        {selectedIds.length>0 && (
+          <Box flex={1} p={2}>        </Box>
+        )}
+        {selectedIds.length<1 && (
+          <CardHeader
+            title={
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Typography variant="h6">Recent Orders</Typography>
               </Box>
-            </Box>
-          }
-        />
-      )}
-      <Divider />
-      <SelectableTable
-        data={tableData} columns={columns} selectedIds={selectedIds}
-        onSelectAll={handleSelectAll}
-        onSelectOne={handleSelectOne}
-        renderRow={(row) => (
-          <CustomTableRow
-            key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-            handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"money/expense",setTable)}
+            }
+            action={
+              <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate('add')}
+                    sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
+                  >
+                    Insert
+                  </Button>
+                </Box>
+              </Box>
+            }
           />
         )}
-      />
-      <CustomPagination
-        count={pagination.count}
-        page={page}
-        rowsPerPage={limit}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-      />
-    </Card>
+        <Divider />
+        <SelectableTable
+          data={tableData} columns={columns} selectedIds={selectedIds}
+          onSelectAll={handleSelectAll}
+          onSelectOne={handleSelectOne}
+          renderRow={(row) => (
+            <CustomTableRow
+              key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
+              handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"money/expense",setTable)}
+            />
+          )}
+        />
+        <CustomPagination
+          count={pagination.count}
+          page={page}
+          rowsPerPage={limit}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleLimitChange}
+        />
+      </Card>
+      {currency_detail && <CurrencyPanel data={currency_detail} />}
     </>
     
   );
