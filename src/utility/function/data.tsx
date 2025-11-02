@@ -57,7 +57,7 @@ export  const StatusCase2 = [
     { value: 'HIGH', label: 'High' },
 ];
 
-export  const ExpenseType = [
+export  const ExpenseSpendingType = [
     { value: 'necessity', label: 'Necessity' },
     { value: 'stupidity', label: 'Stupidity' },
     { value: 'unnecessary', label: 'Unnecessary' },

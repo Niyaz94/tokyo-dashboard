@@ -53,7 +53,7 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
   }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}  >
       <DemoContainer components={['DatePicker']} sx={{paddingTop: "10px"}}>
         <DatePicker 
           // views={['month' ,'year',  ...(pickerWithoutDay? []:['day' as const]) ]}
@@ -61,8 +61,14 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
           // format={pickerWithoutDay? "MM/YYYY":"DD/MM/YYYY"}
           label={label} 
           onChange={(date)=>{onChange(currentValueFormat(date))}}
+          onError={(error, value) => {
+            console.log('DatePicker Error: ', error, value);
+          }}
           value={(typeof value==='string'?dayjs(value,"YYYY-MM-DD"):value)}
+          // {...(value===null ? { value: dayjs(value,"YYYY-MM-DD") } : null)} 
+
           slots={{ textField: TextField }} 
+
           
           slotProps={{
             field: { 
@@ -70,8 +76,10 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface>= ({label,value,onCha
               onClear: () => setCleared(true) 
             },
             textField: { 
-              helperText: placeholder ,
-              ...(pickerFullWidth? { fullWidth: true }: { sx: { width: 200 } })
+              error: false,
+              // https://mui.com/x/react-date-pickers/validation/
+              // helperText: cleared ? 'Date cleared' : '',
+              ...(pickerFullWidth? { fullWidth: true }: { sx: { } })
             }
           }}
         />

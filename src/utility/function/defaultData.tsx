@@ -193,7 +193,8 @@ export const TopicFormIntialState = {
   notes: '{}',
   status: '',
   title: '',
-  image: []
+  image: [],
+  priority: 0
 };
 
 export const IdeaFormIntialState = {

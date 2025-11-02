@@ -22,13 +22,13 @@ const DataTable = () => {
   const {filters,handleFilterChange,filterQuery} = useTableFilters({
     startDate: null,
     endDate: null,
-    expenseId: "all",
-    // expenseId: { value: "all" ,label:"ALL"},
+    // expenseId: "all",
+    expenseId: { value: "all" ,label:"ALL"},
     currencyId: "all",
     amount: { operator: "gt", value: 0 },
   });
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  const { type:expense_types,currency_detail,currency:expense_currency} = secondary;
+  const { type:expense_category,currency_detail,currency:expense_currency} = secondary;
 
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
@@ -48,13 +48,13 @@ const DataTable = () => {
     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'left', my: 1, backgroundColor: '#ffffff', padding: 2, borderRadius: 2}}>
       {currency_detail && <CurrencyPanel data={currency_detail} />}
     </Box>
-
-    <Card>
-      <FilterPanel
+    <FilterPanel
         filters={filters}
         handleFilterChange={handleFilterChange}
-        filterFields={expenseFormFields({expense_types,expense_currency}).filter(({fieldType},i)=>fieldType=="filter")}
-      />
+        filterFields={expenseFormFields({expense_category,expense_currency}).filter(({fieldType},i)=>fieldType=="filter")}
+    />
+    <Card>
+      
       {selectedIds.length>0 && (
         <Box flex={1} p={2}>        </Box>
       )}

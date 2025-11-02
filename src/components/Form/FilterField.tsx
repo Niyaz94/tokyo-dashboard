@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import {
   Box,
   TextField,
@@ -11,10 +11,11 @@ import {
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList"; // or Tune, MoreVert, etc.
 
-const NumberFilter = ({ label = "Amount",defaultValue=0,defaultOperation="eq", onChange }) => {
+const NumberFilter = ({ label = "Amount",defaultValue=0,defaultOperation="eq", onChange,debounce = 600}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [operator, setOperator] = useState(defaultOperation);
   const [value, setValue] = useState(defaultValue);
+  const debounceTimer = useRef(null);
 
   const open = Boolean(anchorEl);
 
@@ -27,10 +28,26 @@ const NumberFilter = ({ label = "Amount",defaultValue=0,defaultOperation="eq", o
     onChange?.({ operator: op, value });
   };
 
+
   const handleValueChange = (e) => {
-    setValue(e.target.value);
-    onChange?.({ operator, value: e.target.value });
+    const newValue = e.target.value;
+    setValue(newValue);
+
+    // clear old timer before starting a new one
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    // wait until user stops typing for `debounce` ms
+    debounceTimer.current = setTimeout(() => {
+      onChange?.({ operator, value: newValue });
+    }, debounce);
   };
+
+  useEffect(() => {
+    // cleanup on unmount
+    return () => clearTimeout(debounceTimer.current);
+  }, []);
 
   const operatorLabels = {
     eq: "= Equal",
@@ -46,6 +63,7 @@ const NumberFilter = ({ label = "Amount",defaultValue=0,defaultOperation="eq", o
         <Box sx={{ width: "100%" }}>
         <TextField
             fullWidth
+            
             label={`${label} (${operatorLabels[operator].split(" ")[0]})`}
             type="number"
             value={value}

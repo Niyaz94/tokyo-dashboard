@@ -17,7 +17,7 @@ export const FormLayout = ({ title, onSaveReturn, onSaveContinue, isEdit,onSucce
     <CardHeader title={title} />
     <Divider />
     <CardContent>
-      <Box component="form" sx={{ mt: 2, p: 2 }}>
+      <Box component="form" sx={{ mt: 0, p: 2,pt: 0 }}>
         <Grid container spacing={2}>
           {children}
           <Grid size={12}>

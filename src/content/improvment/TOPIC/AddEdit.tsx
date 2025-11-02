@@ -149,7 +149,7 @@ const CollapsibleForm = () => {
                   onChange={(newValue) => handleFormChange('deadline', newValue )}
                 />
               </Grid>
-              <Grid size={6}>
+              <Grid size={4}>
                 <StaticAutocomplete
                   label="Topic Status"
                   options={mem_topic_status_map}
@@ -159,7 +159,7 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>
-              <Grid size={6}>
+              <Grid size={4}>
                 <StaticAutocomplete
                   label="Topic Type"
                   options={topic_types}
@@ -171,6 +171,22 @@ const CollapsibleForm = () => {
                   buttonUrl={'/secondary/topic_type/add'}
                 />
               </Grid>  
+              <Grid size={4} sx={{paddingTop: "10px"}}>
+                <TextField
+                  label={'Topic Priority (0-100)'}
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  value={formData.priority}
+                  onChange={(e) =>
+                    handleFormChange('priority', e.target.value)
+                  }
+                  slotProps={{
+                    inputLabel: { shrink: true },
+                    htmlInput: { max: 100, min: 0, step: 1 }
+                  }}
+                />
+              </Grid>
               <Grid size={12}>
                 <LexicalEditor value={formData.notes} onChange={handleFormChange} formKey="notes" label="Detail" height="750px"/>
               </Grid> 

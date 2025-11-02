@@ -6,11 +6,15 @@ export const useTableFilters = <T extends Filters>(initialFilters: T) => {
   const [filters, setFilters] = useState<T>(initialFilters);
 
   const handleFilterChange = useCallback((key: keyof T, value: any) => {
-    // console.log("value",key,value);
-
+    if (key === 'reset') {
+      setFilters(initialFilters);
+      return;
+    }
     // Replace null with "all" if desired — customize per use case
     if (value === null && typeof filters[key] === 'string') {
       value = 'all';
+    }else if(value === null && typeof filters[key] === 'object' && 'label' in filters[key] && 'value' in filters[key]){
+      value = {label:"ALL",value:"all"};
     }
     setFilters((prev) => ({...prev,[key]: value,}));
   }, [filters]);
@@ -23,11 +27,10 @@ const filterQuery = useMemo(() => {
       if(value && typeof value === 'object' && 'operator' in value && 'value' in value){
         queryParts.push(`${key}__${value.operator}=${encodeURIComponent(value.value)}`);
       }
-      // else if(value && typeof value === 'object' && 'label' in value && 'value' in value && value.value !== "all"){
-      //   console.log("value",key,value);
-      //   queryParts.push(`${key}=${encodeURIComponent(value.value)}`);
-      // }
-      else if (value !== null && value !== 'all') {
+      else if(value && typeof value === 'object' && 'label' in value && 'value' in value && value.value !== "all"){
+        queryParts.push(`${key}=${encodeURIComponent(value.value)}`);
+      }
+      else if (value !== null && typeof value !== 'object' && value !== 'all') {
         const mappedKey = key.replace(/^[A-Z]/, (m) => m.toLowerCase()); // Lowercase first char
         queryParts.push(`${mappedKey}=${encodeURIComponent(value)}`);
       }

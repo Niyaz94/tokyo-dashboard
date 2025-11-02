@@ -21,7 +21,7 @@ const FilterPanel = ({ filters, handleFilterChange, filterFields }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Paper elevation={2} sx={{p: 2,mb: 2,borderRadius: 1,bgcolor: "background.paper"}}>
+    <Paper elevation={2} sx={{p: 2,my: 1,borderRadius: 2,bgcolor: "background.paper"}}>
       {/* Header */}
       <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
         <Typography variant="h6" fontWeight={600}>
@@ -54,9 +54,9 @@ const FilterPanel = ({ filters, handleFilterChange, filterFields }) => {
           <Button variant="outlined" onClick={() => handleFilterChange("reset")}>
             Reset
           </Button>
-          <Button variant="contained" color="primary">
+          {/* <Button variant="contained" color="primary">
             Apply
-          </Button>
+          </Button> */}
         </Box>
       </Collapse>
     </Paper>

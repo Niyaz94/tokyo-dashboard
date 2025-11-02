@@ -22,7 +22,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const topicStatusMap = createMapLabelData(filterTopicStatusOptions.map((row) => row["id"]));
   const topicTypeMap = createMapLabelData(topic_types.map((row) => row.label));
 
-  const {id,date,title,status,type_name,deadline} = data;
+  const {id,date,title,status,type_name,deadline,priority} = data;
 
   const onEditButtonClick = () => {
     // setPageDefault(prev => ({...prev, date:{label:date,value: daily}}));
@@ -76,12 +76,14 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: labelWithColor(
-              topicStatusMap[status].text,
-              topicStatusMap[status].color
-            ),
+            text: labelWithColor(topicStatusMap[status].text,topicStatusMap[status].color),
             styleType: 1
-          }
+          },
+          {
+            text: labelWithColor(priority,"black","Topic Priority"),
+            styleType: 1
+          },
+          // 
         ]}
       />
       <TableCell align="right">

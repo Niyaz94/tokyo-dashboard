@@ -50,21 +50,17 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         />
     );
   }else if (field.type=="autocomplete"){
-    component= (
+    component= (field.options &&
       <StaticAutocomplete
         label={field.label}
         showValueInLabel={field.fieldType==="filter"? false : true}
         options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
         formKey={field.key}
-        defaultValue={field.options.find((o: any) =>  o.value === value)}
+        defaultValue={field.options.find((o: any) =>  o.value === value) || (field.fieldType==="form"?null:{value:"all",label:"ALL"})}
         onChange={handleFormChange}
         error={(error?.[0] || "").replace(/['"]+/g, '')}
       />
     );
-
-    // For filter fields
-    // find((row) => row[0] === filters.expenseTypeId)?.[1].replace(/_/gi, " ").toUpperCase() || "ALL"}
-    //   options={[["all","ALL"],...expense_types].map((row) => ({value: row[0], label: row[1].replace(/_/gi, " ").toUpperCase()}))}
   }else if (field.type=="d_autocomplete"){
     component= ((value || !isEdit) && <DynamicAutocomplete
       label={field.label}

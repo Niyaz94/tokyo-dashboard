@@ -181,6 +181,7 @@ export type TopicFormIntialStateInterface = {
   status: string;
   title: string;
   image: File[];
+  priority: number;
 
 };  
 export type IdeaFormIntialStateInterface = {
