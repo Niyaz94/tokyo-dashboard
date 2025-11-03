@@ -11,7 +11,7 @@ export default () =>{
   const { data,success}: FetchData<PaginationTableDataInterface<TaskStatusRowSampleInterface>> = useFetch <PaginationTableDataInterface<TaskStatusRowSampleInterface>>('schedule/task_status/plist',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
-  const { data:unique_data,success:unque_success}: FetchData<TaskStatusUniqueInterface> = useFetch <TaskStatusUniqueInterface>('schedule/task_status/unique',{tasks_name:[],task_status:[],task_tags:[]});
+  const { data:unique_data,success:unque_success}: FetchData<TaskStatusUniqueInterface> = useFetch <TaskStatusUniqueInterface>('schedule/task_status/unique',{task_type:[],task_tags:[]});
 
   if (!success) {
     return <p>Loading...</p>;

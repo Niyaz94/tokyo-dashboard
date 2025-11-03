@@ -180,8 +180,7 @@ export interface SingleTaskRowSampleInterface {
 
 
 export interface TaskStatusUniqueInterface {
-    tasks_name:string[];
-    task_status:string[];
+    task_type:string[];
     task_tags:string[];
 }
 export interface TaskStatusRecordInterface {

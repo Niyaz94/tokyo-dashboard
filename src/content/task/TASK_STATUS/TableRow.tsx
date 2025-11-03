@@ -5,6 +5,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
 import { usePaginationContext } from '../../../store/context/paginationContext';
+import {TaskStatusStatus} from '../../../utility/function/data';
+
 
 import {
   labelWithColor,
@@ -16,9 +18,9 @@ import {
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const { secondary } = usePaginationContext();
-  const { tasks_name, task_status } = secondary;
-  const taskNameMap = createMapLabelData(tasks_name.map((row) => row[1]));
-  const taskStatusMap = createMapLabelData(task_status, [3, 0, 2, 4]);
+  const { task_type } = secondary;
+  const taskNameMap = createMapLabelData(task_type.map(({label}) => label));
+  const taskStatusMap = createMapLabelData(TaskStatusStatus.map(({value})=>value), [3, 0, 2, 4]);
   const taskMap = createMapLabelData(['active', 'inactive', 'archive'],[3, 2, 4]);
   const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
   const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail ;
@@ -112,8 +114,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              taskStatusMap[status].text,
-              taskStatusMap[status].color
+              taskStatusMap[status]?.text || 'N/A',
+              taskStatusMap[status]?.color || 'error'
             ),
             styleType: 1
           },

@@ -21,20 +21,17 @@ import {usePaginationContext}                  from '../../../store/context/pagi
 import {createSelectMap,getDeepText}                from '../../../utility/function/main';
 import {TaskStatusRowSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
 import dayjs                           from "dayjs";
+import {TaskStatusStatus} from '../../../utility/function/data';
+
 
 
 const CollapsibleForm = () => {
 
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
-  const  {secondary,table,setTable}              = usePaginationContext();
-  const {tasks_name,task_status}  = secondary;
+  const  {secondary,setTable}              = usePaginationContext();
+  const {task_type}  = secondary;
 
-  const task_name_map         = createSelectMap(tasks_name.filter(row=>row[2]=="active").map(row=>row))
-  const mem_task_name_map     = useMemo(() => task_name_map, []);
-
-
-  const task_status_map         = createSelectMap(task_status,"array")
-  const mem_task_status_map     = useMemo(() => task_status_map, []);
+  const mem_task_name_map     = useMemo(() => task_type.filter(({status})=>status=="active"), []);
 
   const navigate                = useNavigate();
 
@@ -193,8 +190,8 @@ const CollapsibleForm = () => {
               <Grid size={6}>
                 <StaticAutocomplete
                   label="Task Status"
-                  options={mem_task_status_map}
-                  defaultValue={mem_task_status_map.filter((item) => item.value === formData.status)[0]}
+                  options={TaskStatusStatus}
+                  defaultValue={TaskStatusStatus.filter((item) => item.value === formData.status)[0]}
                   formKey="status"
                   showValueInLabel={false}
                   onChange={handleFormChange}

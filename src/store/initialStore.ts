@@ -72,12 +72,35 @@ export const dailyInitialState:dailyInitialStateInterface = {
 }
 
 export const tableHeaderFilter:tableHeaderFilterInterface = {
-  "singleTask":{status: ["all"] ,type: "all",priority: "all"},
-
+  "singleTask":{
+    status: ["all"] ,
+    type: "all",
+    priority: "all"
+  },
   "taskStatus": {
-    start_date: dayjs().startOf('month').format('YYYY-MM-DD') ,
-    end_date: dayjs().endOf('month').format('YYYY-MM-DD'),
+    startDate: dayjs().startOf('month').format('YYYY-MM-DD') ,
+    endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
     status: "all",
+    type:"all",
     tag: "all"
   },
+  "expense": {
+    startDate: null,
+    endDate: null,
+    expenseId: "all",
+    // expenseId: { value: "all" ,label:"ALL"},
+    currencyId: "all",
+    amount: { operator: "gt", value: 0 },
+  },
+  "task": {},
+  "topic": {},
+  "idea": {},
+  "goal": {},
+  "activity": {},
+  "sleep": {},
+  "income": {},
+  "limit": {},
+  "repeat": {},
+  "today": {},
+  "tomorrow": {}
 }

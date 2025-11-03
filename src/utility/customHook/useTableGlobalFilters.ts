@@ -37,11 +37,19 @@ const filterQuery = useMemo(() => {
 
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== null && value !== 'all') {
-        const mappedKey = key
-            //   .replace(/^tf/, '')        
-          .replace(/^[A-Z]/, (m) => m.toLowerCase()); // Lowercase first char
+        const mappedKey = key.replace(/^[A-Z]/, (m) => m.toLowerCase());
 
-        queryParts.push(`${mappedKey}=${encodeURIComponent(Array.isArray(value) ? value.join(',') : value)}`);
+        if(value && typeof value === 'object' && 'operator' in value && 'value' in value){
+          queryParts.push(`${key}__${value.operator}=${encodeURIComponent(value.value)}`);
+        }else if(value && typeof value === 'object' && 'label' in value && 'value' in value ){
+          if (value.value!==null && value.value !== "all")
+            queryParts.push(`${key}=${encodeURIComponent(value.value)}`);
+        }else if (Array.isArray(value)) {
+          queryParts.push(`${mappedKey}=${encodeURIComponent(value.join(','))}`);
+        }else{
+          queryParts.push(`${mappedKey}=${encodeURIComponent(value.toString())}`);
+        }
+
       }
     });
 

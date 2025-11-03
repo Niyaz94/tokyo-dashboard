@@ -2,31 +2,21 @@ import { useEffect } from 'react';
 import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
 import CustomTableRow from './TableRow';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
 import {axiosGetData} from '../../../utility/Axios'
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
 import {columnsExpense as columns} from '../../../utility/function/tableColumn';
 
-
 import CurrencyPanel from './currencyPanel';
 import { expenseFormFields } from "./config";
-
-
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
-  const {filters,handleFilterChange,filterQuery} = useTableFilters({
-    startDate: null,
-    endDate: null,
-    // expenseId: "all",
-    expenseId: { value: "all" ,label:"ALL"},
-    currencyId: "all",
-    amount: { operator: "gt", value: 0 },
-  });
+  const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("expense");
+  
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const { type:expense_category,currency_detail,currency:expense_currency} = secondary;
 
@@ -41,7 +31,6 @@ const DataTable = () => {
         setPagination({count: count, next: next, previous: previous});
       });
   }, [ page, limit,filters]);
-
 
   return (
     <>

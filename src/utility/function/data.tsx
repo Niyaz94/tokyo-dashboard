@@ -65,7 +65,6 @@ export  const ExpenseSpendingType = [
 ];
 
 
-
 export const CategoryType = [
     { color:"success",value: 'income', label: 'Income'},
     { color:"warning",value: 'expense', label: 'Expense'},
@@ -75,6 +74,13 @@ export const CategoryType = [
     { color:"primary",value: 'investment', label: 'Investment'},
     { color:"info",value: 'savings', label: 'Savings'}
 ]
+
+export const TaskStatusStatus = [
+    { value: 'COMPLETED', label: 'Completed' },
+    { value: 'UNCOMPLETED', label: 'Uncompleted' },
+    { value: 'HALF_COMPLETED', label: 'Half Completed' },
+    { value: 'INAPPLICABLE', label: 'Inapplicable' },
+];
 
 
 
