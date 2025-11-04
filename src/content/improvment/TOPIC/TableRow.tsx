@@ -4,7 +4,7 @@ import {Checkbox,TableCell,TableRow,Stack} from '@mui/material';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import {labelWithColor,createMapLabelData,getDayAbbreviation} from '../../../utility/function/main';
-import { filterTopicStatusOptions } from '../../../utility/function/data';
+import { filterStatusOptions_2 } from '../../../utility/function/data';
 
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import dayjs                           from "dayjs";
@@ -19,7 +19,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const {type:topic_types} = secondary;
 
 
-  const topicStatusMap = createMapLabelData(filterTopicStatusOptions.map((row) => row["id"]));
+  const topicStatusMap = createMapLabelData(filterStatusOptions_2.map(({value}) => value));
   const topicTypeMap = createMapLabelData(topic_types.map((row) => row.label));
 
   const {id,date,title,status,type_name,deadline,priority} = data;

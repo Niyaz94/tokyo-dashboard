@@ -314,8 +314,6 @@ export interface IoanSingleSampleInterface {
 
 export interface SingleTaskUniqueInterface {
   type:string[];
-  status:string[];
-  priority:string[];
 }
 
 export interface SingleTaskTypeSingleSampleInterface {

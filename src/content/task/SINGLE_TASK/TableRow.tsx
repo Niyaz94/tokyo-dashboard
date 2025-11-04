@@ -6,6 +6,7 @@ import { createMapLabelData } from '../../../utility/function/main';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import CampaignIcon                       from '@mui/icons-material/Campaign';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
 
 import {
   getStatusIcon,
@@ -18,10 +19,10 @@ import dayjs                           from "dayjs";
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const { secondary } = usePaginationContext();
-  const { status:single_task_status,type:single_task_type } = secondary;
+  const {type:single_task_type } = secondary;
 
-  const taskStatusMap = createMapLabelData(single_task_status);
-  const taskTypeNameMap = createMapLabelData(single_task_type.map((item) => item[1]));
+  const taskStatusMap = createMapLabelData(single_task_status.map(({value})=>value.toLowerCase()));
+  const taskTypeNameMap = createMapLabelData(single_task_type.map(({label}) => label));
 
 
   const numPriorityMap ={

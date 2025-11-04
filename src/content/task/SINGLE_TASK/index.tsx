@@ -15,7 +15,7 @@ export default () =>{
   const { data,success}: FetchData<PaginationTableDataInterface<SingleTaskRowSampleInterface>> = useFetch <PaginationTableDataInterface<SingleTaskRowSampleInterface>>('schedule/stask/',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
-  const { data:unique_data,success:unque_success}: FetchData<SingleTaskUniqueInterface> = useFetch <SingleTaskUniqueInterface>('schedule/stask/unique',{priority:[],status:[],type:[]});
+  const { data:unique_data,success:unque_success}: FetchData<SingleTaskUniqueInterface> = useFetch <SingleTaskUniqueInterface>('schedule/stask/unique',{type:[]});
 
   if (!success || !unque_success) {
     return <p>Loading...</p>;

@@ -21,22 +21,22 @@ import {usePaginationContext}                  from '../../../store/context/pagi
 
 import {createSelectMap}                from '../../../utility/function/main';
 import dayjs                           from "dayjs";
+import {StatusCase2 } from '../../../utility/function/data';
+import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
+
 
 
 const CollapsibleForm = () => {
 
   const  {secondary}              = usePaginationContext();
 
-  const { status:single_task_status,priority:single_task_priority,type:single_task_type } = secondary;
+  const {type:single_task_type } = secondary;
+  const singleTaskPriority = StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label}))
 
-  const singleTaskPriority      = createSelectMap(single_task_priority,"type3")
   const memSingleTaskPriority   = useMemo(() => singleTaskPriority, []);
+  const memSingleTaskType      = useMemo(() => single_task_type, []);
 
-  const singleTaskType         = createSelectMap(single_task_type,"object")
-  const memSingleTaskType      = useMemo(() => singleTaskType, []);
-
-  const singleTaskStatus        = createSelectMap(single_task_status,"type3")
-  const memSingleTaskStatus     = useMemo(() => singleTaskStatus, []);
+  const memSingleTaskStatus     = useMemo(() => single_task_status, []);
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();

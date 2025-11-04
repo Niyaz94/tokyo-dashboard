@@ -61,6 +61,26 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         error={(error?.[0] || "").replace(/['"]+/g, '')}
       />
     );
+  }else if (field.type=="m_autocomplete"){
+    component= (field.options &&
+      <StaticAutocomplete
+        label={field.label}
+        showValueInLabel={field.fieldType==="filter"? false : true}
+        multiple={true}
+        options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
+        formKey={field.key}
+        defaultValue={
+          (Array.isArray(value) && value.length > 0) &&
+          field.options.filter(({value:item_value})=>value.includes(item_value)) || [{value: "all", label: "ALL"}]
+          // value.map((item: string) => ({
+          //   value: item,
+          //   label:field.options.find(({value,label}) => value === item).label?.toString().replace(/_/gi, " ").toUpperCase() || "ALL"
+          // })) || [{value: "all", label: "ALL"}]
+        }
+        onChange={handleFormChange}
+        error={(error?.[0] || "").replace(/['"]+/g, '')}
+      />
+    );
   }else if (field.type=="d_autocomplete"){
     component= ((value || !isEdit) && <DynamicAutocomplete
       label={field.label}

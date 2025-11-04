@@ -2,9 +2,7 @@ import { useState,useEffect,useCallback,useRef,useMemo } from 'react';
 import { useNavigate,useParams }    from 'react-router-dom';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { filterTopicStatusOptions } from '../../../utility/function/data';
-import {createSelectMap}                from '../../../utility/function/main';
-
+import { filterStatusOptions_2 } from '../../../utility/function/data';
 
 import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
 
@@ -34,12 +32,6 @@ const CollapsibleForm = () => {
   const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
 
   const {type:topic_types} = secondary;
-
-
-
-  const topic_status_map         = createSelectMap(filterTopicStatusOptions.map(row=>row["id"]),"array")
-  const mem_topic_status_map     = useMemo(() => topic_status_map, []);
-
   
   const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/topic/${edit_page_id}`: null,{});
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
@@ -152,8 +144,8 @@ const CollapsibleForm = () => {
               <Grid size={4}>
                 <StaticAutocomplete
                   label="Topic Status"
-                  options={mem_topic_status_map}
-                  defaultValue={mem_topic_status_map.filter((item) => item.value === formData.status)[0]}
+                  options={filterStatusOptions_2}
+                  defaultValue={filterStatusOptions_2.filter(({value}) =>value === formData.status)[0]}
                   formKey="status"
                   showValueInLabel={false}
                   onChange={handleFormChange}

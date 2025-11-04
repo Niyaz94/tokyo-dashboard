@@ -6,17 +6,28 @@ import HourglassEmptyIcon                   from '@mui/icons-material/HourglassE
 import TrendingDownIcon                     from '@mui/icons-material/TrendingDown';
 
 
-export const filterTopicStatusOptions = [
-    {id: 'all',name: 'All'},
-    {id: 'achieved',name: 'Achieved'},
-    {id: 'postponed',name: 'Postponed'},
-    {id: 'inprogress',name: 'In Progress'},
-    {id: 'completed',name: 'Completed'},
-    {id: 'half_completed',name: 'Half Completed'},
-    {id: 'not_started',name: 'Not Started'},
-    {id: 'failed',name: 'Failed'},
-    {id: 'followup',name: 'Follow Up'},
+export const filterStatusOptions_2 = [
+    // {id: 'all',name: 'All'},
+    {value: 'archive'           ,label: 'Archive'},
+    {value: 'postponed'         ,label: 'Postponed'},
+    {value: 'inprogress'        ,label: 'Inprogress'},
+    {value: 'completed'         ,label: 'Completed'},
+    {value: 'half_completed'    ,label: 'Half Completed'},
+    {value: 'not_started'       ,label: 'Not Started'},
+    {value: 'failed'            ,label: 'Failed'},
+    {value: 'followup'          ,label: 'Follow Up'},
 ];
+
+// export const singleTaskStatusField={
+//     "archive":"",
+// 	"postponed":"",
+// 	"inprogress":"",
+// 	"completed":"",
+// 	"half_completed":"",
+// 	"not_started":"",
+// 	"failed":"",
+// 	"followup":""
+// }
 
 export const filterIdeaStatusOptions = [
     {id: 'all',name: 'All'},
@@ -34,6 +45,8 @@ export const filterStatusOptions = [
     {id: 'HIGH',name: 'High'},
     {id: 'VERY_HIGH',name: 'Very High'},
 ];
+
+
 
 export const mapLabelData = {
     VERY_LOW      : {text: 'Very Low'           ,color: 'error',      icon:<ThumbDownOffAltIcon/>},
