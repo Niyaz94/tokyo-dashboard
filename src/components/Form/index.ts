@@ -14,4 +14,5 @@ export {default as ThreeStateButton}            from './ToggleButtonGroup'
 export {FormLayout}             from './FormLayout';
 export {FieldRenderer}          from './FieldRenderer';
 export {default as FilterField}            from './FilterField';
+export {default as TextSearch}              from "./TextSearch"
 

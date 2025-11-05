@@ -19,7 +19,6 @@ export const useTableGlobalFilters = (tableFilterKey: string) => {
       value = 'all';
     }
     if(Array.isArray(value) ) {
-      console.log("I'm array",value);
       // && ( value.includes('all'))
       if (value[-1]=== 'all') {
         value = ['all'];
@@ -40,7 +39,8 @@ const filterQuery = useMemo(() => {
         const mappedKey = key.replace(/^[A-Z]/, (m) => m.toLowerCase());
 
         if(value && typeof value === 'object' && 'operator' in value && 'value' in value){
-          queryParts.push(`${key}__${value.operator}=${encodeURIComponent(value.value)}`);
+          if(value.value.toString().length>0)
+            queryParts.push(`${key}_value=${encodeURIComponent(value.value)}&${key}_operator=${encodeURIComponent(value.operator)}`);
         }else if(value && typeof value === 'object' && 'label' in value && 'value' in value ){
           if (value.value!==null && value.value !== "all")
             queryParts.push(`${key}=${encodeURIComponent(value.value)}`);

@@ -74,8 +74,10 @@ export const dailyInitialState:dailyInitialStateInterface = {
 export const tableHeaderFilter:tableHeaderFilterInterface = {
   "singleTask":{
     status: ["all"] ,
-    type: "all",
-    priority: "all"
+    type: ["all"],
+    priority: "all",
+    title:{ operator: "contains", value: "" },
+    numPriority:{operator: "gt", value: 0 }
   },
   "taskStatus": {
     startDate: dayjs().startOf('month').format('YYYY-MM-DD') ,

@@ -1,6 +1,9 @@
 // components/FieldRenderer.tsx
 import { TextField, Grid,FormControl } from "@mui/material";
-import { CustomSwitch,DynamicAutocomplete,TimePickers, StaticAutocomplete,ThreeStateButton,CustomDatePicker ,FilterField} from "./index";
+import { 
+  TextSearch,CustomSwitch,DynamicAutocomplete,TimePickers, StaticAutocomplete,
+  ThreeStateButton,CustomDatePicker ,FilterField
+} from "./index";
 import LexicalEditor from "../Custom/Lexical/Editor";
 import dayjs                  from 'dayjs';
 
@@ -116,6 +119,15 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         label={field.label}
         defaultValue={value?.value}
         defaultOperation={value?.operator}
+        onChange={(val) => handleFormChange(field.key, val)}
+      />
+    );
+  }else if (field.type=="textSearch"){
+    component= (
+      <TextSearch
+        label={field.label}
+        defaultOperation={value?.operator}
+        defaultValue={value?.value}
         onChange={(val) => handleFormChange(field.key, val)}
       />
     );
