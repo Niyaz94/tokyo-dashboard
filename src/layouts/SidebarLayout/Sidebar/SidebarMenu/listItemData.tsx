@@ -65,7 +65,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
       {title: 'Currency',               link: '/transactions/currency',   icon: <TableChartTwoToneIcon />},
       {title: 'Category',               link:  '/transactions/category',  icon: <TableChartTwoToneIcon />},
       {title: '+Repeated Transaction',  link: '/transactions/repeat',     icon: <Replay30Icon />},
-      {title: '+Expense Limitations',   link: '/transactions/limit',      icon: <PriceCheckIcon />},
+      {title: 'Currency Limitations',   link: '/transactions/currency_limit',      icon: <PriceCheckIcon />},
 
 
       // 

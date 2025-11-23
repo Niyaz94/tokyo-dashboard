@@ -3,31 +3,22 @@ import { ChangeEvent } from 'react';
 import {
   Checkbox,
   TableCell,
-  TableRow,
+  TableRow,Stack
 } from '@mui/material';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import {
-  labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,
-  capitalizeFirstLetterOfWords,getDeepText,getMonthName
-} from '../../../utility/function/main';
+import {labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,capitalizeFirstLetterOfWords,getDeepText} from '../../../utility/function/main';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
-
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const {id,year,month,amount,note,currency_name,expense_category} = data;
+  const {id,startDate,endDate,amount,note,currency_name} = data;
   const { secondary } = usePaginationContext();
-  const { type:expense_types, currency:currency_types } = secondary;
-  const expenseTypeMap = createMapLabelData(expense_types.map((row) => row[1]));
-  const currencyTypeMap = createMapLabelData(currency_types.map((row) => row[1]));
-
-
-  const {text:textExpenseType,color:colorExpenseType}= expenseTypeMap[expense_category] || {text:expense_category,color:'black'};
-
-
+  const { currency:currency_types } = secondary;
+  const currencyTypeMap = createMapLabelData(currency_types.map(({label}) => label));
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -41,22 +32,24 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           }
         />
       </TableCell>
-      <TableCusCell cellProps={{ align: 'center' }} prop={[{ text: `${year}`, styleType: 1 }]}/>
-      <TableCusCell cellProps={{ align: 'center' }} prop={[{ text: `${getMonthName(month)}`, styleType: 1 }]}/>
+      
+      <TableCusCell prop={
+        [
+          {text:`${startDate} (${getDayAbbreviation(startDate)})`,styleType:1},
+          {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
+            {labelWithColor(<EventRepeatIcon/>,"info")}
+
+            {labelWithColor(endDate,"primary","Deadline")}
+          </Stack>,styleType:2}
+      ]} />
       <TableCusCell
         cellProps={{ align: 'center' }}
         prop={[
           {
             text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(textExpenseType)}`,colorExpenseType,'Expense Type'
-            ),
-            styleType: 1
-          },
-          {
-            text: labelWithColor(
               `${capitalizeFirstLetterOfWords(currencyTypeMap[currency_name].text)}`,currencyTypeMap[currency_name].color,'Currency Type'
             ),
-            styleType: 2
+            styleType: 1
           }
         ]}
       />
@@ -76,7 +69,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[{ text: getDeepText(note), styleType: 2 }]}
       />
       <TableCell align="right">
-        <ButtonTable id={id} text="This Expense" onDeleteRow={onDeleteRow} />
+        <ButtonTable id={id} text="This Currency Limit" onDeleteRow={onDeleteRow} />
       </TableCell>
     </TableRow>
   );

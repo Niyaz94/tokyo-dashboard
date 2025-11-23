@@ -1,3 +1,5 @@
+import "./setupWhyDidYouRender";
+
 import { useRoutes } from 'react-router-dom';
 import router from 'src/router';
 
@@ -8,8 +10,6 @@ import { CssBaseline } from '@mui/material';
 import ThemeProvider from './theme/ThemeProvider';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState }                from './store/Reducer';
-import { AppDispatch }              from './store/index';
 import { fetchDailyId }            from './store/slice/daily';
 
 

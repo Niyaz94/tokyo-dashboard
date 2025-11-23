@@ -23,7 +23,11 @@ const Login: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({ username: '', password: '' });
-    const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
+    const [snackbar, setSnackbar] = useState({ 
+      open: false, 
+      message: '', 
+      severity: 'success' as 'success' | 'error' 
+    });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,12 +42,13 @@ const Login: React.FC = () => {
   };
 
    useEffect(() => {
-    console.log("response:",success,response);
+
+      console.log("1",success,response)
       if (success) {
         setSnackbar({ open: true, message: 'Login successful!', severity: 'success' });
         setLoading(false);
-        navigate('/dashboard');
-      }else{
+        setTimeout(()=>navigate('/dashboard'),1000);
+      }else if(success==false && response!=null){
         setSnackbar({ open: true, message: 'Invalid credentials', severity: 'error' });
         setLoading(false);
       }
@@ -105,11 +110,7 @@ const Login: React.FC = () => {
         </CardContent>
       </Card>
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
+      <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })}>
         <Alert severity={snackbar.severity} onClose={() => setSnackbar({ ...snackbar, open: false })}>
           {snackbar.message}
         </Alert>
@@ -118,4 +119,6 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+(Login as any).whyDidYouRender = true;
+
+export default React.memo(Login);

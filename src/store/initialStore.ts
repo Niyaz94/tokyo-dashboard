@@ -27,6 +27,7 @@ export const tablePaginationInit: tablePaginationInterface[] = [
   { filter:{field:"id",order:"asc"},name: "income"  ,page: 0, limit: 10 },
   { filter:{field:"id",order:"asc"},name: "limit"  ,page: 0, limit: 10 },
   { filter:{field:"id",order:"asc"},name: "repeat"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "currencyLimit"  ,page: 0, limit: 10 },
 
 
 
@@ -91,6 +92,12 @@ export const tableHeaderFilter:tableHeaderFilterInterface = {
     endDate: null,
     expenseId: "all",
     // expenseId: { value: "all" ,label:"ALL"},
+    currencyId: "all",
+    amount: { operator: "gt", value: 0 },
+  },
+  "currencyLimit": {
+    startDate: null,
+    endDate: null,
     currencyId: "all",
     amount: { operator: "gt", value: 0 },
   },

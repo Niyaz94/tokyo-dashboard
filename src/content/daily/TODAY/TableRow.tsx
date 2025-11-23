@@ -24,15 +24,16 @@ import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
-
-
-import {getStatusIcon,getStatusLabel,labelWithColor,labelColorByNumber,getDayAbbreviation,getTimeDifferenceInMinutes} from '../../../utility/function/main';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import {getStatusIcon,labelWithColor,labelColorByNumber,getDayAbbreviation,getTimeDifferenceInMinutes} from '../../../utility/function/main';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const {
-    id,date,isBusyDay,successStatus,successRate, activity, sleep, 
-    worryingLevel, infoConsumptionLevel, usefulTimeInMinutes, wastedTimeInMinutes, isMeditation,isListenToMusic
+    id,date,isBusyDay,successStatus,successRate, activity, sleep, beingGrateful,
+    worryingLevel, infoConsumptionLevel, usefulTimeInMinutes, wastedTimeInMinutes, isMeditation,isListenToMusic,meditation, pray
   } = data;
 
   const {isGoingGym, weight, mbNumber} = activity || {isGoingGym:false,weight:70,mbNumber:0};
@@ -40,6 +41,19 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const sleepInHour=(getTimeDifferenceInMinutes(approxFellSleepTime.slice(0,5),morningWakingUp.slice(0,5))+dayTimeSleepInMinutes)/60
 
 
+  const worryingLevelIcon=(value)=>{
+    if(value=="HIGH"){
+      return <SentimentDissatisfiedIcon sx={{ fontSize: '1.7rem', color: 'warning.main' }}/>
+    }else if(value=="VERY_HIGH"){
+      return <SentimentVeryDissatisfiedIcon sx={{ fontSize: '1.7rem', color: 'error.main' }}/>
+    }else if(value=="LOW"){
+      return <SentimentSatisfiedIcon sx={{ fontSize: '1.7rem', color: 'info.main' }}/>
+    }else if(value=="VERY_LOW"){
+      return <SentimentNeutralIcon sx={{ fontSize: '1.7rem', color: 'success.main' }}/>
+    }else{
+      return <SentimentNeutralIcon sx={{ fontSize: '1.7rem', color: 'secondary.main' }}/>
+    }
+  }
   return (
     <TableRow hover key={id} selected={isDataSelected}>
       <TableCell padding="checkbox">
@@ -86,9 +100,17 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           {
             text: (
               <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>
-                {getStatusIcon(worryingLevel,<SentimentVeryDissatisfiedIcon />,true)}
-                {isListenToMusic ? labelWithColor(<MusicNoteIcon sx={{ fontSize: '1.6rem', color: 'error.main' }}/>,'error',"Listening to Music") 
-                : labelWithColor(<MusicOffIcon sx={{ fontSize: '1.6rem', color: 'success.main' }}/>,'success',"Not Listening to Music")}
+                {labelWithColor(worryingLevelIcon(worryingLevel),'error',`Warring Level: ${worryingLevel}`,"",13,true)}
+                {
+                isListenToMusic ? 
+                labelWithColor(<MusicNoteIcon sx={{ fontSize: '1.4rem', color: 'error.main' }}/>,'error',"Listening to Music") 
+                : 
+                labelWithColor(<MusicOffIcon sx={{ fontSize: '1.4rem', color: 'success.main' }}/>,'success',"Not Listening to Music")
+                }
+                {beingGrateful? 
+                labelWithColor(<SentimentSatisfiedAltIcon sx={{ fontSize: '1.4rem', color: 'success.main' }}/>,'success',"Listening to Music") 
+                : 
+                labelWithColor(<SentimentVeryDissatisfiedIcon sx={{ fontSize: '1.4rem', color: 'error.main' }}/>,'error',"Not Listening to Music")}
               </Stack>
             ),
             styleType: 2
@@ -123,9 +145,9 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           {
             text: (
               <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>
-                {SleepState!=null && labelWithColor(`F: ${bedTime.slice(0,5)}`,"primary","Bed Time")}
-                {SleepState!=null && labelWithColor(`T: ${morningWakingUp.slice(0,5)}`,"black","Wake Up Time")}
-                {SleepState!=null && labelWithColor(`ST: ${(sleepInHour.toFixed(2))}`,labelColorByNumber(sleepInHour/10*100),"Sleep Hour")}
+                {labelWithColor(`M: ${meditation}`,"primary","Meditation Pattern")}
+                {labelWithColor(`P: ${pray}`,'success',"Pray Pattern")}
+                {labelWithColor(`ST: ${(sleepInHour.toFixed(2))}`,labelColorByNumber(sleepInHour/10*100),"Sleep Hour")}
               </Stack>
             ),
             styleType: 2

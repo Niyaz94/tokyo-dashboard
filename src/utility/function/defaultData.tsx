@@ -100,6 +100,15 @@ export const ActivityFormIntialState = {
   weight: 0,
 };
 
+export const CurrencyLimitIS = {
+  id: 0,
+  startDate: dayjs().startOf('month').format('YYYY-MM-DD'),
+  endDate: dayjs().endOf('month').format('YYYY-MM-DD'),
+  amount: 0,
+  currency: 0,
+  note: '{}'
+};
+
 export const TransactionFormIntialState = {
   id: 0,
   date: dayjs().format('YYYY-MM-DD'),
@@ -108,6 +117,7 @@ export const TransactionFormIntialState = {
   currency: 0,
   category: 0
 };
+
 
 export const ExpenseFormIntialState = {
   ...TransactionFormIntialState,

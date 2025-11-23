@@ -17,6 +17,13 @@ export  const columnsExpense:Column[] = [
     { id:"",label: 'Note', align: 'center' },
     { id:"",label: 'Actions', align: 'center' }
 ];
+export  const columnsCurrencyLimit:Column[] = [
+    { id:"",label: 'Date', align: 'center' },
+    { id:"",label: 'Expense Currency', align: 'center' },
+    { id:"",label: 'Amount', align: 'center' },
+    { id:"",label: 'Note', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
 export  const columnsLoan:Column[] = [
     { id:"date",label: 'Date', align: 'center' },
     { id:"expectedReturnDate",label: 'Expected Return Date', align: 'center' },

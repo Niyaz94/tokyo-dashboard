@@ -33,10 +33,16 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
     component= (
       <TextField
         fullWidth
+        variant="outlined"
+        required={field.required || true}
         type={field.type}
         label={field.label}
+        placeholder={field.label}
         value={value}
         onChange={e => handleFormChange(field.key, e.target.value)}
+        slotProps={{
+          inputLabel: { shrink: true },
+        }}
       />
     );
   }else if (field.type=="switch"){

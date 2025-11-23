@@ -19,7 +19,7 @@ const Expense             = Loader(lazy(() => import('src/content/money/EXPENSE'
 const LOAN                = Loader(lazy(() => import('src/content/money/LOAN')));
 const CURRENCY            = Loader(lazy(() => import('src/content/money/CURRENCY')));
 const INCOME              = Loader(lazy(() => import('src/content/money/INCOME')));
-const LIMIT               = Loader(lazy(() => import('src/content/money/LIMIT')));
+const CURRENCY_LIMIT      = Loader(lazy(() => import('src/content/money/CURRENCY_LIMIT')));
 const REPEAT              = Loader(lazy(() => import('src/content/money/REPEAT')));
 const UserProfile         = Loader(lazy(() => import('src/content/applications/Users/profile')));
 const UserSettings        = Loader(lazy(() => import('src/content/applications/Users/settings')));
@@ -97,7 +97,7 @@ const routes: RouteObject[] = [
       {path: 'loan/*',element: <LOAN />},
       {path: 'currency/*',element: <CURRENCY />},
       {path: 'income/*',element: <INCOME />},
-      {path: 'limit/*',element: <LIMIT />},
+      {path: 'currency_limit/*',element: <CURRENCY_LIMIT />},
       {path: 'repeat/*',element: <REPEAT />},
       {path: 'category/*',element: <CATEGORY />},
     ]

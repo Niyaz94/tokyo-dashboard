@@ -301,6 +301,15 @@ export interface IncomeSingleSampleInterface extends TransactionSingleSampleInte
   category_name:string;
 }
 
+export interface CurrencyLimitRowInt {
+  id: string;
+  startDate: string;
+  endDate: string;
+  note: string;
+  amount: number;
+  currency:string;
+}
+
 export interface IoanSingleSampleInterface {
   category_name:string;
   currency_name:string;

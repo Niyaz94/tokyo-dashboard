@@ -92,6 +92,15 @@ export type ActivityFormIntialStateInterface = {
   weight: number;
 };
 
+export type CurrencyLimitFISI = {
+  id: number;
+  startDate: string;
+  endDate: string;
+  amount: number;
+  note: string;
+  currency: number;
+};
+
 export type TransactionFormIntialStateInterface = {
   id: number;
   date: string;
