@@ -13,6 +13,9 @@ import {
 
 export default () =>{
 
+  const obj = { a: 1 };
+  obj.a = 2;
+
   const { data,success}: FetchData<PaginationTableDataInterface<ExpenseSingleSampleInterface>> = useFetch <PaginationTableDataInterface<ExpenseSingleSampleInterface>>('money/expense',{results:[],count:0,next:null,previous:null});
   const {results,count,next,previous} = data;
 
