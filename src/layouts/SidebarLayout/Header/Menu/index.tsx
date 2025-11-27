@@ -85,32 +85,13 @@ function HeaderMenu() {
         }}
       >
         <List disablePadding component={Box} display="flex">
-          <ListItem
-            className='MuiListItem-indicators'
-            component={NavLink}
-            to="/components/buttons"
-          >
-            <ListItemText
-              slotProps={{primary: {noWrap: true}}}
-              primary="Buttons"
-            />
+          <ListItem className='MuiListItem-indicators' component={NavLink} to="/components/buttons">
+            <ListItemText slotProps={{primary: {noWrap: true}}} primary="Buttons"/>
           </ListItem>
-          <ListItem
-            className='MuiListItem-indicators'
-            component={NavLink}
-            to="/components/forms"
-          >
-            <ListItemText
-              slotProps={{primary: {noWrap: true}}}
-
-              primary="Forms"
-            />
+          <ListItem className='MuiListItem-indicators' component={NavLink} to="/components/forms">
+            <ListItemText slotProps={{primary: {noWrap: true}}} primary="Forms"/>
           </ListItem>
-          <ListItem
-            className='MuiListItem-indicators'
-            ref={ref}
-            onClick={handleOpen}
-          >
+          <ListItem className='MuiListItem-indicators' ref={ref} onClick={handleOpen}>
             <ListItemText
               slotProps={{primary: {noWrap: true}}}
               primary={

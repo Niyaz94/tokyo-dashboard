@@ -43,9 +43,7 @@ function Header() {
   const theme = useTheme();
 
   return (
-    <HeaderWrapper
-      display="flex"
-      alignItems="center"
+    <HeaderWrapper display="flex" alignItems="center"
       sx={{
         boxShadow:
           theme.palette.mode === 'dark'
@@ -62,12 +60,7 @@ function Header() {
               )}`
       }}
     >
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        alignItems="center"
-        spacing={2}
-      >
+      <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} alignItems="center" spacing={2}>
         <HeaderMenu />
       </Stack>
       <Box display="flex" alignItems="center">
@@ -82,11 +75,7 @@ function Header() {
         >
           <Tooltip arrow title="Toggle Menu">
             <IconButton color="primary" onClick={toggleSidebar}>
-              {!sidebarToggle ? (
-                <MenuTwoToneIcon fontSize="small" />
-              ) : (
-                <CloseTwoToneIcon fontSize="small" />
-              )}
+              {!sidebarToggle ? (<MenuTwoToneIcon fontSize="small" />) : (<CloseTwoToneIcon fontSize="small" />)}
             </IconButton>
           </Tooltip>
         </Box>
