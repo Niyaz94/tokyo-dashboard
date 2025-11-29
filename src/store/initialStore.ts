@@ -57,7 +57,6 @@ export const loginInitialState: AuthState = {
   error: null
 };
 
-
 export const tableInitialState :tableState = {
   data:[
     { id:1, fullname: 'John Doe',     age: 30, is_admin:false , location: 'New York' },
@@ -112,4 +111,10 @@ export const tableHeaderFilter:tableHeaderFilterInterface = {
   "repeat": {},
   "today": {},
   "tomorrow": {}
+}
+
+export const notificationState={
+  notifications: [],
+  last_updated: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+  loading: 'idle',
 }

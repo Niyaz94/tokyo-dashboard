@@ -23,6 +23,7 @@ import {createSelectMap}                from '../../../utility/function/main';
 import dayjs                           from "dayjs";
 import {StatusCase2 } from '../../../utility/function/data';
 import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
+import {Socket} from '../../../utility/Socket';
 
 
 
@@ -55,6 +56,15 @@ const CollapsibleForm = () => {
   const saveContinue=()=>{
     // handleSave().then(()=>cleanForm())
     handleSave()
+    // const chatSocket = Socket('stask/notifications')
+    // chatSocket.onclose = () => console.log("WS closed");
+    // chatSocket.onerror = (e) => console.log("WS error", e);
+    // chatSocket.onmessage = function(e) {
+    //     const data = JSON.parse(e.data);
+    //     console.log(data.message);
+    // };
+    // chatSocket.send(JSON.stringify({ action: "stask_notify_all" }));
+    
   }
 
   useEffect(() => {
@@ -99,8 +109,10 @@ const CollapsibleForm = () => {
     if (edit_page_id) {
       await editData(`schedule/stask/${edit_page_id}/`, formData);
     }else{
+      // It should only trigger for Notification type
       await postData("schedule/stask/", dataToBeSent);
     }
+    
     
   };
   const cleanForm = () => {

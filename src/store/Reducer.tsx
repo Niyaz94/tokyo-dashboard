@@ -8,16 +8,18 @@ import titleReducer           from './slice/title';
 import loginSlice             from './slice/login';
 import dailySlice             from './slice/daily';
 import tableFilterSlice       from './slice/tableFilter'
+import notificationSlice   from './slice/notification';
 
 const rootReducer = combineReducers({
-  tablePagination :tablePaginationReducer,
-  tableFilter :tableFilterSlice,
-  table   :tableReducer,
-  books   :bookReducer,
-  cart    :cartReducer,
-  title   :titleReducer,
-  auth    :loginSlice,
-  daily   :dailySlice
+  tablePagination   :tablePaginationReducer,
+  tableFilter       :tableFilterSlice,
+  table             :tableReducer,
+  books             :bookReducer,
+  cart              :cartReducer,
+  title             :titleReducer,
+  auth              :loginSlice,
+  daily             :dailySlice,
+  notification      :notificationSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

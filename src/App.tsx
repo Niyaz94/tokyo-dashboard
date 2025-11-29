@@ -11,6 +11,7 @@ import ThemeProvider from './theme/ThemeProvider';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDailyId }            from './store/slice/daily';
+import { fetchNotifications } from "./store/slice/notification";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
   // const dispatch    = useDispatch<AppDispatch>();
   const dispatch        = useDispatch<any>();
   dispatch(fetchDailyId("notes/daily/select_date"));
+  dispatch(fetchNotifications("schedule/stask/notifications",false));
 
   return (
     <ThemeProvider>

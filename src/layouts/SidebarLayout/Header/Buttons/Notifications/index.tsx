@@ -3,10 +3,11 @@ import { useRef, useState } from 'react';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import { styled } from '@mui/material/styles';
 import NotificationItem from './item';
+import dayjs                  from 'dayjs';
+import {useSelector } from 'react-redux'
 
 const NotificationsBadge = styled(Badge)(
   ({ theme }) => `
-    
     .MuiBadge-badge {
         background-color: ${alpha(theme.palette.error.main, 0.1)};
         color: ${theme.palette.error.main};
@@ -29,6 +30,11 @@ const NotificationsBadge = styled(Badge)(
 );
 
 function HeaderNotifications() {
+
+  const notifications = useSelector((state:any) => state.notification.notifications);
+
+  console.log("notifications",notifications);
+  
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
 
@@ -58,14 +64,24 @@ function HeaderNotifications() {
         </Box>
         <Divider />
         <List sx={{ p: 0 }}>
-          <NotificationItem
+          {notifications.length === 0 && (
+            <Box sx={{ p: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                No new notifications
+              </Typography>
+            </Box>
+          )}
+          {notifications.map((notification: any) => (
+            <NotificationItem {...notification} key={notification.id} /> 
+          ))}  
+          {/* <NotificationItem
             title="Finish Dashboard Redesign"
             detail="UI updates required for the analytics dashboard."
             deadline="2 days left"
             priority={3}
             status="In Progress"
             types={["Design", "Frontend", "Urgent"]}
-          />
+          /> */}
         </List>
       </Popover>
     </>
