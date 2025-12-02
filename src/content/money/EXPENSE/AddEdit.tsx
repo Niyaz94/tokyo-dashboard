@@ -1,29 +1,57 @@
 import {ExpenseFormIntialState}  from "../../../utility/function/defaultData"
 import { ExpenseFormIntialStateInterface } from '../../../utility/types/Page';
-import { useAddEditPage}         from "../../../utility/customHook";
+import { useAddEditPage,useTablePaginationHandlers}         from "../../../utility/customHook";
 import {FormLayout,FieldRenderer}       from '../../../components/Form';
 import { expenseFormFields } from "./config";
 import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
-import { useState,useEffect,useCallback } from 'react';
+import { useState,useEffect,useCallback, use } from 'react';
 import {axiosGetData} from '../../../utility/Axios'
 import Grid from '@mui/material/Grid';
 import CustomAlert                  from '../../../components/Custom/Alert';
 
 const AddEdit =  ()  => {
-  const  {secondary}               = usePage();
+  const  {secondary,setTable}               = usePage();
+  const { page } = useTablePaginationHandlers('expense');
+  
   const { type:expense_category,currency:expense_currency} = secondary;
 
-  const {formData,formErrors, handleFormChange, handleSave, setPageRedirect,open, message, severity, closeSnackbar, isEdit
+  const [pageName,setPageName] = useState<string>("expense_added");
+
+  const {
+    formData,formErrors, handleFormChange, handleSave, setPageRedirect,
+    open, message, severity, closeSnackbar, isEdit,responseData,actionState
   } = useAddEditPage<ExpenseFormIntialStateInterface>({
     fetchUrl: (id) => `money/expense/${id}`,
     postUrl: "money/expense/",
     editUrl: (id) => `money/expense/${id}/`,
     initialState: ExpenseFormIntialState,
-    onSuccessRedirect: "/transactions/expense"
+    onSuccessRedirect: "/transactions/expense",
+    page_name: pageName
   });
 
   const saveReturn = () => { setPageRedirect(true); handleSave(); };
   const saveContinue = () => { setPageRedirect(false); handleSave(); };
+
+  useEffect(() => {
+    // response -> contain old data
+    // formData -> contain new data
+    // console.log("saveContinue called",actionState,isEdit);
+    if(actionState){
+      if(isEdit){
+        // Editing existing entry in table
+        setTable((prev)=>prev.map((item)=>{
+          if(item.id === responseData.id){
+            return {...responseData};
+          }
+          return item;
+        }))
+      }else if(page==0){
+        // Adding new entry to table
+        const newEntry = {...responseData};
+        setTable((prev)=>[newEntry,...prev.slice(0, -1)]);
+      }
+    }
+  }, [actionState]); // I think this not usually correct
 
   const [alertData, setAlertData] = useState<{title:string,message:string,severity:'error' | 'warning' | 'info' | 'success',openDefault:boolean}>({title:"",message:"",severity:"success",openDefault:false});
 
@@ -53,6 +81,7 @@ const AddEdit =  ()  => {
           title="Today Form"
           onSaveReturn={saveReturn}
           onSaveContinue={saveContinue}
+          page_name={pageName}
           isEdit={isEdit}
           onSuccessRedirect="/transactions/expense"
           snackbar={{ open, message, severity, onClose: closeSnackbar }}

@@ -10,9 +10,10 @@ interface FormLayoutProps {
   onSuccessRedirect?: string;
   snackbar: { open: boolean; message: string; severity: any; onClose: () => void };
   children: React.ReactNode;
+  page_name?: string;
 }
 
-export const FormLayout = ({ title, onSaveReturn, onSaveContinue, isEdit,onSuccessRedirect,snackbar, children }: FormLayoutProps) => (
+export const FormLayout = ({ title, onSaveReturn, onSaveContinue, isEdit,onSuccessRedirect,snackbar, children,page_name }: FormLayoutProps) => (
   <Card>
     <CardHeader title={title} />
     <Divider />
@@ -26,6 +27,7 @@ export const FormLayout = ({ title, onSaveReturn, onSaveContinue, isEdit,onSucce
                 saveContinue={onSaveContinue} 
                 type={isEdit ?"edit":"insert"}  
                 returnUrl={onSuccessRedirect}
+                page_name={page_name || ""}
             />
             
             <CustomSnackbar {...snackbar} />

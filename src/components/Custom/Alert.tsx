@@ -16,7 +16,6 @@ interface AlertProps {
 const CustomAlert:FC<AlertProps> = ({title,message,severity='success',openDefault=false}) => {
 
 
-    console.log("Alert message",message)
     const [open, setOpen] = useState(openDefault);
 
     useEffect(() => {

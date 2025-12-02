@@ -1,6 +1,7 @@
-import { Box, Chip, ListItem, Typography } from '@mui/material';
-
-const NotificationItem = ({ title, note_text, days_remaining, t_priority, status, type_names }) => {
+import { Box, Chip, ListItem, Typography ,Link} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+const NotificationItem = ({ id,title, note_text, days_remaining, t_priority, status, type_names,handleClose }) => {
+  const navigate = useNavigate();
     return (<ListItem
   sx={{
     p: 2,
@@ -14,7 +15,7 @@ const NotificationItem = ({ title, note_text, days_remaining, t_priority, status
   <Box flex="1">
     {/* Top row: title + deadline */}
     <Box display="flex" justifyContent="space-between" mb={0.5}>
-      <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
+      <Link component="button" variant="h5" color="inherit" sx={{ fontWeight: "bold" }} onClick={()=>{handleClose();navigate(`/goals/single_task/${id}`);}}>{title}</Link>
 
       <Typography variant="caption" sx={{ textTransform: "none" }}>
         {days_remaining>0 ? `${Math.ceil(days_remaining)} days left` : `Overdue by ${Math.floor(-1*days_remaining)} days`}
@@ -22,15 +23,11 @@ const NotificationItem = ({ title, note_text, days_remaining, t_priority, status
     </Box>
 
     {/* Detail text */}
-    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-      {note_text}
-    </Typography>
+    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{note_text}</Typography>
 
     {/* Task type chips */}
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 1 }}>
-      {type_names?.map((t) => (
-        <Chip key={t} label={t} size="small" />
-      ))}
+      {type_names?.map((t) => (<Chip key={t} label={t} size="small" />))}
     </Box>
 
     {/* Status + Priority */}

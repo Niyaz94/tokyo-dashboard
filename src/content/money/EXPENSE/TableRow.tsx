@@ -4,18 +4,19 @@ import {
   Checkbox,
   TableCell,
   TableRow,
+  Stack
 } from '@mui/material';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import {labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,capitalizeFirstLetterOfWords,getDeepText} from '../../../utility/function/main';
 import { usePaginationContext } from '../../../store/context/paginationContext';
-
-
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const {id,date,amount,note,currency_name,expense_category} = data;
+  const {id,date,amount,note,currency_name,expense_category,wastedAmount,spendingType,consider} = data;
   const { secondary } = usePaginationContext();
   const { type:expense_types, currency:currency_types } = secondary;
   const expenseTypeMap = createMapLabelData(expense_types.map(({label}) => label));
@@ -51,9 +52,10 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             styleType: 1
           },
           {
-            text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(currencyTypeMap[currency_name].text)}`,currencyTypeMap[currency_name].color,'Currency Type'
-            ),
+            text: <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+              {labelWithColor(`${capitalizeFirstLetterOfWords(currencyTypeMap[currency_name].text)}`,currencyTypeMap[currency_name].color,'Currency Type')}
+              {labelWithColor(`${spendingType}`,"primary",'Spending Type')}
+            </Stack>,
             styleType: 2
           }
         ]}
@@ -65,6 +67,13 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             text: getTextWithIcon(`${amount.toString()} ${currency_name} `,<MonetizationOnIcon />,'secondary'),
             styleType: 1
           },
+          {
+            text: <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+              {wastedAmount>0 && labelWithColor(`${wastedAmount} ${currency_name}`,'error','Wasted Amount')}
+              {consider ? labelWithColor(<CheckIcon />, 'warning'): labelWithColor(<CloseIcon />, 'info')}
+            </Stack>,
+            styleType: 2
+          }
         ]}
       />
       <TableCusCell

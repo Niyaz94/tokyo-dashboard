@@ -14,8 +14,15 @@ const useStyles = makeStyles({
   },
 });
 
+interface MultiButtonProps {
+  type: 'edit' | 'insert';
+  saveContinue: () => void;
+  saveReturn: () => void;
+  returnUrl?: string;
+  page_name?: string;
+}
 
-const MultiButton = ({ type, saveContinue, saveReturn, returnUrl }) => {
+const MultiButton = ({ type, saveContinue, saveReturn, returnUrl,page_name="" }:MultiButtonProps) => {
   const navigate = useNavigate();
   const classes = useStyles();
 
@@ -27,7 +34,7 @@ const MultiButton = ({ type, saveContinue, saveReturn, returnUrl }) => {
         variant="outlined"
         // color="warning"
         classes={{ root: classes.root }}
-        onClick={() => navigate(returnUrl)}
+        onClick={() => navigate(returnUrl,{state:{page_name}})}
         sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none'}}
       >
         Return To List

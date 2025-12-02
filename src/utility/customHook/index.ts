@@ -11,3 +11,5 @@ export {useStaticTableFilters} from "./useStaticTableFilters"
 export {useAddEditPage}     from "./useAddEditPage"
 
 export {useTableGlobalFilters} from "./useTableGlobalFilters"
+
+export {usePreviousLocation} from "./HistoryContext"

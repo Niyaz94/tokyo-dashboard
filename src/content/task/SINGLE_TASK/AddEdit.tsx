@@ -68,6 +68,7 @@ const CollapsibleForm = () => {
   }
 
   useEffect(() => {
+
     if ((success || successEdit) && isReturnButton) 
       setIsNavigation(true);
   }, [success , successEdit]);
@@ -78,6 +79,7 @@ const CollapsibleForm = () => {
   }, [response]);
 
   useEffect(() => {
+
       if (isNavigation) {
         navigate('/goals/single_task');
       }
@@ -94,7 +96,7 @@ const CollapsibleForm = () => {
     if (Object.keys(fetchEditData).length > 0) {
       setFormData({...fetchEditData});
     }
-  }, [editReturnSuccess]);
+  }, [fetchEditData.id]);
 
   const handleFormChange = useCallback((key, value) => {
     if (key === 'date') {
@@ -118,7 +120,6 @@ const CollapsibleForm = () => {
   const cleanForm = () => {
     setFormData(SingleTaskFormIntialState)
   };
-
 
   return (
       <Card>

@@ -10,9 +10,10 @@ interface AddEditOptions<T> {
   initialState: T;
   setTable?: (updater: (prev: T[]) => T[]) => void;
   onSuccessRedirect?: string;
+  page_name?: string;
 }
 
-export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, setTable, onSuccessRedirect}: AddEditOptions<T>) {
+export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, setTable, onSuccessRedirect,page_name=""}: AddEditOptions<T>) {
   const { id } = useParams();
   const isEdit = !!id;
   const isFirstRender = useRef(true);
@@ -23,6 +24,7 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   const { data: fetchedData } = useFetch<T>(isEdit ? fetchUrl(id) : null, {});
   const { postData, response, error: postError } = usePostAPI();
   const { editData, response: editResponse, error: editError } = useEditAPI();
+  const [actionState, setActionSate] = useState<boolean>(false);
 
   const [formData, setFormData] = useState<T>(initialState);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -35,8 +37,10 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
 
   const handleSave = async () => {
     const { id, ...payload } = formData as any;
-    if (isEdit) await editData(editUrl(id), formData);
-    else await postData(postUrl, payload);
+    if (isEdit) 
+      await editData(editUrl(id), formData);
+    else 
+      await postData(postUrl, payload);
   };
 
   useEffect(() => {
@@ -51,10 +55,12 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
     const postSuccess = response?.success;
     const editSuccess = editResponse?.success;
 
+    setActionSate((isEdit ? editResponse?.success : response?.success) || false);
+
     if (postSuccess || editSuccess) {
       showSnackbar(postSuccess ? "Submitted successfully!" : "Edited successfully!", "success");
       setTimeout(() => {
-        if (pageRedirect && onSuccessRedirect) navigate(onSuccessRedirect);
+        if (pageRedirect && onSuccessRedirect) navigate(onSuccessRedirect, {state:{page_name}});
       }, 1500);
     } else if (postError || editError) {
       showSnackbar(postError.message || editError.message, "error");
@@ -65,5 +71,9 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
     }
   }, [response, editResponse, postError, editError]);
 
-  return {formData,formErrors,setFormData,handleFormChange,handleSave,open,message,severity,closeSnackbar,setPageRedirect,isEdit,};
+  return {
+    formData,formErrors,setFormData,handleFormChange,handleSave,
+    open,message,severity,closeSnackbar,setPageRedirect,isEdit,actionState,responseData: isEdit ? editResponse?.data : response?.data,
+    
+  };
 }

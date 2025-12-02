@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 import CustomTableRow from './TableRow';
 import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
@@ -14,6 +14,8 @@ import { expenseFormFields } from "./config";
 
 const DataTable = () => {
 
+  const location = useLocation();
+
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("expense");
   
@@ -22,15 +24,19 @@ const DataTable = () => {
 
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
-  const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
+  const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);  
 
   useEffect(() => {
+      if (location?.state?.page_name === 'expense_added') {
+        navigate(".", {replace: true,state: { page_name: "expense_list" }});
+        return ;
+      }
       axiosGetData(`money/expense/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
         const {results,count,next,previous} = res.data;
         setTable(results);
         setPagination({count: count, next: next, previous: previous});
       });
-  }, [ page, limit,filters]);
+  }, [ page, limit,filterQuery]);
 
   return (
     <>

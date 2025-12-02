@@ -32,8 +32,6 @@ const NotificationsBadge = styled(Badge)(
 function HeaderNotifications() {
 
   const notifications = useSelector((state:any) => state.notification.notifications);
-
-  console.log("notifications",notifications);
   
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -50,12 +48,12 @@ function HeaderNotifications() {
     <>
       <Tooltip arrow title="Notifications">
         <IconButton color="primary" ref={ref} onClick={handleOpen}>
-          <NotificationsBadge badgeContent={1} anchorOrigin={{vertical: 'top',horizontal: 'right'}}>
+          <NotificationsBadge badgeContent={notifications.length} anchorOrigin={{vertical: 'top',horizontal: 'right'}}>
             <NotificationsActiveTwoToneIcon />
           </NotificationsBadge>
         </IconButton>
       </Tooltip>
-      <Popover anchorEl={ref.current} onClose={handleClose} open={isOpen}
+      <Popover sx={{maxHeight:500}} anchorEl={ref.current} onClose={handleClose} open={isOpen}
         anchorOrigin={{vertical: 'top',horizontal: 'right'}}
         transformOrigin={{vertical: 'top',horizontal: 'right'}}
       >
@@ -72,7 +70,7 @@ function HeaderNotifications() {
             </Box>
           )}
           {notifications.map((notification: any) => (
-            <NotificationItem {...notification} key={notification.id} /> 
+            <NotificationItem {...notification} key={notification.id} handleClose={handleClose} /> 
           ))}  
           {/* <NotificationItem
             title="Finish Dashboard Redesign"
