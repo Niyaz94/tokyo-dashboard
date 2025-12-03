@@ -5,23 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {axiosGetData} from '../../../utility/Axios'
 import {StaticAutocomplete}       from '../../../components/Form';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
-import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} from '../../../components/Table';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
+import {SelectableTable,TablePagination as CustomPagination} from '../../../components/Table';
 import { columnsTask as columns } from '../../../utility/function/tableColumn';
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('task');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  const {
-    goal_status,goal_level,years:task_years,months:task_months,status:task_status
-  } = secondary;
+  const {years:task_years,months:task_months,status:task_status} = secondary;
 
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
-  const {filters,handleFilterChange,filterQuery} = useTableFilters({status: "ALL" ,year: "ALL",month: "ALL"});
+  const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("task");
   const taskMonthFilter=Object.entries(task_months).map(([key, value])=>[key,value]) as [string, string][]
 
   useEffect(() => {

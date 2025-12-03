@@ -11,21 +11,43 @@ import {columnsExpense as columns} from '../../../utility/function/tableColumn';
 
 import CurrencyPanel from './currencyPanel';
 import { expenseFormFields } from "./config";
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween'
+dayjs.extend(isBetween);
 
 const DataTable = () => {
 
+  
   const location = useLocation();
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('expense');
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("expense");
   
-  const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
+  const { table: tableData,setTable,pagination,setPagination,secondary,setSecondary } = usePaginationContext();
   const { type:expense_category,currency_detail,currency:expense_currency} = secondary;
 
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);  
 
+  const removeFromCurrencyTotalSpend = (id) => {
+    const expenseItem = tableData.find(item => item.id === id);
+    if (!expenseItem) return;
+
+    const { amount, currency_name, date, consider } = expenseItem;
+
+    if (consider) {
+      setSecondary((prev)=>({
+        ...prev,
+        currency_detail: prev.currency_detail.map((item)=>{
+          if(item.name === currency_name && dayjs(date).isBetween(item.start_date, item.end_date,null,'[]')){
+            return {...item, totalspend: item.totalspend- Number(amount)};
+          }
+          return item;
+        })
+      }));
+    }
+  }
   useEffect(() => {
       if (location?.state?.page_name === 'expense_added') {
         navigate(".", {replace: true,state: { page_name: "expense_list" }});
@@ -80,7 +102,9 @@ const DataTable = () => {
           renderRow={(row) => (
             <CustomTableRow
               key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-              handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"money/expense",setTable)}
+              handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>{
+                deleteTableRow(row.id,"money/expense",setTable);
+                removeFromCurrencyTotalSpend(row.id);}}
             />
           )}
         />

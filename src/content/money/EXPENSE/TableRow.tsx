@@ -27,6 +27,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   // There are some samples that extracting note does not work for them, fix them in the future
 
 
+
   return (
     <TableRow hover key={id} selected={isDataSelected}>
       <TableCell padding="checkbox">

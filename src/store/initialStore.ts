@@ -100,7 +100,7 @@ export const tableHeaderFilter:tableHeaderFilterInterface = {
     currencyId: "all",
     amount: { operator: "gt", value: 0 },
   },
-  "task": {},
+  "task": {status: "ALL" ,year: "ALL",month: "ALL"},
   "topic": {},
   "idea": {},
   "goal": {},

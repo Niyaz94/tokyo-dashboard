@@ -4,22 +4,26 @@ import { useAddEditPage,useTablePaginationHandlers}         from "../../../utili
 import {FormLayout,FieldRenderer}       from '../../../components/Form';
 import { expenseFormFields } from "./config";
 import { usePaginationContext as usePage} from '../../../store/context/paginationContext';
-import { useState,useEffect,useCallback, use } from 'react';
+import { useState,useEffect,useCallback} from 'react';
 import {axiosGetData} from '../../../utility/Axios'
 import Grid from '@mui/material/Grid';
 import CustomAlert                  from '../../../components/Custom/Alert';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween'
+dayjs.extend(isBetween);
+
 
 const AddEdit =  ()  => {
-  const  {secondary,setTable}               = usePage();
+
+  const  {secondary,setTable,setSecondary}               = usePage();
   const { page } = useTablePaginationHandlers('expense');
   
   const { type:expense_category,currency:expense_currency} = secondary;
-
   const [pageName,setPageName] = useState<string>("expense_added");
 
   const {
     formData,formErrors, handleFormChange, handleSave, setPageRedirect,
-    open, message, severity, closeSnackbar, isEdit,responseData,actionState
+    open, message, severity, closeSnackbar, isEdit,responseData,actionState,orignalResponse
   } = useAddEditPage<ExpenseFormIntialStateInterface>({
     fetchUrl: (id) => `money/expense/${id}`,
     postUrl: "money/expense/",
@@ -33,25 +37,61 @@ const AddEdit =  ()  => {
   const saveContinue = () => { setPageRedirect(false); handleSave(); };
 
   useEffect(() => {
-    // response -> contain old data
-    // formData -> contain new data
-    // console.log("saveContinue called",actionState,isEdit);
-    if(actionState){
-      if(isEdit){
-        // Editing existing entry in table
-        setTable((prev)=>prev.map((item)=>{
-          if(item.id === responseData.id){
-            return {...responseData};
+    if (!actionState) return;
+
+    const { amount, currency_name, date, consider } = responseData;
+    const parsedDate = dayjs(date);
+    const numericAmount = Number(amount);
+    const numericOriginalAmount = Number(orignalResponse.amount);
+
+    const updateCurrencyDetail = (prev: any) => {
+      return prev.currency_detail.map((item: any) => {
+        const withinRange =
+          parsedDate.isBetween(
+            dayjs(item.start_date),
+            dayjs(item.end_date),
+            null,
+            '[]'
+          );
+
+        if (item.name !== currency_name || !withinRange || !consider) {
+          return item;
+        }
+
+        if (isEdit) {
+          if (numericOriginalAmount !== numericAmount) {
+            return {
+              ...item,
+              totalspend:
+                item.totalspend - numericOriginalAmount + numericAmount,
+            };
           }
           return item;
-        }))
-      }else if(page==0){
-        // Adding new entry to table
-        const newEntry = {...responseData};
-        setTable((prev)=>[newEntry,...prev.slice(0, -1)]);
+        }
+
+        return {
+          ...item,
+          totalspend: item.totalspend + numericAmount,
+        };
+      });
+    };
+
+    if (isEdit) {
+      setTable(prev =>
+        prev.map(item =>
+          item.id === responseData.id ? { ...responseData } : item
+        )
+      );
+      setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
+    } else {
+      if (page === 0) {
+        const newEntry = { ...responseData };
+        setTable(prev => [newEntry, ...prev.slice(0, -1)]);
       }
+      setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
     }
-  }, [actionState]); // I think this not usually correct
+  }, [actionState]);
+ // I think this not usually correct
 
   const [alertData, setAlertData] = useState<{title:string,message:string,severity:'error' | 'warning' | 'info' | 'success',openDefault:boolean}>({title:"",message:"",severity:"success",openDefault:false});
 
