@@ -29,8 +29,9 @@ const usePostAPI =() => {
         preData = new FormData();
         for (const key in body){
           if(key.startsWith("img") || key.startsWith("image")){
+            // console.log("body[key]",body[key]);
             if(Array.isArray(body[key])){
-              body[key].forEach((img) => preData.append(key.split("_")[1], img));
+              body[key].forEach((img) => preData.append(key, img));
             }else
               preData.append(key, body[key]);
           }else if(key.startsWith("date")){

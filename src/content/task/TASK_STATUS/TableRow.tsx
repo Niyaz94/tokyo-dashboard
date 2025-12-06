@@ -66,7 +66,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         ]}
       />
       <TableCusCell
-        cellProps={{ align: 'center' }}
+        cellProps={{ align: 'center' }} sx={{minWidth: '150px' ,maxWidth:'250px'}}
         prop={[
           {
             text: labelWithColor(
@@ -74,13 +74,13 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             ),
             styleType: 1
           },
-          { text: capitalizeFirstLetterOfWords(goal_name), styleType: 1 }
+          { text: capitalizeFirstLetterOfWords(goal_name), styleType: 2 }
         ]}
       />
       <TableCusCell
         cellProps={{ align: 'center' }}
         sx={{ width: '20%' }}
-        child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' ,height: 100,overflowY: 'auto'}}
+        child_sx={{ whiteSpace: 'normal', wordBreak: 'break-word' ,overflowY: 'auto'}}
         prop={[{ text: getDeepText(note), styleType: 2 }]}
       />
       <TableCusCell

@@ -51,6 +51,7 @@ const CollapsibleForm = () => {
     if (edit_page_id) {
       await editData(`notes/topic/${edit_page_id}/`, formData);
     }else{
+      // console.log("dataToBeSent",dataToBeSent);
       await postData("notes/topic/", dataToBeSent,"FORM");
     }
   };
@@ -186,9 +187,10 @@ const CollapsibleForm = () => {
                 <FileUpload
                   label="Profile Picture"
                   multiple={true}
+                  name="image"
                   initialImages={formData.image.map((row)=>row.image)} // Edit case
                   onChange={(files) => {
-                    return handleFormChange('image', files )
+                    return handleFormChange('images', files )
                     // setFormData({ ...formData, images: files })
                   }}
                 />

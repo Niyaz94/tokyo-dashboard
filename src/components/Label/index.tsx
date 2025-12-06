@@ -30,6 +30,7 @@ const LabelWrapper = styled('span')<LabelWrapperProps>(
       gap: ${theme.spacing(1)}; 
       text-transform: capitalize;
       // max-height: ${theme.spacing(4)};
+      text-wrap: balance;
       
       &.MuiLabel {
         &-primary {

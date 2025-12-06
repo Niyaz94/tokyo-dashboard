@@ -5,7 +5,7 @@ const cellStyle = (type):TypographyProps=>{
     if (type==1){
         return {variant:'body1',color:'text.primary',fontWeight:'bold',gutterBottom:true,noWrap:true}
     }else if(type==2){
-        return {variant:'body2',color:'text.secondary',gutterBottom:false,noWrap:true,sx:{}}
+        return {variant:'body2',color:'text.secondary',gutterBottom:false,noWrap:false,sx:{}}
     }else{
         return {}
     }
@@ -19,7 +19,7 @@ const labelColorByNumber = (num: number): string => {
 
 function Cell({prop,cellProps={},sx={},child_sx={}}) {
   return (
-    <TableCell {...cellProps} {...sx}>
+    <TableCell {...cellProps} sx={{...sx}}>
         {prop.map(({text,styleType}, index) => {
             return (
                 <Typography key={index} {...cellStyle(styleType)} {...child_sx}>

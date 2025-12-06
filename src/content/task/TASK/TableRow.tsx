@@ -11,6 +11,7 @@ import {
   getTextWithIcon,
   capitalizeFirstLetterOfWords
 } from '../../../utility/function/main';
+import { max } from 'date-fns';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
@@ -86,21 +87,9 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           { text: capitalizeFirstLetterOfWords(goal_name), styleType: 1 },
           {
             text: (
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'center', alignItems: 'center' }}
-                spacing={1}
-              >
-                {labelWithColor(
-                  start_date ? start_date : 'Not Available',
-                  'primary',
-                  "Goal's Start Date"
-                )}
-                {labelWithColor(
-                  end_date ? end_date : 'Not Available',
-                  'warning',
-                  "Goal's Deadline"
-                )}
+              <Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' }} spacing={1}>
+                {labelWithColor(start_date ? start_date : 'Not Available','primary',"Goal's Start Date")}
+                {labelWithColor(end_date ? end_date : 'Not Available','warning',"Goal's Deadline")}
               </Stack>
             ),
             styleType: 2

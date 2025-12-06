@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 
-
 import { styled } from '@mui/material/styles';
 import ImageIcon from '@mui/icons-material/Image';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+
 interface ImageUploadInputProps {
+  name: string;
   label?: string;
   multiple?: boolean;
   initialImages?: string[]; // URLs for edit mode
@@ -22,12 +23,7 @@ const ImagePreview = styled('img')({
   border: '1px solid #ddd',
 });
 
-const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
-  label = 'Upload Image',
-  multiple = false,
-  initialImages = [],
-  onChange
-}) => {
+const ImageUploadInput: React.FC<ImageUploadInputProps> = ({name,label = 'Upload Image',multiple = false,initialImages = [],onChange}) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>(initialImages);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -68,22 +64,12 @@ const ImageUploadInput: React.FC<ImageUploadInputProps> = ({
       <Typography variant="subtitle1" gutterBottom>
         {label}
       </Typography>
-
-      <Button
-        variant="outlined"
-        startIcon={<ImageIcon />}
-        onClick={() => fileInputRef.current?.click()}
-      >
+      <Button variant="outlined" startIcon={<ImageIcon />} onClick={() => fileInputRef.current?.click()}>
         {multiple ? 'Upload Images' : 'Upload Image'}
       </Button>
 
       <input
-        type="file"
-        accept="image/*"
-        multiple={multiple}
-        ref={fileInputRef}
-        hidden
-        onChange={handleFileChange}
+        type="file" accept="image/*" multiple={multiple} ref={fileInputRef} hidden onChange={handleFileChange}
       />
 
       <Grid container spacing={1} mt={1}>
