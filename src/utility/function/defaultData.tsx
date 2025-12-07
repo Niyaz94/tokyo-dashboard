@@ -204,6 +204,7 @@ export const TopicFormIntialState = {
   status: '',
   title: '',
   image: [],
+  url_image: [],
   priority: 0
 };
 

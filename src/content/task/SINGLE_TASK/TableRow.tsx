@@ -51,7 +51,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           }
         />
       </TableCell>
-      <TableCusCell prop={
+      <TableCusCell sx={{width:'10%'}}  prop={
         [
           {text:`${date} (${getDayAbbreviation(date)})`,styleType:1},
           {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
@@ -64,6 +64,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       ]} />
       <TableCusCell
         cellProps={{ align: 'center' }}
+        sx={{width:'25%'}} 
         prop={[
           {
             text: (<Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' ,flexWrap: 'wrap',rowGap:"3px",columnGap:"2px"}} spacing={1}> 
@@ -73,7 +74,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           }
         ]}
       />
-      <TableCusCell cellProps={{align:"center"}} sx={{width:'20%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={[
+      <TableCusCell cellProps={{align:"center"}} sx={{width:'10%',minWidth:'150px'}} child_sx={{whiteSpace:'normal',wordBreak: 'break-word' }} prop={[
           {text: title,styleType:1},{text: getDeepText(note),styleType:2}
       ]} />
 

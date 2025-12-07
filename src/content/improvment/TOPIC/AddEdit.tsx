@@ -17,6 +17,7 @@ import {TopicFormIntialStateInterface as FormIntialStateInterface } from '../../
 
 
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
+import { p } from 'react-router/dist/development/fog-of-war-Ckdfl79L';
 
 
 const CollapsibleForm = () => {
@@ -49,7 +50,9 @@ const CollapsibleForm = () => {
   const handleSave = async () => {
     const { id, ...dataToBeSent } = formData; // Destructure once
     if (edit_page_id) {
-      await editData(`notes/topic/${edit_page_id}/`, formData);
+      console.log("dataToBeSent",formData);
+
+      await editData(`notes/topic/${edit_page_id}/`, formData,"FORM");
     }else{
       // console.log("dataToBeSent",dataToBeSent);
       await postData("notes/topic/", dataToBeSent,"FORM");
@@ -97,12 +100,19 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
     if (Object.keys(fetchEditData).length > 0) {
-      setFormData({...fetchEditData});
+      setFormData(prev => ({...prev, ...fetchEditData}));
     }
   }, [fetchEditData]);
 
   const handleFormChange = useCallback((key, value) => {
-    setFormData((prev) => ({...prev,[key]: value}));
+    if (Array.isArray(key) && Array.isArray(value) && key.length === value.length) {
+      key.forEach((k, index) => {
+        setFormData((prev) => ({...prev,[k]: value[index]}));
+
+      });
+    }else{
+      setFormData((prev) => ({...prev,[key]: value}));
+    }
   },[]); 
 
   const cleanForm = () => {
@@ -188,11 +198,8 @@ const CollapsibleForm = () => {
                   label="Profile Picture"
                   multiple={true}
                   name="image"
-                  initialImages={formData.image.map((row)=>row.image)} // Edit case
-                  onChange={(files) => {
-                    return handleFormChange('images', files )
-                    // setFormData({ ...formData, images: files })
-                  }}
+                  initialImages={formData.url_image} // Edit case
+                  onChange={(files,filesUrl) => handleFormChange(['image','url_image'], [files,filesUrl] )}
                 />
               </Grid>   
               <Grid size={12}>

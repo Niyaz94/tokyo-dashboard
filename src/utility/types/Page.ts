@@ -190,6 +190,7 @@ export type TopicFormIntialStateInterface = {
   status: string;
   title: string;
   image: File[];
+  url_image: string[];
   priority: number;
 
 };  
