@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import {Checkbox,TableCell,TableRow,Stack} from '@mui/material';
+import {Checkbox,TableCell,TableRow,Stack,useTheme,Tooltip,IconButton} from '@mui/material';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import {labelWithColor,createMapLabelData,getDayAbbreviation} from '../../../utility/function/main';
@@ -10,6 +10,8 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import dayjs                           from "dayjs";
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
 
+import { useNavigate }    from 'react-router-dom';
+import ImageIcon from '@mui/icons-material/Image';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
@@ -17,6 +19,10 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const  {secondary} = usePage();
 
   const {type:topic_types} = secondary;
+
+
+  const theme = useTheme();
+  const navigate = useNavigate();
 
 
   const topicStatusMap = createMapLabelData(filterStatusOptions_2.map(({value}) => value));
@@ -87,7 +93,16 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         ]}
       />
       <TableCell align="right">
-        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} onEditButtonClick={onEditButtonClick} />
+        <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} onEditButtonClick={onEditButtonClick} >
+          <Tooltip title={`View Images`} arrow>
+            <IconButton 
+              color="inherit" onClick={() => {navigate(`image/${id}`);}}  size="medium" 
+              sx={{'&:hover': {background: theme.colors.success.lighter},color: theme.palette.success.main}} 
+            >
+              <ImageIcon fontSize="medium" />
+            </IconButton>
+          </Tooltip>
+        </ButtonTable>
       </TableCell>
     </TableRow>
   );

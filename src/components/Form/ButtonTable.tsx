@@ -1,6 +1,4 @@
-import { 
-  Stack,Tooltip,IconButton ,useTheme,Typography
-}                         from '@mui/material';
+import { Stack,Tooltip,IconButton ,useTheme,Typography} from '@mui/material';
 import {useState }        from 'react';
 import EditTwoToneIcon    from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon  from '@mui/icons-material/DeleteTwoTone';
@@ -9,7 +7,7 @@ import ConfirmDialog      from '../../components/Custom/Dialog/ConfirmDialog';
 
 
 
-const ButtonTable = ({ id, text,onDeleteRow,onEditButtonClick=null}) => {
+const ButtonTable = ({children=null, id, text,onDeleteRow,onEditButtonClick=null}) => {
   const [openDeleteConfirmDialog, setOpenDeleteConfirmDialog] = useState(false);
   
   const theme = useTheme();
@@ -46,6 +44,7 @@ const ButtonTable = ({ id, text,onDeleteRow,onEditButtonClick=null}) => {
       >
         <Typography>Are you sure you want to delete this {text} row?</Typography>
       </ConfirmDialog>
+      {children!==null && children}
     </Stack>
   );
 };

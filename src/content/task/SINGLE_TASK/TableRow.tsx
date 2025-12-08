@@ -1,5 +1,6 @@
 import { Checkbox, TableCell, TableRow, Stack } from '@mui/material';
 import { ChangeEvent } from 'react';
+
 import TableCusCell from '../../../components/Table/Cell';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
@@ -7,7 +8,6 @@ import { usePaginationContext } from '../../../store/context/paginationContext';
 import CampaignIcon                       from '@mui/icons-material/Campaign';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
-
 import {
   getStatusIcon,
   labelWithColor,
@@ -23,7 +23,6 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const taskStatusMap = createMapLabelData(single_task_status.map(({value})=>value.toLowerCase()));
   const taskTypeNameMap = createMapLabelData(single_task_type.map(({label}) => label));
-
 
   const numPriorityMap ={
     400:"error",

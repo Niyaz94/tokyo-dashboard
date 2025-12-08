@@ -2,6 +2,7 @@ import Template                       from '../../../components/Page/Template';
 import useFetch, {FetchData}          from '../../../utility/customHook/useGetAPI';
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
+import ShowImage                      from './ShowImage';
 import { Routes, Route }              from "react-router-dom";
 import {PageProvider}             from '../../../store/context/pageContext';
 
@@ -27,6 +28,7 @@ export default () =>{
           <Route path=""    element={ <PageTable/>} />
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
+          <Route path="image/:id" element={ <ShowImage/>} />
         </Routes>
       </Template>
     </PageProvider>
