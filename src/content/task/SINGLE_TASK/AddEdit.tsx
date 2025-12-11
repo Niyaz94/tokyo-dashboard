@@ -1,31 +1,15 @@
-import { 
-  usePostAPI, useEditAPI, useFetch, FetchData 
-}         from "../../../utility/customHook";
-
-import { useState,useEffect,useCallback,useMemo, use } from 'react';
-import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-// import Grid from '@mui/material/Grid2';
-import Grid from '@mui/material/Grid';
-
-
+import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../utility/customHook";
+import { useState,useMemo } from 'react';
+import { inputFields } from "./config";
+import { useAddEditPage}         from "../../../utility/customHook";
+import {FormLayout,FieldRenderer}       from '../../../components/Form';
 import { useNavigate,useParams }    from 'react-router-dom';
-import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-import CustomDatePicker             from '../../../components/Form/CustomDatePicker';
-import MultiButton                  from "../../../components/Form/MultiButton"
 import {SingleTaskFormIntialState}  from "../../../utility/function/defaultData"
-
-import {StaticAutocomplete}           from '../../../components/Form';
-
 import { SingleTaskFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';
-
-import {createSelectMap}                from '../../../utility/function/main';
-import dayjs                           from "dayjs";
 import {StatusCase2 } from '../../../utility/function/data';
 import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
-import {Socket} from '../../../utility/Socket';
-
-
+// import {Socket} from '../../../utility/Socket';
 
 const CollapsibleForm = () => {
 
@@ -36,12 +20,29 @@ const CollapsibleForm = () => {
 
   const memSingleTaskPriority   = useMemo(() => singleTaskPriority, []);
   const memSingleTaskType      = useMemo(() => single_task_type, []);
-
   const memSingleTaskStatus     = useMemo(() => single_task_status, []);
+
+    const [pageName,setPageName] = useState<string>("single_task_added");
+  
+    const {
+      formData,formErrors, handleFormChange, handleSave, setPageRedirect,
+      open, message, severity, closeSnackbar, isEdit,responseData,actionState,orignalResponse
+    } = useAddEditPage<SingleTaskFormStateInterface>({
+      fetchUrl: (id) => `schedule/stask/${id}`,
+      postUrl: "schedule/stask/",
+      editUrl: (id) => `schedule/stask/${id}/`,
+      initialState: SingleTaskFormIntialState,
+      onSuccessRedirect: "/goals/single_task",
+      page_name: pageName
+    });
+
+
+  const saveReturn = () => { setPageRedirect(true); handleSave(); };
+  const saveContinue = () => { setPageRedirect(false); handleSave(); };
 
   const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
-  const [formData, setFormData] = useState(SingleTaskFormIntialState);
+  // const [formData, setFormData] = useState(SingleTaskFormIntialState);
   const [isNavigation, setIsNavigation] = useState(false);
   const [isReturnButton, setIsReturnButton] = useState(false);
 
@@ -49,211 +50,39 @@ const CollapsibleForm = () => {
   const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
   const { response:editResponse, loading:editLoading, error:editError,success:successEdit, editData}        = useEditAPI();
 
-  const saveReturn=()=>{    
-    setIsReturnButton(true);
-    handleSave()
-  }
-  const saveContinue=()=>{
-    // handleSave().then(()=>cleanForm())
-    handleSave()
-    // const chatSocket = Socket('stask/notifications')
-    // chatSocket.onclose = () => console.log("WS closed");
-    // chatSocket.onerror = (e) => console.log("WS error", e);
-    // chatSocket.onmessage = function(e) {
-    //     const data = JSON.parse(e.data);
-    //     console.log(data.message);
-    // };
-    // chatSocket.send(JSON.stringify({ action: "stask_notify_all" }));
+  // const saveReturn=()=>{    
+  //   setIsReturnButton(true);
+  //   handleSave()
+  // }
+  // const saveContinue=()=>{
+  //   // handleSave().then(()=>cleanForm())
+  //   handleSave()
+  //   // const chatSocket = Socket('stask/notifications')
+  //   // chatSocket.onclose = () => console.log("WS closed");
+  //   // chatSocket.onerror = (e) => console.log("WS error", e);
+  //   // chatSocket.onmessage = function(e) {
+  //   //     const data = JSON.parse(e.data);
+  //   //     console.log(data.message);
+  //   // };
+  //   // chatSocket.send(JSON.stringify({ action: "stask_notify_all" }));
     
-  }
-
-  useEffect(() => {
-
-    if ((success || successEdit) && isReturnButton) 
-      setIsNavigation(true);
-  }, [success , successEdit]);
-
-  useEffect(() => {
-      const {success,data}=response || {success:false,data:null};
-      //setTable(prev => success ?[data,...prev]:prev);
-  }, [response]);
-
-  useEffect(() => {
-
-      if (isNavigation) {
-        navigate('/goals/single_task');
-      }
-  }, [isNavigation]);
-
-  useEffect(() => {
-      const {success,data}=editResponse || {success:false,data:null};
-
-      //setTable(prev => success ?[...prev.map((item:SingleTaskRowSampleInterface) => item.id === data.id?data:item),data]:prev);
-  }, [editResponse]);
-
-
-  useEffect(() => {
-    if (Object.keys(fetchEditData).length > 0) {
-      setFormData({...fetchEditData});
-    }
-  }, [fetchEditData.id]);
-
-  const handleFormChange = useCallback((key, value) => {
-    if (key === 'date') {
-      value = dayjs(value).format('YYYY-MM-DD');
-    }
-    setFormData((prev) => ({...prev,[key]: value}));
-  },[]);
-  
-  const handleSave = async () => {
-    const { id, ...dataToBeSent } = formData; // Destructure once
-    setIsNavigation(false);
-    if (edit_page_id) {
-      await editData(`schedule/stask/${edit_page_id}/`, formData);
-    }else{
-      // It should only trigger for Notification type
-      await postData("schedule/stask/", dataToBeSent);
-    }
-    
-    
-  };
-  const cleanForm = () => {
-    setFormData(SingleTaskFormIntialState)
-  };
-
-  return (
-      <Card>
-        <CardHeader title={`Single Task ${edit_page_id?'Edit':'Insert'} Form`} />
-        <Divider />
-        <CardContent>
-          <Box component="form" noValidate autoComplete="off"
-            sx={{mt: 2,p: 2,display: 'flex',flexDirection: 'column',gap: 2,margin: '0 auto'}}
-          >
-            <Grid container spacing={2}>
-
-              <Grid size={4}>
-                <CustomDatePicker
-                  label="Deadline"
-                  value={formData.deadline}
-                  // value={formData.date}
-                  placeholder=""
-                  onChange={(newValue) => handleFormChange('deadline', newValue )}
-                />
-              </Grid>
-              <Grid size={4} sx={{paddingTop: "10px"}}>
-                <TextField
-                  label="Task Name"
-                  value={formData.title}
-                  onChange={(e) => handleFormChange('title', e.target.value)}
-                  fullWidth
-                />
-              </Grid>
-              <Grid size={4} sx={{paddingTop: "10px"}}>
-                  <TextField
-                    label={'Priority by Number'}
-                    variant="outlined"
-                    fullWidth
-                    type="number"
-                    value={formData.numPriority}
-                    onChange={(e) =>
-                      handleFormChange('numPriority', e.target.value)
-                    }
-                    slotProps={{
-                      inputLabel: { shrink: true },
-                      htmlInput: { max: 100, min: 0, step: 1 }
-                    }}
-                  />
-              </Grid>
-                    
-              <Grid size={6} sx={{paddingTop: "10px"}}>
-                  <TextField
-                    label={'Expected Spending Time (in minutes)'}
-                    variant="outlined"
-                    fullWidth
-                    type="number"
-                    value={formData.expectedSpendingTime}
-                    onChange={(e) =>
-                      handleFormChange('expectedSpendingTime', e.target.value)
-                    }
-                    slotProps={{
-                      inputLabel: { shrink: true },
-                      htmlInput: { max: 100, min: 0, step: 1 }
-                    }}
-                  />
-              </Grid>
-              <Grid size={6} sx={{paddingTop: "10px"}}>
-                  <TextField
-                    label={'Spending Time (in minutes)'}
-                    variant="outlined"
-                    fullWidth
-                    type="number"
-                    value={formData.spendingTime}
-                    onChange={(e) =>
-                      handleFormChange('spendingTime', e.target.value)
-                    }
-                    slotProps={{
-                      inputLabel: { shrink: true },
-                      htmlInput: { max: 100, min: 0, step: 1 }
-                    }}
-                  />
-              </Grid>
-
-              
-  
-              <Grid size={6}>
-                <StaticAutocomplete
-                  label="Task Status"
-                  options={memSingleTaskStatus}
-                  defaultValue={memSingleTaskStatus.filter((item) => item.value === formData.status)[0]}
-                  formKey="status"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                />
-              </Grid>  
-              <Grid size={6}>
-                <StaticAutocomplete
-                  label="Priority"
-                  options={memSingleTaskPriority}
-                  defaultValue={memSingleTaskPriority.filter((item) => item.value === formData.priority)[0]}
-                  formKey="priority"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                />
-              </Grid>  
-
-              <Grid size={12}>
-                <StaticAutocomplete
-                  label="Single Task Type"
-                  multiple={true}
-                  options={memSingleTaskType}
-                  defaultValue={memSingleTaskType.reduce((all,item) =>{
-                    if (formData.type_ids.includes(item.value))
-                      return [...all,item];
-                    return all;
-                  },[])}
-                  formKey="type_ids"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                />
-              </Grid>
-            
-              <Grid size={12}>
-                <LexicalEditor value={formData.note} onChange={handleFormChange} formKey="note" label="Note"/>
-              </Grid>    
-
-              <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/single_task'}/>
-              </Grid>
-
-            </Grid>
-            {/* {post_api_error && <p style={{ color: "red" }}>Error: {post_api_error}</p>}
-            {success && <p style={{ color: "green" }}>Success! Data submitted.</p>}
-            {response && response.data && (
-              <pre>Response: {JSON.stringify(response.data, null, 2)}</pre>
-            )} */}
-          </Box>
-        </CardContent>
-      </Card>
+  // }
+  return (        
+        <FormLayout
+          title="Single Task Form"
+          onSaveReturn={saveReturn}
+          onSaveContinue={saveContinue}
+          page_name={pageName}
+          isEdit={isEdit}
+          onSuccessRedirect="/goals/single_task"
+          snackbar={{ open, message, severity, onClose: closeSnackbar }}
+        >
+          {inputFields({memSingleTaskStatus,memSingleTaskPriority,memSingleTaskType}).filter(({fieldType})=>fieldType==="form").map((field, i) => {
+            return (
+            <FieldRenderer key={i} field={field} error={formErrors[field.key] || []} formData={formData} handleFormChange={handleFormChange} />
+          )
+          })}
+        </FormLayout>    
   );
 };
 export default CollapsibleForm;

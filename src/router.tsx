@@ -56,6 +56,9 @@ const StatusMaintenance   = Loader(lazy(() => import('src/content/pages/Status/M
 const LOGIN               = Loader(lazy(() => import('src/content/user/LOGIN')));
 const REGISTER            = Loader(lazy(() => import('src/content/user/REGISTER')));
 
+const DOCUMENT            = Loader(lazy(() => import('src/content/document/DOCUMENT')));
+const PASSWORD            = Loader(lazy(() => import('src/content/document/PASSWORD')));
+
 
 const routes: RouteObject[] = [
   {
@@ -100,6 +103,14 @@ const routes: RouteObject[] = [
       {path: 'currency_limit/*',element: <CURRENCY_LIMIT />},
       {path: 'repeat/*',element: <REPEAT />},
       {path: 'category/*',element: <CATEGORY />},
+    ]
+  },
+  {
+    path: 'documents',
+    element: <SidebarLayout />,
+    children: [
+      {path: 'document/*',element: <DOCUMENT />},
+      {path: 'password/*',element: <PASSWORD />}
     ]
   },
   {

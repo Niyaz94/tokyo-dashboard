@@ -15,10 +15,11 @@ const notificationSlice = createSlice({
           state.loading = "failed";
         },
         updateNotifications:(state,action:PayloadAction<{notifications:any[],force_update:boolean}>)=>{
-            if (action.payload.force_update || dayjs().subtract(1,"day")>dayjs(state.last_updated)){
-                state.notifications=action.payload.notifications;
-                state.last_updated=dayjs().format("YYYY-MM-DD HH:mm:ss");
-            }
+            // if (action.payload.force_update || dayjs().subtract(1,"day")>dayjs(state.last_updated)){
+                // 
+            // }
+            state.notifications=action.payload.notifications;
+            state.last_updated=dayjs().format("YYYY-MM-DD HH:mm:ss");
             state.loading="succeeded";
         }
     }
@@ -30,9 +31,10 @@ export default notificationSlice.reducer;
 
 
 export const fetchNotifications = (apiUrl:string,force_update:boolean): AppThunk => async (dispatch,getState) => {
+    
     const state = getState().notification; 
 
-      const shouldFetch =force_update ||dayjs().subtract(1, "day").isAfter(dayjs(state.last_updated));
+    const shouldFetch =force_update || dayjs().subtract(6, "hours").isAfter(dayjs(state.last_updated));
 
     if (!shouldFetch) {
         return;
@@ -42,7 +44,7 @@ export const fetchNotifications = (apiUrl:string,force_update:boolean): AppThunk
     try {
       // label:0,value:new Date().toJSON().slice(0,10)}
       const { data,success}: FetchData<[]> = useFetch <[]>(apiUrl,[{}]);
-      dispatch(updateNotifications({notifications:data,force_update}));
+      dispatch(updateNotifications({notifications:data,force_update:shouldFetch}));
     } catch (error) {
         if (error instanceof Error) {
             dispatch(loadingFailure(error.message));

@@ -40,6 +40,7 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         placeholder={field.label}
         value={value}
         onChange={e => handleFormChange(field.key, e.target.value)}
+        margin="dense"
         slotProps={{
           inputLabel: { shrink: true },
         }}
@@ -80,11 +81,7 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         formKey={field.key}
         defaultValue={
           (Array.isArray(value) && value.length > 0) &&
-          field.options.filter(({value:item_value})=>value.includes(item_value)) || [{value: "all", label: "ALL"}]
-          // value.map((item: string) => ({
-          //   value: item,
-          //   label:field.options.find(({value,label}) => value === item).label?.toString().replace(/_/gi, " ").toUpperCase() || "ALL"
-          // })) || [{value: "all", label: "ALL"}]
+          field.options.filter(({value:item_value})=>value.includes(item_value)) || (field.fieldType==="filter"?[{value:"all", label:"ALL"}]:[])
         }
         onChange={handleFormChange}
         error={(error?.[0] || "").replace(/['"]+/g, '')}

@@ -28,8 +28,8 @@ import ShoppingBasketIcon           from '@mui/icons-material/ShoppingBasket';
 import Replay30Icon from '@mui/icons-material/Replay30';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import {
-  Topic,TipsAndUpdates,QuestionMark,ShoppingCartCheckout,AddShoppingCart,TakeoutDining,RamenDining,Password,LightMode,
-  HourglassEmpty,Input,Filter7,CardGiftcard
+  Topic,TipsAndUpdates,ShoppingCartCheckout,AddShoppingCart,TakeoutDining,RamenDining,Password,LightMode,
+  HourglassEmpty,Input,Filter7,CardGiftcard,HistoryEdu
 } from '@mui/icons-material';
 
 
@@ -59,16 +59,21 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Money Management',
     isCollapse: true,
     children: [
-      {title: 'Expense',                link: '/transactions/expense',    icon: <ShoppingCartCheckout />},
-      {title: 'Income',                 link: '/transactions/income',     icon: <AddShoppingCart />},
-      {title: 'Loan',                   link: '/transactions/loan',       icon: <CardGiftcard />},
-      {title: 'Currency',               link: '/transactions/currency',   icon: <TableChartTwoToneIcon />},
-      {title: 'Category',               link:  '/transactions/category',  icon: <TableChartTwoToneIcon />},
-      {title: '+Repeated Transaction',  link: '/transactions/repeat',     icon: <Replay30Icon />},
-      {title: 'Currency Limitations',   link: '/transactions/currency_limit',      icon: <PriceCheckIcon />},
-
-
-      // 
+      {title: 'Expense',                link: '/transactions/expense',        icon: <ShoppingCartCheckout />},
+      {title: 'Income',                 link: '/transactions/income',         icon: <AddShoppingCart />},
+      {title: 'Loan',                   link: '/transactions/loan',           icon: <CardGiftcard />},
+      {title: 'Currency',               link: '/transactions/currency',       icon: <TableChartTwoToneIcon />},
+      {title: 'Category',               link: '/transactions/category',       icon: <TableChartTwoToneIcon />},
+      {title: '+Repeated Transaction',  link: '/transactions/repeat',         icon: <Replay30Icon />},
+      {title: 'Currency Limitations',   link: '/transactions/currency_limit', icon: <PriceCheckIcon />},
+    ],
+  },
+  documentManagement: {
+    title: 'Document Management',
+    isCollapse: true,
+    children: [
+      {title: '+Documents',                link: '/documents/document',     icon: <HistoryEdu />},
+      {title: '+Passwords',                link: '/documents/password',     icon: <Password />}
     ],
   },
   myDailyLife: {
