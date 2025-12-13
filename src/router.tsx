@@ -35,8 +35,8 @@ const SINGLE_TASK         = Loader(lazy(() => import('src/content/task/SINGLE_TA
 const TASK                = Loader(lazy(() => import('src/content/task/TASK')));
 const GOAL                = Loader(lazy(() => import('src/content/task/GOAL')));
 const TASK_STATUS         = Loader(lazy(() => import('src/content/task/TASK_STATUS')));
-const SIN_TASK_TYPE       = Loader(lazy(() => import('src/content/task/SIN_TASK_TYPE')));
-const TASK_MONTH          = Loader(lazy(() => import('src/content/task/TASK_MONTH')));
+const SIN_TASK_TYPE       = Loader(lazy(() => import('src/content/secondary/SIN_TASK_TYPE')));
+const TASK_MONTH          = Loader(lazy(() => import('src/content/secondary/TASK_MONTH')));
 const CATEGORY            = Loader(lazy(() => import('src/content/money/CATEGORY')));
 const RECIPE              = Loader(lazy(() => import('src/content/extra/RECIPE')));
 const TASK_STATUS_REPORT  = Loader(lazy(() => import('src/content/reports/TASK_STATUS')));
@@ -58,6 +58,8 @@ const REGISTER            = Loader(lazy(() => import('src/content/user/REGISTER'
 
 const DOCUMENT            = Loader(lazy(() => import('src/content/document/DOCUMENT')));
 const PASSWORD            = Loader(lazy(() => import('src/content/document/PASSWORD')));
+const DOCUMENT_TYPE       = Loader(lazy(() => import('src/content/secondary/DOCUMENT_TYPE')));
+const PASSWORD_TYPE       = Loader(lazy(() => import('src/content/secondary/PASSWORD_TYPE')));
 
 
 const routes: RouteObject[] = [
@@ -110,7 +112,9 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {path: 'document/*',element: <DOCUMENT />},
-      {path: 'password/*',element: <PASSWORD />}
+      {path: 'password/*',element: <PASSWORD />},
+      {path: 'document_type/*',element: <DOCUMENT_TYPE />},
+      {path: 'password_type/*',element: <PASSWORD_TYPE />},
     ]
   },
   {

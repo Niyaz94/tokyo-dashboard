@@ -32,6 +32,8 @@ import {
   HourglassEmpty,Input,Filter7,CardGiftcard,HistoryEdu
 } from '@mui/icons-material';
 
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 
 import { ReactElement } from 'react';
 
@@ -118,9 +120,11 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Topic Type',         link: '/secondary/topic_type',      icon: <TableChartTwoToneIcon />},
-      {title: 'Idea Type',         link: '/secondary/idea_type',        icon: <TableChartTwoToneIcon />},
-      {title: 'One-Time Task Type', link:  '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
-      {title: '+Months Type',       link: '/goals/months',                icon: <TableChartTwoToneIcon />},
+      {title: 'Document Type',      link: '/documents/document_type',      icon: <PostAddIcon />},
+      {title: 'Password Type',      link: '/documents/password_type',      icon: <EnhancedEncryptionIcon />},
+      {title: 'Idea Type',          link: '/secondary/idea_type',        icon: <TableChartTwoToneIcon />},
+      {title: 'One-Time Task Type', link: '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
+      {title: 'Months Type',        link: '/goals/months',                icon: <TableChartTwoToneIcon />},
     ],
   },
   extraPages: {

@@ -24,15 +24,19 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
       setData(result);
       setSuccess(true);
     } catch (error:any) {
+      setSuccess(false);
       console.error('Error fetching data:', error);
       setError(error.message);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    if (!url) 
+    if (!url) {
+      setSuccess(false);
       return; 
+    }
     
     fetchData();
     return () => {};

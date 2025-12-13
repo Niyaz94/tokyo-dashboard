@@ -40,22 +40,22 @@ const CollapsibleForm = () => {
 
   useEffect(() => {
       const {success,data}=response || {success:false,data:null};
-      // setTable(prev => success ?[{
-      //   ...data, 
-      //   total_completed: 0, 
-      //   total_inprogress: 0, 
-      //   total_notstarted: 0, 
-      //   total_others: 0
-      // },...prev]:prev);
+      setTable(prev => success ?[{
+        ...data, 
+        task_number: 0,
+        completed_task_number: 0,
+        uncompleted_task_number: 0,
+        halfcompleted_task_number: 0,
+        inapplicable_task_number: 0
+      },...prev]:prev);
   }, [response]);
 
   useEffect(() => {
       const {success,data}=editResponse || {success:false,data:null};
-      // setTable(prev => success ?[...prev.map((item:SingleSampleInterface) => item.id === data.id?{
-      //   ...item,
-      //   name:data["name"],
-      //   description:data["description"]
-      // }:item),data]:prev);
+      setTable(prev => success ?
+        [...prev.map((item) => item.id === data.id?data:item)] //if success
+        :prev //If not success
+      );
   }, [editResponse]);
 
 

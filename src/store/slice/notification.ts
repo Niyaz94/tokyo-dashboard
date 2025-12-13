@@ -34,21 +34,25 @@ export const fetchNotifications = (apiUrl:string,force_update:boolean): AppThunk
     
     const state = getState().notification; 
 
-    const shouldFetch =force_update || dayjs().subtract(6, "hours").isAfter(dayjs(state.last_updated));
+    const shouldFetch =force_update || dayjs().subtract(1, "hours").isAfter(dayjs(state.last_updated));
 
-    if (!shouldFetch) {
-        return;
-    }
+    // This is wrong and causing this error:
+    // Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    // if (!shouldFetch) {
+        // return;
+    // }
 
     dispatch(loadingStart());
     try {
-      // label:0,value:new Date().toJSON().slice(0,10)}
-      const { data,success}: FetchData<[]> = useFetch <[]>(apiUrl,[{}]);
-      dispatch(updateNotifications({notifications:data,force_update:shouldFetch}));
+      const { data,success}: FetchData<[]> = useFetch <[]>(!shouldFetch?"":apiUrl,[{}]);
+      if (success)
+        dispatch(updateNotifications({notifications:data,force_update:shouldFetch}));
     } catch (error) {
         if (error instanceof Error) {
+            console.log("There is a notification error 1")
             dispatch(loadingFailure(error.message));
         } else {
+            console.log("There is a notification error 2")
             // Handle other types of errors here
         }
     }
