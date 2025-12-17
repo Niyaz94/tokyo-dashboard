@@ -45,6 +45,8 @@ export const SingleTaskFormIntialState = {
 };
 
 
+
+
 export const TaskFormIntialState = {
   id: 0,
   status: '',
@@ -206,6 +208,16 @@ export const TopicFormIntialState = {
   image: [],
   url_image: [],
   priority: 0
+};
+
+export const DocumentFormIntial = {
+  id: 0,
+  type_ids	:[],
+  secrecy_level: '',
+  notes: '{}',
+  title: '',
+  image: [],
+  url_image: [],
 };
 
 export const IdeaFormIntialState = {

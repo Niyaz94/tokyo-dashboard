@@ -11,9 +11,10 @@ interface AddEditOptions<T> {
   setTable?: (updater: (prev: T[]) => T[]) => void;
   onSuccessRedirect?: string;
   page_name?: string;
+  bodyType?:string;
 }
 
-export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, setTable, onSuccessRedirect,page_name=""}: AddEditOptions<T>) {
+export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, setTable, onSuccessRedirect,page_name="",bodyType="JSON"}: AddEditOptions<T>) {
   const { id } = useParams();
   const isEdit = !!id;
   const isFirstRender = useRef(true);
@@ -31,16 +32,38 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   const [pageRedirect, setPageRedirect] = useState(false);
 
   const handleFormChange = useCallback(
-    (key: keyof T, value: any) => setFormData(prev => ({ ...prev, [key]: value })),
-    []
+    (key: keyof T, value: any) => {
+
+      if (Array.isArray(key) && Array.isArray(value) && key.length === value.length) {
+        key.forEach((k, index) => {
+          setFormData((prev) => ({...prev,[k]: value[index]}));
+
+        });
+      }else{
+        setFormData((prev) => ({...prev,[key]: value}));
+      }
+
+      // setFormData(prev => ({ ...prev, [key]: value }))
+    },[]
   );
+
+    const handleFormChange2 = useCallback((key, value) => {
+    if (Array.isArray(key) && Array.isArray(value) && key.length === value.length) {
+      key.forEach((k, index) => {
+        setFormData((prev) => ({...prev,[k]: value[index]}));
+
+      });
+    }else{
+      setFormData((prev) => ({...prev,[key]: value}));
+    }
+  },[]); 
 
   const handleSave = async () => {
     const { id, ...payload } = formData as any;
     if (isEdit) 
       await editData(editUrl(id), formData);
     else 
-      await postData(postUrl, payload);
+      await postData(postUrl, payload,bodyType);
   };
 
   useEffect(() => {

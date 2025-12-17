@@ -2,7 +2,7 @@
 import { TextField, Grid,FormControl } from "@mui/material";
 import { 
   TextSearch,CustomSwitch,DynamicAutocomplete,TimePickers, StaticAutocomplete,
-  ThreeStateButton,CustomDatePicker ,FilterField
+  ThreeStateButton,CustomDatePicker ,FilterField,FileUpload
 } from "./index";
 import LexicalEditor from "../Custom/Lexical/Editor";
 import dayjs                  from 'dayjs';
@@ -72,10 +72,12 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
       />
     );
   }else if (field.type=="m_autocomplete"){
+    const showValueInlabel=field?.showValueInlabel || false
+    const buttonUrl = field.buttonUrl || ""
     component= (field.options &&
       <StaticAutocomplete
         label={field.label}
-        showValueInLabel={field.fieldType==="filter"? false : true}
+        showValueInLabel={showValueInlabel? true:false}
         multiple={true}
         options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
         formKey={field.key}
@@ -85,6 +87,9 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         }
         onChange={handleFormChange}
         error={(error?.[0] || "").replace(/['"]+/g, '')}
+        {...(buttonUrl.length>0 && {extraButton:true,buttonUrl})}
+        // extraButton={true}
+        // buttonUrl={'/documents/document_type/add'}
       />
     );
   }else if (field.type=="d_autocomplete"){
@@ -132,6 +137,16 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         defaultOperation={value?.operator}
         defaultValue={value?.value}
         onChange={(val) => handleFormChange(field.key, val)}
+      />
+    );
+  }else if (field.type=="fileUploader"){
+    component= (
+      <FileUpload
+        label={field.label}
+        multiple={field.allowMulti}
+        name={field.key}
+        initialImages={formData[field.key2]}
+        onChange={(files,filesUrl) => handleFormChange([field.key,field.key2], [files,filesUrl] )}
       />
     );
   }

@@ -5,15 +5,16 @@ import AddEdit                        from './AddEdit';
 import ShowImage                      from './ShowImage';
 import { Routes, Route }              from "react-router-dom";
 import {PageProvider}             from '../../../store/context/pageContext';
+// import {PaginationProvider}           from '../../../store/context/paginationContext';
 
 import { TopicSingleSampleInterface} from 'src/utility/types/data_types';
 
 
 export default () =>{
 
-  const { data,success}: FetchData<TopicSingleSampleInterface[]> = useFetch <TopicSingleSampleInterface[]>('notes/topic',[]);
+  const { data,success}: FetchData<TopicSingleSampleInterface[]> = useFetch <TopicSingleSampleInterface[]>('document/document',[]);
 
-   const { data:unique_data,success:unque_success}: FetchData<{type:string[]}> = useFetch <{type:string[]}>('notes/topic/unique',{
+   const { data:unique_data,success:unque_success}: FetchData<{type:string[]}> = useFetch <{type:string[]}>('document/document/unique',{
       type:[]
     });
   

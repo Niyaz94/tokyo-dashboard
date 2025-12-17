@@ -39,7 +39,10 @@ const usePostAPI =() => {
             //preData.append(key, new Date(formData[key as keyof FORM_TYPE]).toLocaleString("en-CA",{hour12: false}).replace(",",""));
             preData.append(key, new Date(body[key]).toLocaleDateString("en-CA"));
           }else{
-            preData.append(key, body[key].value ? body[key].value: body[key]);
+            if(Array.isArray(body[key])){
+                body[key].forEach((row) => preData.append(key, row));
+            }else
+              preData.append(key, body[key].value ? body[key].value: body[key]);
           }
         }
       }

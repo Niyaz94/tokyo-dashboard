@@ -42,6 +42,8 @@ export type SingleTaskFormStateInterface = {
 };
 
 
+
+
 export type TaskFormStateInterface = {
   id: number;
   status: string;
@@ -218,3 +220,14 @@ export type RecipeFormIntialStateInterface = {
   delicious: string;
   title: string;
 };  
+
+
+export type DocumentFormIRF = {
+  id: number;
+  type_ids	:number[],
+  secrecy_level: string;
+  notes: string; 
+  title: string;
+  image: File[];
+  url_image: string[];
+};
