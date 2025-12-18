@@ -10,7 +10,7 @@ export const PageProvider  = ({ children,tableData,secondaryData={},pageDefaultD
 
   const [table, setTable]             = useState(tableData || []);
   const [pageDefault, setPageDefault] = useState(pageDefaultData);
-  const [secondary, setSecondary]   = useState(secondaryData);
+  const [secondary, setSecondary]     = useState(secondaryData);
 
 
   return (

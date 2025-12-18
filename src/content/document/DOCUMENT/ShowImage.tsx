@@ -16,7 +16,7 @@ export default function MyImageGrid() {
     const navigate = useNavigate();
 
     const { id:edit_page_id }     = useParams();
-    const { data:fetchEditData,success:editReturnSuccess}: FetchData<TopicImageInterface[]>  = useFetch <TopicImageInterface[]>(edit_page_id ?`notes/topic/images/${edit_page_id}`: null,{});
+    const { data:fetchEditData,success:editReturnSuccess}: FetchData<TopicImageInterface[]>  = useFetch <TopicImageInterface[]>(edit_page_id ?`document/document/images/${edit_page_id}`: null,{});
 
     const [images, setImages] = useState<{ image: string; id: number }[]>([]);
 
@@ -30,7 +30,7 @@ export default function MyImageGrid() {
             <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => navigate("/improvment/topic")}
+                onClick={() => navigate("/documents/document")}
                 sx={{fontSize: '1rem',padding: '10px 20px',borderRadius: '8px',textTransform: 'none'}}
             >
                 Return To The Main Page

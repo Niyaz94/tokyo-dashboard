@@ -61,7 +61,7 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   const handleSave = async () => {
     const { id, ...payload } = formData as any;
     if (isEdit) 
-      await editData(editUrl(id), formData);
+      await editData(editUrl(id), formData,bodyType);
     else 
       await postData(postUrl, payload,bodyType);
   };

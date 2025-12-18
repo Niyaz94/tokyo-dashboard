@@ -4,11 +4,9 @@ import {Checkbox,TableCell,TableRow,Stack,useTheme,Tooltip,IconButton} from '@mu
 import ButtonTable from '../../../components/Form/ButtonTable';
 import TableCusCell from '../../../components/Table/Cell';
 import {labelWithColor,createMapLabelData,getDayAbbreviation} from '../../../utility/function/main';
-import { filterStatusOptions_2 } from '../../../utility/function/data';
-
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import dayjs                           from "dayjs";
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
+import { StatusCase2 as  SecrecyLevelList} from '../../../utility/function/data';
 
 import { useNavigate }    from 'react-router-dom';
 import ImageIcon from '@mui/icons-material/Image';
@@ -18,17 +16,16 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
   const  {secondary} = usePage();
 
-  const {type:topic_types} = secondary;
+  const {type:document_types} = secondary;
 
 
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const secrecyLevelMap = createMapLabelData(SecrecyLevelList.map(({value}) => value),[3,1,0]);
+  const documentTypesMap = createMapLabelData(document_types.map((row) => row.label));
 
-  const topicStatusMap = createMapLabelData(filterStatusOptions_2.map(({value}) => value));
-  const topicTypeMap = createMapLabelData(topic_types.map((row) => row.label));
-
-  const {id,date,title,status,type_name,deadline,priority} = data;
+  const {id,created_at,title,type_names,secrecy_level,notes} = data;
 
   const onEditButtonClick = () => {
     // setPageDefault(prev => ({...prev, date:{label:date,value: daily}}));
@@ -48,23 +45,16 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       </TableCell>
             <TableCusCell prop={
         [
-          {text:`${date} (${getDayAbbreviation(date)})`,styleType:1},
-          {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
-            {labelWithColor(<EventAvailableIcon/>,"info")}
-
-            {labelWithColor(deadline?deadline:"Not Available",
-              ["completed","followup"].includes(status)?"primary": dayjs().format('YYYY-MM-DD')>deadline?"error":"success"
-              ,"Deadline")}
-          </Stack>,styleType:2}
+          {text:`${dayjs(created_at).format("YYYY-MM-DD")} (${getDayAbbreviation(created_at)})`,styleType:1},
       ]} />
       <TableCusCell
         cellProps={{ align: 'center' }}
+        sx={{width:'25%'}} 
         prop={[
           {
-            text: labelWithColor(
-              topicTypeMap[type_name]?.text || "N/A",
-              topicTypeMap[type_name]?.color || "default"
-            ),
+            text: (<Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' ,flexWrap: 'wrap',rowGap:"3px",columnGap:"2px"}} spacing={1}> 
+            {type_names.map((type_name)=>labelWithColor(`${documentTypesMap[type_name]?.text ?? "Not Found"}`,documentTypesMap[type_name]?.color ?? "error",'Document Type Name'))}
+            </Stack>),
             styleType: 1
           }
         ]}
@@ -82,12 +72,15 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: labelWithColor(topicStatusMap[status].text,topicStatusMap[status].color),
+            text: labelWithColor(
+              secrecyLevelMap[secrecy_level.toUpperCase()]?.text || "N/A",
+              secrecyLevelMap[secrecy_level.toUpperCase()]?.color || "default","Secrecy Level"
+            ),
             styleType: 1
           },
           {
-            text: labelWithColor(priority,"black","Topic Priority"),
-            styleType: 1
+            text: notes,
+            styleType: 2
           },
           // 
         ]}

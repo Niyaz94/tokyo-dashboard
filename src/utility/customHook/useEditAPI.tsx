@@ -34,11 +34,13 @@ const useEditAPI = () => {
             }else
               preData.append(key, body[key]);
           }else if(key.startsWith("date")){
-            // if date and time is needed
-            //preData.append(key, new Date(formData[key as keyof FORM_TYPE]).toLocaleString("en-CA",{hour12: false}).replace(",",""));
             preData.append(key, new Date(body[key]).toLocaleDateString("en-CA"));
           }else{
-            preData.append(key, body[key].value ? body[key].value: body[key]);
+            // preData.append(key, body[key].value ? body[key].value: body[key]);
+            if(Array.isArray(body[key])){
+                body[key].forEach((row) => preData.append(key, row));
+            }else
+              preData.append(key, body[key].value ? body[key].value: body[key]);
           }
         }
       }
@@ -53,14 +55,6 @@ const useEditAPI = () => {
         headers,
         body: preData
       };
-
-      // const res = await fetch(`http://127.0.0.1:8000/${url}`, {
-      //   method: method,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(body),
-      // });
       const res = await fetch(`http://127.0.0.1:8000/${url}`, requestOptions);
 
       const data = await res.json();

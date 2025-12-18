@@ -1,6 +1,6 @@
-import { useState,useMemo } from 'react';
+import { useState,useMemo,useEffect } from 'react';
 import { inputFields } from "./config";
-import { useAddEditPage}         from "../../../utility/customHook";
+import { useAddEditPage,useTablePaginationHandlers}         from "../../../utility/customHook";
 import {FormLayout,FieldRenderer}       from '../../../components/Form';
 import {DocumentFormIntial}  from "../../../utility/function/defaultData"
 import { DocumentFormIRF } from '../../../utility/types/Page';
@@ -8,6 +8,8 @@ import {usePageContext as usePage}      from '../../../store/context/pageContext
 
 const CollapsibleForm = () => {
 
+  const { page } = useTablePaginationHandlers('document');
+  
   const  {setTable,pageDefault,secondary} = usePage();
   const {type:document_types } = secondary;
   const memDocumentTypes      = useMemo(() => document_types, []);
@@ -29,6 +31,24 @@ const CollapsibleForm = () => {
   const saveReturn = () => { setPageRedirect(true); handleSave(); };
   const saveContinue = () => { setPageRedirect(false); handleSave(); };
 
+  useEffect(() => {
+      if (!actionState) 
+        return;  
+      
+      if (isEdit) {
+        setTable(prev =>
+          prev.map(item =>
+            item.id === responseData.id ? { ...responseData } : item
+          )
+        );
+      } else {
+        if (page === 0) {
+          const newEntry = { ...responseData };
+          setTable(prev => [newEntry, ...prev.slice(0, -1)]);
+        }
+      }
+    }, [actionState]);
+
   return (        
         <FormLayout
           title="Document Form"
@@ -36,7 +56,7 @@ const CollapsibleForm = () => {
           onSaveContinue={saveContinue}
           page_name={pageName}
           isEdit={isEdit}
-          onSuccessRedirect="/goals/single_task"
+          onSuccessRedirect="/documents/document"
           snackbar={{ open, message, severity, onClose: closeSnackbar }}
         >
           {inputFields({memDocumentTypes}).filter(({fieldType})=>fieldType==="form").map((field, i) => {

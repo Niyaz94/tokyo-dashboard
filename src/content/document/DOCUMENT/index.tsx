@@ -24,7 +24,7 @@ export default () =>{
 
   return (
     <PageProvider tableData={data} secondaryData={unique_data}>
-      <Template templateTitle="Improvment - Topic">
+      <Template templateTitle="Documents - Document">
         <Routes>
           <Route path=""    element={ <PageTable/>} />
           <Route path="add" element={ <AddEdit/>} />

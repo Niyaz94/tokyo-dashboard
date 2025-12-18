@@ -110,6 +110,15 @@ export  const columnsTopic:Column[] = [
     { id:"",label: 'Status', align: 'center' },
     { id:"",label: 'Actions', align: 'center' }
 ];
+
+export  const columnsDocument:Column[] = [
+    { id:"",label: 'Created Date', align: 'left' },
+    { id:"",label: 'Document Types', align: 'center' },
+    { id:"",label: 'Title', align: 'center' },
+    { id:"",label: 'Secrecy Level', align: 'center' },
+    { id:"",label: 'Actions', align: 'center' }
+];
+
 export  const columnsIdea:Column[] = [
     { id:"",label: 'Date', align: 'left' },
     { id:"",label: 'Idea Type', align: 'center' },

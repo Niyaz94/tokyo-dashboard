@@ -29,7 +29,6 @@ const usePostAPI =() => {
         preData = new FormData();
         for (const key in body){
           if(key.startsWith("img") || key.startsWith("image") || key.startsWith("url")){
-            // console.log("body[key]",body[key]);
             if(Array.isArray(body[key])){
               body[key].forEach((row) => preData.append(key, row));
             }else
@@ -47,13 +46,9 @@ const usePostAPI =() => {
         }
       }
 
-      let headers = {
-
-      };
+      let headers = {};
       if (bodyType==="JSON")  
-        headers= {
-            'Content-Type': 'application/json'
-        }
+        headers= {'Content-Type': 'application/json'}
         
       const requestOptions = {
         method: "POST",

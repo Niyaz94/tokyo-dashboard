@@ -225,6 +225,15 @@ export interface TopicSingleSampleInterface {
   updated_at: string;
   stutus: level3Status;
 }
+
+export interface DocumentSingleSampleInterface {
+  id: string;
+  title: string;
+  created_at:string;
+  type_names:string[];
+  secrecy_level:string;
+  notes:string;
+}
 export interface IdeaSingleSampleInterface {
   id: string;
   date: string;
