@@ -21,6 +21,7 @@ export type SleepFormStateInterface = {
 export type TaskStatusFormStateInterface = {
   id: number;
   task:number;
+  importance_level:number;
   date: string | null; // DONE
   status: string;
   note: string; // DONE

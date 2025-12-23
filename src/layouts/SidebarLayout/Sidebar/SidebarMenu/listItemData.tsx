@@ -74,7 +74,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     title: 'Document Management',
     isCollapse: true,
     children: [
-      {title: '+Documents',                link: '/documents/document',     icon: <HistoryEdu />},
+      {title: 'Documents',                link: '/documents/document',     icon: <HistoryEdu />},
       {title: '+Passwords',                link: '/documents/password',     icon: <Password />}
     ],
   },

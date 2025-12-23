@@ -43,6 +43,7 @@ const CollapsibleForm = () => {
         );
       } else {
         if (page === 0) {
+          // WHAT IF PAGE LENGHT LESS THAN LIMIT, IT STILL REMOVE THE LAST ITEM
           const newEntry = { ...responseData };
           setTable(prev => [newEntry, ...prev.slice(0, -1)]);
         }

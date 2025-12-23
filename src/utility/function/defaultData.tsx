@@ -29,6 +29,7 @@ export const TaskStatusFormIntialState = {
   note: '{}',
   isTodaySTask: false,
   spendingTime: 0,
+  importance_level:0
 };
 
 export const SingleTaskFormIntialState = {

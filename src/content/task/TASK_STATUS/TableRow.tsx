@@ -22,7 +22,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const taskNameMap = createMapLabelData(task_type.map(({label}) => label));
   const taskStatusMap = createMapLabelData(TaskStatusStatus.map(({value})=>value), [3, 0, 2, 4]);
   const taskMap = createMapLabelData(['active', 'inactive', 'archive'],[3, 2, 4]);
-  const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask} = data;
+  const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask,importance_level} = data;
   const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail ;
 
 
@@ -120,9 +120,17 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
             styleType: 1
           },
           {
-            text:
-              isTodaySTask &&
-              labelWithColor('TMIT', 'primary', "Today's Most Important Task"),
+            text:(
+              <Stack
+                direction="row"
+                sx={{ justifyContent: 'center', alignItems: 'center' }}
+                spacing={1}
+              >
+                {isTodaySTask && labelWithColor('TMIT', 'primary', "Today's Most Important Task")}
+                {labelWithColor(`L${importance_level}`,'success','Importance Level')}
+                {labelWithColor(`${(Math.pow(2,importance_level)*(spendingTime/60)).toFixed(2).replace(/[.,]00$/, "")}%`,'secondary','Total SR Percentage')}
+              </Stack>
+            ),
             styleType: 2
           }
         ]}

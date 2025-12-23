@@ -2,9 +2,8 @@ import {
   usePostAPI, useEditAPI, useFetch, FetchData , useSnackbar
 }         from "../../../utility/customHook";
 
-import React, { useState,useEffect,useCallback,useMemo, useRef } from 'react';
+import { useState,useEffect,useCallback,useMemo, useRef } from 'react';
 import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-// import Grid from '@mui/material/Grid2';
 import Grid from '@mui/material/Grid';
 
 
@@ -18,7 +17,6 @@ import StaticAutocomplete           from '../../../components/Form/StaticAutocom
 import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';
 
-import {createSelectMap,getDeepText}                from '../../../utility/function/main';
 import {TaskStatusRowSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
 import dayjs                           from "dayjs";
 import {TaskStatusStatus} from '../../../utility/function/data';
@@ -28,11 +26,12 @@ import {TaskStatusStatus} from '../../../utility/function/data';
 const CollapsibleForm = () => {
 
   const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
-  const  {secondary,setTable}              = usePaginationContext();
+  const {secondary,setTable}              = usePaginationContext();
   const {task_type}  = secondary;
 
   const mem_task_name_map     = useMemo(() => task_type.filter(({status})=>status=="active"), []);
 
+  const importanceLevel = Array.from({length: 6}, (x, i) => i).map((value)=>({value,label:`Level ${value}`})) 
   const navigate                = useNavigate();
 
   const {id:edit_page_id} = useParams<{ id?: string;}>();
@@ -176,7 +175,7 @@ const CollapsibleForm = () => {
                   }}
                 />
               </Grid>
-              <Grid size={6}>
+              <Grid size={4}>
                 <StaticAutocomplete
                   label="Task Name"
                   options={mem_task_name_map}
@@ -187,12 +186,22 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>
-              <Grid size={6}>
+              <Grid size={4}>
                 <StaticAutocomplete
                   label="Task Status"
                   options={TaskStatusStatus}
                   defaultValue={TaskStatusStatus.filter((item) => item.value === formData.status)[0]}
                   formKey="status"
+                  showValueInLabel={false}
+                  onChange={handleFormChange}
+                />
+              </Grid>  
+              <Grid size={4}>
+                <StaticAutocomplete
+                  label="Task Importance Level"
+                  options={importanceLevel}
+                  defaultValue={importanceLevel.filter((item) => item.value === formData.importance_level)[0]}
+                  formKey="importance_level"
                   showValueInLabel={false}
                   onChange={handleFormChange}
                 />
