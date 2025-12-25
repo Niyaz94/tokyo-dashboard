@@ -113,6 +113,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     children: [
       {title: 'Monthly Success',link: '/report/monthly_success',icon: <MilitaryTechIcon />,},
       {title: 'Monthly Expense',link: '/report/monthly_expense',icon: <ShoppingBasketIcon />},
+      {title: 'Daily Success',link: '/report/daily_success',icon: <EmojiEventsIcon />},
     ],
   },
   secondaryPages: {

@@ -175,7 +175,7 @@ const CollapsibleForm = () => {
                   }}
                 />
               </Grid>
-              <Grid size={4}>
+              <Grid size={12}>
                 <StaticAutocomplete
                   label="Task Name"
                   options={mem_task_name_map}
@@ -186,7 +186,7 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>
-              <Grid size={4}>
+              <Grid size={6}>
                 <StaticAutocomplete
                   label="Task Status"
                   options={TaskStatusStatus}
@@ -196,7 +196,7 @@ const CollapsibleForm = () => {
                   onChange={handleFormChange}
                 />
               </Grid>  
-              <Grid size={4}>
+              <Grid size={6}>
                 <StaticAutocomplete
                   label="Task Importance Level"
                   options={importanceLevel}

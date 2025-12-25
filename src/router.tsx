@@ -41,6 +41,7 @@ const CATEGORY            = Loader(lazy(() => import('src/content/money/CATEGORY
 const RECIPE              = Loader(lazy(() => import('src/content/extra/RECIPE')));
 const TASK_STATUS_REPORT  = Loader(lazy(() => import('src/content/reports/TASK_STATUS')));
 const MONTHLY_EXPENSE     = Loader(lazy(() => import('src/content/reports/MONTHLY_EXPENSE')));
+const DAILY_SUCCESS     = Loader(lazy(() => import('src/content/reports/DAILY_SUCCESS')));
 const Buttons             = Loader(lazy(() => import('src/content/pages/Components/Buttons')));
 const Modals              = Loader(lazy(() => import('src/content/pages/Components/Modals')));
 const Accordions          = Loader(lazy(() => import('src/content/pages/Components/Accordions')));
@@ -187,7 +188,8 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {path: 'monthly_success',element: <TASK_STATUS_REPORT />},
-      {path: 'monthly_expense',element:<MONTHLY_EXPENSE />}
+      {path: 'monthly_expense',element:<MONTHLY_EXPENSE />},
+      {path: 'daily_success',element:<DAILY_SUCCESS />}
 
     ]
   }
