@@ -15,7 +15,7 @@ import {columnsTomorrow as columns} from '../../../utility/function/tableColumn'
 
 const DataTable = () => {
 
-  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('activity');
+  const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('tomorrow');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
 
   const navigate = useNavigate();
@@ -30,6 +30,8 @@ const DataTable = () => {
         setPagination({count: count, next: next, previous: previous});
       });
   }, [ page, limit,filters]);
+  
+  
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
     if (e.target.value !== 'all') {

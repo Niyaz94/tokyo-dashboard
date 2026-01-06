@@ -13,10 +13,12 @@ import {labelWithColor,getTextWithIcon,getDayAbbreviation,createMapLabelData,cap
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
-  const {id,date,amount,note,currency_name,expense_category,wastedAmount,spendingType,consider} = data;
+  const {id,date,amount,note,adate,currency_name,expense_category,wastedAmount,spendingType,consider} = data;
   const { secondary } = usePaginationContext();
   const { type:expense_types, currency:currency_types } = secondary;
   const expenseTypeMap = createMapLabelData(expense_types.map(({label}) => label));
@@ -41,7 +43,14 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         />
       </TableCell>
       <TableCusCell
-        prop={[{ text: `${date} (${getDayAbbreviation(date)})`, styleType: 1 }]}
+        prop={[
+          { text: `${date} (${getDayAbbreviation(date)})`, styleType: 1 },
+          {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
+            {labelWithColor(<EventAvailableIcon/>,"info")}
+
+            {labelWithColor(adate?adate:"Not Available","primary","Purchase Date")}
+          </Stack>,styleType:2}
+        ]}
       />
       <TableCusCell
         cellProps={{ align: 'center' }}
@@ -54,7 +63,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           },
           {
             text: <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-              {labelWithColor(`${capitalizeFirstLetterOfWords(currencyTypeMap[currency_name].text)}`,currencyTypeMap[currency_name].color,'Currency Type')}
+              {labelWithColor(`${capitalizeFirstLetterOfWords((currencyTypeMap[currency_name]?.text || "Not Found"))}`,(currencyTypeMap[currency_name]?.color || "default"),'Currency Type')}
               {labelWithColor(`${spendingType}`,"primary",'Spending Type')}
             </Stack>,
             styleType: 2

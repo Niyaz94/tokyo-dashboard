@@ -25,6 +25,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
   const {id,date,note,spendingTime,task_name:single_task_name,status,task_detail,isTodaySTask,importance_level} = data;
   const {status: tstatus,goal_name,prizeAmount,percentage,result} = task_detail ;
 
+  const rawSuccssRate =Math.pow(2,importance_level)*(spendingTime/60)
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -128,7 +129,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
               >
                 {isTodaySTask && labelWithColor('TMIT', 'primary', "Today's Most Important Task")}
                 {labelWithColor(`L${importance_level}`,'success','Importance Level')}
-                {labelWithColor(`${(Math.pow(2,importance_level)*(spendingTime/60)).toFixed(2).replace(/[.,]00$/, "")}%`,'secondary','Total SR Percentage')}
+                {labelWithColor(`${(rawSuccssRate>100?100:rawSuccssRate).toFixed(2).replace(/[.,]00$/, "")}%`,'secondary','Total SR Percentage')}
               </Stack>
             ),
             styleType: 2

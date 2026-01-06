@@ -21,6 +21,10 @@ interface CustomAutocompleteProps {
     buttonUrl?:string;
 }
 
+function isZeroNumber(value) {
+  return value !== null && value !== false && Number(value) === 0;
+}
+
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     label,options,formKey,
     multiple = false,
@@ -64,10 +68,11 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
                             onChange(formKey,uniqueValues || []);
                             setSelectValue(newValue || []);
                         } else {
-                            const value = newValue?.value ?? null;
+                            let value = newValue?.value ?? null;
                             const label = newValue?.label ?? '';
-                            onChange(formKey,value ? value : null);
-                            setSelectValue(value ? { value, label } : null);
+                            value =value ? value : isZeroNumber(value) ? 0 : null;
+                            onChange(formKey,value);
+                            setSelectValue({ value, label });
                         }
                     }}
                     autoHighlight

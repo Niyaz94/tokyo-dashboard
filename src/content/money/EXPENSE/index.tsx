@@ -23,6 +23,7 @@ export default () =>{
     currency_details:[]
   });
 
+  // console.log("Hi",success)
   if (!success) {
     return <p>Loading...</p>;
   }

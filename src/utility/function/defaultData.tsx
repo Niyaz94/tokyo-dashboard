@@ -124,7 +124,8 @@ export const TransactionFormIntialState = {
 
 export const ExpenseFormIntialState = {
   ...TransactionFormIntialState,
-  consider: false,
+  adate: dayjs().format('YYYY-MM-DD'),
+  consider: true,
   wastedAmount: 0,
   spendingType: 'necessity'
 };

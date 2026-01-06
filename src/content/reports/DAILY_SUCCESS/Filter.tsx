@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { Stack, Button } from '@mui/material';
 import {axiosGetData} from '../../../utility/Axios'
 import dayjs                  from 'dayjs';
-import MultiplePieCharts from './PIE';
+import MultiplePieCharts from './BAR';
 
 
 
@@ -24,6 +24,17 @@ const DataTable = () => {
     {value:'success',label:'Binary Success Rate'},
     {value:'info',label:'Info Consumption Level'},
     {value:'worring',label:'Worring Level'},
+    {value:'mm',label:'MM Number'},
+    {value:'al',label:'Activity Level'},
+    {value:'el',label:'Eating Level'},
+    {value:'gg',label:'Is Going To Gym'},
+    {value:'smf',label:'How did You Feel in the Morning'},
+    {value:'sss',label:'How was Your Sleep State'},
+    {value:'ssc',label:'Did You Control Your Sleep'},
+    {value:'sebs',label:'Did You Eat Before Sleep'},
+    
+
+
   ]
   const FormIntialState ={
     startDate: dayjs().startOf('year').format('YYYY-MM-DD'),

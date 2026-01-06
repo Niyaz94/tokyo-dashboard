@@ -31,6 +31,10 @@ export const useTableGlobalFilters = (tableFilterKey: string) => {
     
   }, [filters]);
 
+
+function isValidDate(value) {
+  return !isNaN(new Date(value).getTime());
+}
 const filterQuery = useMemo(() => {
     const queryParts: string[] = [];
 
@@ -47,7 +51,10 @@ const filterQuery = useMemo(() => {
         }else if (Array.isArray(value)) {
           queryParts.push(`${mappedKey}=${encodeURIComponent(value.join(','))}`);
         }else{
-          queryParts.push(`${mappedKey}=${encodeURIComponent(value.toString())}`);
+          if ((mappedKey.toLowerCase().endsWith('date') && isValidDate(value)) || !mappedKey.toLowerCase().endsWith('date')) {
+            queryParts.push(`${mappedKey}=${encodeURIComponent(value.toString())}`);
+          }
+
         }
 
       }
