@@ -25,6 +25,7 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
       setSuccess(true);
     } catch (error:any) {
       setSuccess(false);
+      // setData([] as T);
       console.error('Error fetching data:', error);
       setError(error.message);
     } finally {
@@ -37,7 +38,6 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
       setSuccess(false);
       return; 
     }
-    
     fetchData();
     return () => {};
   }, [url]);

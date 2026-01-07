@@ -15,25 +15,20 @@ import {StatusCase2 } from '../../../utility/function/data';
 
 const DataTable = () => {
   const { page, limit, fieldName,order,handlePageChange, handleLimitChange,handleFilterHeaderChange } = useTablePaginationHandlers('singleTask');
-
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const {type:singleTaskType } = secondary;
-
   const singleTaskPriority=StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label}))
-
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("singleTask");
-
   const onTableHeaderClick = (columnId, order) => {
     handleFilterHeaderChange(columnId, order);
   }
-
   useEffect(() => {
     axiosGetData(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
-      setTable(results);
+      setTable(results?results:[]);
       setPagination({count: count, next: next, previous: previous});
     });
   }, [ page, limit,filters,fieldName,order]);

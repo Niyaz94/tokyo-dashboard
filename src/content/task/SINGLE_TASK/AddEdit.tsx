@@ -1,4 +1,3 @@
-import { usePostAPI, useEditAPI, useFetch, FetchData }         from "../../../utility/customHook";
 import { useState,useMemo } from 'react';
 import { inputFields } from "./config";
 import { useAddEditPage}         from "../../../utility/customHook";
@@ -40,15 +39,8 @@ const CollapsibleForm = () => {
   const saveReturn = () => { setPageRedirect(true); handleSave(); };
   const saveContinue = () => { setPageRedirect(false); handleSave(); };
 
-  const navigate                = useNavigate();
   const { id:edit_page_id }     = useParams();
-  // const [formData, setFormData] = useState(SingleTaskFormIntialState);
-  const [isNavigation, setIsNavigation] = useState(false);
-  const [isReturnButton, setIsReturnButton] = useState(false);
 
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<SingleTaskFormStateInterface>  = useFetch <SingleTaskFormStateInterface>(edit_page_id ?`schedule/stask/${edit_page_id}`: null,{});
-  const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
-  const { response:editResponse, loading:editLoading, error:editError,success:successEdit, editData}        = useEditAPI();
 
   // const saveReturn=()=>{    
   //   setIsReturnButton(true);

@@ -41,7 +41,6 @@ const CollapsibleForm = () => {
   const ids = state?.ids && edit_page_id==="0" ? state.ids :[];
 
 
-
   const isFirstRender = useRef(true);
   const [formData, setFormData] = useState(TaskStatusFormIntialState);
 
@@ -92,7 +91,7 @@ const CollapsibleForm = () => {
       } catch (error) {
         showSnackbar('Network error. Please try again.', 'error');
       } 
-    }, [response,editResponse]);
+  }, [response,editResponse]);
 
 
   useEffect(() => {
@@ -134,9 +133,6 @@ const CollapsibleForm = () => {
       await postData("schedule/task_status/", dataToBeSent);
     }
     
-  };
-  const cleanForm = () => {
-    setFormData(TaskStatusFormIntialState)
   };
 
   return (
@@ -227,3 +223,76 @@ const CollapsibleForm = () => {
   );
 };
 export default CollapsibleForm;
+
+
+
+
+
+// import {TaskStatusRowSampleInterface as SingleSampleInterface} from 'src/utility/types/data_types';
+// import {TaskStatusStatus} from '../../../utility/function/data';
+
+// import { useState,useMemo } from 'react';
+// import { inputFields } from "./config";
+// import { useAddEditPage}         from "../../../utility/customHook";
+// import {FormLayout,FieldRenderer}       from '../../../components/Form';
+// import { useParams }    from 'react-router-dom';
+// import {usePaginationContext}                  from '../../../store/context/paginationContext';
+
+
+
+// import {TaskStatusFormIntialState}  from "../../../utility/function/defaultData"
+// import { TaskStatusFormStateInterface } from '../../../utility/types/Page';
+
+// import {StatusCase2 } from '../../../utility/function/data';
+// import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
+
+// const CollapsibleForm = () => {
+
+//   const  {secondary}              = usePaginationContext();
+
+//   const {type:single_task_type } = secondary;
+//   const singleTaskPriority = StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label}))
+
+//   const memSingleTaskPriority   = useMemo(() => singleTaskPriority, []);
+//   const memSingleTaskType      = useMemo(() => single_task_type, []);
+//   const memSingleTaskStatus     = useMemo(() => single_task_status, []);
+
+//     const [pageName,setPageName] = useState<string>("task_status_added");
+  
+//     const {
+//       formData,formErrors, handleFormChange, handleSave, setPageRedirect,
+//       open, message, severity, closeSnackbar, isEdit,responseData,actionState,orignalResponse
+//     } = useAddEditPage<TaskStatusFormStateInterface>({
+//       fetchUrl: (id) => `schedule/task_status/${id}`,
+//       postUrl: "schedule/task_status/",
+//       editUrl: (id) => `schedule/task_status/${id}/`,
+//       initialState: TaskStatusFormIntialState,
+//       onSuccessRedirect: "/goals/task_progress",
+//       page_name: pageName
+//     });
+
+
+//   const saveReturn = () => { setPageRedirect(true); handleSave(); };
+//   const saveContinue = () => { setPageRedirect(false); handleSave(); };
+
+//   const { id:edit_page_id }     = useParams();
+
+//   return (        
+//         <FormLayout
+//           title="Single Task Form"
+//           onSaveReturn={saveReturn}
+//           onSaveContinue={saveContinue}
+//           page_name={pageName}
+//           isEdit={isEdit}
+//           onSuccessRedirect="/goals/single_task"
+//           snackbar={{ open, message, severity, onClose: closeSnackbar }}
+//         >
+//           {inputFields({memSingleTaskStatus,memSingleTaskPriority,memSingleTaskType}).filter(({fieldType})=>fieldType==="form").map((field, i) => {
+//             return (
+//             <FieldRenderer key={i} field={field} error={formErrors[field.key] || []} formData={formData} handleFormChange={handleFormChange} />
+//           )
+//           })}
+//         </FormLayout>    
+//   );
+// };
+// export default CollapsibleForm;
