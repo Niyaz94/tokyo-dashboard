@@ -1,7 +1,7 @@
-import { Checkbox, TableCell, TableRow, Stack } from '@mui/material';
+import { Checkbox, TableRow, Stack,Typography } from '@mui/material';
 import { ChangeEvent } from 'react';
 
-import TableCusCell from '../../../components/Table/Cell';
+import {Cell as TableCusCell,NewCell} from '../../../components/Table';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
 import { usePaginationContext } from '../../../store/context/paginationContext';
@@ -9,9 +9,7 @@ import CampaignIcon                       from '@mui/icons-material/Campaign';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { filterStatusOptions_2 as single_task_status } from '../../../utility/function/data';
 import {
-  getStatusIcon,
-  labelWithColor,
-  getDayAbbreviation,getDeepText
+  getStatusIcon,ColorLabelComponent,getDayAbbreviation,getDeepText
 } from '../../../utility/function/main';
 import dayjs                           from "dayjs";
 
@@ -35,39 +33,42 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
     0:"default"
   }
 
-  const {id,date,type_name,note,title,priority,status,deadline,numPriority,type_names,spendingTime,expectedSpendingTime} = data;
+  const {id,date,note,title,priority,status,deadline,numPriority,type_names,spendingTime,expectedSpendingTime} = data;
 
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
-      <TableCell padding="checkbox">
+
+      <NewCell props={{padding:"checkbox"}}>
         <Checkbox
           color="primary"
           checked={isDataSelected}
           value={isDataSelected}
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            handleSelectOneData(event, id)
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>handleSelectOneData(event, id)}
         />
-      </TableCell>
-      <TableCusCell sx={{width:'10%'}}  prop={
-        [
-          {text:`${date} (${getDayAbbreviation(date)})`,styleType:1},
-          {text:<Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
-            {labelWithColor(<EventAvailableIcon/>,"info")}
-
-            {labelWithColor(deadline?deadline:"Not Available",
-              ["completed","followup"].includes(status)?"primary": dayjs().format('YYYY-MM-DD')>deadline?"error":"success"
-              ,"Deadline")}
-          </Stack>,styleType:2}
-      ]} />
+      </NewCell>
+      <NewCell csx={{width:'10%'}}>
+          <Typography  variant='body1' color='text.primary' fontWeight='bold' gutterBottom={true} noWrap={true}>
+              {`${date} (${getDayAbbreviation(date)})`}
+          </Typography>
+          <Stack direction="row"  sx={{justifyContent: "left",alignItems: "left"}} spacing={1}>
+            <ColorLabelComponent color={"info"} tooltip={"Deadline Icon"}>
+              <EventAvailableIcon/>
+            </ColorLabelComponent>
+            <ColorLabelComponent color={["completed","followup"].includes(status)?"primary": dayjs().format('YYYY-MM-DD')>deadline?"error":"success"} tooltip={"Deadline"}>
+              {deadline?deadline:"Not Available"}
+            </ColorLabelComponent>
+          </Stack>
+      </NewCell>
       <TableCusCell
         cellProps={{ align: 'center' }}
         sx={{width:'25%'}} 
         prop={[
           {
             text: (<Stack direction="row" sx={{ justifyContent: 'center', alignItems: 'center' ,flexWrap: 'wrap',rowGap:"3px",columnGap:"2px"}} spacing={1}> 
-            {type_names.map((type_name)=>labelWithColor(`${taskTypeNameMap[type_name]?.text ?? "Not Found"}`,taskTypeNameMap[type_name]?.color ?? "error",'Single Task Type Name'))}
+            {type_names.map((type_name)=>(<ColorLabelComponent color={taskTypeNameMap[type_name]?.color ?? "error"} tooltip={"Single Task Type Name"}>
+              {`${taskTypeNameMap[type_name]?.text ?? "Not Found"}`}
+            </ColorLabelComponent>))}
             </Stack>),
             styleType: 1
           }
@@ -82,22 +83,31 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
           {text:getStatusIcon(priority.toUpperCase(),<CampaignIcon />),styleType:1},
 
           {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
-            {labelWithColor(numPriority,numPriorityMap[Object.keys(numPriorityMap).sort().reverse().find((key) => key <= numPriority)] ?? "error")}
+            <ColorLabelComponent color={numPriorityMap[Object.keys(numPriorityMap).sort().reverse().find((key) => key <= numPriority)] ?? "error"}>
+              {numPriority}
+            </ColorLabelComponent>
           </Stack>,styleType:2}
       ]} />
 
       <TableCusCell cellProps={{align:"center"}} prop={
-        [{text:labelWithColor(taskStatusMap[status]?.text ?? "Not Found",taskStatusMap[status]?.color  ?? "error"),styleType:1},
+        [{text:(<ColorLabelComponent color={taskStatusMap[status]?.color  ?? "error"} tooltip={"Task Status"}>
+              {taskStatusMap[status]?.text ?? "Not Found"}
+            </ColorLabelComponent>),
+          styleType:1},
         {text:<Stack direction="row"  sx={{justifyContent: "center",alignItems: "center"}} spacing={1}>
-            {labelWithColor(expectedSpendingTime, "secondary", 'Expected Spending Time')}
-            {labelWithColor(spendingTime, "primary", 'Spending Time')}
+            <ColorLabelComponent color={"secondary"} tooltip={"Expected Spending Time"}>
+              {expectedSpendingTime}
+            </ColorLabelComponent>
+            <ColorLabelComponent color={"primary"} tooltip={"Spending Time"}>
+              {spendingTime}
+            </ColorLabelComponent>
         </Stack>,styleType:2}
       ]
       } />
       
-      <TableCell align="right">
+      <NewCell props={{align:"right"}}>
         <ButtonTable id={id} text="Task Status" onDeleteRow={onDeleteRow} />
-      </TableCell>
+      </NewCell>
     </TableRow>
   );
 }

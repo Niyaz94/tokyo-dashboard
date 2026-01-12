@@ -37,6 +37,13 @@ export const getTextWithIcon = (text: string,icon:JSX.Element,color): JSX.Elemen
 export const labelWithColor = (text,color,tooltip="",secondary_text="",fontSize=13,isTransparent=false): JSX.Element => {
   return <Label color={color} tooltip={tooltip} fontSize={fontSize} isTransparent={isTransparent}>{secondary_text} {text}</Label>;
 };
+
+export const ColorLabelComponent = ({children,color,tooltip=""}:{children:any,color:any,tooltip?:string}): JSX.Element => {
+  return (<Label color={color} tooltip={tooltip}>
+    {children}
+  </Label>);
+};
+
 export const labelWithColorByIndex = (text,index): JSX.Element => {
 
   type colorType='primary'| 'black'| 'secondary'| 'error'| 'warning'| 'success'| 'info';
