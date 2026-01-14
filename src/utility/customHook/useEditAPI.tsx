@@ -7,7 +7,7 @@ interface ApiResponse {
 }
 
 const useEditAPI = () => {
-  const [response, setResponse] = useState<ApiResponse | null>(null);
+  const [response, setResponse] = useState<ApiResponse | null>({success:false,data:{}});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<{message:string,errors:Record<string,any>}>({message:"",errors:{}});
   const [success,  setSuccess]  = useState<boolean>(false);

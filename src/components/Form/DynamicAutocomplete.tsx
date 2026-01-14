@@ -19,6 +19,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     label,formKey,fetchOptions,multiple = false,onChange,defaultValue = null,disabled = false,showValueInLabel=true,debounceMs = 500
 }) => {
     const [inputValue, setInputValue] = useState('');
+    
 
     // const [selectValue, setSelectValue] = useState(defaultValue || {value: null,label: ''} as dailySingleInterface);
     const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue || []) : (defaultValue || null));
@@ -26,7 +27,6 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [debouncedValue, setDebouncedValue] = useState('');
-
 
     useEffect(() => {
         // onChange(formKey,selectValue.value);
@@ -87,7 +87,9 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
                 }
             }}
             // defaultValue={defaultValue}
-            value={selectValue}
+
+            // I added this part [|| defaultValue] on 2026-01-13, I did not tested fully so it maybe wrong
+            value={selectValue || defaultValue}
             // value={selectValue.label ? selectValue: null}
             disabled={disabled}
             // disableClearable

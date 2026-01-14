@@ -1,5 +1,5 @@
 import { Checkbox, TableCell, TableRow, Stack,useTheme } from '@mui/material';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import TableCusCell from '../../../components/Table/Cell';
 import ButtonTable from '../../../components/Form/ButtonTable';
 import { createMapLabelData } from '../../../utility/function/main';
@@ -11,7 +11,6 @@ import {
   getTextWithIcon,
   capitalizeFirstLetterOfWords
 } from '../../../utility/function/main';
-import { max } from 'date-fns';
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
@@ -25,18 +24,37 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
     }));
   }
 
-  const {
-    goal_status:goal_status_all,goal_level:goal_level_all,years:task_years,months:task_months,status:task_status
-  } = secondary;
+ 
 
   const {id,task_month,task_year,name: task_name,prizeAmount,percentage,result,status,dailyTime,goal_detail,goal,month} = data;
   const {title: goal_name,start_date,end_date,status: goal_status,difficulty,importance} = goal_detail;
 
-  const goalStatusMap = createMapLabelData(goal_status_all,[3,1,0])
-  const goalLevelMap  = createMapLabelData(goal_level_all,[3,1,0])
-  const taskStatusMap = createMapLabelData(task_status,[3,1,0])
-  const monthMap      = createMapLabelData(Object.keys(task_months).map((key)=>task_months[key]))
-  const yearlMap      = createMapLabelData(task_years,[5])
+  // const goalStatusMap = createMapLabelData(goal_status_all,[3,1,0])
+  // const goalLevelMap  = createMapLabelData(goal_level_all,[3,1,0])
+  // const taskStatusMap = createMapLabelData(task_status,[3,1,0])
+  // const monthMap      = createMapLabelData(Object.keys(task_months).map((key)=>task_months[key]))
+  // const yearlMap      = createMapLabelData(task_years,[5])
+
+  const [goalStatus,setGoalStatus] = useState({})
+  const [goalLevel,setGoalLevel]  = useState({})
+  const [taskStatus,setTaskStatus] = useState({})
+  const [monthList,setMonthList]      = useState({})
+  const [yearList,setYearList]      = useState({})
+
+  useEffect(()=>{
+
+    if(Object.keys(secondary).length>0){
+
+       const {goal_status:goal_status_all,goal_level:goal_level_all,years:task_years,months:task_months,status:task_status} = secondary ;
+        setGoalStatus(createMapLabelData(goal_status_all,[3,1,0]))
+        setGoalLevel(createMapLabelData(goal_level_all,[3,1,0]))
+        setTaskStatus(createMapLabelData(task_status,[3,1,0]))
+        setMonthList(createMapLabelData(Object.keys(task_months).map((key)=>task_months[key])))
+        setYearList( createMapLabelData(task_years,[5]))
+
+    }
+
+  },[secondary])
 
   return (
     <TableRow hover key={id} selected={isDataSelected}>
@@ -55,8 +73,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              monthMap[task_month].text,
-              monthMap[task_month].color,
+              monthList[task_month]?.text || "Not Found",
+              monthList[task_month]?.color || "error",
               "Task's Month"
             ),
             styleType: 1
@@ -69,8 +87,8 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 spacing={1}
               >
                 {labelWithColor(
-                  yearlMap[task_year].text,
-                  yearlMap[task_year].color,
+                  yearList[task_year]?.text || "Not Found",
+                  yearList[task_year]?.color || "error",
                   "Task's Year")}
                 {labelWithColor(dailyTime, 'warning', 'Dedicated Time Per Day')}
               </Stack>
@@ -144,13 +162,13 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
                 spacing={1}
               >
                 {labelWithColor(
-                  `GDL: ${goalLevelMap[difficulty].text}`,
-                  goalLevelMap[difficulty].color,
+                  `GDL: ${goalLevel[difficulty]?.text || "Not Found"}`,
+                  goalLevel[difficulty]?.color || "error",
                   'Goal Difficulty Level'
                 )}
                 {labelWithColor(
-                  `GIL: ${goalLevelMap[importance].text}`,
-                  goalLevelMap[importance].color,
+                  `GIL: ${goalLevel[importance]?.text || "Not Found"}`,
+                  goalLevel[importance]?.color || "error",
                   'Goal Importance Level'
                 )}
               </Stack>
@@ -163,13 +181,18 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         cellProps={{ align: 'center' }}
         prop={[
           {
-            text: labelWithColor(taskStatusMap[status.toUpperCase()].text,taskStatusMap[status.toUpperCase()].color),
+            text: labelWithColor(
+              taskStatus[status.toUpperCase()]?.text || "Not Found",
+              taskStatus[status.toUpperCase()]?.color || "error"
+            ),
             styleType: 1
           },
           {
             text: labelWithColor(
-              `GS: ${goalStatusMap[goal_status].text}`,
-              goalStatusMap[goal_status].color,
+              `GS: ${
+                goalStatus[goal_status]?.text || "Not Found"
+              }`,
+              goalStatus[goal_status]?.color || "error",
               'Goal Status'
             ),
             styleType: 2

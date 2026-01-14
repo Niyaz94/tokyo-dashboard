@@ -1,7 +1,5 @@
 import dayjs                  from 'dayjs';
 import { SleepFormStateInterface } from '../../utility/types/Page';
-import { max } from 'date-fns';
-
 
 export const sleepFormIntialState:SleepFormStateInterface = {
   id: 0,
@@ -54,8 +52,8 @@ export const TaskFormIntialState = {
   name: '', 
   tag: '', 
 
-  goal:0,
-  month:0,
+  goal:null,
+  month:null,
 
   result: 0,
   percentage: 0,

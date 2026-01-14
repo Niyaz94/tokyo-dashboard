@@ -8,6 +8,7 @@ import LexicalEditor from "../Custom/Lexical/Editor";
 import dayjs                  from 'dayjs';
 
 
+
 export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }: any) => {
   const value = formData[field.key];
 
@@ -93,7 +94,8 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
       />
     );
   }else if (field.type=="d_autocomplete"){
-    component= ((value || !isEdit) && <DynamicAutocomplete
+    // (value || !isEdit) && -> I remove that (2026-01-13), in edit mode for sleep page when I click the remvove button to remove the default value the complete component will disapear
+    component= ( <DynamicAutocomplete
       label={field.label}
       defaultValue={value}
       fetchOptions={field.optionfun}

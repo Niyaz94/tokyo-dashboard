@@ -1,6 +1,6 @@
 import {JSX }           from 'react';
 import Label            from 'src/components/Label';
-import { level1Status } from 'src/utility/types/data_types';
+import { level1Status,colorType } from 'src/utility/types/data_types';
 import  {mapLabelData}  from "./data"
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import {axiosGetData} from '../../utility/Axios'
@@ -38,11 +38,7 @@ export const labelWithColor = (text,color,tooltip="",secondary_text="",fontSize=
   return <Label color={color} tooltip={tooltip} fontSize={fontSize} isTransparent={isTransparent}>{secondary_text} {text}</Label>;
 };
 
-export const ColorLabelComponent = ({children,color,tooltip=""}:{children:any,color:any,tooltip?:string}): JSX.Element => {
-  return (<Label color={color} tooltip={tooltip}>
-    {children}
-  </Label>);
-};
+
 
 export const labelWithColorByIndex = (text,index): JSX.Element => {
 
@@ -180,4 +176,11 @@ export const getMonthName = (monthNumber: number): string => {
   const date = new Date();
   date.setMonth(monthNumber - 1);
   return date.toLocaleString('default', { month: 'long' });
+}
+
+export function getPriorityColor(numPriority: number): colorType {
+  const map = { 400:"error", 350:"warning", 300:"info", 250:"success", 200:"primary", 150:"secondary", 100:"tertiary", 0:"default" };
+  return map[
+    Object.keys(map).map(Number).sort((a,b)=>b-a).find(key => key <= numPriority) ?? 0
+  ];
 }

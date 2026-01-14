@@ -34,6 +34,8 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
   };
 
   useEffect(() => {
+    console.log("useEffect (inside useGetAPI) run for url")
+
     if (!url) {
       setSuccess(false);
       return; 
@@ -41,6 +43,9 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
     fetchData();
     return () => {};
   }, [url]);
+
+
+  
   return { data, error,loading, success};
 }
 

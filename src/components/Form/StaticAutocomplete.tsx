@@ -35,7 +35,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     buttonUrl="",
     error
 }) => {
-
+    console.log("---CustomAutocomplete---", formKey)
     const navigate = useNavigate();
     const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
 
@@ -43,7 +43,6 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
       setSelectValue(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
     }, [defaultValue, multiple]);
 
-    
     return (
         <FormControl component="fieldset" error={Boolean(error)} fullWidth sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 0.5 ,justifyContent: "center"}}>
             <Box sx={{ flexGrow: 1,paddingTop: "10px" }}>
@@ -106,8 +105,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
                 </IconButton>
               </Tooltip>}
             {error && <FormHelperText>{error}</FormHelperText>}
-        </FormControl>
-        
+        </FormControl>   
     );
 });
 

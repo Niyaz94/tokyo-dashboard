@@ -1,5 +1,4 @@
 import { ReactNode }          from 'react';
-import { an } from 'react-router/dist/development/route-data-Cw8htKcF';
 
 
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
@@ -11,6 +10,7 @@ export type level4Status =  "ACHIEVED" | "POSTPONED" | "INPROGRESS" | "COMPLETED
 export type level5Status =   "LESS" |  "NORMAL" |  "VERY" 
 
 export type SnackbarType = 'success' | 'error' | 'info' | 'warning';
+export type colorType="primary" | "black" | "secondary" | "error" | "warning" | "success" | "info";
 
 
 
@@ -386,3 +386,4 @@ export interface Column {
   id:string;
   key?: string; // optional: for auto-rendering if needed
 }
+

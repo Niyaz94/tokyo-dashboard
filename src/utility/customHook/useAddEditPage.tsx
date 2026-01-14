@@ -19,7 +19,6 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   const isEdit = !!id;
   const isFirstRender = useRef(true);
   const navigate = useNavigate();
-  const location = useLocation();
   const { open, message, severity, showSnackbar, closeSnackbar } = useSnackbar();
 
   const { data: fetchedData } = useFetch<T>(isEdit ? fetchUrl(id) : null, {});
@@ -47,17 +46,6 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
     },[]
   );
 
-    const handleFormChange2 = useCallback((key, value) => {
-    if (Array.isArray(key) && Array.isArray(value) && key.length === value.length) {
-      key.forEach((k, index) => {
-        setFormData((prev) => ({...prev,[k]: value[index]}));
-
-      });
-    }else{
-      setFormData((prev) => ({...prev,[key]: value}));
-    }
-  },[]); 
-
   const handleSave = async () => {
     const { id, ...payload } = formData as any;
     if (isEdit) 
@@ -67,10 +55,19 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   };
 
   useEffect(() => {
-    if (Object.keys(fetchedData || {}).length > 0) setFormData(fetchedData!);
+    if (Object.keys(fetchedData || {}).length > 0) {
+      console.log("useEffect (inside useAddEditPage) run for fetchedData")
+      setFormData(fetchedData!);
+    }
+      
   }, [fetchedData]);
 
   useEffect(() => {
+    console.log(
+      "useEffect (inside useAddEditPage) run for response, editResponse, postError, editError",
+      response, editResponse, postError, editError
+    )
+
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -78,14 +75,19 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
     const postSuccess = response?.success;
     const editSuccess = editResponse?.success;
 
-    setActionSate((isEdit ? editResponse?.success : response?.success) || false);
 
     if (postSuccess || editSuccess) {
+      console.log("useEffect (inside useAddEditPage) success")
+
+      setActionSate((isEdit ? editSuccess : postSuccess) || false);
       showSnackbar(postSuccess ? "Submitted successfully!" : "Edited successfully!", "success");
       setTimeout(() => {
         if (pageRedirect && onSuccessRedirect) navigate(onSuccessRedirect, {state:{page_name}});
       }, 1500);
     } else if (postError || editError) {
+      console.log("useEffect (inside useAddEditPage) fail")
+      setActionSate(false);
+
       showSnackbar(postError.message || editError.message, "error");
 
       const firstNonEmpty = (...objs: any[]) =>objs.find(obj => obj && Object.keys(obj).length > 0) || {};

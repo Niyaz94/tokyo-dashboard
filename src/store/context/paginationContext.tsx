@@ -2,11 +2,19 @@ import { createContext, useContext, useState }  from "react";
 
 const PaginationContext          = createContext(null);
 
-export const PaginationProvider  = ({ children,tableData, secondaryData,paginData,pageDefaultData={}}) => {
+export const PaginationProvider  = ({ 
+  children,
+  tableData=[], 
+  secondaryData={},
+  paginData={count: 0,next: null,previous: null},
+  pageDefaultData={}
+}) => {
 
-  const [table, setTable]           = useState(tableData || []);
-  const [secondary, setSecondary]   = useState(secondaryData || {});
-  const [pagination, setPagination] = useState(paginData || {count: 0,next: null,previous: null});
+  console.log("PaginationProvider Run")
+
+  const [table, setTable]           = useState(tableData);
+  const [secondary, setSecondary]   = useState(secondaryData);
+  const [pagination, setPagination] = useState(paginData);
   const [pageDefault, setPageDefault] = useState(pageDefaultData);
 
 

@@ -7,7 +7,7 @@ interface ApiResponse {
 }
 const usePostAPI =() => {
 
-  const [response, setResponse] = useState<ApiResponse | null>(null);
+  const [response, setResponse] = useState<ApiResponse | null>({success:false,data:{}});
   const [loading,  setLoading]  = useState<boolean>(true);
   const [success,  setSuccess]  = useState<boolean>(false);
   const [error, setError] = useState<{message:string,errors:Record<string,any>}>({message:"",errors:{}});
