@@ -58,8 +58,10 @@ const LOGIN               = Loader(lazy(() => import('src/content/user/LOGIN')))
 const REGISTER            = Loader(lazy(() => import('src/content/user/REGISTER')));
 
 const DOCUMENT            = Loader(lazy(() => import('src/content/document/DOCUMENT')));
+const LEARN            = Loader(lazy(() => import('src/content/document/LEARN')));
 const PASSWORD            = Loader(lazy(() => import('src/content/document/PASSWORD')));
 const DOCUMENT_TYPE       = Loader(lazy(() => import('src/content/secondary/DOCUMENT_TYPE')));
+const LEARN_TYPE       = Loader(lazy(() => import('src/content/secondary/LEARN_TYPE')));
 const PASSWORD_TYPE       = Loader(lazy(() => import('src/content/secondary/PASSWORD_TYPE')));
 
 
@@ -113,8 +115,10 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {path: 'document/*',element: <DOCUMENT />},
+      {path: 'learn/*',element: <LEARN />},
       {path: 'password/*',element: <PASSWORD />},
       {path: 'document_type/*',element: <DOCUMENT_TYPE />},
+      {path: 'learn_type/*',element: <LEARN_TYPE />},
       {path: 'password_type/*',element: <PASSWORD_TYPE />},
     ]
   },

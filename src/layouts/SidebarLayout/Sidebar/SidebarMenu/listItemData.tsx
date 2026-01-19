@@ -27,6 +27,8 @@ import MilitaryTechIcon             from '@mui/icons-material/MilitaryTech';
 import ShoppingBasketIcon           from '@mui/icons-material/ShoppingBasket';
 import Replay30Icon from '@mui/icons-material/Replay30';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import SchoolIcon from '@mui/icons-material/School';
+import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import {
   Topic,TipsAndUpdates,ShoppingCartCheckout,AddShoppingCart,TakeoutDining,RamenDining,Password,LightMode,
   HourglassEmpty,Input,Filter7,CardGiftcard,HistoryEdu
@@ -75,6 +77,7 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Documents',                link: '/documents/document',     icon: <HistoryEdu />},
+      {title: 'Learn',                link: '/documents/learn',     icon: <SchoolIcon />},
       {title: '+Passwords',                link: '/documents/password',     icon: <Password />}
     ],
   },
@@ -121,7 +124,11 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Topic Type',         link: '/secondary/topic_type',      icon: <TableChartTwoToneIcon />},
-      {title: 'Document Type',      link: '/documents/document_type',      icon: <PostAddIcon />},
+      {title: 'Document Type',      link: '/documents/document_type',   icon: <PostAddIcon />},
+      {title: 'Learn Type',      link: '/documents/learn_type',         icon: <CastForEducationIcon />},
+
+
+      
       {title: 'Password Type',      link: '/documents/password_type',      icon: <EnhancedEncryptionIcon />},
       {title: 'Idea Type',          link: '/secondary/idea_type',        icon: <TableChartTwoToneIcon />},
       {title: 'One-Time Task Type', link: '/goals/sin_task_types',    icon: <TableChartTwoToneIcon />},
