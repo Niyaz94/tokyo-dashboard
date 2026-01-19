@@ -1,4 +1,4 @@
-import {useEffect } from 'react';
+import {useEffect, useMemo } from 'react';
 import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
@@ -16,8 +16,12 @@ import {StatusCase2 } from '../../../utility/function/data';
 const DataTable = () => {
   const { page, limit, fieldName,order,handlePageChange, handleLimitChange,handleFilterHeaderChange } = useTablePaginationHandlers('singleTask');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
+  
+  
   const {type:singleTaskType } = secondary;
-  const singleTaskPriority=StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label}))
+
+  const singleTaskPriority=useMemo(()=>StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label})),[StatusCase2]) 
+
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
@@ -25,6 +29,9 @@ const DataTable = () => {
   const onTableHeaderClick = (columnId, order) => {
     handleFilterHeaderChange(columnId, order);
   }
+
+
+
   useEffect(() => {
     axiosGetData(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;
@@ -33,13 +40,17 @@ const DataTable = () => {
     });
   }, [ page, limit,filters,fieldName,order]);
 
-  return (
-    <>
-      <FilterPanel
+  const memoFilterPanel=useMemo(()=>{
+    return (<FilterPanel
         filters={filters}
         handleFilterChange={handleFilterChange}
         filterFields={inputFields({singleTaskPriority,singleTaskType}).filter(({fieldType},i)=>fieldType=="filter")}
-      />
+      />)
+  },[])
+
+  return (
+    <Box id="test-wrapper">
+      {memoFilterPanel}
       <Card>
         {selectedIds.length>0 && (
           <Box flex={1} p={2}>
@@ -89,7 +100,7 @@ const DataTable = () => {
           onRowsPerPageChange={handleLimitChange}
         />
       </Card>
-    </>
+    </Box>
     
   );
 };

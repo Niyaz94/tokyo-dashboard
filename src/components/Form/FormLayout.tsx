@@ -30,7 +30,7 @@ export const FormLayout = ({ title, onSaveReturn, onSaveContinue, isEdit,onSucce
                 page_name={page_name || ""}
             />
             
-            <CustomSnackbar {...snackbar} />
+            {(snackbar.message.length> 0) && <CustomSnackbar {...snackbar} />}
           </Grid>
         </Grid>
       </Box>

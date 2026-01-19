@@ -214,7 +214,8 @@ const CollapsibleForm = () => {
               </Grid>           
               <Grid size={12}>
                 <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/goals/task_progress'}/>
-                <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
+                {message.length>0 && <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>}
+
               </Grid>
             </Grid>
           </Box>

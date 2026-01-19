@@ -1,4 +1,4 @@
-// components/FieldRenderer.tsx
+import React, { memo,useMemo } from "react";
 import { TextField, Grid,FormControl } from "@mui/material";
 import { 
   TextSearch,CustomSwitch,DynamicAutocomplete,TimePickers, StaticAutocomplete,
@@ -9,7 +9,7 @@ import dayjs                  from 'dayjs';
 
 
 
-export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }: any) => {
+export const FieldRenderer = (({ field, formData, handleFormChange,isEdit,error }: any) => {
   const value = formData[field.key];
 
   let component= null
@@ -61,38 +61,75 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
         />
     );
   }else if (field.type=="autocomplete"){
-    component= (field.options &&
-      <StaticAutocomplete
-        label={field.label}
-        showValueInLabel={field.fieldType==="filter"? false : true}
-        options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
-        formKey={field.key}
-        defaultValue={field.options.find((o: any) =>  o.value === value) || (field.fieldType==="form"?null:{value:"all",label:"ALL"})}
-        onChange={handleFormChange}
-        error={(error?.[0] || "").replace(/['"]+/g, '')}
-      />
-    );
+    // component= (field.options &&
+    //   <StaticAutocomplete
+    //     label={field.label}
+    //     showValueInLabel={field.fieldType==="filter"? false : true}
+    //     options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
+    //     formKey={field.key}
+    //     defaultValue={field.options.find((o: any) =>  o.value === value) || (field.fieldType==="form"?null:{value:"all",label:"ALL"})}
+    //     onChange={handleFormChange}
+    //     error={(error?.[0] || "").replace(/['"]+/g, '')}
+    //   />
+    // );
+
+    const selectOption=field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options
+    const defaultSelect= field.options.find((o: any) =>  o.value === value) || (field.fieldType==="form"?null:{value:"all",label:"ALL"})
+    component=useMemo(()=>{
+        return <StaticAutocomplete
+          label={field.label}
+          showValueInLabel={field.fieldType==="filter"? false : true}
+          options={selectOption}
+          formKey={field.key}
+          defaultValue={defaultSelect}
+          onChange={handleFormChange}
+          error={(error?.[0] || "").replace(/['"]+/g, '')}
+        />
+    },[selectOption,defaultSelect])
   }else if (field.type=="m_autocomplete"){
     const showValueInlabel=field?.showValueInlabel || false
     const buttonUrl = field.buttonUrl || ""
-    component= (field.options &&
-      <StaticAutocomplete
+    // component= (field.options &&
+    //   <StaticAutocomplete
+    //     label={field.label}
+    //     showValueInLabel={showValueInlabel? true:false}
+    //     multiple={true}
+    //     options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
+    //     formKey={field.key}
+    //     defaultValue={
+    //       (Array.isArray(value) && value.length > 0) &&
+    //       field.options.filter(({value:item_value})=>value.includes(item_value)) || (field.fieldType==="filter"?[{value:"all", label:"ALL"}]:[])
+    //     }
+    //     onChange={handleFormChange}
+    //     error={(error?.[0] || "").replace(/['"]+/g, '')}
+    //     {...(buttonUrl.length>0 && {extraButton:true,buttonUrl})}
+    //     // extraButton={true}
+    //     // buttonUrl={'/documents/document_type/add'}
+    //   />
+    // );
+
+    const selectOptions = field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options
+
+    let selectDefaultValue= field.fieldType==="filter"?[{value:"all", label:"ALL"}]:[]
+    if (Array.isArray(value) && value.length > 0){
+      selectDefaultValue=field.options.filter(({value:item_value})=>value.includes(item_value))
+    } 
+          
+    component= useMemo(()=>{
+      return (<StaticAutocomplete
         label={field.label}
         showValueInLabel={showValueInlabel? true:false}
         multiple={true}
-        options={field.fieldType==="filter"?[{value:"all",label:"ALL"},...field.options]:field.options}
+        options={selectOptions}
         formKey={field.key}
-        defaultValue={
-          (Array.isArray(value) && value.length > 0) &&
-          field.options.filter(({value:item_value})=>value.includes(item_value)) || (field.fieldType==="filter"?[{value:"all", label:"ALL"}]:[])
-        }
+        defaultValue={selectDefaultValue}
         onChange={handleFormChange}
         error={(error?.[0] || "").replace(/['"]+/g, '')}
         {...(buttonUrl.length>0 && {extraButton:true,buttonUrl})}
         // extraButton={true}
         // buttonUrl={'/documents/document_type/add'}
-      />
-    );
+      />)
+    },[selectOptions,selectDefaultValue]);
   }else if (field.type=="d_autocomplete"){
     // (value || !isEdit) && -> I remove that (2026-01-13), in edit mode for sleep page when I click the remvove button to remove the default value the complete component will disapear
     component= ( <DynamicAutocomplete
@@ -168,4 +205,4 @@ export const FieldRenderer = ({ field, formData, handleFormChange,isEdit,error }
     );
   }
   return component;
-};
+});

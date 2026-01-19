@@ -2,7 +2,6 @@ import { useState,useMemo } from 'react';
 import { inputFields } from "./config";
 import { useAddEditPage}         from "../../../utility/customHook";
 import {FormLayout,FieldRenderer}       from '../../../components/Form';
-import { useNavigate,useParams }    from 'react-router-dom';
 import {SingleTaskFormIntialState}  from "../../../utility/function/defaultData"
 import { SingleTaskFormStateInterface } from '../../../utility/types/Page';
 import {usePaginationContext}                  from '../../../store/context/paginationContext';

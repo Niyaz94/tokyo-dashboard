@@ -14,7 +14,6 @@ export const useTableGlobalFilters = (tableFilterKey: string) => {
 
   const handleFilterChange = useCallback((key: string, value: any) => {
 
-    
     if (value === null && typeof filters[key] === 'string') {
       value = 'all';
     }
@@ -26,6 +25,8 @@ export const useTableGlobalFilters = (tableFilterKey: string) => {
         value = value.filter((item) => item !== 'all');
       }
     }
+    // console.log(value,filters)
+
 
     dispatch(setFilters({filterName: tableFilterKey, filterKey: key, filterValue: value}));
     
