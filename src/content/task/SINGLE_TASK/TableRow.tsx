@@ -13,11 +13,13 @@ import {ColorLabelComponent,IconLabelComponent}  from '../../../utility/function
 import dayjs                           from "dayjs";
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
+
   const { secondary } = usePaginationContext();
   const {type:single_task_type } = secondary;
   const taskStatusMap = createMapLabelData(single_task_status.map(({value})=>value.toLowerCase()));
   const taskTypeNameMap = createMapLabelData(single_task_type.map(({label}) => label));
   const {id,date,note,title,priority,status,deadline,numPriority,type_names,spendingTime,expectedSpendingTime} = data;
+  
   return (
     <TableRow hover key={id} selected={isDataSelected}>
       <NewCell props={{padding:"checkbox"}}>

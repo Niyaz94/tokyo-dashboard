@@ -1,5 +1,5 @@
 import {useEffect, useMemo } from 'react';
-import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
+import {Divider,Box,Card} from '@mui/material';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import { usePaginationContext } from '../../../store/context/paginationContext';
@@ -7,30 +7,26 @@ import {axiosGetData} from '../../../utility/Axios'
 import {
   useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters
 } from '../../../utility/customHook';
-import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
+import {SelectableTable,TablePagination as CustomPagination,FilterPanel,TableHeader} from '../../../components/Table';
 import { columnsSingleTask as columns } from '../../../utility/function/tableColumn';
 import {inputFields} from './config';
 import {StatusCase2 } from '../../../utility/function/data';
 
 
 const DataTable = () => {
+  console.log("Single Task DataTable")
   const { page, limit, fieldName,order,handlePageChange, handleLimitChange,handleFilterHeaderChange } = useTablePaginationHandlers('singleTask');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
-  
   
   const {type:singleTaskType } = secondary;
 
   const singleTaskPriority=useMemo(()=>StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label})),[StatusCase2]) 
 
-  const navigate = useNavigate();
-  const {deleteTableRow} = useDeleteAPI();
+  const {deleteTableRow}                              = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
-  const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("singleTask");
-  const onTableHeaderClick = (columnId, order) => {
-    handleFilterHeaderChange(columnId, order);
-  }
-
-
+  const {filters,handleFilterChange,filterQuery}      = useTableGlobalFilters("singleTask");
+  
+  // const onTableHeaderClick = 
 
   useEffect(() => {
     axiosGetData(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`).then((res) => {
@@ -49,49 +45,26 @@ const DataTable = () => {
   },[])
 
   return (
-    <Box id="test-wrapper">
+    <Box>
       {memoFilterPanel}
       <Card>
-        {selectedIds.length>0 && (
-          <Box flex={1} p={2}>
-          </Box>
-        )}
-        {selectedIds.length<1 && (
-          <CardHeader
-            title={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Typography variant="h6">Recent Orders</Typography>
-              </Box>
-            }
-            action={
-              <Box sx={{width: '100%',display: 'flex',justifyContent: 'space-between',alignItems: 'center',flexWrap: 'wrap',gap: 2,}}>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => navigate('add')}
-                    sx={{fontSize: '1.2rem',padding: '10px 40px',borderRadius: '10px',textTransform: 'none',boxShadow: 3}}
-                  >
-                    Insert
-                  </Button>
-                </Box>
-              </Box>
-            }
-          />
-        )}
+        {selectedIds.length<1 && <TableHeader />}
         <Divider />
-        <SelectableTable
+        {/* __CHECK__ :- It cause one render */}
+        {tableData.length>0 && <SelectableTable
           data={tableData} columns={columns} selectedIds={selectedIds}
           onSelectAll={handleSelectAll}
           onSelectOne={handleSelectOne}
-          onTableHeaderClick={onTableHeaderClick}
+          onTableHeaderClick={(columnId, order:'asc' | 'desc') => {
+              handleFilterHeaderChange(columnId, order);
+          }} 
           renderRow={(row) => (
             <CustomTableRow
               key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
               handleSelectOneData={handleSelectOne} onDeleteRow={async ()=>deleteTableRow(row.id,"schedule/stask",setTable)}
             />
           )}
-        />
+        />}
         <CustomPagination
           count={pagination.count}
           page={page}

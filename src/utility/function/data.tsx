@@ -88,12 +88,33 @@ export const CategoryType = [
     { color:"info",value: 'savings', label: 'Savings'}
 ]
 
-export const TaskStatusStatus = [
+
+const TaskBaseOptions = [
     { value: 'COMPLETED', label: 'Completed' },
     { value: 'UNCOMPLETED', label: 'Uncompleted' },
+]
+export const TaskStatusStatus = [
+    ...TaskBaseOptions,
     { value: 'HALF_COMPLETED', label: 'Half Completed' },
     { value: 'INAPPLICABLE', label: 'Inapplicable' },
 ];
+
+export const GoalSatusOptions= [
+    ...TaskBaseOptions,
+    { value: 'POSTPONED', label: 'Postponed' },
+    { value: 'ACHIEVED', label: 'Achieved' },
+    { value: 'INPROGRESS', label: 'Inprogress' }
+]
+export const GoalLevelOptions= [
+    { value: 'LESS', label: 'Less' },
+    { value: 'NORMAL', label: 'Normal' },
+    { value: 'VERY', label: 'Very' }
+]
+export const TaskStatusOptions= [
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' },
+    { value: 'archive', label: 'Archive' }
+]
 
 
 

@@ -82,7 +82,6 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
             onInputChange={(event, value,reason) => {
                 // console.log("onInputChange",reason)
                 if (reason == 'input') {
-                    // console.log("Hiiiiiiii")
                     setInputValue(value);
                 }
             }}

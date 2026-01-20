@@ -1,8 +1,8 @@
 import { 
-  AuthState, BookState, tableState,tablePaginationInterface,CartState,titleState,dailyInitialStateInterface,
-  tableHeaderFilterInterface
-} from '../utility/types/typeStore';
-import dayjs                  from 'dayjs';
+  AuthState, BookState, tableState,tablePaginationInterface,CartState,
+  titleState,dailyInitialStateInterface,tableHeaderFilterInterface
+}                   from '../utility/types/typeStore';
+import dayjs        from 'dayjs';
 
 
 
@@ -28,10 +28,10 @@ export const tablePaginationInit: tablePaginationInterface[] = [
   { filter:{field:"id",order:"asc"},name: "limit"  ,page: 0, limit: 10 },
   { filter:{field:"id",order:"asc"},name: "repeat"  ,page: 0, limit: 10 },
   { filter:{field:"id",order:"asc"},name: "currencyLimit"  ,page: 0, limit: 10 },
-
-
-
+  { filter:{field:"id",order:"asc"},name: "document"  ,page: 0, limit: 10 },
+  { filter:{field:"id",order:"asc"},name: "learn"  ,page: 0, limit: 10 },
 ]
+
 export const bookInitialState: BookState = {
   books: [
     { id: 1, title: 'Book 1', price: 20, quantity: 10 },
@@ -100,7 +100,11 @@ export const tableHeaderFilter:tableHeaderFilterInterface = {
     currencyId: "all",
     amount: { operator: "gt", value: 0 },
   },
-  "task": {status: "ALL" ,year: "ALL",month: "ALL"},
+  "task": {
+    status: "ALL" ,
+    year: "ALL",
+    month: "ALL"
+  },
   "topic": {},
   "idea": {},
   "goal": {},

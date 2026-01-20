@@ -10,9 +10,9 @@ export const TaskStatusProvider  = ({ children,tableData, secondaryData}) => {
   const [secondary, setSecondary] = useState(secondaryData || {tasks_name:[], task_status:[]});
 
   return (
-    <AddEditContext.Provider value={{ table, setTable, secondary, setSecondary }}>
+    <AddEditContext value={{ table, setTable, secondary, setSecondary }}>
       {children}
-    </AddEditContext.Provider>
+    </AddEditContext>
   );
 };
 export const useTaskStatus = () => {

@@ -17,7 +17,7 @@ export default () =>{
   }
 
   return (
-    <PaginationProvider tableData={results} secondaryData={{}} paginData={{count: count, next: next, previous: previous}}>
+    <PaginationProvider tableData={results} paginData={{count: count, next: next, previous: previous}}>
       <Template templateTitle="Personal - Activity">
         <Routes>
           <Route path=""    element={<PageTable />} />

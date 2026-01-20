@@ -38,7 +38,11 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
           setFormData((prev) => ({...prev,[k]: value[index]}));
 
         });
-      }else{
+      }
+      // else if(typeof value === 'object' && value !== null){
+      //   setFormData((prev) => ({...prev,[key]: value.value}));
+      // }
+      else{
         setFormData((prev) => ({...prev,[key]: value}));
       }
 
@@ -48,8 +52,16 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
 
   const handleSave = async () => {
     const { id, ...payload } = formData as any;
-    if (isEdit) 
-      await editData(editUrl(id), formData,bodyType);
+    if (isEdit) {
+      const submit_form_data=Object.assign({}, formData) 
+      Object.keys(submit_form_data).forEach(function(key, index) {
+        if(typeof submit_form_data[key] === 'object' && submit_form_data[key] !== null && submit_form_data[key]?.value){
+          submit_form_data[key] = submit_form_data[key]?.value
+        }
+      });
+      await editData(editUrl(id), submit_form_data,bodyType);
+
+    }
     else 
       await postData(postUrl, payload,bodyType);
   };
@@ -57,7 +69,15 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
   useEffect(() => {
     if (Object.keys(fetchedData || {}).length > 0) {
       console.log("useEffect (inside useAddEditPage) run for fetchedData")
-      setFormData(fetchedData!);
+
+      // Object.entries(fetchedData).map(([k, v], i) => {})
+      // Object.keys(fetchedData).forEach(function(key, index) {
+      //   if(typeof fetchedData[key] === 'object' && fetchedData[key] !== null){
+      //     fetchedData[key] = fetchedData[key]?.value || "not found"
+
+      //   }
+      // });
+      setFormData(fetchedData);
     }
       
   }, [fetchedData]);

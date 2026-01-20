@@ -14,9 +14,9 @@ export const PageProvider  = ({ children,tableData,secondaryData={},pageDefaultD
 
 
   return (
-    <PageContext.Provider value={{ table, setTable, secondary, setSecondary,pageDefault, setPageDefault }}>
+    <PageContext value={{ table, setTable, secondary, setSecondary,pageDefault, setPageDefault }}>
       {children}
-    </PageContext.Provider>
+    </PageContext>
   );
 };
 export const usePageContext = () => {

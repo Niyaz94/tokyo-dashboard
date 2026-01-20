@@ -17,7 +17,7 @@ function App() {
 
   // const dispatch    = useDispatch<AppDispatch>();
   const dispatch        = useDispatch<any>();
-  dispatch(fetchDailyId("notes/daily/select_date"));
+  // dispatch(fetchDailyId("notes/daily/select_date"));
   dispatch(fetchNotifications("schedule/stask/notifications",false));
 
   return (

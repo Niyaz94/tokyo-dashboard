@@ -1,14 +1,30 @@
-import { createContext, useContext, useMemo, useState }  from "react";
+import { createContext, useContext, useEffect, useMemo, useState }  from "react";
+import {SingleTaskUniqueInterface}    from 'src/utility/types/data_types';
+import useFetch, {FetchData}          from '../../utility/customHook/useGetAPI';
 
 const PaginationContext          = createContext(null);
 
 export const PaginationProvider  = ({ 
   children,
+  url,
   tableData=[], 
   secondaryData={},
   paginData={count: 0,next: null,previous: null},
   pageDefaultData={}
+  
 }) => {
+
+  console.log("PaginationProvider Run")
+
+  const { data,success}: FetchData<SingleTaskUniqueInterface> = useFetch <SingleTaskUniqueInterface>(url,{type:[]});
+
+
+  useEffect(()=>{
+    
+    if(success)
+        setSecondary(data)
+
+  },[success])
   const [table, setTable]           = useState(tableData);
   const [secondary, setSecondary]   = useState(secondaryData);
   const [pagination, setPagination] = useState(paginData);
