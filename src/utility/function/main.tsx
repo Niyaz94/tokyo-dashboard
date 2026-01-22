@@ -168,7 +168,8 @@ export const taskSearch = async (query) => {
 export const getDeepText=(obj: any): string =>{
   try {
     const note=JSON.parse(obj)
-    return note?.root?.children?.[0]?.children?.[0]?.text ?? 'No text found';
+    const new_text= note?.root?.children?.[0]?.children?.[0]?.text
+    return new_text.length>100? `${new_text.substr(0,100)}...` :new_text;
   } catch (e) {
     return 'No text found';
   }

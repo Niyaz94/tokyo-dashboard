@@ -118,7 +118,7 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
 
   return {
     formData,formErrors,setFormData,handleFormChange,handleSave,
-    open,message,severity,closeSnackbar,setPageRedirect,isEdit,actionState,
+    open,message,severity,closeSnackbar,setPageRedirect,isEdit,actionState,setActionSate,
     responseData: isEdit ? editResponse?.data : response?.data,orignalResponse:fetchedData
     
   };

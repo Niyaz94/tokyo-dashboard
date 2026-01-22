@@ -9,6 +9,7 @@ export {default as CustomSwitch}            from './CustomSwitch';
 export {default as CustomDatePicker}        from './CustomDatePicker';
 export {default as ButtonTable}             from './ButtonTable';
 export {default as CustomSnackbar}          from './CustomSnackbar';
+export {default as PasswordField}          from './PasswordField';
 export {default as FileUpload}              from './FileUpload';
 export {default as ThreeStateButton}            from './ToggleButtonGroup'
 export {FormLayout}             from './FormLayout';

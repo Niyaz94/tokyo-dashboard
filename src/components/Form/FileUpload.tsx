@@ -133,7 +133,7 @@ const ImageUploadInput: React.FC<ImageUploadInputProps> = ({name,label = 'Upload
         return (
           <Grid key={index}>
             <Box position="relative" width={200}>
-              {["jpg","jpeg","png"].includes(file_format) || is_new_image? (
+              {["jpg","jpeg","png","webp","svg"].includes(file_format) || is_new_image? (
                 <ImagePreview
                   src={`${url.startsWith('blob') ? '' : 'http://127.0.0.1:8000/media/'}${url}`}
                   alt={file_name}

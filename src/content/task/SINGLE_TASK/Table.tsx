@@ -1,7 +1,6 @@
 import {useEffect, useMemo } from 'react';
 import {Divider,Box,Card} from '@mui/material';
 import CustomTableRow from './TableRow';
-import { useNavigate } from 'react-router-dom';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {axiosGetData} from '../../../utility/Axios'
 import {
@@ -26,8 +25,6 @@ const DataTable = () => {
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery}      = useTableGlobalFilters("singleTask");
   
-  // const onTableHeaderClick = 
-
   useEffect(() => {
     axiosGetData(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`).then((res) => {
       const {results,count,next,previous} = res.data;

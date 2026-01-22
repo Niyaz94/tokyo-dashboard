@@ -1,214 +1,76 @@
-import { useState,useEffect,useCallback,useRef,useMemo } from 'react';
-import { useNavigate,useParams }    from 'react-router-dom';
-import {Card,CardHeader,CardContent,Divider,Box,TextField} from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { filterStatusOptions_2 } from '../../../utility/function/data';
-
-import LexicalEditor                from '../../../components/Custom/Lexical/Editor';
-
-import {
-  CustomSnackbar,MultiButton,CustomDatePicker,StaticAutocomplete,FileUpload
-}       from '../../../components/Form';
-
-import {TomorrowSingleSampleInterface as SingleSampleInterface}  from 'src/utility/types/data_types';
-import { usePostAPI, useEditAPI, useFetch, FetchData,useSnackbar }  from "../../../utility/customHook";
-import {TopicFormIntialState}   from "../../../utility/function/defaultData"
-import {TopicFormIntialStateInterface as FormIntialStateInterface } from '../../../utility/types/Page';
-
-
+import { useState,useMemo,useEffect } from 'react';
+import { inputFields } from "./config";
+import { useAddEditPage,useTablePaginationHandlers}         from "../../../utility/customHook";
+import {FormLayout,FieldRenderer}       from '../../../components/Form';
+import {PasswordFormIntial}  from "../../../utility/function/defaultData"
+import { PasswordFormIRF } from '../../../utility/types/Page';
 import {usePageContext as usePage}      from '../../../store/context/pageContext';
 
-
 const CollapsibleForm = () => {
-  const {open,message,severity,showSnackbar,closeSnackbar} = useSnackbar();
 
-  const  {setTable,pageDefault,secondary} = usePage();
-
-
-  const navigate                = useNavigate();
-  const { id:edit_page_id }     = useParams();
-  const [formData, setFormData] = useState(TopicFormIntialState);
-
-  const selectDefaultValue = edit_page_id && pageDefault?.date?.value ? pageDefault.date : null;
-
-  const {type:topic_types} = secondary;
+  const { page,limit } = useTablePaginationHandlers('password');
   
-  const { data:fetchEditData,success:editReturnSuccess}: FetchData<FormIntialStateInterface>  = useFetch <FormIntialStateInterface>(edit_page_id ?`notes/topic/${edit_page_id}`: null,{});
-  const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
-  const { response:editResponse, loading:editLoading, error:editError, editData}        = useEditAPI();
-  const isFirstRender = useRef(true);
-  const [pageReDirect, setPageRedirect] = useState(false);
+  const  {table,setTable,secondary} = usePage();
+  const {type:password_types } = secondary;
+  const memPasswordTypes      = useMemo(() => password_types, []);
+  const [pageName,setPageName] = useState<string>("password_added");
+  
+  const {
+      formData,formErrors, handleFormChange, handleSave, setPageRedirect,
+      open, message, severity, closeSnackbar, isEdit,responseData,actionState,setActionSate
+  } = useAddEditPage<PasswordFormIRF>({
+      fetchUrl: (id) => `document/password/${id}`,
+      postUrl: "document/password/",
+      editUrl: (id) => `document/password/${id}/`,
+      initialState: PasswordFormIntial,
+      onSuccessRedirect: "/documents/password",
+      page_name: pageName,
+      bodyType:"JSON"
+  });
 
-  const saveReturn=()=>{
-    handleSave().then(()=>{setPageRedirect(true);})
-  }
-  const saveContinue=()=>{
-    handleSave().then(()=>{setPageRedirect(false);})
-  }
+  const saveReturn = () => { setPageRedirect(true); handleSave(); };
+  const saveContinue = () => { setPageRedirect(false); handleSave(); };
 
-  const handleSave = async () => {
-    const { id, ...dataToBeSent } = formData; // Destructure once
-    if (edit_page_id) {
-      console.log("dataToBeSent",formData);
-
-      await editData(`notes/topic/${edit_page_id}/`, formData,"FORM");
-    }else{
-      // console.log("dataToBeSent",dataToBeSent);
-      await postData("notes/topic/", dataToBeSent,"FORM");
-    }
-  };
-
+  // I'm not sure about the full logic for this page, for Password Page it work fine but there were many issues with other pages
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false; // skip the first run
-      return;
-    }
-    const postSuccess = response?.success;
-    const editSuccess = editResponse?.success;
+      if(Object.keys(responseData).length<=0 || !actionState){ 
+        return;
+      }
+      if (isEdit) {
+        setTable(prev =>prev.map(item =>item.id === responseData.id ? { ...responseData } : item));
+      } else {
+        if (page === 0 ) {
+          const newEntry = { ...responseData };
+          setTable(prev => {
+            const id_list=prev.map(({id})=>id)
+            if(!id_list.includes(newEntry.id)){
+              return [newEntry, ...(prev.length+1>limit?prev.slice(0, -1):prev)]
+            }else{
+              return prev
+            }
+          });
 
-    if (postSuccess && response?.data) {
-      setTable(prev => [response.data, ...prev]);
-    }
+        }
+      }
+      setActionSate(false)//without this line it does not work.
+    }, [actionState]);
 
-    if (editSuccess && editResponse?.data) {
-      setTable(prev => prev.map((item: SingleSampleInterface) =>
-        item.id === editResponse.data.id ? editResponse.data : item
-      ));
-    }
-    try {
-      // const errorMessage = post_api_error || editError;
-      const errorMessage = post_api_error.message || editError.message;
-
-      const success = postSuccess || editSuccess;
-      const successMessage = postSuccess ? 'Submitted successfully!' : editSuccess ? 'Edited successfully!' : null;
-
-      if (success) {
-        showSnackbar(successMessage, 'success');
-        setTimeout(() => {
-          if(pageReDirect) 
-            navigate('/improvment/topic');
-        }, 1500); 
-      } else 
-        showSnackbar(errorMessage, 'error');
-    } catch (error) {
-      showSnackbar('Network error. Please try again.', 'error');
-    } 
-  }, [response,editResponse]);
-
-
-
-  useEffect(() => {
-    if (Object.keys(fetchEditData).length > 0) {
-      setFormData(prev => ({...prev, ...fetchEditData}));
-    }
-  }, [fetchEditData]);
-
-  const handleFormChange = useCallback((key, value) => {
-    if (Array.isArray(key) && Array.isArray(value) && key.length === value.length) {
-      key.forEach((k, index) => {
-        setFormData((prev) => ({...prev,[k]: value[index]}));
-
-      });
-    }else{
-      setFormData((prev) => ({...prev,[key]: value}));
-    }
-  },[]); 
-
-  const cleanForm = () => {
-    setFormData(TopicFormIntialState)
-  };
-
-  return (
-      <Card>
-        <CardHeader title="Topics" />
-        <Divider />
-        <CardContent>
-          <Box component="form" noValidate autoComplete="off"
-            sx={{mt: 2,p: 2,display: 'flex',flexDirection: 'column',gap: 2,margin: '0 auto'}}
-          >
-            <Grid container spacing={2}>
-              <Grid size={4} sx={{paddingTop: "10px"}}>
-                <TextField
-                  label="Title"
-                  value={formData.title}
-                  onChange={(e) => handleFormChange('title', e.target.value)}
-                  fullWidth
-                />
-              </Grid>  
-              <Grid size={4} >
-                <CustomDatePicker
-                  label="Date"
-                  value={formData.date}
-                  placeholder=""
-                  onChange={(newValue) => handleFormChange('date', newValue )}
-                />
-              </Grid>
-              <Grid size={4} >
-                <CustomDatePicker
-                  label="Deadline"
-                  value={formData.deadline}
-                  placeholder=""
-                  onChange={(newValue) => handleFormChange('deadline', newValue )}
-                />
-              </Grid>
-              <Grid size={4}>
-                <StaticAutocomplete
-                  label="Topic Status"
-                  options={filterStatusOptions_2}
-                  defaultValue={filterStatusOptions_2.filter(({value}) =>value === formData.status)[0]}
-                  formKey="status"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                />
-              </Grid>
-              <Grid size={4}>
-                <StaticAutocomplete
-                  label="Topic Type"
-                  options={topic_types}
-                  defaultValue={topic_types.filter((item) => item.value === formData.type)[0]}
-                  formKey="type"
-                  showValueInLabel={false}
-                  onChange={handleFormChange}
-                  extraButton={true}
-                  buttonUrl={'/secondary/topic_type/add'}
-                />
-              </Grid>  
-              <Grid size={4} sx={{paddingTop: "10px"}}>
-                <TextField
-                  label={'Topic Priority (0-100)'}
-                  variant="outlined"
-                  fullWidth
-                  type="number"
-                  value={formData.priority}
-                  onChange={(e) =>
-                    handleFormChange('priority', e.target.value)
-                  }
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    htmlInput: { max: 100, min: 0, step: 1 }
-                  }}
-                />
-              </Grid>
-              <Grid size={12}>
-                <LexicalEditor value={formData.notes} onChange={handleFormChange} formKey="notes" label="Detail" height="750px"/>
-              </Grid> 
-              <Grid size={12}>
-                <FileUpload
-                  label="Profile Picture"
-                  multiple={true}
-                  name="image"
-                  initialImages={formData.url_image} // Edit case
-                  onChange={(files,filesUrl) => handleFormChange(['image','url_image'], [files,filesUrl] )}
-                />
-              </Grid>   
-              <Grid size={12}>
-                <MultiButton type={edit_page_id ?"edit":"insert"} saveContinue={saveContinue} saveReturn={saveReturn} returnUrl={'/improvment/topic'}/>
-                <CustomSnackbar open={open} message={message} severity={severity} onClose={closeSnackbar}/>
-              </Grid>
-            </Grid>
-          </Box>
-        </CardContent>
-      </Card>
+  return (        
+        <FormLayout
+          title="Password Form"
+          onSaveReturn={saveReturn}
+          onSaveContinue={saveContinue}
+          page_name={pageName}
+          isEdit={isEdit}
+          onSuccessRedirect="/documents/password"
+          snackbar={{ open, message, severity, onClose: closeSnackbar }}
+        >
+          {inputFields({memPasswordTypes}).filter(({fieldType})=>fieldType==="form").map((field, i) => {
+            return (
+            <FieldRenderer key={i} field={field} error={formErrors[field.key] || []} formData={formData} handleFormChange={handleFormChange} />
+          )
+          })}
+        </FormLayout>    
   );
 };
 export default CollapsibleForm;

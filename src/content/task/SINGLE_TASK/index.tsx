@@ -16,7 +16,7 @@ export default () =>{
     <PaginationProvider tableData={[]} secondaryData={data}>
       <Template templateTitle="Goals - Single Task">
         <Routes>
-          <Route index element={<PageTable />} />
+          <Route index element={<PageTable />}/>
           <Route path="add" element={<AddEdit />} />
           <Route path=":id" element={<AddEdit />} />
         </Routes>

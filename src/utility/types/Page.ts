@@ -233,3 +233,19 @@ export type DocumentFormIRF = {
   image: File[];
   url_image: string[];
 };
+
+
+   
+
+export interface PasswordFormIRF {
+  id: number;
+  notes: string; 
+  type_ids	:number[];
+  secrecy_level: string;
+  username: string;
+  password: string;
+  rpassword: string;
+  title: string;
+  url: string;
+  email:string;
+};

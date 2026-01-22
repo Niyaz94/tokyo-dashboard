@@ -2,7 +2,7 @@ import React, { memo,useMemo } from "react";
 import { TextField, Grid,FormControl } from "@mui/material";
 import { 
   TextSearch,CustomSwitch,DynamicAutocomplete,TimePickers, StaticAutocomplete,
-  ThreeStateButton,CustomDatePicker ,FilterField,FileUpload
+  ThreeStateButton,CustomDatePicker ,FilterField,FileUpload,PasswordField
 } from "./index";
 import LexicalEditor from "../Custom/Lexical/Editor";
 import dayjs                  from 'dayjs';
@@ -42,6 +42,51 @@ export const FieldRenderer = (({ field, formData, handleFormChange,isEdit,error 
         value={value}
         onChange={e => handleFormChange(field.key, e.target.value)}
         margin="dense"
+        slotProps={{
+          inputLabel: { shrink: true },
+        }}
+      />
+    );
+  }else if (field.type=="password"){
+    component= (
+      <PasswordField 
+        key={field.key} 
+        required={field.required || true} 
+        value={value} 
+        label={field.label} 
+        onChange={e => handleFormChange(field.key, e.target.value)}
+      />
+    );
+  }else if (field.type=="url"){
+    component= (
+      <TextField
+        fullWidth
+        variant="outlined"
+        required={field.required || true}
+        type={field.type}
+        label={field.label}
+        placeholder={field.label}
+        value={value}
+        onChange={e => handleFormChange(field.key, e.target.value)}
+        margin="dense"
+        slotProps={{
+          inputLabel: { shrink: true },
+        }}
+      />
+    );
+  }else if (field.type=="email"){
+    component= (
+      <TextField
+        fullWidth
+        variant="outlined"
+        required={field.required || true}
+        type={field.type}
+        label={field.label}
+        placeholder={field.label}
+        value={value}
+        onChange={e => handleFormChange(field.key, e.target.value)}
+        margin="dense"
+        autoComplete={field.type}
         slotProps={{
           inputLabel: { shrink: true },
         }}

@@ -113,8 +113,9 @@ export  const columnsTopic:Column[] = [
 
 export  const columnsDocument:Column[] = [
     { id:"",label: 'Created Date', align: 'left' },
-    { id:"",label: 'Document Types', align: 'center' },
-    { id:"",label: 'Title', align: 'center' },
+    { id:"",label: 'Types', align: 'center' },
+    { id:"",label: 'Source', align: 'center' },
+    { id:"",label: 'Details', align: 'center' },
     { id:"",label: 'Secrecy Level', align: 'center' },
     { id:"",label: 'Actions', align: 'center' }
 ];

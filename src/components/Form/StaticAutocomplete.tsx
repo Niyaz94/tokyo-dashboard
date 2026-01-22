@@ -38,20 +38,20 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
     buttonUrl="",
     error
 }) => {
-    console.log(
-        "---CustomAutocomplete---", 
-        label,
-        options,
-        formKey,
-        multiple,
-        onChange,
-        defaultValue,
-        disabled,
-        showValueInLabel,
-        extraButton, 
-        buttonUrl,
-        error
-    )
+    // console.log(
+    //     "---CustomAutocomplete---", 
+    //     label,
+    //     options,
+    //     formKey,
+    //     multiple,
+    //     onChange,
+    //     defaultValue,
+    //     disabled,
+    //     showValueInLabel,
+    //     extraButton, 
+    //     buttonUrl,
+    //     error
+    // )
     const navigate = useNavigate();
     const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue ?? []) : (defaultValue ?? null));
 

@@ -77,8 +77,8 @@ const slideBarItems: Record<string, SlideBarSection> = {
     isCollapse: true,
     children: [
       {title: 'Documents',                link: '/documents/document',     icon: <HistoryEdu />},
-      {title: 'Learn',                link: '/documents/learn',     icon: <SchoolIcon />},
-      {title: '+Passwords',                link: '/documents/password',     icon: <Password />}
+      {title: 'Learn',                    link: '/documents/learn',        icon: <SchoolIcon />},
+      {title: 'Passwords',                link: '/documents/password',     icon: <Password />}
     ],
   },
   myDailyLife: {

@@ -1,6 +1,13 @@
 import dayjs                  from 'dayjs';
 import { SleepFormStateInterface } from '../../utility/types/Page';
 
+
+
+const BasicForm1 = {
+  id: 0,
+  notes: '{}',
+}
+
 export const sleepFormIntialState:SleepFormStateInterface = {
   id: 0,
   // bedTime: dayjs(),
@@ -162,9 +169,9 @@ export const CategoryTypeFormIntialState = {
 };
 
 export const CurrencyFormIntialState = {
-  id: 0,
   name: "",
-  note: '',
+  id:0,
+  note:"{}",
   startDay: 1,
   maxAmount: 0
 };
@@ -197,12 +204,12 @@ export const TomorrowFormIntialStateInterface = {
   tomorrowNotes: '{}'
 };
 
+
 export const TopicFormIntialState = {
-  id: 0,
+  ...BasicForm1,
   date: dayjs().format('YYYY-MM-DD'),
   deadline: dayjs().endOf('month').format('YYYY-MM-DD'),
   type: null,
-  notes: '{}',
   status: '',
   title: '',
   image: [],
@@ -211,13 +218,24 @@ export const TopicFormIntialState = {
 };
 
 export const DocumentFormIntial = {
-  id: 0,
   type_ids	:[],
   secrecy_level: '',
-  notes: '{}',
   title: '',
   image: [],
   url_image: [],
+  ...BasicForm1
+};
+
+export const PasswordFormIntial = {
+  ...BasicForm1,
+  type_ids	:[],
+  secrecy_level: '',
+  username: '',
+  password: '',
+  rpassword: '',
+  title: '',
+  url: '',
+  email:''
 };
 
 export const IdeaFormIntialState = {
@@ -238,9 +256,8 @@ export const PageTypeFormIntialState = {
 };
 
 export const RecipeFormIntialStateInterface = {
-  id: 0,
+  ...BasicForm1,
   date: dayjs().format('YYYY-MM-DD'),
-  notes: '{}',
   delicious: '',
   title: '',
 };
