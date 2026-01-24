@@ -4,12 +4,10 @@ import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
 import { usePaginationContext } from '../../../store/context/paginationContext';
-import {axiosGetData} from '../../../utility/Axios'
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI} from '../../../utility/customHook';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
 import { columnsTask as columns } from '../../../utility/function/tableColumn';
 import {inputFields}              from './config';
-
 
 const TaskPageTable = React.memo(() => {
 
@@ -23,13 +21,11 @@ const TaskPageTable = React.memo(() => {
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("task");
 
 
-  useEffect(() => {
-    axiosGetData(`schedule/task/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
-      const {results,count,next,previous} = res.data;
-      setTable(results);
-      setPagination({count: count, next: next, previous: previous});
-    });
-  }, [ page, limit,filters]);
+  const {results,count,next,previous} = useAPI<any>(`schedule/task/?${filterQuery}page=${page+1}&page_size=${limit}`);
+  useEffect(() => {    
+    setTable(results);
+    setPagination({count: count, next: next, previous: previous});
+  }, [ count,next,previous]);
 
   const memoFilterPanel=useMemo(()=>{
     return (<FilterPanel

@@ -2,15 +2,13 @@ import {useEffect, useMemo } from 'react';
 import {Divider,Box,Card} from '@mui/material';
 import CustomTableRow from './TableRow';
 import { usePaginationContext } from '../../../store/context/paginationContext';
-import {axiosGetData} from '../../../utility/Axios'
 import {
-  useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters
+  useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI
 } from '../../../utility/customHook';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel,TableHeader} from '../../../components/Table';
 import { columnsSingleTask as columns } from '../../../utility/function/tableColumn';
 import {inputFields} from './config';
 import {StatusCase2 } from '../../../utility/function/data';
-
 
 const DataTable = () => {
   console.log("Single Task DataTable")
@@ -24,14 +22,13 @@ const DataTable = () => {
   const {deleteTableRow}                              = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery}      = useTableGlobalFilters("singleTask");
-  
-  useEffect(() => {
-    axiosGetData(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`).then((res) => {
-      const {results,count,next,previous} = res.data;
-      setTable(results?results:[]);
-      setPagination({count: count, next: next, previous: previous});
-    });
-  }, [ page, limit,filters,fieldName,order]);
+
+
+  const {results,count,next,previous} = useAPI<any>(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`);
+  useEffect(() => {    
+    setTable(results);
+    setPagination({count: count, next: next, previous: previous});
+  }, [count,next,previous]);
 
   const memoFilterPanel=useMemo(()=>{
     return (<FilterPanel

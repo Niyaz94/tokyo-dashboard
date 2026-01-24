@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
 
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../store/Reducer';
+
 export interface FetchData<S> {
     data: S;
     loading: boolean;
@@ -14,12 +17,25 @@ const useGetAPI = <T,>(url: string,default_value:any): FetchData<T> => {
   const [loading,  setLoading] = useState<boolean>(true);
   const [success,  setSuccess] = useState<boolean>(false);
 
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+  
+
   const fetchData = async () => {
     setLoading(true);
     setError(null); 
 
+    let requestHeader={}
+    if(loginDetail.token){
+      requestHeader={
+          Authorization: `Token ${loginDetail.token}`,
+      }
+    }
+
     try {     
-      const get_response = await fetch(`http://127.0.0.1:8000/${url}`);
+      //  
+      const get_response = await fetch(`http://127.0.0.1:8000/${url}`,{
+        headers: requestHeader
+      });
       const result = await get_response.json();
       setData(result);
       setSuccess(true);

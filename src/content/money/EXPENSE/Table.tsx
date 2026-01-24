@@ -9,6 +9,8 @@ import { usePaginationContext } from '../../../store/context/paginationContext';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
 import {columnsExpense as columns} from '../../../utility/function/tableColumn';
 
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../../store/Reducer';
 import CurrencyPanel from './currencyPanel';
 import { expenseFormFields } from "./config";
 import dayjs from 'dayjs';
@@ -29,6 +31,9 @@ const DataTable = () => {
   const navigate = useNavigate();
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);  
+
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
 
   const removeFromCurrencyTotalSpend = (id) => {
     const expenseItem = tableData.find(item => item.id === id);
@@ -53,7 +58,7 @@ const DataTable = () => {
         navigate(".", {replace: true,state: { page_name: "expense_list" }});
         return ;
       }
-      axiosGetData(`money/expense/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
+      axiosGetData(`money/expense/?${filterQuery}page=${page+1}&page_size=${limit}`,loginDetail.token).then((res) => {
         const {results,count,next,previous} = res.data;
         setTable(results);
         setPagination({count: count, next: next, previous: previous});

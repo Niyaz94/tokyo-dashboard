@@ -1,25 +1,17 @@
 import React, { useState,useEffect } from 'react';
 import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  TextField,
-  Button,
-  Typography,
-  Link,
-  CircularProgress,
-  Snackbar,
-  Alert
+  Box,Card,CardContent,CardHeader,TextField,Button,
+  Typography,Link,CircularProgress,Snackbar,Alert
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch ,useSelector}          from 'react-redux'
+import {login}                from '../../../store/slice/login';
+import { RootState }                from '../../../store/Reducer';
 
-import { usePostAPI }         from "../../../utility/customHook";
 
 const Login: React.FC = () => {
 
-    const { loading:post_api_loading, error:post_api_error, success,response, postData}   = usePostAPI();
-    
+    const dispatch        = useDispatch<any>();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({ username: '', password: '' });
@@ -29,6 +21,9 @@ const Login: React.FC = () => {
       severity: 'success' as 'success' | 'error' 
     });
 
+
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -36,23 +31,22 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
-    await postData("users/login/", form,"JSON",200);
-
+    dispatch(login(form));
   };
 
    useEffect(() => {
 
-      console.log("1",success,response)
-      if (success) {
+      const {isLoading,isAuthenticated,error}= loginDetail
+
+      if (!isLoading && isAuthenticated && error==null) {
         setSnackbar({ open: true, message: 'Login successful!', severity: 'success' });
         setLoading(false);
         setTimeout(()=>navigate('/dashboard'),1000);
-      }else if(success==false && response!=null){
+      }else{
         setSnackbar({ open: true, message: 'Invalid credentials', severity: 'error' });
         setLoading(false);
       }
-    }, [success,response]);
+    }, [loginDetail]);
 
   return (
     <Box

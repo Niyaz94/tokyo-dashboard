@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../store/Reducer';
+
 interface ApiResponse {
   success: boolean;
   data?: any;
@@ -11,6 +15,9 @@ const usePostAPI =() => {
   const [loading,  setLoading]  = useState<boolean>(true);
   const [success,  setSuccess]  = useState<boolean>(false);
   const [error, setError] = useState<{message:string,errors:Record<string,any>}>({message:"",errors:{}});
+
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
 
 
   const postData = async (url:string,body:any,bodyType:string="JSON",successState=201) => {
@@ -49,6 +56,10 @@ const usePostAPI =() => {
       let headers = {};
       if (bodyType==="JSON")  
         headers= {'Content-Type': 'application/json'}
+
+      if(loginDetail.token){
+        headers["Authorization"]=`Token ${loginDetail.token}`
+      }
         
       const requestOptions = {
         method: "POST",

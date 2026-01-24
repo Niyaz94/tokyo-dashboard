@@ -5,6 +5,7 @@ import AddEdit                        from './AddEdit';
 import {TaskUniqueInterface}          from 'src/utility/types/data_types';
 import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
+import ErrorHandler                   from '../../../components/Custom/ErrorTemplate';
 
 
 export default () =>{
@@ -21,7 +22,7 @@ export default () =>{
     <PaginationProvider secondaryData={data}>
       <Template templateTitle="Goals - Task" >
         <Routes>
-          <Route path=""    element={<PageTable />} />
+          <Route path=""    element={<ErrorHandler><PageTable /></ErrorHandler>} />
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>

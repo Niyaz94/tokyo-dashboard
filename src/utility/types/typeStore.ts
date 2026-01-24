@@ -58,7 +58,8 @@ export interface singleTitle{
 export interface AuthState {
     isAuthenticated: boolean;
     token: string | null;
-    user: string | null; // Replace 'any' with your user type
+    userId:number;
+    username:string;
     isLoading: boolean;
     error: string | null;
   }

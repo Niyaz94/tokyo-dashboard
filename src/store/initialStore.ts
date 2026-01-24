@@ -52,7 +52,8 @@ export const titleInitialState: titleState = {
 export const loginInitialState: AuthState = {
   isAuthenticated: false,
   token: null,
-  user: null,
+  userId: 0,
+  username:'',
   isLoading: false,
   error: null
 };

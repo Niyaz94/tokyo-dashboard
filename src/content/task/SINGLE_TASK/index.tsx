@@ -5,6 +5,7 @@ import AddEdit                        from './AddEdit';
 import {SingleTaskUniqueInterface}    from 'src/utility/types/data_types';
 import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
+import ErrorHandler                   from '../../../components/Custom/ErrorTemplate';
 
 export default () =>{
   const { data,success}: FetchData<SingleTaskUniqueInterface> = useFetch <SingleTaskUniqueInterface>('schedule/stask/unique',{type:[]});
@@ -16,7 +17,7 @@ export default () =>{
     <PaginationProvider tableData={[]} secondaryData={data}>
       <Template templateTitle="Goals - Single Task">
         <Routes>
-          <Route index element={<PageTable />}/>
+          <Route path=""    element={<ErrorHandler><PageTable /></ErrorHandler>} />
           <Route path="add" element={<AddEdit />} />
           <Route path=":id" element={<AddEdit />} />
         </Routes>

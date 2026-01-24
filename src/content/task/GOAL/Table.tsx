@@ -1,27 +1,26 @@
-import { FC, ChangeEvent, useState, useEffect } from 'react';
+import {ChangeEvent, useState, useEffect } from 'react';
 import {
   Divider,Box,FormControl,InputLabel,Card,Checkbox,Table,TableBody,TableCell,TableHead,TableRow,
   TableContainer,Select,MenuItem,Typography,CardHeader,Button
 } from '@mui/material';
-import BulkActions from '../../../components/Table/TableHeaderMultiActions';
 import CustomPagination from '../../../components/Table/Pagination';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
-import useDeleteAPI from '../../../utility/customHook/useDeleteAPI';
+import {useDeleteAPI,useAPI} from '../../../utility/customHook';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
 import { useSelector,useDispatch }    from 'react-redux';
 import { RootState }                  from '../../../store/Reducer';
 import {setPage,setLimit}             from '../../../store/slice/tablePagination';
-import {axiosGetData} from '../../../utility/Axios'
 import { SelectChangeEvent } from "@mui/material";
-
 
 const DataTable = () => {
   const { page, limit } = useSelector((state: RootState) => state.tablePagination.filter((item) => item.name === 'goal')[0]);
   const dispatch        = useDispatch();
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const {goal_status,goal_level} = secondary;
+
+
 
   const navigate = useNavigate();
   const {deleteData} = useDeleteAPI();
@@ -48,13 +47,11 @@ const DataTable = () => {
     }
   };
 
-  useEffect(() => {
-    axiosGetData(`schedule/goal/?importanceLevel=${filters.importance}&difficultyLevel=${filters.difficulty}&currentStatus=${filters.status.toUpperCase()}&page=${page+1}&page_size=${limit}`).then((res) => {
-      const {results,count,next,previous} = res.data;
-      setTable(results);
-      setPagination({count: count, next: next, previous: previous});
-    });
-  }, [ page, limit,filters]);
+  const {results,count,next,previous} = useAPI<any>(`schedule/goal/?importanceLevel=${filters.importance}&difficultyLevel=${filters.difficulty}&currentStatus=${filters.status.toUpperCase()}&page=${page+1}&page_size=${limit}`);
+  useEffect(() => {    
+    setTable(results);
+    setPagination({count: count, next: next, previous: previous});
+  }, [count,next,previous]);
 
 
   // It uses for controlling filter selection in the left top cornor of the table

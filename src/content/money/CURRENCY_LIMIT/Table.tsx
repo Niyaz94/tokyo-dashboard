@@ -10,6 +10,9 @@ import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '.
 import {columnsCurrencyLimit as columns} from '../../../utility/function/tableColumn';
 import { formFields } from "./config";
 
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../../store/Reducer';
+
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('currencyLimit');
@@ -22,8 +25,11 @@ const DataTable = () => {
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
+
   useEffect(() => {
-      axiosGetData(`money/currency_limit/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
+      axiosGetData(`money/currency_limit/?${filterQuery}page=${page+1}&page_size=${limit}`,loginDetail.token).then((res) => {
         const {results,count,next,previous} = res.data;
         setTable(results);
         setPagination({count: count, next: next, previous: previous});

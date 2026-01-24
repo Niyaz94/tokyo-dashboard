@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../store/Reducer';
+
 interface ApiResponse {
   success: boolean;
   data?: any;
@@ -13,10 +17,15 @@ const useEditAPI = () => {
   const [success,  setSuccess]  = useState<boolean>(false);
   
 
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
+
   const editData = async (url: string, body: any,bodyType:string="JSON", method: "PUT" | "PATCH" = "PUT",successState=200) => {
     setLoading(true);
     setResponse(null);
     setError({message:"",errors:{}});
+
+
 
     try {
       let preData;
@@ -50,6 +59,11 @@ const useEditAPI = () => {
         headers= {
             'Content-Type': 'application/json'
         }
+      
+      if(loginDetail.token){
+        headers["Authorization"]=`Token ${loginDetail.token}`
+      }
+
       const requestOptions = {
         method: method,
         headers,

@@ -9,6 +9,7 @@ export { useTableSelection } from "./useTableSelection";
 export { useTableFilters } from "./useTableFilters";
 export {useStaticTableFilters} from "./useStaticTableFilters"
 export {useAddEditPage}     from "./useAddEditPage"
+export {useAPI}     from "./useAPI"
 
 export {useTableGlobalFilters} from "./useTableGlobalFilters"
 

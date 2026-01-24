@@ -12,12 +12,17 @@ import {SelectableTable,TablePagination as CustomPagination,TableHeaderButton} f
 import {columnsToday as columns} from '../../../utility/function/tableColumn';
 import {axiosGetData} from '../../../utility/Axios'
 
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../../store/Reducer';
 
 const DataTable = () => {
 
   const { page, limit, handlePageChange, handleLimitChange } = useTablePaginationHandlers('today');
   const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
+
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
 
 
   const navigate = useNavigate();
@@ -27,7 +32,7 @@ const DataTable = () => {
   const [filters, setFilters] = useState<Filters>({ status: null });
 
   useEffect(() => {
-      axiosGetData(`notes/daily/?page=${page+1}&page_size=${limit}`).then((res) => {
+      axiosGetData(`notes/daily/?page=${page+1}&page_size=${limit}`,loginDetail.token).then((res) => {
         const {results,count,next,previous} = res.data;
         setTable(results);
         setPagination({count: count, next: next, previous: previous});

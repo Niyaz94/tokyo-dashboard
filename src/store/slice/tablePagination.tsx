@@ -1,6 +1,5 @@
 import { createSlice,PayloadAction } from '@reduxjs/toolkit';
 import {tablePaginationInit} from "../initialStore"
-import { set } from 'date-fns';
 
 
 const tablePaginationSlice = createSlice({

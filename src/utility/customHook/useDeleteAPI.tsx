@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../store/Reducer';
+
 interface ApiResponse {
   success: boolean;
   data?: any;
@@ -11,15 +15,26 @@ const useDeleteAPI = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
+
   const deleteData = async (url: string, body?:any) => {
     setLoading(true);
     setResponse(null);
     setError("");
 
+    let requestHeader={}
+    if(loginDetail.token){
+      requestHeader={
+          Authorization: `Token ${loginDetail.token}`,
+      }
+    }
+
     try {
       const res = await fetch(`http://127.0.0.1:8000/${url}`, {
         method: "DELETE",
         body: body ? body : null,
+        headers: requestHeader
       });
 
       if (!res.ok) {

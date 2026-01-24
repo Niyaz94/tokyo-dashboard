@@ -16,13 +16,13 @@ dayjs.extend(isBetween);
 const AddEdit =  ()  => {
 
   const  {secondary,setTable,setSecondary}               = usePage();
-  const { page } = useTablePaginationHandlers('expense');
+  const { page,limit } = useTablePaginationHandlers('expense');
   
   const { type:expense_category,currency:expense_currency} = secondary;
   const [pageName,setPageName] = useState<string>("expense_added");
 
   const {
-    formData,formErrors, handleFormChange, handleSave, setPageRedirect,
+    formData,formErrors, handleFormChange, handleSave, setPageRedirect,setActionSate,
     open, message, severity, closeSnackbar, isEdit,responseData,actionState,orignalResponse
   } = useAddEditPage<ExpenseFormIntialStateInterface>({
     fetchUrl: (id) => `money/expense/${id}`,
@@ -37,7 +37,10 @@ const AddEdit =  ()  => {
   const saveContinue = () => { setPageRedirect(false); handleSave(); };
 
   useEffect(() => {
-    if (!actionState) return;
+    // if (!actionState) return;
+    if(Object.keys(responseData).length<=0 || !actionState){ 
+      return;
+    }
 
     const { amount, currency_name, date, consider } = responseData;
     const parsedDate = dayjs(date);
@@ -76,20 +79,39 @@ const AddEdit =  ()  => {
       });
     };
 
-    if (isEdit) {
-      setTable(prev =>
-        prev.map(item =>
-          item.id === responseData.id ? { ...responseData } : item
-        )
-      );
-      setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
-    } else {
-      if (page === 0) {
-        const newEntry = { ...responseData };
-        setTable(prev => [newEntry, ...prev.slice(0, -1)]);
+    // if (isEdit) {
+    //   setTable(prev =>
+    //     prev.map(item =>
+    //       item.id === responseData.id ? { ...responseData } : item
+    //     )
+    //   );
+    //   setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
+    // } else {
+    //   if (page === 0) {
+    //     const newEntry = { ...responseData };
+    //     setTable(prev => [newEntry, ...prev.slice(0, -1)]);
+    //   }
+    //   setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
+    // }
+    
+      if (isEdit) {
+        setTable(prev =>prev.map(item =>item.id === responseData.id ? { ...responseData } : item));
+        setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
+      } else {
+        if (page === 0 ) {
+          const newEntry = { ...responseData };
+          setTable(prev => {
+            const id_list=prev.map(({id})=>id)
+            if(!id_list.includes(newEntry.id)){
+              return [newEntry, ...(prev.length+1>limit?prev.slice(0, -1):prev)]
+            }else{
+              return prev
+            }
+          });
+          setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
+        }
       }
-      setSecondary(prev => ({...prev,currency_detail: updateCurrencyDetail(prev)}));
-    }
+      setActionSate(false)//without this line it does not work.
   }, [actionState]);
  // I think this not usually correct
 

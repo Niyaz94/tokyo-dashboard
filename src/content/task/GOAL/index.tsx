@@ -2,16 +2,14 @@ import Template                       from '../../../components/Page/Template';
 import useFetch, {FetchData}          from '../../../utility/customHook/useGetAPI';
 import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
-import { PaginationTableDataInterface,GoalSampleInterface,GoalUniqueInterface}   from 'src/utility/types/data_types';
+import {GoalUniqueInterface}          from 'src/utility/types/data_types';
 import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
-
+import ErrorHandler                   from '../../../components/Custom/ErrorTemplate';
 
 export default () =>{
-  const { data,success}: FetchData<PaginationTableDataInterface<GoalSampleInterface>> = useFetch <PaginationTableDataInterface<GoalSampleInterface>>('schedule/goal',{results:[],count:0,next:null,previous:null});
-  const {results,count,next,previous} = data;
 
-  const { data:unique_data,success:unque_success}: FetchData<GoalUniqueInterface> = useFetch <GoalUniqueInterface>('schedule/goal/unique',{
+  const { data:unique_data,success}: FetchData<GoalUniqueInterface> = useFetch <GoalUniqueInterface>('schedule/goal/unique',{
     goal_status:[], goal_level:[]
   });
 
@@ -20,14 +18,10 @@ export default () =>{
   }
 
   return (
-    <PaginationProvider 
-      tableData={results} 
-      secondaryData={unique_data} 
-      paginData={{count: count, next: next, previous: previous}}
-    >
+    <PaginationProvider secondaryData={unique_data} >
       <Template templateTitle="Goals - Goal">
         <Routes>
-          <Route path=""    element={<PageTable />} />
+          <Route path=""    element={<ErrorHandler><PageTable /></ErrorHandler>} />
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>

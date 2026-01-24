@@ -1,13 +1,12 @@
-import {useEffect } from 'react';
+import {useEffect} from 'react';
+
 import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import CustomTableRow from './TableRow';
 import { useNavigate } from 'react-router-dom';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI} from '../../../utility/customHook';
 import { usePaginationContext } from '../../../store/context/paginationContext';
-import {axiosGetData} from '../../../utility/Axios'
 import {inputFields} from './config';
 import {SelectableTable,TablePagination,TableHeaderButton,FilterPanel} from '../../../components/Table';
-
 import {columnsTaskStatus as columns} from '../../../utility/function/tableColumn';
 
 const DataTable = () => {
@@ -21,14 +20,11 @@ const DataTable = () => {
   const {selectedIds,setSelectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
   const {filters,handleFilterChange,filterQuery} = useTableGlobalFilters("taskStatus");
 
+  const {results,count,next,previous} = useAPI<any>(`schedule/task_status/plist/?${filterQuery}page=${page+1}&page_size=${limit}`);
   useEffect(() => {    
-    axiosGetData(`schedule/task_status/plist/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
-      const {results,count,next,previous} = res.data;
-      setTable(results);
-      setPagination({count: count, next: next, previous: previous});
-    });
-
-  }, [ page, limit,filters]);
+    setTable(results);
+    setPagination({count: count, next: next, previous: previous});
+  }, [ count,next,previous]);
 
   const deleteTableRow = async (id) => {
     await deleteData(`schedule/task_status/${id}/`);
@@ -79,17 +75,17 @@ const DataTable = () => {
           />
         )}
         <Divider />
-        <SelectableTable
-          data={tableData} columns={columns} selectedIds={selectedIds}
-          onSelectAll={handleSelectAll}
-          onSelectOne={handleSelectOne}
-          renderRow={(row) => (
-            <CustomTableRow
-              key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
-              handleSelectOneData={handleSelectOne} onDeleteRow={deleteTableRow}
-            />
-          )}
-        />
+          <SelectableTable
+            data={tableData} columns={columns} selectedIds={selectedIds}
+            onSelectAll={handleSelectAll}
+            onSelectOne={handleSelectOne}
+            renderRow={(row) => (
+              <CustomTableRow
+                key={row.id} data={row} isDataSelected={selectedIds.includes(row.id)}
+                handleSelectOneData={handleSelectOne} onDeleteRow={deleteTableRow}
+              />
+            )}
+          />
         <TablePagination
           count={pagination.count}
           page={page}
@@ -99,7 +95,6 @@ const DataTable = () => {
         />
       </Card>
     </>
-    
   );
 };
 export default DataTable;

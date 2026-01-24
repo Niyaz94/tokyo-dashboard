@@ -17,11 +17,12 @@ const authSlice = createSlice({
     loginStart(state) {
       state.isLoading = true;
     },
-    loginSuccess(state, action: PayloadAction<{ token: string; user: any }>) {
+    loginSuccess(state, action: PayloadAction<{ token: string; userId: number,username:string }>) {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.userId = action.payload.userId;
+      state.username = action.payload.username;
       state.error = null;
     },
     loginFailure(state, action: PayloadAction<string>) {
@@ -31,7 +32,8 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       state.token = null;
-      state.user = null;
+      state.userId = 0;
+      state.username = "";
     },
   },
   extraReducers: (builder) => builder.addCase(resetAll, () => loginInitialState)
@@ -45,11 +47,11 @@ export default authSlice.reducer;
 export const login = (credentials: { username: string; password: string }): AppThunk => async (dispatch) => {
     dispatch(loginStart());
     try {
-      const response = await api.post('api/token/', credentials);
+      const response = await api.post("users/login/", credentials);
 
-      const { token, user } = response.data;
+      const { token, userId,username } = response.data;
       localStorage.setItem('token', token);
-      dispatch(loginSuccess({ token, user }));
+      dispatch(loginSuccess({ token, userId,username }));
     } catch (error) {
         if (error instanceof Error) {
             dispatch(loginFailure(error.message));
