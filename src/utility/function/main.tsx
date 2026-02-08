@@ -114,6 +114,9 @@ export const createMapLabelData  = (values:string[],pos:number[]=[])=>{
 export const capitalizeFirstLetterOfWords= (str) => {
   return str.toString().replace(/_/gi, " ").replace(/\b\w/g, char => char.toUpperCase());
 }
+export const capitalizeFirstLetterOfWords_v2= (str) => {
+  return str.toString().replace(/_/gi, " ").replace(/\b\w/g, char => char.toUpperCase());
+}
 
 export const createSelectMap = (values: string[],mappingType:string="object"): { label: string; value: string|number }[] => {
 
@@ -141,26 +144,26 @@ const handleChange = (
 };
 
 
-export const dailySearch = async (query) => {
-  const res = axiosGetData(`notes/daily/query_date/?query=${query}`);
+export const dailySearch = async (query,token="") => {
+  const res = axiosGetData(`notes/daily/query_date/?query=${query}`,token);
   const {data} = await res;
   return  data ?? [];
 }
 
-export const monthlySearch = async (query) => {
-  const res = axiosGetData(`schedule/task/query_month/?query=${query}`);
+export const monthlySearch = async (query,token="") => {
+  const res = axiosGetData(`schedule/task/query_month/?query=${query}`,token);
   const {data} = await res;
   return  data ?? [];
 }
 
-export const goalSearch = async (query) => {
-  const res = axiosGetData(`schedule/task/query_goal/?query=${query}`);
+export const goalSearch = async (query,token="") => {
+  const res = axiosGetData(`schedule/task/query_goal/?query=${query}`,token);
   const {data} = await res;
   return  data ?? [];
 }
 
-export const taskSearch = async (query) => {
-  const res = axiosGetData(`schedule/task/query_task/?query=${query}`);
+export const taskSearch = async (query,token="") => {
+  const res = axiosGetData(`schedule/task/query_task/?query=${query}`,token);
   const {data} = await res;
   return  data ?? [];
 }

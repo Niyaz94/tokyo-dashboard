@@ -14,6 +14,8 @@ import dayjs                           from "dayjs";
 
 function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
 
+  // console.log("Rendering TableRow for id:", data, "isDataSelected:", isDataSelected);
+
   const { secondary } = usePaginationContext();
   const {type:single_task_type } = secondary;
   const taskStatusMap = createMapLabelData(single_task_status.map(({value})=>value.toLowerCase()));
@@ -45,7 +47,7 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
       </NewCell>
       <NewCell csx={{width:'25%', padding:"8px"}} props={{ align: 'center' }}>
         <Stack direction="row" fontWeight='bold' sx={{ justifyContent: 'center', alignItems: 'center' ,flexWrap: 'wrap',rowGap:"3px",columnGap:"2px"}} spacing={0.5}> 
-            {type_names.map((type_name)=>(<ColorLabelComponent color={(taskTypeNameMap[type_name]?.color ?? "error") as colorType} tooltip={"Single Task Type Name"}>
+            {type_names && type_names.map((type_name)=>(<ColorLabelComponent color={(taskTypeNameMap[type_name]?.color ?? "error") as colorType} tooltip={"Single Task Type Name"}>
               {`${taskTypeNameMap[type_name]?.text ?? "Not Found"}`}
             </ColorLabelComponent>))}
         </Stack>

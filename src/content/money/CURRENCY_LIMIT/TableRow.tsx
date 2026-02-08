@@ -47,7 +47,9 @@ function CustomTableRow({data,isDataSelected,handleSelectOneData,onDeleteRow}) {
         prop={[
           {
             text: labelWithColor(
-              `${capitalizeFirstLetterOfWords(currencyTypeMap[currency_name].text)}`,currencyTypeMap[currency_name].color,'Currency Type'
+              `${capitalizeFirstLetterOfWords(currencyTypeMap[currency_name]?.text || "Unknown")}`,
+              currencyTypeMap[currency_name]?.color || 'error',
+              'Currency Type'
             ),
             styleType: 1
           }

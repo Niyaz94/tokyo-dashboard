@@ -9,9 +9,17 @@ export default () => {
   const [severity, setSeverity] = useState<SnackbarType>('info');
 
   const showSnackbar = (msg: string, type: SnackbarType = 'info') => {
-    setMessage(msg);
-    setSeverity(type);
-    setOpen(true);
+
+    // if (msg.length==0 && type === 'error') {
+    //   msg = "An unknown error occurred.";
+    // }
+
+    if (msg.length >0) {
+      setMessage(msg);
+      setSeverity(type);
+      setOpen(true);
+    }
+    
   };
 
   const closeSnackbar = () => {

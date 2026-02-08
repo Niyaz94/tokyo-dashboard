@@ -1,6 +1,6 @@
 // hooks/useAddEditPage.ts
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { usePostAPI, useEditAPI, useFetch, useSnackbar } from "./";
 
 interface AddEditOptions<T> {
@@ -9,12 +9,14 @@ interface AddEditOptions<T> {
   editUrl: (id: string) => string;
   initialState: T;
   setTable?: (updater: (prev: T[]) => T[]) => void;
+  // setTable?: React.Dispatch<React.SetStateAction<any>>;
+  setUseTableData?: (prev:boolean) => void;
   onSuccessRedirect?: string;
   page_name?: string;
   bodyType?:string;
 }
 
-export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, setTable, onSuccessRedirect,page_name="",bodyType="JSON"}: AddEditOptions<T>) {
+export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, setTable,setUseTableData, onSuccessRedirect,page_name="",bodyType="JSON"}: AddEditOptions<T>) {
   const { id } = useParams();
   const isEdit = !!id;
   const isFirstRender = useRef(true);
@@ -97,17 +99,28 @@ export function useAddEditPage<T>({fetchUrl, postUrl, editUrl, initialState, set
 
 
     if (postSuccess || editSuccess) {
-      console.log("useEffect (inside useAddEditPage) success")
+
+
+      if (postSuccess && setTable) {
+        setTable((prev) => [...prev, response.data]);
+        setUseTableData(false);
+      }
+      if (editSuccess && setTable) {
+        setTable((prev) =>
+          prev.map((item:T) => item["id"] === editResponse.data.id ? { ...editResponse.data } : item)
+        );
+        setUseTableData(false);
+      }
 
       setActionSate((isEdit ? editSuccess : postSuccess) || false);
       showSnackbar(postSuccess ? "Submitted successfully!" : "Edited successfully!", "success");
       setTimeout(() => {
         if (pageRedirect && onSuccessRedirect) navigate(onSuccessRedirect, {state:{page_name}});
       }, 1500);
-    } else if (postError || editError) {
-      console.log("useEffect (inside useAddEditPage) fail")
-      setActionSate(false);
 
+
+    } else if (postError || editError) {
+      setActionSate(false);
       showSnackbar(postError.message || editError.message, "error");
 
       const firstNonEmpty = (...objs: any[]) =>objs.find(obj => obj && Object.keys(obj).length > 0) || {};

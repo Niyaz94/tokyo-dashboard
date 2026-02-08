@@ -1,17 +1,12 @@
 import { useEffect } from 'react';
 import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import CustomTableRow from './TableRow';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
-import {axiosGetData} from '../../../utility/Axios'
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI} from '../../../utility/customHook';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';
 import {columnsCurrencyLimit as columns} from '../../../utility/function/tableColumn';
 import { formFields } from "./config";
-
-import { useSelector}          from 'react-redux'
-import { RootState }                from '../../../store/Reducer';
 
 const DataTable = () => {
 
@@ -25,16 +20,12 @@ const DataTable = () => {
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
-  const loginDetail = useSelector((state: RootState) =>state.auth);
 
-
-  useEffect(() => {
-      axiosGetData(`money/currency_limit/?${filterQuery}page=${page+1}&page_size=${limit}`,loginDetail.token).then((res) => {
-        const {results,count,next,previous} = res.data;
-        setTable(results);
-        setPagination({count: count, next: next, previous: previous});
-      });
-  }, [ page, limit,filters]);
+    const {results,count,next,previous} = useAPI<any>(`money/currency_limit/?${filterQuery}page=${page+1}&page_size=${limit}`);
+    useEffect(() => {    
+      setTable(results);
+      setPagination({count: count, next: next, previous: previous});
+    }, [count,next,previous]);
 
   return (
     <>

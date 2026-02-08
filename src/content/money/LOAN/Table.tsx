@@ -1,18 +1,14 @@
 import { useEffect } from 'react';
 import {Divider,Box,FormControl,Card,Typography,CardHeader,Button} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-
-// import BulkActions from './BulkActions';
 import CustomTableRow from './TableRow';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters} from '../../../utility/customHook';
-import {axiosGetData} from '../../../utility/Axios'
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableFilters,useAPI} from '../../../utility/customHook';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 
 import {SelectableTable,TablePagination as CustomPagination} from '../../../components/Table';
 
-import {CustomDatePicker,StaticAutocomplete}       from '../../../components/Form';
-import {columnsLoan as columns} from '../../../utility/function/tableColumn';
+import {CustomDatePicker,StaticAutocomplete}        from '../../../components/Form';
+import {columnsLoan as columns}                     from '../../../utility/function/tableColumn';
 
 const DataTable = () => {
 
@@ -24,14 +20,13 @@ const DataTable = () => {
   const {deleteTableRow} = useDeleteAPI();
   const {selectedIds,handleSelectOne,handleSelectAll} = useTableSelection(tableData);
 
-  useEffect(() => {
-      axiosGetData(`money/loan/?${filterQuery}page=${page+1}&page_size=${limit}`).then((res) => {
-        const {results,count,next,previous} = res.data;
-        setTable(results);
-        setPagination({count: count, next: next, previous: previous});
-      });
-  }, [ page, limit,filters]);
 
+  const {results,count,next,previous} = useAPI<any>(`money/loan/?${filterQuery}page=${page+1}&page_size=${limit}`);
+  useEffect(() => {    
+    setTable(results);
+    setPagination({count: count, next: next, previous: previous});
+  }, [count,next,previous]);
+  
   return (
     <Card>
       {selectedIds.length>0 && (

@@ -9,6 +9,9 @@ import {axiosGetData} from '../../../utility/Axios'
 import Grid from '@mui/material/Grid';
 import CustomAlert                  from '../../../components/Custom/Alert';
 import dayjs from 'dayjs';
+
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../../store/Reducer';
 import isBetween from 'dayjs/plugin/isBetween'
 dayjs.extend(isBetween);
 
@@ -21,6 +24,9 @@ const AddEdit =  ()  => {
   const { type:expense_category,currency:expense_currency} = secondary;
   const [pageName,setPageName] = useState<string>("expense_added");
 
+  const loginDetail = useSelector((state: RootState) =>state.auth);
+
+
   const {
     formData,formErrors, handleFormChange, handleSave, setPageRedirect,setActionSate,
     open, message, severity, closeSnackbar, isEdit,responseData,actionState,orignalResponse
@@ -30,7 +36,7 @@ const AddEdit =  ()  => {
     editUrl: (id) => `money/expense/${id}/`,
     initialState: ExpenseFormIntialState,
     onSuccessRedirect: "/transactions/expense",
-    page_name: pageName
+    page_name: pageName,
   });
 
   const saveReturn = () => { setPageRedirect(true); handleSave(); };
@@ -121,7 +127,7 @@ const AddEdit =  ()  => {
   const checkRemainingAmount = () => {
     
     if (formData.category>0 && formData.currency>0)
-      axiosGetData(`money/expense/total_expense/?categoryId=${formData.category}&currencyId=${formData.currency}&date=${formData.date}`).then((res) => {
+      axiosGetData(`money/expense/total_expense/?categoryId=${formData.category}&currencyId=${formData.currency}&date=${formData.date}`,loginDetail.token).then((res) => {
         const {limit,expense,remaining,month} = res.data;
         if(limit==null || limit==0){
             setAlertData({...alertData,openDefault:false})

@@ -2,7 +2,10 @@ import React,{useCallback,useState, useEffect}  from "react";
 import { Autocomplete, TextField,Box }          from "@mui/material";
 import { dailySingleInterface }                 from '../../utility/types/typeStore';
 
-// when select the option, it make an extra call to the server, this should be fixed
+
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../store/Reducer';
+
 interface CustomAutocompleteProps {
     label: string;
     multiple?: boolean;
@@ -11,7 +14,7 @@ interface CustomAutocompleteProps {
     defaultValue?: any;
     disabled?: boolean;
     formKey: string;
-    fetchOptions: (inputValue: string) => Promise<dailySingleInterface[]>;
+    fetchOptions: (inputValue: string,token?:string) => Promise<dailySingleInterface[]>;
     debounceMs?: number;
 }
 
@@ -20,6 +23,8 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
 }) => {
     const [inputValue, setInputValue] = useState('');
     
+    const loginDetail = useSelector((state: RootState) =>state.auth);
+
 
     // const [selectValue, setSelectValue] = useState(defaultValue || {value: null,label: ''} as dailySingleInterface);
     const [selectValue, setSelectValue] = useState<any>(multiple ? (defaultValue || []) : (defaultValue || null));
@@ -56,7 +61,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = React.memo(({
             return;
           }
           setLoading(true);
-          const result = await fetchOptions(debouncedValue);
+          const result = await fetchOptions(debouncedValue,loginDetail?.token);
           if (active) {
             setOptions(result);
             setLoading(false);

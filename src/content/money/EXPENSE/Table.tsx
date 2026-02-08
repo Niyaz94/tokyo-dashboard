@@ -3,7 +3,7 @@ import {Divider,Box,Card,Typography,CardHeader,Button} from '@mui/material';
 import { useNavigate,useLocation } from 'react-router-dom';
 
 import CustomTableRow from './TableRow';
-import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters} from '../../../utility/customHook';
+import {useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI} from '../../../utility/customHook';
 import {axiosGetData} from '../../../utility/Axios'
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel} from '../../../components/Table';

@@ -10,6 +10,7 @@ export { useTableFilters } from "./useTableFilters";
 export {useStaticTableFilters} from "./useStaticTableFilters"
 export {useAddEditPage}     from "./useAddEditPage"
 export {useAPI}     from "./useAPI"
+export {useAPI as useAPI2}     from "./useAPI_2"
 
 export {useTableGlobalFilters} from "./useTableGlobalFilters"
 

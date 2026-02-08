@@ -4,6 +4,7 @@ import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
+import ErrorHandler                   from '../../../components/Custom/ErrorTemplate';
 
 import { 
   ExpenseSingleSampleInterface,
@@ -14,25 +15,20 @@ import {
 export default () =>{
 
 
-  const { data,success}: FetchData<PaginationTableDataInterface<ExpenseSingleSampleInterface>> = useFetch <PaginationTableDataInterface<ExpenseSingleSampleInterface>>('money/expense',{results:[],count:0,next:null,previous:null});
-  const {results,count,next,previous} = data;
-
-  const { data:unique_data,success:unque_success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('money/expense/unique',{
+  const { data:unique_data,success}: FetchData<ExpenseUniqueInterface> = useFetch <ExpenseUniqueInterface>('money/expense/unique',{
     type:[],
     currency:[],
     currency_details:[]
   });
 
-  // console.log("Hi",success)
   if (!success) {
     return <p>Loading...</p>;
   }
-
   return (
-    <PaginationProvider tableData={results} secondaryData={unique_data} paginData={{count: count, next: next, previous: previous}}>
+    <PaginationProvider  secondaryData={unique_data}>
       <Template templateTitle="Transactions - Expense">
         <Routes>
-          <Route path=""    element={<PageTable />} />
+          <Route path=""    element={<ErrorHandler><PageTable /></ErrorHandler> } />
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>

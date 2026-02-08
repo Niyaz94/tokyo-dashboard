@@ -9,14 +9,15 @@ export const PaginationProvider  = ({
   paginData={count: 0,next: null,previous: null},
   pageDefaultData={}
 }) => {
-  const [table, setTable]           = useState(tableData);
-  const [secondary, setSecondary]   = useState(secondaryData);
-  const [pagination, setPagination] = useState(paginData);
+  const [table,       setTable]       = useState(tableData);
+  const [useTableData,       setUseTableData]       = useState(true);
+  const [secondary,   setSecondary]   = useState(secondaryData);
+  const [pagination,  setPagination]  = useState(paginData);
   const [pageDefault, setPageDefault] = useState(pageDefaultData);
 
   const contextValue=useMemo(()=>({ 
-    table, setTable, secondary, setSecondary, pagination, setPagination,pageDefault, setPageDefault 
-  }),[table, secondary, pagination,pageDefault ])
+    table, setTable, secondary, setSecondary, pagination, setPagination,pageDefault, setPageDefault ,useTableData,       setUseTableData
+  }),[table, secondary, pagination,pageDefault ,useTableData])
 
   return (
     <PaginationContext value={contextValue}>

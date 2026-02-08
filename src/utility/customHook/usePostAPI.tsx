@@ -74,15 +74,21 @@ const usePostAPI =() => {
         setResponse({ success: true, data:post_response });
         setSuccess(true);
       } else {
-        // throw new Error(post_response.message || 'Failed to fetch');
         throw new Error(
-          post_response.message || 'Failed to fetch',
-          {cause: { errors: post_response.errors || {} }}
+          post_response?.message || 'Failed to fetch',
+          {
+            cause: { 
+              errors: post_response?.errors || ["Undefined error"] 
+            }
+          }
         );
       }
-    } catch (err:any) {
+    } catch (err) {
       // setError(err.message || 'Something went wrong');
-      setError({message: err.message || "Something went wrong", errors: err.cause.errors || {}});
+      setError({
+        message: err?.message, 
+        errors:  err?.cause?.errors
+      });
       setResponse({ success: false, error: err.message });
     } finally {
       setLoading(false);

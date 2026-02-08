@@ -3,18 +3,29 @@ import {Divider,Box,Card} from '@mui/material';
 import CustomTableRow from './TableRow';
 import { usePaginationContext } from '../../../store/context/paginationContext';
 import {
-  useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI
+  useDeleteAPI,useTablePaginationHandlers,useTableSelection,useTableGlobalFilters,useAPI2
 } from '../../../utility/customHook';
 import {SelectableTable,TablePagination as CustomPagination,FilterPanel,TableHeader} from '../../../components/Table';
 import { columnsSingleTask as columns } from '../../../utility/function/tableColumn';
 import {inputFields} from './config';
 import {StatusCase2 } from '../../../utility/function/data';
+import {SingleTaskSampleInterface}    from 'src/utility/types/data_types';
+
+
+interface DataTableProps {
+  // Define any props if needed
+  results:SingleTaskSampleInterface[];
+  count: number;
+  next:number;
+  previous:number;
+}
 
 const DataTable = () => {
-  console.log("Single Task DataTable")
   const { page, limit, fieldName,order,handlePageChange, handleLimitChange,handleFilterHeaderChange } = useTablePaginationHandlers('singleTask');
-  const { table: tableData,setTable,pagination,setPagination,secondary } = usePaginationContext();
+  const { table: tableData,setTable,pagination,setPagination,secondary,useTableData,setUseTableData } = usePaginationContext();
   
+
+  // useTableData,       
   const {type:singleTaskType } = secondary;
 
   const singleTaskPriority=useMemo(()=>StatusCase2.map(({value,label})=>({value:value.toLowerCase(),label})),[StatusCase2]) 
@@ -24,10 +35,22 @@ const DataTable = () => {
   const {filters,handleFilterChange,filterQuery}      = useTableGlobalFilters("singleTask");
 
 
-  const {results,count,next,previous} = useAPI<any>(`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`);
-  useEffect(() => {    
-    setTable(results);
-    setPagination({count: count, next: next, previous: previous});
+  const {results,count,next,previous} = useAPI2<DataTableProps>({
+    url:`schedule/stask/?${filterQuery}columnId=${fieldName}&orderBy=${order}&page=${page+1}&page_size=${limit}`,
+    setUseTableData,
+    useTableData,
+    tableData
+  });
+
+  // It does not update the table data properly when we update the data after update or addition. The issue is with the cache of useAPI.
+  // For example if I update the row then it bring back the old data because of the cache. I tried to update the cache with the new data but has some issues. I will try to fix it later.
+  useEffect(() => {  
+
+    if(useTableData){
+      setTable(results); 
+      setPagination({count: count, next: next, previous: previous});
+    }
+      
   }, [count,next,previous]);
 
   const memoFilterPanel=useMemo(()=>{

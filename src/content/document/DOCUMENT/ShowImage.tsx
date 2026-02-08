@@ -11,7 +11,10 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import {axiosGetData} from '../../../utility/Axios'
 
+import { useSelector}          from 'react-redux'
+import { RootState }                from '../../../store/Reducer';
 
 interface DocumentImageInterface {
     file: string;
@@ -32,9 +35,13 @@ const ImagePreview = styled('img')({
 });
 export default function MyImageGrid() {
 
+    const loginDetail = useSelector((state: RootState) =>state.auth);
+
+
     const downloadFile=(id)=>{
         // fetch(`http://127.0.0.1:8000/document/document/${id}/download/`)
         window.location.href =`http://127.0.0.1:8000/document/document/${id}/download/`;
+        // axiosGetData(`document/document/${id}/download/`,loginDetail.token)
     }
 
     const navigate = useNavigate();

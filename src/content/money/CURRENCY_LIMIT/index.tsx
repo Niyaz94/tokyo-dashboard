@@ -4,11 +4,7 @@ import PageTable                      from './Table';
 import AddEdit                        from './AddEdit';
 import { Routes, Route }              from "react-router-dom";
 import {PaginationProvider}           from '../../../store/context/paginationContext';
-
-import { 
-  CurrencyLimitRowInt as TI,
-  PaginationTableDataInterface as PI
-} from 'src/utility/types/data_types';
+import ErrorHandler                   from '../../../components/Custom/ErrorTemplate';
 
 interface TUI{
   currency:string[];
@@ -16,22 +12,20 @@ interface TUI{
 
 export default () =>{
 
-  const { data,success}: FetchData<PI<TI>> = useFetch <PI<TI>>('money/currency_limit',{results:[],count:0,next:null,previous:null});
-  const {results,count,next,previous} = data;
-
   const { data:unique_data,success:unque_success}: FetchData<TUI> = useFetch <TUI>('money/currency_limit/unique',{
     currency:[]
   });
 
-  if (!success) {
+  if (!unque_success) {
     return <p>Loading...</p>;
   }
 
   return (
-    <PaginationProvider tableData={results} secondaryData={unique_data} paginData={{count: count, next: next, previous: previous}}>
+    <PaginationProvider secondaryData={unique_data}>
       <Template templateTitle="Transactions - Currency Limits">
         <Routes>
-          <Route path=""    element={<PageTable />} />
+          <Route path=""    element={<ErrorHandler><PageTable /></ErrorHandler>} />
+
           <Route path="add" element={ <AddEdit/>} />
           <Route path=":id" element={ <AddEdit/>} />
         </Routes>
